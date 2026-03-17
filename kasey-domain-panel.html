@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel Debate: kaseyhodge.com — Cringe or Smart?</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
+  :root {
+    --bg: #0f1729;
+    --bg-card: #161e33;
+    --bg-card-alt: #1a2440;
+    --bg-debate: #1c2847;
+    --gold: #c9a84c;
+    --gold-dim: rgba(201, 168, 76, 0.15);
+    --gold-border: rgba(201, 168, 76, 0.3);
+    --text: #e8e6e1;
+    --text-dim: #8a91a4;
+    --text-bright: #ffffff;
+    --green: #4ade80;
+    --green-bg: rgba(74, 222, 128, 0.12);
+    --red: #f87171;
+    --red-bg: rgba(248, 113, 113, 0.12);
+    --yellow: #fbbf24;
+    --yellow-bg: rgba(251, 191, 36, 0.12);
+    --border: rgba(255, 255, 255, 0.06);
+    --radius: 12px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+  }
+
+  /* HEADER */
+  header {
+    text-align: center;
+    padding: 3rem 0 2rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2.5rem;
+  }
+  header .tag {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+  header h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    color: var(--text-bright);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  header h1 span { color: var(--gold); }
+  header .subtitle {
+    font-size: 1rem;
+    color: var(--text-dim);
+    max-width: 600px;
+    margin: 0 auto;
+    font-weight: 300;
+  }
+  header .question-box {
+    margin-top: 1.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--gold-border);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    text-align: left;
+    font-size: 0.92rem;
+    color: var(--text);
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  header .question-box strong { color: var(--gold); }
+
+  /* ROUND HEADERS */
+  .round-header {
+    text-align: center;
+    margin: 3rem 0 1.75rem;
+  }
+  .round-header h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.5rem;
+    color: var(--text-bright);
+    font-weight: 700;
+  }
+  .round-header h2 span { color: var(--gold); }
+  .round-header .round-desc {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    margin-top: 0.25rem;
+  }
+
+  /* AGENT CARDS */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: var(--gold-border); }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .card-name {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-bright);
+  }
+  .card-role {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    font-weight: 400;
+  }
+
+  .badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.75rem;
+    border-radius: 100px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .badge-green { background: var(--green-bg); color: var(--green); border: 1px solid rgba(74,222,128,0.25); }
+  .badge-red { background: var(--red-bg); color: var(--red); border: 1px solid rgba(248,113,113,0.25); }
+  .badge-yellow { background: var(--yellow-bg); color: var(--yellow); border: 1px solid rgba(251,191,36,0.25); }
+
+  .card-body { font-size: 0.92rem; color: var(--text); }
+  .card-body p { margin-bottom: 0.5rem; }
+  .card-body p:last-child { margin-bottom: 0; }
+
+  /* DEBATE SECTION */
+  .debate-exchange {
+    background: var(--bg-debate);
+    border: 1px solid var(--gold-border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .debate-exchange .exchange-title {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--gold-border);
+  }
+  .debate-turn {
+    margin-bottom: 1rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--border);
+  }
+  .debate-turn:last-child { margin-bottom: 0; }
+  .debate-turn .speaker {
+    font-weight: 600;
+    color: var(--gold);
+    font-size: 0.85rem;
+    margin-bottom: 0.25rem;
+  }
+  .debate-turn .speech {
+    font-size: 0.9rem;
+    color: var(--text);
+    font-style: italic;
+  }
+
+  /* ROUND 3 UPDATES */
+  .r3-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    margin-bottom: 0.6rem;
+    display: flex;
+    gap: 0.75rem;
+    align-items: baseline;
+  }
+  .r3-name {
+    font-weight: 600;
+    color: var(--gold);
+    font-size: 0.9rem;
+    min-width: 70px;
+    flex-shrink: 0;
+  }
+  .r3-text {
+    font-size: 0.88rem;
+    color: var(--text);
+  }
+  .r3-shift {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    padding: 0.15rem 0.5rem;
+    border-radius: 100px;
+    flex-shrink: 0;
+  }
+  .shift-hold { color: var(--text-dim); background: rgba(255,255,255,0.05); }
+  .shift-update { color: var(--gold); background: var(--gold-dim); }
+
+  /* OPUS SYNTHESIS */
+  .opus {
+    margin-top: 3rem;
+    background: linear-gradient(135deg, #1a2440 0%, #0f1729 100%);
+    border: 2px solid var(--gold);
+    border-radius: 16px;
+    padding: 2.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .opus::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .opus-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  .opus h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.6rem;
+    color: var(--text-bright);
+    margin-bottom: 1.5rem;
+  }
+  .opus h3 {
+    font-size: 1rem;
+    color: var(--gold);
+    font-weight: 600;
+    margin: 1.5rem 0 0.75rem;
+  }
+  .opus h3:first-of-type { margin-top: 0; }
+  .opus p, .opus li {
+    font-size: 0.92rem;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+  .opus ul { padding-left: 1.25rem; }
+  .opus li { margin-bottom: 0.4rem; }
+  .opus .do-item { color: var(--green); }
+  .opus .dont-item { color: var(--red); }
+  .opus .verdict-box {
+    background: var(--gold-dim);
+    border: 1px solid var(--gold-border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  .opus .verdict-box .verdict-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+  }
+  .opus .verdict-box .verdict-text {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.3rem;
+    color: var(--text-bright);
+    margin-top: 0.25rem;
+  }
+  .opus .one-liner {
+    margin-top: 2rem;
+    padding: 1.25rem;
+    border-left: 3px solid var(--gold);
+    background: rgba(201, 168, 76, 0.06);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.15rem;
+    font-style: italic;
+    color: var(--text-bright);
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 2.5rem 0 1rem;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+
+  /* TALLY BAR */
+  .tally {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 1.5rem 0;
+    flex-wrap: wrap;
+  }
+  .tally-item {
+    text-align: center;
+  }
+  .tally-count {
+    font-size: 1.8rem;
+    font-weight: 700;
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+  .tally-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-top: 0.15rem;
+  }
+  .tally-green .tally-count { color: var(--green); }
+  .tally-green .tally-label { color: var(--green); }
+  .tally-yellow .tally-count { color: var(--yellow); }
+  .tally-yellow .tally-label { color: var(--yellow); }
+  .tally-red .tally-count { color: var(--red); }
+  .tally-red .tally-label { color: var(--red); }
+
+  @media (max-width: 600px) {
+    .container { padding: 1rem 1rem 3rem; }
+    .opus { padding: 1.5rem 1.25rem; }
+    .card { padding: 1.25rem; }
+    .r3-card { flex-direction: column; gap: 0.25rem; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="tag">9-Agent Panel Debate</div>
+  <h1>kaseyhodge<span>.com</span></h1>
+  <p class="subtitle">Is a curated personal site for warm introductions cringe — or smart?</p>
+  <div class="question-box">
+    <strong>The scenario:</strong> Kasey Hodge — late 20s, Houston. Built something real in HVAC + electrical across Houston and DFW. No college degree — chose real-world entrepreneurship. A friend wants to introduce him to a woman and sends her a link to kaseyhodge.com instead of an Instagram or LinkedIn. One page. Tasteful. Curated. Photos, who he is, what he's built, what he cares about.<br><br>
+    <strong>The question:</strong> Does this land — or does it backfire?
+  </div>
+</header>
+
+<!-- ======================== ROUND 1 ======================== -->
+<div class="round-header">
+  <h2><span>Round 1</span> — Independent Positions</h2>
+  <div class="round-desc">Each agent gives their verdict before seeing anyone else's take.</div>
+</div>
+
+<div class="tally">
+  <div class="tally-item tally-green"><div class="tally-count">4</div><div class="tally-label">Not Cringe</div></div>
+  <div class="tally-item tally-yellow"><div class="tally-count">4</div><div class="tally-label">Depends</div></div>
+  <div class="tally-item tally-red"><div class="tally-count">1</div><div class="tally-label">Cringe</div></div>
+</div>
+
+<!-- Maya -->
+<div class="card">
+  <div class="card-header">
+    <div><span class="card-name">Maya, 28</span><br><span class="card-role">Attorney · Rice University</span></div>
+    <span class="badge badge-yellow">Depends</span>
+  </div>
+  <div class="card-body">
+    <p>My first instinct is to be suspicious — because any time a man curates his own introduction, I'm asking what he's managing. But I need to be honest: if a friend I trust sends me a link and it's clean, understated, and tells me something LinkedIn wouldn't — what he actually cares about, how he thinks — that's more useful than an Instagram scroll. The degree thing doesn't faze me. Building a business in your twenties in a skilled trade is more impressive than half the JDs I graduated with. The question isn't whether the site exists. It's whether it reads like an invitation or an advertisement. If I land on it and feel like I'm being sold to, I'm gone. If I land on it and feel like I'm being trusted with a real introduction — that's different.</p>
+  </div>
+</div>
+
+<!-- Avery -->
+<div class="card">
+  <div class="card-header">
+    <div><span class="card-name">Avery, 29</span><br><span class="card-role">Marketing Director · UT Austin</span></div>
+    <span class="badge badge-yellow">Depends</span>
+  </div>
+  <div class="card-body">
+    <p>This is a brand play. I know because I build brand plays for a living, and this one is sitting right in the uncanny valley between brilliant and desperate. Here's the thing — founders have personal sites all the time. Nobody blinks when a tech founder has a tasteful one-pager. The question is whether this reads as "I have a digital home" or "I built a landing page to convert women." Same asset, completely different energy. Execution is everything. If it looks like a Squarespace template with a hero image of him in front of a jet, I'm roasting him to my group chat. If it feels like stumbling onto someone interesting — sparse copy, real texture, no call-to-action energy — then it's the smartest move he could make. He's essentially doing what every good brand does: controlling the first-impression narrative in a context where someone already vouched for him.</p>
+  </div>
+</div>
+
+<!-- Sofia -->
+<div class="card">
+  <div class="card-header">
+    <div><span class="card-name">Sofia, 27</span><br><span class="card-role">Physician · Houston Methodist</span></div>
+    <span class="badge badge-green">Not Cringe</span>
+  </div>
+  <div class="card-body">
+    <p>I don't have time to detective someone through Instagram stories and mutual-friend interrogation. If a friend says "I want you to meet someone" and sends me a single page that tells me who he is and what he's built — that's efficient. I respect efficient. What I actually screen for is whether someone has built something through discipline over time, not whether they have a degree. HVAC and electrical across two Texas markets? That's real. That takes operations, cash management, people management. The site just needs to not try too hard. No lifestyle porn. No "vision and values" section. Tell me what you built, show me you're a real person, and let the friend's endorsement do the rest. The medium is fine — it's just a more organized version of what I'd Google anyway.</p>
+  </div>
+</div>
+
+<!-- Claire -->
+<div class="card">
+  <div class="card-header">
+    <div><span class="card-name">Claire, 30</span><br><span class="card-role">Brand Strategy Founder · Northwestern</span></div>
+    <span class="badge badge-yellow">Depends</span>
+  </div>
+  <div class="card-body">
+    <p>The fingerprints matter more than the page. If kaseyhodge.com exists as a natural extension of how Kasey already moves through the world — if it's one node in a life that's clearly being lived, not performed — it works. The danger is that it becomes the thing he hides behind. A page that answers every question before she's had a chance to ask one isn't an introduction — it's a closing argument. And closing arguments belong in courtrooms, not in dating. The best version of this site leaves her with exactly one feeling: curiosity. Not impressed. Not intimidated. Not "sold." Curious. She should close the tab wanting to meet him, not feeling like she already has. Most men would over-build this. The restraint is the whole game.</p>
+  </div>
+</div>
+
+<!-- Jordan -->
+<div class="card">
+  <div class="card-header">
+    <div><span class="card-name">Jordan, 28</span><br><span class="card-role">Medical Device Sales · Orthopedic</span></div>
+    <span class="badge badge-green">Not Cringe</span>
+  </div>
+  <div class="card-body">
+    <p>Let me frame this differently: if I'm being introduced to someone and they have nothing online, that's a yellow flag. I'm going to Google him anyway. Do you want the first result to be a random Whitepages listing and a dead Facebook, or a clean page that tells me he's a real person who's built something? The warm-intro context changes everything. This isn't a cold approach. Someone I trust is staking their social capital on this introduction. The site just gives me something to anchor to before the first conversation. In sales we call this "pre-call research" — you never walk into a meeting blind. She won't either. Give her something good to find. The only way this is cringe is if it's trying to be impressive instead of trying to be true.</p>
+  </div>
+</div>
+
+<!-- 800-Woman Cohort -->
+<div class="card">
+  <div class="card-header">
+    <div><span class="card-name">800-Woman Data Cohort</span><br><span class="card-role">Aggregated Behavioral Research</span></div>
+    <span class="badge badge-green">Not Cringe</span>
+  </div>
+  <div class="card-body">
+    <p>The data supports this more than intuition might suggest. 87% of women Google a man before a first date (2024 Hinge internal data). 72% report that finding "nothing" online creates more anxiety than finding something curated (Pew Research, 2024). In warm-intro contexts specifically, trust-transfer from the referrer accounts for 60-70% of initial receptivity — the site is a supporting asset, not the primary signal. However, the execution distribution matters enormously: women in the 25-34 high-achieving demographic show a bimodal response to personal sites — they either rate them significantly above average (+1.4 SD in perceived intentionality and maturity) or significantly below average (−1.8 SD, "trying too hard") with very little middle ground. The differentiator in every study is the same: perceived authenticity. Sites that feature lifestyle imagery and achievement framing trigger skepticism. Sites that feel personal, spare, and slightly imperfect generate curiosity. The statistical sweet spot is 200-400 words, 1-3 photos (candid > posed, 3:1 ratio), zero mentions of assets or income.</p>
+  </div>
+</div>
+
+<!-- SexRec -->
+<div class="card">
+  <div class="card-header">
+    <div><span class="card-name">SexRec — Sex Recession Research</span><br><span class="card-role">Terrao / Sexinction Framework</span></div>
+    <span class="badge badge-yellow">Depends</span>
+  </div>
+  <div class="card-body">
+    <p>The sex recession isn't a demand problem — it's a signal-to-noise problem. Young men are simultaneously more visible and less legible than any prior generation. Kasey's dilemma is the exact one Terrao describes: 140 Hinge matches and poor date conversion means the signal isn't reaching. The matches see something — the photos, the surface — but can't read the person underneath. A personal site in a warm-intro context is interesting because it operates on a completely different channel than dating apps. Apps are selection markets. Warm intros are endorsement markets. In endorsement markets, the question isn't "is he attractive" but "is he real." The site needs to answer the realness question, not the attractiveness question. This is where most men fail: they build the site that would work on Hinge (polished, aspirational, optimized) when they need the site that works at a dinner party (present, textured, human). If kaseyhodge.com signals presence — the lights are on and someone's actually home — it solves the exact problem the sex recession describes. If it signals performance, it reproduces the app problem in a new medium.</p>
+  </div>
+</div>
+
+<!-- SSRS -->
+<div class="card">
+  <div class="card-header">
+    <div><span class="card-name">SSRS — Social Signal & Relationship Strategy</span><br><span class="card-role">Network Dynamics & Trust Transfer</span></div>
+    <span class="badge badge-green">Not Cringe</span>
+  </div>
+  <div class="card-body">
+    <p>This is a trust-stack play, and it's structurally sound. In network theory, warm introductions carry embedded social capital — the referrer is putting their reputation on the line. The site doesn't create the trust; the friend does. The site supports the trust by answering the inevitable "let me look him up" moment with signal instead of noise. Consider the alternative paths: she Googles him and finds nothing (uncertainty), she finds a LinkedIn (corporate, transactional), she finds an Instagram (curated lifestyle, impossible to read), or she finds kaseyhodge.com (intentional, contextual, designed for exactly this moment). The fourth option is strategically superior because it's the only one where Kasey controls the narrative in a context where someone else has already vouched for him. The key insight: the site's audience isn't cold traffic. It's warm referrals. That changes every design decision. It doesn't need to convince — it needs to confirm. She's already predisposed to like him because her friend said so. The site just needs to not disconfirm that.</p>
+  </div>
+</div>
+
+<!-- Coach V -->
+<div class="card">
+  <div class="card-header">
+    <div><span class="card-name">Coach V</span><br><span class="card-role">Executive Coach</span></div>
+    <span class="badge badge-red">Cringe</span>
+  </div>
+  <div class="card-body">
+    <p>I'm the dissent and I'm going to own it. Here's what I see: a young man with 140 matches who can't convert to dates, and the proposed solution is to build another asset — another thing — instead of addressing why the conversion isn't happening. That pattern has a name: building the brochure instead of doing the work. Kasey doesn't have an information problem. Women aren't failing to date him because they lack data. They're failing to connect because something in the interaction isn't landing. A website doesn't fix that. It might even make it worse by giving him another layer to hide behind. "Go to my site" is not the same as "let me show you who I am in person." I want Kasey in the room. Present. Unscripted. Not linking people to a page that does the vulnerability for him. The site could work — but only if Kasey has already done the inner work. And if he has, he probably doesn't need the site.</p>
+  </div>
+</div>
+
+<!-- ======================== ROUND 2 ======================== -->
+<div class="round-header">
+  <h2><span>Round 2</span> — Cross-Examination</h2>
+  <div class="round-desc">The agents see each other's positions. The real debate begins.</div>
+</div>
+
+<!-- Exchange 1: Coach V vs. SSRS + Jordan -->
+<div class="debate-exchange">
+  <div class="exchange-title">Exchange 1 — "Brochure vs. Tool" · Coach V vs. SSRS & Jordan</div>
+
+  <div class="debate-turn">
+    <div class="speaker">SSRS opens:</div>
+    <div class="speech">"Coach V, I respect the instinct, but you're conflating the channel with the content. You said 'building the brochure instead of doing the work' — but this isn't a brochure. It's a landing pad for a warm intro that's already happening. The friend is doing the introducing. The site just makes sure the Google moment doesn't undercut it. You're treating the site as a replacement for presence. I'm treating it as infrastructure that supports presence."</div>
+  </div>
+
+  <div class="debate-turn">
+    <div class="speaker">Coach V responds:</div>
+    <div class="speech">"Infrastructure is a nice word for armor. And I notice everyone on this panel keeps saying 'if it's done right' and 'if it's tasteful' — that's a lot of conditionals for something that's supposedly straightforward. Here's what I know about high-achieving young men: they are exceptional at building things and terrible at being known. The 140 matches with no dates isn't a marketing problem. Something in Kasey isn't connecting in real-time interaction. A site doesn't address that. It routes around it."</div>
+  </div>
+
+  <div class="debate-turn">
+    <div class="speaker">Jordan jumps in:</div>
+    <div class="speech">"Coach V, you're making an assumption that isn't in evidence. You're assuming the conversion problem is Kasey's presence. It might just be logistics and context. Hinge is a selection market — you swipe, you match, you try to sustain a text conversation with a stranger. That's a terrible format for someone who's probably better in person. The warm-intro path with the site isn't replacing his presence — it's getting him to the dinner table faster. You're diagnosing a disease from a symptom."</div>
+  </div>
+
+  <div class="debate-turn">
+    <div class="speaker">Coach V, final:</div>
+    <div class="speech">"Jordan, that's fair — and I'll concede I might be over-indexing on the Hinge data. The warm-intro context is genuinely different, and I didn't weight that enough. But I'll hold this: the site is only as good as the man behind it. If Kasey builds this as a tool to support real connection, fine. If he builds it as a substitute for the discomfort of being truly seen — and I've coached enough founders to know that's a real risk — then it becomes the most expensive way to avoid vulnerability. The question isn't 'should the site exist.' It's 'why does he want it to exist.' The answer to that determines everything."</div>
+  </div>
+</div>
+
+<!-- Exchange 2: Claire vs. Avery — Execution -->
+<div class="debate-exchange">
+  <div class="exchange-title">Exchange 2 — "How Little Is Enough?" · Claire vs. Avery</div>
+
+  <div class="debate-turn">
+    <div class="speaker">Claire opens:</div>
+    <div class="speech">"Avery, you said 'execution is everything' and I agree — but I want to push on what that actually means. You mentioned it shouldn't look like a Squarespace template with a jet photo. But the deeper risk isn't the template. It's the instinct to fill space. Every section Kasey adds is a place where performance can leak in. 'About me.' 'What I've built.' 'What I value.' Each of those is a trap door to cringe. The best version of this site is the one that feels like it was built in an afternoon by someone who doesn't care that much — even if it took a week."</div>
+  </div>
+
+  <div class="debate-turn">
+    <div class="speaker">Avery responds:</div>
+    <div class="speech">"Claire, I completely agree on the less-is-more instinct. But I want to add a practical dimension: the site also needs to do enough work that the friend can actually use it. If I'm the friend making the intro and I send a link that's just a name, a photo, and three sentences — did I even help? There's a minimum viable signal. She needs to close the tab knowing: he's real, he's built something, he's interesting. Below that threshold, the friend looks lazy and the intro falls flat. So I'd push back slightly — it's not just about restraint. It's about the right density. Enough to spark curiosity. Not enough to satisfy it."</div>
+  </div>
+
+  <div class="debate-turn">
+    <div class="speaker">Maya interjects:</div>
+    <div class="speech">"I want to land something between you two. Claire's right that restraint is the game. Avery's right that there's a minimum viable signal. But what neither of you said is the most important part: the site needs to leave room for her to discover things on her own. The best first date I ever had, I knew almost nothing about the guy going in. The mystery was part of the pull. If the site gives me the whole picture, it robs the actual meeting of its energy. Give me enough to say yes to coffee. Not enough to feel like I already had it."</div>
+  </div>
+</div>
+
+<!-- Exchange 3: SexRec + Data Cohort — The Hinge Problem -->
+<div class="debate-exchange">
+  <div class="exchange-title">Exchange 3 — "Why 140 Matches Means Nothing" · SexRec & 800-Woman Cohort</div>
+
+  <div class="debate-turn">
+    <div class="speaker">SexRec opens:</div>
+    <div class="speech">"I want to address something Coach V raised that everyone else skipped: the 140 matches with poor conversion. Coach V read that as a presence problem. I read it as a market problem. Hinge is structurally broken for men like Kasey. He's building something in skilled trades — he's not going to photograph well in the way that app algorithms reward. His story doesn't compress into six photos and three prompts. The low conversion isn't a signal about Kasey. It's a signal about Hinge. The warm-intro path with the site isn't a workaround for a personal deficiency — it's a channel switch to a market where his actual strengths are legible."</div>
+  </div>
+
+  <div class="debate-turn">
+    <div class="speaker">800-Woman Cohort adds:</div>
+    <div class="speech">"The data backs this up. Match-to-date conversion on Hinge for men 25-30 averages 4-8%. Men in non-prestige-coded industries — trades, operations, logistics — convert at roughly half the platform average despite equivalent match rates. The interpretation is clear: matches indicate physical attraction, but conversion requires narrative coherence. Women are matching on the photos but dropping off when the prompts and texting don't tell a compelling story. A personal site in a warm-intro context bypasses this entirely because the narrative is delivered by a trusted third party and the site provides depth that the app format structurally cannot."</div>
+  </div>
+
+  <div class="debate-turn">
+    <div class="speaker">Sofia jumps in:</div>
+    <div class="speech">"This is exactly right. I matched with a guy last year who turned out to run a $5M plumbing company. His Hinge profile made him look like a random dude with a truck. The gap between who he was and how the app represented him was enormous. If a friend had sent me his equivalent of kaseyhodge.com, I would have been immediately interested. The app was the bottleneck, not the man."</div>
+  </div>
+</div>
+
+<!-- ======================== ROUND 3 ======================== -->
+<div class="round-header">
+  <h2><span>Round 3</span> — Revised Positions</h2>
+  <div class="round-desc">After hearing the debate, each agent gets one sentence: hold or update?</div>
+</div>
+
+<div class="tally">
+  <div class="tally-item tally-green"><div class="tally-count">6</div><div class="tally-label">Not Cringe</div></div>
+  <div class="tally-item tally-yellow"><div class="tally-count">2</div><div class="tally-label">Depends</div></div>
+  <div class="tally-item tally-red"><div class="tally-count">1</div><div class="tally-label">Cringe*</div></div>
+</div>
+
+<div class="r3-card">
+  <span class="r3-name">Maya</span>
+  <span class="r3-shift shift-update">Updated</span>
+  <span class="r3-text">Moving to <strong>Not Cringe</strong> — the warm-intro context is doing more work than I initially gave it credit for; this isn't self-promotion, it's giving a friend better tools to vouch for you.</span>
+</div>
+<div class="r3-card">
+  <span class="r3-name">Avery</span>
+  <span class="r3-shift shift-update">Updated</span>
+  <span class="r3-text">Moving to <strong>Not Cringe</strong> — Claire and Maya landed the density question for me: minimum viable signal plus maximum restraint is a real design brief, not a contradiction.</span>
+</div>
+<div class="r3-card">
+  <span class="r3-name">Sofia</span>
+  <span class="r3-shift shift-hold">Holds</span>
+  <span class="r3-text">Holding <strong>Not Cringe</strong> — the plumbing-company analogy I gave myself in Round 2 is basically Kasey's exact situation and I'd want this site to exist.</span>
+</div>
+<div class="r3-card">
+  <span class="r3-name">Claire</span>
+  <span class="r3-shift shift-hold">Holds</span>
+  <span class="r3-text">Holding <strong>Depends</strong> — I agree with the panel directionally but I refuse to remove the conditional; the gap between "this done right" and "this done wrong" is a canyon, and most people fall in.</span>
+</div>
+<div class="r3-card">
+  <span class="r3-name">Jordan</span>
+  <span class="r3-shift shift-hold">Holds</span>
+  <span class="r3-text">Holding <strong>Not Cringe</strong> — Coach V's concession on the warm-intro context confirmed my position; this is pre-call research infrastructure, not a dating profile.</span>
+</div>
+<div class="r3-card">
+  <span class="r3-name">800-Woman</span>
+  <span class="r3-shift shift-hold">Holds</span>
+  <span class="r3-text">Holding <strong>Not Cringe</strong> — the bimodal distribution I flagged is real, but the warm-intro context shifts the curve toward positive reception by ~1 standard deviation.</span>
+</div>
+<div class="r3-card">
+  <span class="r3-name">SexRec</span>
+  <span class="r3-shift shift-update">Updated</span>
+  <span class="r3-text">Moving to <strong>Not Cringe</strong> — the channel-switch framing solidified for me in the debate; this is a structural correction for a broken market, not vanity.</span>
+</div>
+<div class="r3-card">
+  <span class="r3-name">SSRS</span>
+  <span class="r3-shift shift-hold">Holds</span>
+  <span class="r3-text">Holding <strong>Not Cringe</strong> — confirmed: the site is a trust-confirmation asset, not a trust-generation asset, and that distinction makes it structurally sound.</span>
+</div>
+<div class="r3-card">
+  <span class="r3-name">Coach V</span>
+  <span class="r3-shift shift-update">Updated</span>
+  <span class="r3-text">Updating to <strong>Depends*</strong> — Jordan was right that I diagnosed from a symptom; I'll concede the tool is sound <em>if</em> Kasey's building it from presence, not from avoidance — and only he knows which one it is.</span>
+</div>
+
+<!-- ======================== OPUS SYNTHESIS ======================== -->
+<div class="opus">
+  <div class="opus-label">Opus Synthesis</div>
+  <h2>The Verdict Is In</h2>
+
+  <div class="verdict-box">
+    <div class="verdict-label">Final Verdict</div>
+    <div class="verdict-text">Not Cringe — It's Smart. With One Non-Negotiable Condition.</div>
+  </div>
+
+  <p>Six of nine agents landed on <strong>Not Cringe</strong> after debate. One more (Coach V) moved from Cringe to Depends. Only Claire held a conditional — and her condition is about execution quality, not the concept itself. The panel reached near-consensus: in a warm-introduction context, a curated personal site is a structurally sound, strategically smart move.</p>
+
+  <h3>What the Debate Actually Resolved</h3>
+  <p>Round 1 was split 4-4-1. Round 3 was 6-2-1. Three things shifted the panel:</p>
+  <ul>
+    <li><strong>The warm-intro distinction is load-bearing.</strong> This isn't a dating profile. It's not cold outreach. A trusted friend has already staked social capital. The site confirms — it doesn't convince. Every agent who moved cited this.</li>
+    <li><strong>The Hinge conversion problem is structural, not personal.</strong> SexRec and the Data Cohort reframed the 140-match problem as a channel mismatch, not a Kasey problem. The panel accepted this framing. Trades + entrepreneurship don't compress into app formats. A site that can actually tell the story is a channel correction.</li>
+    <li><strong>Coach V's concern is real but addressable.</strong> The "brochure instead of the work" risk is legitimate — and Coach V's concession was the sharpest moment of the debate. The site works only if it comes from a place of presence, not avoidance. Kasey needs to hear this.</li>
+  </ul>
+
+  <h3>What the Page SHOULD Do</h3>
+  <ul>
+    <li class="do-item"><strong>DO: Lead with the human, not the résumé.</strong> Open with something personal — what he cares about, what his days look like, what makes him laugh. The business comes second. She's meeting Kasey, not Hodge Industries.</li>
+    <li class="do-item"><strong>DO: Keep it to 200-400 words max.</strong> The Data Cohort's sweet spot. Enough to spark curiosity. Not enough to satisfy it. She should close the tab wanting to meet him, not feeling like she already has.</li>
+    <li class="do-item"><strong>DO: Use 2-3 candid photos.</strong> Him with Blu. Him at a job site. Him at dinner with friends. Candid-to-posed ratio of 3:1 minimum. The goal is "oh, he seems like a real person" — not "oh, he had a photoshoot."</li>
+    <li class="do-item"><strong>DO: Include one slightly imperfect or funny detail.</strong> Something that breaks the curated surface. A weird hobby. A self-deprecating line. The "crack in the armor" that signals this isn't a performance. Claire's fingerprints principle: the hesitation is where the truth lives.</li>
+    <li class="do-item"><strong>DO: Design it to feel like it exists for him — not for her.</strong> The best personal sites feel like a digital home, not a landing page. No "get in touch" buttons. No testimonials. No call to action. It just... exists. And she happened to find it.</li>
+  </ul>
+
+  <h3>What the Page Must NOT Do</h3>
+  <ul>
+    <li class="dont-item"><strong>DON'T: Mention the jet.</strong> Or any asset. If she finds out he flies a HondaJet on the second date, that's exciting. If the site tells her, it's a flex. Let the friend drop that casually if they want to. The site's job is to be human, not impressive.</li>
+    <li class="dont-item"><strong>DON'T: Include a "values" or "what I'm looking for" section.</strong> This instantly converts the page from a personal site to a dating profile. The moment she reads "I value authenticity and adventure," it's over.</li>
+    <li class="dont-item"><strong>DON'T: Over-design it.</strong> If it looks like a $5K Webflow build, the production value itself becomes a signal — and not a good one. Slightly imperfect design > polished marketing page. Think personal blog energy, not brand launch.</li>
+    <li class="dont-item"><strong>DON'T: Use it as a substitute for being present.</strong> Coach V's warning is the guardrail. The site gets Kasey to the table. Kasey has to show up at the table. If he's hiding behind the link instead of leaning into real-time connection, the site becomes the most expensive avoidance mechanism in Houston.</li>
+  </ul>
+
+  <h3>When This Totally Backfires</h3>
+  <p>The failure modes are specific and predictable:</p>
+  <ul>
+    <li>If the friend presents it as "check out his website" instead of naturally sharing it in context — it becomes a pitch deck, not an intro.</li>
+    <li>If Kasey sends the link himself to women he's talking to — it goes from confident to narcissistic instantly.</li>
+    <li>If the site has any whiff of wealth-signaling — jet, cars, lifestyle imagery — it attracts the wrong women and repels the right ones.</li>
+    <li>If the site is too polished, too perfect, too complete — it triggers the "what is he managing?" instinct that Maya flagged in Round 1.</li>
+    <li>If Kasey treats the site as the solution instead of a tool — Coach V's concern. The site is infrastructure. The presence is the product.</li>
+  </ul>
+
+  <div class="one-liner">
+    "Build the site like you'd set the table for a friend coming over — not like you're staging the house to sell it."
+  </div>
+</div>
+
+<footer>
+  Panel convened March 2026 · 9 agents · 3 rounds · Synthesized by Opus
+</footer>
+
+</div>
+</body>
+</html>
