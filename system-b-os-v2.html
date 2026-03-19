@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>System B — Operating System v2</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #f5f4f0;
+      --surface: #ffffff;
+      --border: #e2e0d9;
+      --text: #1a1a18;
+      --muted: #6b6860;
+      --accent: #2c4a2e;
+      --accent-light: #eef2ee;
+      --red: #8b1a1a;
+      --red-light: #fdf0f0;
+      --blue: #1a3a5c;
+      --blue-light: #f0f4f8;
+      --gold: #6b4c0a;
+      --gold-light: #fdf8ee;
+      --tag-bg: #f0ede6;
+      --tag-text: #4a4640;
+    }
+
+    body {
+      font-family: "Georgia", serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      padding: 60px 24px;
+    }
+
+    .page { max-width: 860px; margin: 0 auto; }
+
+    /* ── Header ── */
+    .header {
+      border-bottom: 2px solid var(--text);
+      padding-bottom: 32px;
+      margin-bottom: 56px;
+    }
+    .header .label {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+    .header h1 {
+      font-size: 42px;
+      font-weight: normal;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+    .header .subtitle {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 15px;
+      color: var(--muted);
+    }
+    .header .meta {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 20px;
+    }
+
+    /* ── Sections ── */
+    .section { margin-bottom: 64px; }
+    .section-label {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .section-label::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .section h2 {
+      font-size: 26px;
+      font-weight: normal;
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+    }
+    .section p {
+      font-size: 16px;
+      color: var(--text);
+      margin-bottom: 14px;
+      max-width: 720px;
+    }
+
+    /* ── Pull quotes ── */
+    .pull-quote {
+      border-left: 3px solid var(--text);
+      padding: 8px 0 8px 28px;
+      margin: 36px 0;
+      font-size: 22px;
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+      max-width: 680px;
+    }
+    .pull-quote.jon {
+      border-left-color: var(--accent);
+    }
+    .pull-quote .attr {
+      display: block;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+
+    /* ── Descriptor cards ── */
+    .descriptors { margin-top: 32px; }
+    .descriptor {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 0 28px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: start;
+    }
+    .descriptor:first-child { padding-top: 0; }
+    .descriptor:last-child { border-bottom: none; }
+    .descriptor .num {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      padding-top: 4px;
+    }
+    .descriptor .word {
+      font-size: 28px;
+      font-weight: normal;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+    .descriptor .def {
+      font-size: 15px;
+      color: var(--text);
+      margin-bottom: 8px;
+      line-height: 1.6;
+    }
+    .descriptor .flow {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+      color: var(--muted);
+      font-style: italic;
+    }
+    .descriptor .flow span { color: var(--accent); }
+
+    /* ── Two column insight grid ── */
+    .insights {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 28px;
+    }
+    .insight {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 22px 26px;
+    }
+    .insight .i-title {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .insight p { font-size: 14px; margin-bottom: 0; }
+
+    /* ── Tension block ── */
+    .tension {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--red);
+      padding: 24px 28px;
+      margin-bottom: 16px;
+    }
+    .tension .t-label {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 8px;
+    }
+    .tension .t-title {
+      font-size: 18px;
+      letter-spacing: -0.01em;
+      margin-bottom: 8px;
+    }
+    .tension .t-sub {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 12px;
+      font-style: italic;
+    }
+    .tension p { font-size: 14px; color: var(--muted); margin-bottom: 0; }
+
+    /* ── Principles / rows ── */
+    .principles { margin-top: 28px; }
+    .principle {
+      display: flex;
+      gap: 24px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .principle:last-child { border-bottom: none; }
+    .principle-key {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+      color: var(--muted);
+      min-width: 180px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding-top: 2px;
+    }
+    .principle-value { font-size: 15px; color: var(--text); flex: 1; }
+
+    /* ── Tags ── */
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+    .tag {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      padding: 5px 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* ── Data backing ── */
+    .data-row {
+      display: flex;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: baseline;
+    }
+    .data-row:last-child { border-bottom: none; }
+    .data-label {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      min-width: 140px;
+    }
+    .data-value { font-size: 14px; color: var(--text); flex: 1; }
+
+    /* ── Prep cards ── */
+    .prep-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 28px 32px;
+      margin-bottom: 20px;
+    }
+    .prep-card .prep-num {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .prep-card h3 {
+      font-size: 20px;
+      font-weight: normal;
+      letter-spacing: -0.01em;
+      margin-bottom: 12px;
+    }
+    .prep-card p {
+      font-size: 15px;
+      margin-bottom: 10px;
+      max-width: 100%;
+    }
+    .prep-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 12px 0 0;
+    }
+    .prep-card ul li {
+      font-size: 14px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      line-height: 1.6;
+    }
+    .prep-card ul li:last-child { border-bottom: none; }
+    .prep-card ul li strong {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    /* ── Report card ── */
+    .report-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 22px 26px;
+      margin-bottom: 14px;
+    }
+    .report-card .rc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 10px;
+    }
+    .report-card .rc-title {
+      font-size: 16px;
+      letter-spacing: -0.01em;
+    }
+    .report-card .rc-grade {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border: 1px solid var(--border);
+    }
+    .rc-grade.high { color: var(--accent); border-color: var(--accent); background: var(--accent-light); }
+    .rc-grade.mid { color: var(--gold); border-color: var(--gold); background: var(--gold-light); }
+    .report-card p { font-size: 14px; color: var(--muted); margin-bottom: 6px; }
+
+    /* ── Reality check grid ── */
+    .reality-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 28px;
+    }
+    .reality-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 22px 26px;
+    }
+    .reality-card .rc-label {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+    .reality-card p { font-size: 14px; margin-bottom: 8px; }
+    .reality-card p:last-child { margin-bottom: 0; }
+
+    /* ── Nuclear practice highlight ── */
+    .nuclear-box {
+      background: var(--accent-light);
+      border: 2px solid var(--accent);
+      padding: 28px 32px;
+      margin: 28px 0;
+    }
+    .nuclear-box .nb-label {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .nuclear-box p {
+      font-size: 16px;
+      margin-bottom: 10px;
+      max-width: 100%;
+    }
+
+    /* ── Practice protocol ── */
+    .protocol {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 0 24px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: start;
+    }
+    .protocol:last-child { border-bottom: none; }
+    .protocol .time {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      padding-top: 3px;
+    }
+    .protocol .action {
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding-top: 28px;
+      margin-top: 64px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer .sig { font-size: 14px; color: var(--muted); }
+    .footer .version {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      .insights, .reality-grid { grid-template-columns: 1fr; }
+      .principle { flex-direction: column; gap: 8px; }
+      .descriptor { grid-template-columns: 36px 1fr; gap: 0 16px; }
+      .protocol { grid-template-columns: 70px 1fr; gap: 0 16px; }
+      .header h1 { font-size: 30px; }
+      .data-row { flex-direction: column; gap: 4px; }
+      .report-card .rc-header { flex-direction: column; gap: 6px; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- HEADER                                         -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="header">
+    <div class="label">Personal Operating System — v2.0</div>
+    <h1>System B.<br>New Engine.<br>Better Fuel.</h1>
+    <div class="subtitle">Richard Hodge — Novus Global Meta Performance™</div>
+    <div class="meta">March 2026 · Jon Roberts · Sessions 1–3 of 18 · Prepared for Session 5</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- I. THE PREMISE                                 -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">The Premise</div>
+    <h2>The architecture didn't change. The fuel source did.</h2>
+    <p>Five behavioral assessments across seventeen years — DiSC (2008), Birkman (2019), Predictive Index (2025), ShadowMatch — all show the same man. High Dominance. Systems-builder. Action-biased. Independent. The wiring never moved through the franchise betrayal, through Michael, through Jessica's diagnosis. Through all of it.</p>
+    <p>System B isn't about becoming someone different. It's about running the same architecture — same drive, same directness, same building instinct — on fuel that doesn't cost what System A costs at 57 with finite time.</p>
+
+    <div class="pull-quote">System A didn't create the DC profile.<br>The DC profile gave System A its tools.</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- II. THE TWO SYSTEMS                            -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">The Framework</div>
+    <h2>Two operating systems. Same engine.</h2>
+
+    <div class="insights">
+      <div class="insight">
+        <div class="i-title">System A — The Old Fuel</div>
+        <p>Produce to earn place. Control. Pressure. Scarcity. Predict and de-risk. Isolation disguised as strength. Redline the engine.</p>
+        <p style="margin-top:10px;font-size:13px;color:var(--muted);"><strong>Triggered by:</strong> failure (or potential failure), not feeling approved, appreciated, valued, or respected. Not the "no" itself — it's when the no signals <em>"you're a piece of shit."</em></p>
+        <p style="margin-top:8px;font-style:italic;color:var(--muted);">Origin: forgotten kid → produce to matter → built everything → still running that engine.</p>
+      </div>
+      <div class="insight">
+        <div class="i-title">System B — The New Fuel</div>
+        <p>Build from wholeness. Enough before producing. Present. Purposeful. Clear. Chooses. Same speed, same drive, same ambition — from foundation instead of wound.</p>
+        <p style="margin-top:10px;font-style:italic;color:var(--muted);">"When Rich builds FROM wholeness, he's choosing. When building FROM 'I was forgotten,' life controls him."</p>
+        <p style="margin-top:8px;font-size:13px;color:var(--muted);">Grinding in System B feels life-giving. Same reps. Different source. "Oh Jon, I'm grinding but it's the most life-giving stuff in the world."</p>
+      </div>
+      <div class="insight">
+        <div class="i-title">The Undercover Agent</div>
+        <p>System A disguised as reasonable behavior. Shows up as over-analysis, future-tripping, withdrawal, productivity as avoidance. Sophisticated. Sounds like you. Isn't you.</p>
+      </div>
+      <div class="insight">
+        <div class="i-title">The Relationship to System A</div>
+        <p>Not hate. Not resentment. Gratitude. System A is like an old sibling you pass on the street — acknowledge, honor, be grateful for what it built. Then move back to System B. The long-term vision: maintain a connection without dwelling in it.</p>
+      </div>
+    </div>
+
+    <div class="nuclear-box">
+      <div class="nb-label">The Nuclear Practice</div>
+      <p><strong>"The most nuclear action Rich does every day is, in the present moments, becoming aware of which system is running him."</strong></p>
+      <p style="font-size:14px;color:var(--muted);">Morning, noon, end of day. Not a judgment. Just an honest read. The awareness IS the practice. It feels too simple. It's not easy. There's a difference.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- III. THE 7 DESCRIPTORS                         -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">The Descriptors</div>
+    <h2>Seven words. One operating system.</h2>
+    <p>Finalized March 2026 — confirmed final by Rich. The order matters — like the Steps, the first one must be worked perfectly or everything below is System A in disguise. These are states, not affirmations. One word. Period. "I am enough" is System A trying to convince itself. "Enough" is the ground you stand on.</p>
+
+    <div class="descriptors">
+      <div class="descriptor">
+        <div class="num">01</div>
+        <div>
+          <div class="word">Enough</div>
+          <div class="def">I have value before I produce. Nothing I build or lose changes this.</div>
+          <div class="flow"><span>→ Flow:</span> Without this, everything below is System A in disguise.</div>
+        </div>
+      </div>
+      <div class="descriptor">
+        <div class="num">02</div>
+        <div>
+          <div class="word">Here</div>
+          <div class="def">I exist before you notice. I don't need the room to see me to know I'm in it.</div>
+          <div class="flow"><span>→ Flow:</span> Once I'm enough, I can actually show up without needing to be seen.</div>
+        </div>
+      </div>
+      <div class="descriptor">
+        <div class="num">03</div>
+        <div>
+          <div class="word">Curious</div>
+          <div class="def">I ask before I fix. When pressure hits, I open up instead of clench.</div>
+          <div class="flow"><span>→ Flow:</span> Here and enough, I can open instead of armor. Ask instead of react.</div>
+        </div>
+      </div>
+      <div class="descriptor">
+        <div class="num">04</div>
+        <div>
+          <div class="word">Clear</div>
+          <div class="def">I say it once, clean, no shrapnel. The truth delivered without the damage.</div>
+          <div class="flow"><span>→ Flow:</span> Curiosity reveals what's real. Now I speak from truth, not reactivity.</div>
+        </div>
+      </div>
+      <div class="descriptor">
+        <div class="num">05</div>
+        <div>
+          <div class="word">Grateful</div>
+          <div class="def">I know what things cost. That's not a practice — it's what's left when the noise stops.</div>
+          <div class="flow"><span>→ Flow:</span> When I'm clear about what's real, gratitude isn't forced. It's just there.</div>
+        </div>
+      </div>
+      <div class="descriptor">
+        <div class="num">06</div>
+        <div>
+          <div class="word">Builds</div>
+          <div class="def">I build toward something, not away from something. From wholeness, not from wound.</div>
+          <div class="flow"><span>→ Flow:</span> From gratitude, building has a foundation. Not fear. Not proving. Creating.</div>
+        </div>
+      </div>
+      <div class="descriptor">
+        <div class="num">07</div>
+        <div>
+          <div class="word">Chooses</div>
+          <div class="def">Every day, I choose this. One day at a time. System B is a decision, not a destination.</div>
+          <div class="flow"><span>→ Flow:</span> The capstone. Everything above is a daily choice. Skip a day, start again tomorrow.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- IV. CORE TENSIONS                              -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">Core Tensions</div>
+    <h2>What five assessments expose — not convergence, but paradox.</h2>
+    <p>These two patterns appear across all five assessments, seventeen years of data. They aren't contradictions to fix — they're the operating reality. Both are the same underlying paradox in two domains: maximum outward strength masking maximum inward need. One structural, one relational. Same wound, two expressions.</p>
+
+    <div style="margin-top:28px;">
+      <div class="tension">
+        <div class="t-label">Tension 01</div>
+        <div class="t-title">Systems vs. Freedom</div>
+        <div class="t-sub">Builds the cage. Needs to escape it.</div>
+        <p>Birkman Insistence 97 — builds the tightest systems of anyone. PI Formality −1.29 — very flexible, bends all rules. DiSC C secondary — demands quality and accuracy. ShadowMatch Change 43 — resists change without strong reason. He builds extreme structure for himself. He cannot tolerate external structure imposed on him. His systems = sacred. Everyone else's systems = obstacles. System B doesn't resolve this — it runs it from wholeness instead of fear.</p>
+      </div>
+
+      <div class="tension">
+        <div class="t-label">Tension 02</div>
+        <div class="t-title">Need vs. Withdrawal</div>
+        <div class="t-sub">Needs connection most. Initiates it least.</div>
+        <p>Birkman SC 1/79 — most direct person in room, most needs respect and appreciation. ShadowMatch People Positive 52 — only strong habit, conditional on comfort. DiSC i Segment 1 — Influence at floor in 2008. Birkman Persuasive 96th percentile — the warmth is real. The catch-22: he waits for the room to make it safe. The room waits for him to open. System B's "Here" and "Enough" are the direct answer. The warmth already exists — it just needs the foundation to be unconditional.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- V. WHAT SYSTEM B IS NOT                        -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">Clarifications</div>
+    <h2>What System B is not.</h2>
+
+    <div class="principles">
+      <div class="principle">
+        <div class="principle-key">Not an affirmation</div>
+        <div class="principle-value">These are states, not declarations. "Enough" is the ground you stand on — not "I am enough" repeated until believed. System A uses affirmations to convince itself. System B doesn't need convincing.</div>
+      </div>
+      <div class="principle">
+        <div class="principle-key">Not slowing down</div>
+        <div class="principle-value">Physical Energy 97, Responsiveness cross-contextual, Patience −0.67 — the action bias is structural. System B doesn't slow this down. It changes the fuel source for the same speed. Same drive. Different origin. The grinding in System B feels life-giving, not depleting.</div>
+      </div>
+      <div class="principle">
+        <div class="principle-key">Not stopping building</div>
+        <div class="principle-value">"If I stopped building it would be the beginning of the end." Building is who he IS — nature or nurture, it's locked in. System B building goes toward something. System A building goes away from something. One word changes the whole direction.</div>
+      </div>
+      <div class="principle">
+        <div class="principle-key">Not a destination</div>
+        <div class="principle-value">System B is a daily choice. "Chooses" is the capstone because it's always the practice, never the arrival. One day at a time. Forty years of sobriety already knows exactly how this works. It feels too simple. It's not easy. There's a difference.</div>
+      </div>
+      <div class="principle">
+        <div class="principle-key">Not hating System A</div>
+        <div class="principle-value">Jon challenged this directly: is resentment toward System A helpful? No. Acknowledge it, honor it, be grateful for it. System A built everything that exists. The goal is gratitude and connection without dwelling. An old sibling you pass on the street.</div>
+      </div>
+      <div class="principle">
+        <div class="principle-key">Not new architecture</div>
+        <div class="principle-value">Five assessments. Seventeen years. Zero drift. The wiring is the wiring. This isn't a rebuild — it's a refueling. The DC profile, the Maverick, the Creative pattern — they're all still there. Running on wholeness now.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- VI. THE DAILY PRACTICE                         -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">The Practice</div>
+    <h2>Daily protocol. Same reps Rich already knows from sobriety.</h2>
+    <p>Rich is the Master in sobriety — forty years of loving the plateau, one day at a time. The gap isn't knowing how to do this. It's transferring the sobriety mastery framework to every other domain. The Obsessive archetype (Mastery, George Leonard) — pushes mercilessly through plateaus at work but has lived on the plateau in sobriety for four decades. Connect the wires.</p>
+
+    <div style="margin-top:28px;">
+      <div class="protocol">
+        <div class="time">Morning</div>
+        <div class="action"><strong>Which system am I running?</strong> Who am I today? What one action proves System B before noon?</div>
+      </div>
+      <div class="protocol">
+        <div class="time">Noon</div>
+        <div class="action"><strong>Check in.</strong> Am I still here? Has the Undercover Agent crept in? Honest read. No judgment.</div>
+      </div>
+      <div class="protocol">
+        <div class="time">End of Day</div>
+        <div class="action"><strong>Review.</strong> Where did I choose B? Where did A run me? What's tomorrow's first System B action?</div>
+      </div>
+      <div class="protocol">
+        <div class="time">If Missed</div>
+        <div class="action"><strong>Same-day reset before bed.</strong> No skip-two-days rule. Miss a day, start again. Like sobriety. One day at a time.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- VII. "WHAT IS" — Jon's Framework                -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">First Principles</div>
+    <h2>"What Is" — purity, not story.</h2>
+    <p>Jon's framework: 80% of what most humans experience is projection — story wrapping around what's actually real. System A's default mode. "What is" means commitments kept or broken, no stories, no excuses. Parse away the narrative. Find what's real. First principles.</p>
+
+    <div class="pull-quote jon">
+      Wherever he goes, he brings what is — for himself and for others. That's System B Rich at his best.
+      <span class="attr">— Jon Roberts, Session 3</span>
+    </div>
+
+    <p>Rich's natural gift here: transparency. Naturally authentic, open, direct. The gap isn't honesty — it's inviting others in with questions instead of just broadcasting the truth. The dirty yeses problem. Agreements vs. Expectations: Rich already ran a team meeting on this (from Session 2 homework) — useful, removed morality from conversations. Purity works.</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- VIII. THE DATA BACKING                         -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">The Evidence</div>
+    <h2>17 years of consistent data backing this work.</h2>
+
+    <div style="background:var(--surface);border:1px solid var(--border);padding:28px 32px;margin-top:8px;">
+      <div class="data-row">
+        <div class="data-label">DiSC (Dec 2008)</div>
+        <div class="data-value">DC — Creative pattern. D Segment 7, i/S Segment 1. Priorities: Challenge, Drive, Objectivity. Low comfort: Collaboration, Support, Encouragement. Architecture confirmed at 39 — before the hardest decade.</div>
+      </div>
+      <div class="data-row">
+        <div class="data-label">Birkman (Oct 2019)</div>
+        <div class="data-value">RED usual · YELLOW need · GREEN interests. SC 1/79 (gap 78). Insistence 97/7 (gap 90). Persuasive: 96th percentile. The wound in behavioral data — appears bulletproof, needs genuine respect.</div>
+      </div>
+      <div class="data-row">
+        <div class="data-label">Predictive Index (Apr 2025)</div>
+        <div class="data-value">Maverick. Dominance +1.80. Extraversion +0.16 (situationally reserved). Patience −0.67. Formality −1.29. Risk-taking, visionary, undaunted by failure. Independent to the point of friction.</div>
+      </div>
+      <div class="data-row">
+        <div class="data-label">ShadowMatch</div>
+        <div class="data-value">People Positive (52) — only strong habit. Conditional on comfort. Responsiveness cross-contextual. Frustration Handling 25 (stretched by intensity). Three attitude quadrants strong. Zero passive-aggressive.</div>
+      </div>
+      <div class="data-row">
+        <div class="data-label">Longitudinal</div>
+        <div class="data-value">"Whatever happened to him didn't change who he is — it changed what fuel he ran on." Five assessments, two decades, zero drift. The architecture is the architecture.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- IX. SINCE LAST SESSION                         -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">Since Last Session</div>
+    <h2>Session 3 → Session 5. What happened.</h2>
+    <p>Session 4 was cancelled. It's been 2+ weeks since coaching. Session 3 ended with Jon asking Rich to formalize System B in writing — descriptors, framework, something Jon could lay on top and start grading. Here's what got done.</p>
+
+    <div class="insights" style="margin-top:24px;">
+      <div class="insight">
+        <div class="i-title">System B Framework — Formalized</div>
+        <p>The seven descriptors moved from rough draft with scattered words to a confirmed, final framework. Multi-agent panel stress-tested them through six perspectives. Ordering logic locked. Jon's request from Session 3 — "I can lay it on top of you, start grading me" — is now ready.</p>
+      </div>
+      <div class="insight">
+        <div class="i-title">Assessment Integration — Complete</div>
+        <p>All five assessments (DiSC, Birkman, PI, ShadowMatch, plus Opus longitudinal analysis) integrated into one profile. Core tensions identified. Not convergences — paradoxes. More useful than agreement.</p>
+      </div>
+      <div class="insight">
+        <div class="i-title">Mastery Connection — Found</div>
+        <p>Finished George Leonard's <em>Mastery</em>. Identified the pattern: Master on the sobriety plateau for 40 years. Obsessive on the business plateau. The wires aren't connected yet — that's the work. Session 3 insight: "Plateaus? I suck at them..." But only at work.</p>
+      </div>
+      <div class="insight">
+        <div class="i-title">Real-Time Practice — In Progress</div>
+        <p>Three calls graded against System B: Franchise legal (B / 7.5), Capital/M&A prep (A- / 8.5), Internal JFI ops (B+ / 8.0). Pattern to improve: compress opening, stay precise when triggered, end with execution clarity.</p>
+      </div>
+    </div>
+
+    <div style="margin-top: 24px;">
+      <div style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;">Call Report Card — System B in Action</div>
+
+      <div class="report-card">
+        <div class="rc-header">
+          <div class="rc-title">Franchise Legal Call (Rob)</div>
+          <div class="rc-grade mid">B / 7.5</div>
+        </div>
+        <p><strong>Did right:</strong> Stayed in it, pushed for written memorialization, protected transfer-risk concerns. Kept returning to "can we get this in writing before we move?"</p>
+        <p><strong>Improve:</strong> Less emotional phrasing under pressure. Tighter framing earlier.</p>
+      </div>
+
+      <div class="report-card">
+        <div class="rc-header">
+          <div class="rc-title">Capital / M&A Prep (Brandon + Paul)</div>
+          <div class="rc-grade high">A- / 8.5</div>
+        </div>
+        <p><strong>Did right:</strong> Held optionality (can sell, don't have to), no desperation, no early valuation anchor. Asked for guardrails and process, not reassurance.</p>
+        <p><strong>Improve:</strong> Get to the ask faster — over-narrated setup.</p>
+      </div>
+
+      <div class="report-card">
+        <div class="rc-header">
+          <div class="rc-title">Internal JFI Ops / Dispatch</div>
+          <div class="rc-grade mid">B+ / 8.0</div>
+        </div>
+        <p><strong>Did right:</strong> Framed the room around customer + P&L + technician sustainability. Called out missing written operating system. Forced ownership language: "owner, plan, by when."</p>
+        <p><strong>Improve:</strong> Reduce sharp public language that triggers defensiveness. End loops faster with decision points.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- X. CURRENT REALITY CHECK                       -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">Current Reality</div>
+    <h2>Ground-level honest read. What is — no story.</h2>
+    <p>Jon's "what is" framework applied. Commitments kept or broken. First principles. No projection.</p>
+
+    <div class="reality-grid">
+      <div class="reality-card">
+        <div class="rc-label">Inner Work</div>
+        <p><strong>System B framework:</strong> Formalized. Jon's request delivered. Ready for grading.</p>
+        <p><strong>Nuclear practice:</strong> Inconsistent. Session 4 cancelled, 2+ weeks without coaching structure. The daily check protocol exists on paper. Honest question: did it stick in practice, or did it drift?</p>
+        <p><strong>System A relationship:</strong> Jon challenged the resentment in Session 3. Is Rich honoring System A or still fighting it?</p>
+        <p><strong>Mastery gap:</strong> Identified intellectually. Not yet embodied. Same gap he named with "everything is already okay" — knows it in the head, hasn't connected it to the body.</p>
+      </div>
+      <div class="reality-card">
+        <div class="rc-label">Business</div>
+        <p><strong>Franchise:</strong> Still navigating. Protected leverage on the legal call. "Can we get this in writing" is the right move. Not resolved.</p>
+        <p><strong>Capital/M&A:</strong> Optionality held. Good System B positioning — no desperation, no early anchors.</p>
+        <p><strong>JFI Ops:</strong> Called out the missing operating system. Forced ownership language. Work in progress.</p>
+        <p><strong>Pattern across all three:</strong> Executes harder than he opens. The 20% Hammer — asks for help at 80%, not at 20%. Dirty yeses still a risk.</p>
+      </div>
+      <div class="reality-card">
+        <div class="rc-label">Leadership</div>
+        <p><strong>Natural gift:</strong> Transparency. Authenticity. "What is" — naturally direct. People know where they stand.</p>
+        <p><strong>Gap:</strong> Inviting others in with questions. Broadcasting truth vs. creating space for truth. Agreements vs. Expectations framework deployed from Session 2 homework — useful, removed morality from conversations.</p>
+        <p><strong>The equation:</strong> RC × MC = GL. Relationship Capital × Mental Capital = Great Leader. Currently cheats toward MC. System B rebalances toward RC.</p>
+      </div>
+      <div class="reality-card">
+        <div class="rc-label">Open Loops</div>
+        <p><strong>Plateau transfer:</strong> Sobriety mastery → business mastery. Identified, not connected.</p>
+        <p><strong>Body as pressure:</strong> "Body is pressure. Body is the problem." The physical experience carries everything. Descriptors need to change what happens in the body, not just the head.</p>
+        <p><strong>The Obsessive pattern:</strong> Pushes mercilessly through plateaus at work. Birkman confirms: Physical 97, Thought 18, Insistence 97 = wired for speed, not patience. Except in sobriety.</p>
+        <p><strong>Interrupt protocol:</strong> Rich asked Jon for a 30–60 second real-time interrupt for when System A spikes on a live call. Not just in reflection. Outstanding ask.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- XI. SESSION 5 PREP                             -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">Session 5 Prep</div>
+    <h2>For Jon Roberts. V-G-F-N-R format.</h2>
+    <p>Session 4 was cancelled. This is a 2+ week gap since Session 3. The framework Jon asked for is ready. The question is whether the practice stuck without coaching structure underneath it.</p>
+
+    <!-- Vision -->
+    <div class="prep-card">
+      <div class="prep-num">01 — Vision</div>
+      <h3>What does System B look like running the business?</h3>
+      <p>Session 3 ended with Rich not yet having a clear vision for System B at work. He knows it in sobriety. He knows the descriptors. The gap Jon was pointing at: what does "the perfect lap" look like with System B as the fuel? What does Rich look like operating from wholeness at work — same speed, same drive — without the cost?</p>
+      <ul>
+        <li><strong>Key question:</strong> Can I describe System B Rich in a meeting, on a call, making a decision — not just as words on a page?</li>
+        <li><strong>From Session 3:</strong> "Climbing into System B — what is it, who is it" — this was unfinished. Is it clearer now?</li>
+        <li><strong>The perfect lap:</strong> Money, feel, efficient, repeatable, natural. Which of those does System B change? Which stay the same?</li>
+        <li><strong>The plateau:</strong> Can I love the business plateau the way I love the sobriety plateau? What would that look like?</li>
+      </ul>
+    </div>
+
+    <!-- Gaps -->
+    <div class="prep-card">
+      <div class="prep-num">02 — Gaps</div>
+      <h3>Distance between stated vision and current reality.</h3>
+      <ul>
+        <li><strong>Practice gap:</strong> The daily protocol exists. Did it hold for 2+ weeks without coaching? Where did it drift? Honest answer.</li>
+        <li><strong>Embodiment gap:</strong> "Everything is already okay" remains intellectual. The descriptors are on paper. Are they in the body? "Body is pressure. Body is the problem."</li>
+        <li><strong>Connection gap:</strong> Five deep friendships outside work (stated Dec 31 vision). Where is this? The 20% Hammer — asking for help at 20%, not 80%.</li>
+        <li><strong>Mastery transfer:</strong> Identified the gap (sobriety → work). Haven't connected the wires. What's one concrete step to transfer it?</li>
+        <li><strong>Interrupt protocol:</strong> Asked Jon for a 30–60 second real-time interrupt. Still outstanding. Follow up.</li>
+      </ul>
+    </div>
+
+    <!-- F.A.C.T. -->
+    <div class="prep-card">
+      <div class="prep-num">03 — F.A.C.T.</div>
+      <h3>Frustrations · Avoidances · Complaints · Tolerations · Scared of</h3>
+      <ul>
+        <li><strong>Frustrations:</strong> The franchise — still not in writing. Over-narrating under pressure (all three calls showed this). The gap between knowing the practice and doing the practice without coaching scaffolding.</li>
+        <li><strong>Avoidances:</strong> Honest check — has productivity been avoidance of the deeper inner work Jon is pointing at? Building the framework was real work. Was it also comfortable distance from the harder practice?</li>
+        <li><strong>Complaints:</strong> Session 1 answer: none. Is that still true?</li>
+        <li><strong>Tolerations:</strong> Dirty yeses. People saying "yes" who mean "maybe." Broadcasting truth without creating space for others' truth. Sharp language under pressure that triggers defensiveness.</li>
+        <li><strong>Scared of:</strong> Session 3: "I will always be let down." Where is that showing up right now? Has the relationship to it changed?</li>
+      </ul>
+    </div>
+
+    <!-- Nuclear -->
+    <div class="prep-card">
+      <div class="prep-num">04 — Nuclear</div>
+      <h3>The one most nuclear action between now and next session.</h3>
+      <p>Jon defined nuclear in Session 3: becoming aware of which system is running you, in the present moment. Not in reflection — in the moment. The question for Session 5:</p>
+      <ul>
+        <li><strong>Where did I catch it?</strong> Specific moments. The franchise call — caught it, kept returning to "in writing." The M&A call — held optionality. Where else?</li>
+        <li><strong>Where did I miss it?</strong> Specific moments. Over-narrating, sharp language, emotional phrasing. Which system was running those?</li>
+        <li><strong>Next nuclear action:</strong> What's the single most nuclear thing between Session 5 and Session 6? Not three things. One thing.</li>
+      </ul>
+    </div>
+
+    <!-- ROI -->
+    <div class="prep-card">
+      <div class="prep-num">05 — ROI</div>
+      <h3>Honest return on investment since Session 3.</h3>
+      <ul>
+        <li><strong>Framework delivery:</strong> Jon asked for System B formalized. Done. Seven descriptors confirmed. Full assessment integration. This is real ROI — a coaching reference that can be laid on top and graded.</li>
+        <li><strong>Practice consistency:</strong> Unknown. Session 4 cancelled. 2+ weeks without structure. The daily protocol was committed to. Did it hold? This is the honest answer Jon needs.</li>
+        <li><strong>Call performance:</strong> Three calls graded. Average 8.0. Pattern identified: compress, stay precise, end with clarity. System B showed up. Not consistently. But it showed up.</li>
+        <li><strong>The Mastery connection:</strong> George Leonard read, Obsessive pattern identified, sobriety-as-mastery framework articulated. Intellectual, not yet embodied. ROI on insight, not yet on behavior change.</li>
+        <li><strong>Relationship to System A:</strong> Jon challenged the resentment. The reframe — gratitude, not hate — is understood. Is it practiced?</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- XII. QUESTIONS FOR JON                         -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">For Jon</div>
+    <h2>Open questions to bring to Session 5.</h2>
+
+    <div class="principles">
+      <div class="principle">
+        <div class="principle-key">The Interrupt</div>
+        <div class="principle-value">Rich asked for a 30–60 second protocol for when System A spikes on a live call. Something usable in real-time, not in reflection. Still outstanding from Session 3.</div>
+      </div>
+      <div class="principle">
+        <div class="principle-key">Grading</div>
+        <div class="principle-value">Jon said he wanted the framework so he could "lay it on top of you, start grading me." The framework is here. How does Jon want to use it? What does grading look like session to session?</div>
+      </div>
+      <div class="principle">
+        <div class="principle-key">The Body</div>
+        <div class="principle-value">"Body is pressure. Body is the problem." The descriptors are cognitive. What gets them into the body? "Everything is already okay" remains intellectual on a daily basis.</div>
+      </div>
+      <div class="principle">
+        <div class="principle-key">Plateau Transfer</div>
+        <div class="principle-value">Rich loves the sobriety plateau. Hates the business plateau. Same man. Same framework available. What's the one thing that connects these wires?</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- FOOTER                                         -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="footer">
+    <div class="sig">Rich Hodge · Novus Global · Jon Roberts</div>
+    <div class="version">v2.0 — March 2026</div>
+  </div>
+
+</div>
+</body>
+</html>
