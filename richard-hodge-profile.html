@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Richard Hodge — Full Behavioral Profile</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #f5f4f0;
+      --surface: #ffffff;
+      --border: #e2e0d9;
+      --text: #1a1a18;
+      --muted: #6b6860;
+      --accent: #2c4a2e;
+      --accent-light: #eef2ee;
+      --red: #8b1a1a;
+      --red-light: #fdf0f0;
+      --blue: #1a3a5c;
+      --blue-light: #f0f4f8;
+      --gold: #6b4c0a;
+      --gold-light: #fdf8ee;
+      --tag-bg: #f0ede6;
+      --tag-text: #4a4640;
+    }
+
+    body {
+      font-family: "Georgia", serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      padding: 60px 24px;
+    }
+
+    .page { max-width: 900px; margin: 0 auto; }
+
+    /* Header */
+    .header {
+      border-bottom: 2px solid var(--text);
+      padding-bottom: 32px;
+      margin-bottom: 56px;
+    }
+    .header .label {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+    .header h1 {
+      font-size: 42px;
+      font-weight: normal;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+    .header .subtitle {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 15px;
+      color: var(--muted);
+    }
+    .header .meta {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 20px;
+      display: flex;
+      gap: 24px;
+    }
+
+    /* Section */
+    .section { margin-bottom: 64px; }
+    .section-label {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .section-label::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .section h2 {
+      font-size: 26px;
+      font-weight: normal;
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+    }
+    .section p {
+      font-size: 16px;
+      color: var(--text);
+      margin-bottom: 14px;
+      max-width: 760px;
+    }
+
+    /* Assessment Badge */
+    .assessment-header {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+    .badge {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border: 1px solid;
+    }
+    .badge.birkman { color: var(--red); border-color: var(--red); background: var(--red-light); }
+    .badge.pi { color: var(--blue); border-color: var(--blue); background: var(--blue-light); }
+    .badge.shadow { color: var(--gold); border-color: var(--gold); background: var(--gold-light); }
+    .badge-date {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /* Summary box */
+    .summary-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--text);
+      padding: 28px 32px;
+      margin-bottom: 36px;
+    }
+    .summary-box.birkman { border-left-color: var(--red); }
+    .summary-box.pi { border-left-color: var(--blue); }
+    .summary-box.shadow { border-left-color: var(--gold); }
+    .summary-box p { font-size: 15px; margin-bottom: 10px; max-width: 100%; }
+    .summary-box p:last-child { margin-bottom: 0; }
+    .profile-name {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    .profile-name.birkman { color: var(--red); }
+    .profile-name.pi { color: var(--blue); }
+
+    /* Score grid */
+    .score-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .score-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 16px 20px;
+    }
+    .score-card .label {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .score-card .values {
+      font-size: 20px;
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;
+    }
+    .score-card .gap-label {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .score-card .desc {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+    .gap-high { color: var(--red); }
+
+    /* PI factors */
+    .pi-factors {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .pi-factor {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 18px 22px;
+    }
+    .pi-factor .factor-label {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 6px;
+    }
+    .pi-factor .factor-score {
+      font-size: 22px;
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;
+    }
+    .pi-factor .factor-desc {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    /* Shadow scores */
+    .shadow-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin-top: 24px;
+    }
+    .shadow-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 14px 16px;
+    }
+    .shadow-item .s-label {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .shadow-item .s-score {
+      font-size: 22px;
+      letter-spacing: -0.02em;
+    }
+    .shadow-item .s-cat {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 10px;
+      color: var(--muted);
+    }
+    .shadow-item.strong .s-score { color: var(--gold); }
+    .shadow-item.strong { border-color: var(--gold); }
+
+    /* Pull quote */
+    .pull-quote {
+      border-left: 3px solid var(--text);
+      padding: 8px 0 8px 28px;
+      margin: 36px 0;
+      font-size: 20px;
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+      max-width: 680px;
+    }
+
+    /* Cross-read table */
+    .cross-table {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      margin-top: 24px;
+      overflow: hidden;
+    }
+    .cross-row {
+      display: grid;
+      grid-template-columns: 160px 1fr 1fr 1fr 1fr;
+      border-bottom: 1px solid var(--border);
+    }
+    .cross-row:last-child { border-bottom: none; }
+    .cross-row.header-row {
+      background: var(--tag-bg);
+    }
+    .cross-cell {
+      padding: 14px 16px;
+      font-size: 13px;
+      border-right: 1px solid var(--border);
+    }
+    .cross-cell:last-child { border-right: none; }
+    .cross-cell.header {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .cross-cell .trait {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* Insight blocks */
+    .insights {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 28px;
+    }
+    .insight {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 22px 26px;
+    }
+    .insight .i-title {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .insight p { font-size: 14px; margin-bottom: 0; }
+
+    /* Tags */
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+    }
+    .tag {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      padding: 5px 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding-top: 28px;
+      margin-top: 64px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer .sig { font-size: 14px; color: var(--muted); }
+    .footer .version {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 640px) {
+      .score-grid, .pi-factors, .shadow-grid, .insights { grid-template-columns: 1fr; }
+      .cross-row { grid-template-columns: 1fr; }
+      .header h1 { font-size: 30px; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="label">Full Behavioral Profile</div>
+    <h1>Richard Hodge.<br>Three Lenses.<br>One Picture.</h1>
+    <div class="subtitle">Birkman Method · Predictive Index · ShadowMatch</div>
+    <div class="meta">
+      <span>Compiled March 2026</span>
+      <span>Confidential</span>
+    </div>
+  </div>
+
+  <!-- The 30-Second Read -->
+  <div class="section">
+    <div class="section-label">The 30-Second Read</div>
+    <h2>What every assessment agrees on.</h2>
+
+    <div class="pull-quote">Independent. Action-biased. Systems-builder who needs freedom from his own systems. More comfortable than he looks. More sensitive than he shows.</div>
+
+    <div class="insights">
+      <div class="insight">
+        <div class="i-title">What All Three See</div>
+        <p>High drive, high independence, strong bias for action. Builds structure but can't stand being trapped in it. Moves fast by default. Pushes through roadblocks without waiting for permission.</p>
+      </div>
+      <div class="insight">
+        <div class="i-title">What All Three Miss If You Only Read One</div>
+        <p>The sensitivity underneath the directness. Needs genuine respect, not flattery. People positive — but conditionally. Can quietly disengage without a word when disrespected or disempowered.</p>
+      </div>
+      <div class="insight">
+        <div class="i-title">The Core Tension</div>
+        <p>Birkman Insistence 97 builds tight systems. PI Formality -1.29 needs freedom from rigid structure. He creates the rules, then needs the freedom to bend them. Nobody else's rules work for him.</p>
+      </div>
+      <div class="insight">
+        <div class="i-title">The Hidden Need</div>
+        <p>Self-Consciousness 1/79 (Birkman) + People Positive as only Strong Habit (ShadowMatch): the most direct person in the room who deeply needs respect and appreciation from the people closest to him.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BIRKMAN -->
+  <div class="section">
+    <div class="assessment-header">
+      <div class="badge birkman">Birkman Method</div>
+      <div class="badge-date">Assessed October 2019 · ID: G5LDGS</div>
+    </div>
+
+    <div class="summary-box birkman">
+      <div class="profile-name birkman">RED Usual · YELLOW Need · GREEN Interests</div>
+      <p>Direct, decisive, practical, energetic, action-oriented. Logical and objective outwardly. Persuasive and people-focused in what he loves. Needs consistency, trust, quiet to think, and genuine respect — none of which he visibly asks for.</p>
+      <p>Top interest: Persuasive (96th percentile). Speaks his mind easily, even with superiors. Natural authority figure. Reduces complex matters to simple terms. Decisive — hates over-analysis. High energy, likes doing over thinking.</p>
+    </div>
+
+    <div class="score-grid">
+      <div class="score-card">
+        <div class="label">Social Energy</div>
+        <div class="values">92 <span style="color:var(--muted);font-size:14px;">Usual</span> · 38 <span style="color:var(--muted);font-size:14px;">Need</span></div>
+        <div class="gap-label">Gap: <span class="gap-high">54</span></div>
+        <div class="desc">Life of the party who needs to recharge alone. Continuous social demand drains him.</div>
+      </div>
+      <div class="score-card">
+        <div class="label">Physical Energy</div>
+        <div class="values">97 <span style="color:var(--muted);font-size:14px;">Usual</span> · 76 <span style="color:var(--muted);font-size:14px;">Need</span></div>
+        <div class="gap-label">Gap: 21</div>
+        <div class="desc">High energy, needs a busy schedule. Most aligned score in the profile.</div>
+      </div>
+      <div class="score-card">
+        <div class="label">Emotional Energy</div>
+        <div class="values">23 <span style="color:var(--muted);font-size:14px;">Usual</span> · 51 <span style="color:var(--muted);font-size:14px;">Need</span></div>
+        <div class="gap-label">Gap: 28</div>
+        <div class="desc">Logical outwardly. Needs more empathy from others than he projects himself.</div>
+      </div>
+      <div class="score-card">
+        <div class="label">Self-Consciousness</div>
+        <div class="values">1 <span style="color:var(--muted);font-size:14px;">Usual</span> · 79 <span style="color:var(--muted);font-size:14px;">Need</span></div>
+        <div class="gap-label">Gap: <span class="gap-high">78 — Critical</span></div>
+        <div class="desc">Most direct person in the room who deeply needs respect and appreciation. People assume bulletproof. He's not.</div>
+      </div>
+      <div class="score-card">
+        <div class="label">Assertiveness</div>
+        <div class="values">72 <span style="color:var(--muted);font-size:14px;">Usual</span> · 37 <span style="color:var(--muted);font-size:14px;">Need</span></div>
+        <div class="gap-label">Gap: 35</div>
+        <div class="desc">Directive and commanding. Needs low-key authority environment from others.</div>
+      </div>
+      <div class="score-card">
+        <div class="label">Insistence</div>
+        <div class="values">97 <span style="color:var(--muted);font-size:14px;">Usual</span> · 7 <span style="color:var(--muted);font-size:14px;">Need</span></div>
+        <div class="gap-label">Gap: <span class="gap-high">90 — Critical</span></div>
+        <div class="desc">Builds extremely tight systems. Needs freedom to bend his own rules. Nobody else's plan works for him.</div>
+      </div>
+      <div class="score-card">
+        <div class="label">Thought</div>
+        <div class="values">18 <span style="color:var(--muted);font-size:14px;">Usual</span> · 62 <span style="color:var(--muted);font-size:14px;">Need</span></div>
+        <div class="gap-label">Gap: 44</div>
+        <div class="desc">Fast and decisive by default. Needs real space on heavy, complex decisions.</div>
+      </div>
+      <div class="score-card">
+        <div class="label">Incentives</div>
+        <div class="values">25 <span style="color:var(--muted);font-size:14px;">Usual</span> · 53 <span style="color:var(--muted);font-size:14px;">Need</span></div>
+        <div class="gap-label">Gap: 28</div>
+        <div class="desc">Team-oriented externally. Needs individual recognition privately.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PREDICTIVE INDEX -->
+  <div class="section">
+    <div class="assessment-header">
+      <div class="badge pi">Predictive Index</div>
+      <div class="badge-date">Assessed April 16, 2025 · BSID: 951-4587-850</div>
+    </div>
+
+    <div class="summary-box pi">
+      <div class="profile-name pi">Maverick</div>
+      <p>An innovative, "outside the box" thinker, undaunted by failure. Very independent, confident, decisive, self-starter, intense and driving. Strong sense of urgency. Reacts and adjusts quickly to changing conditions.</p>
+      <p>Competitive, ambitious, venturesome. Responds positively to challenge and pressure. Outgoing and poised — forceful, animated communicator. More authoritative than persuasive. Talks with assurance and conviction. Direct, determined, and flexible.</p>
+    </div>
+
+    <div class="pi-factors">
+      <div class="pi-factor">
+        <div class="factor-label">A — Dominance</div>
+        <div class="factor-score">+1.80 Very Independent</div>
+        <div class="factor-desc">Needs independence, control of own activities, to be challenged. Questions established systems. Proves ideas through action.</div>
+      </div>
+      <div class="pi-factor">
+        <div class="factor-label">B — Extraversion</div>
+        <div class="factor-score">+0.16 Situationally Reserved</div>
+        <div class="factor-desc">Balanced between interaction and reflection. Needs social acceptance and freedom from office politics.</div>
+      </div>
+      <div class="pi-factor">
+        <div class="factor-label">C — Patience</div>
+        <div class="factor-score">−0.67 Moderately Driving</div>
+        <div class="factor-desc">Needs variety, faster-than-average pace, mobility. Impatient for results. Puts pressure on self and others for rapid implementation.</div>
+      </div>
+      <div class="pi-factor">
+        <div class="factor-label">D — Formality</div>
+        <div class="factor-score">−1.29 Very Flexible</div>
+        <div class="factor-desc">Needs freedom from rigid structure, freedom of expression, opportunities to delegate details. Bends the rules. Does things his own way.</div>
+      </div>
+    </div>
+
+    <div style="margin-top: 24px;">
+      <div style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">Potential Caution Areas (PI)</div>
+      <div class="tags">
+        <div class="tag">May appear tough-minded</div>
+        <div class="tag">Intolerant of delays</div>
+        <div class="tag">May not adhere to structure or direction</div>
+        <div class="tag">Needs reminders to listen to others' perspectives</div>
+        <div class="tag">Reluctant to fully delegate authority</div>
+        <div class="tag">Considers detail minutia</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHADOWMATCH -->
+  <div class="section">
+    <div class="assessment-header">
+      <div class="badge shadow">ShadowMatch</div>
+      <div class="badge-date">Behavioral habits assessment</div>
+    </div>
+
+    <div class="summary-box shadow">
+      <p>ShadowMatch measures behavioral habits — patterns executed without planning. Only one of 19 habits scores as a "Strong Habit": <strong>People Positive (52)</strong>. Everything else is contextual — functional in day-to-day situations but not forced across all contexts. Highly situationally adaptive.</p>
+      <p>Task Efficiency: 50th percentile. Conceptual Application: 6/10 riddles solved in 15:19. Both are adequate — neither a constraint nor a standout.</p>
+    </div>
+
+    <div class="shadow-grid">
+      <div class="shadow-item">
+        <div class="s-label">Own vs Hand-off</div>
+        <div class="s-score">43 / 31</div>
+        <div class="s-cat">Contextual — slight preference to own</div>
+      </div>
+      <div class="shadow-item">
+        <div class="s-label">Team vs Individual</div>
+        <div class="s-score">44 / 48</div>
+        <div class="s-cat">Contextual — slight individual lean</div>
+      </div>
+      <div class="shadow-item">
+        <div class="s-label">Resilience</div>
+        <div class="s-score">42</div>
+        <div class="s-cat">Contextual — selective, goal-specific</div>
+      </div>
+      <div class="shadow-item">
+        <div class="s-label">Propensity to Change</div>
+        <div class="s-score">43</div>
+        <div class="s-cat">Contextual — selective, cautious</div>
+      </div>
+      <div class="shadow-item">
+        <div class="s-label">Frustration Handling</div>
+        <div class="s-score">25</div>
+        <div class="s-cat">Necessary — stretched by intensity</div>
+      </div>
+      <div class="shadow-item">
+        <div class="s-label">Responsiveness</div>
+        <div class="s-score">41★</div>
+        <div class="s-cat">Cross-contextual — acts immediately even off-hours</div>
+      </div>
+      <div class="shadow-item strong">
+        <div class="s-label">People Positive</div>
+        <div class="s-score">52</div>
+        <div class="s-cat">Strong — only strong habit. Conditional on comfort + need.</div>
+      </div>
+      <div class="shadow-item">
+        <div class="s-label">Self-Confidence</div>
+        <div class="s-score">48</div>
+        <div class="s-cat">Contextual — strong in everyday domain</div>
+      </div>
+      <div class="shadow-item">
+        <div class="s-label">Leadership</div>
+        <div class="s-score">41</div>
+        <div class="s-cat">Low key, situational, cautious</div>
+      </div>
+      <div class="shadow-item">
+        <div class="s-label">To Simplify</div>
+        <div class="s-score">24</div>
+        <div class="s-cat">Necessary — works day-to-day, breaks under complexity</div>
+      </div>
+      <div class="shadow-item">
+        <div class="s-label">Conflict Handling</div>
+        <div class="s-score">49</div>
+        <div class="s-cat">Contextual — takes upper hand, or disengages</div>
+      </div>
+      <div class="shadow-item">
+        <div class="s-label">Self-Motivation</div>
+        <div class="s-score">37</div>
+        <div class="s-cat">Contextual — task-specific, not universal</div>
+      </div>
+    </div>
+
+    <div style="margin-top: 28px;">
+      <div style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;">Attitude Profile — Three Quadrants Strong</div>
+      <div class="insights">
+        <div class="insight">
+          <div class="i-title">Category 1 — Strong (Involved + Unaggressive)</div>
+          <p>Positive participation, kind approach, volunteers, strong responsibility. First default mode.</p>
+        </div>
+        <div class="insight">
+          <div class="i-title">Category 2 — Strong (Involved + Assertive)</div>
+          <p>Stands ground. Fights for what's right. Takes people to task when they don't perform.</p>
+        </div>
+        <div class="insight">
+          <div class="i-title">Category 4 — Strong (Uninvolved + Unaggressive)</div>
+          <p>Can quietly walk away without explanation and without anger when things go wrong. Selective about social engagement.</p>
+        </div>
+        <div class="insight">
+          <div class="i-title">Category 3 — Absent (Uninvolved + Aggressive)</div>
+          <p>Will NOT voice frustrations without working toward resolution. Zero passive-aggressive pattern.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cross-Read: Convergences -->
+  <div class="section">
+    <div class="section-label">The Integration</div>
+    <h2>Where the four assessments converge.</h2>
+    <p style="color:var(--muted);font-size:14px;margin-bottom:24px;">Four methodologies, seventeen years apart, independently arriving at the same description. These are the most reliable signals in the data.</p>
+
+    <div class="cross-table">
+      <div class="cross-row header-row" style="grid-template-columns: 160px 1fr 1fr 1fr 1fr;">
+        <div class="cross-cell header">Trait</div>
+        <div class="cross-cell header">DiSC (2008)</div>
+        <div class="cross-cell header">Birkman</div>
+        <div class="cross-cell header">Predictive Index</div>
+        <div class="cross-cell header">ShadowMatch</div>
+      </div>
+      <div class="cross-row" style="grid-template-columns: 160px 1fr 1fr 1fr 1fr;">
+        <div class="cross-cell"><div class="trait">Action Bias</div></div>
+        <div class="cross-cell">D Segment 7 — drive, results, forward progress always</div>
+        <div class="cross-cell">Physical 97 — high energy, action over thinking</div>
+        <div class="cross-cell">Patience −0.67 — impatient for results, fast pace</div>
+        <div class="cross-cell">Responsiveness cross-contextual — acts immediately always</div>
+      </div>
+      <div class="cross-row" style="grid-template-columns: 160px 1fr 1fr 1fr 1fr;">
+        <div class="cross-cell"><div class="trait">Independence</div></div>
+        <div class="cross-cell">DC dot near edge — rarely departs from style, resists collaboration</div>
+        <div class="cross-cell">Assertiveness 72 — directive, commands authority</div>
+        <div class="cross-cell">Dominance +1.80 — very independent, questions all systems</div>
+        <div class="cross-cell">Own vs. Hand-off slight ownership lean; Individual 48 vs Team 44</div>
+      </div>
+      <div class="cross-row" style="grid-template-columns: 160px 1fr 1fr 1fr 1fr;">
+        <div class="cross-cell"><div class="trait">Frustration Threshold</div></div>
+        <div class="cross-cell">C secondary — high standards, rarely accepts excuses for failure</div>
+        <div class="cross-cell">Thought 18/62 — fast default, stress under forced slowness</div>
+        <div class="cross-cell">Impatient for results, intolerant of delays</div>
+        <div class="cross-cell">Frustration Handling 25 — necessary only, stretched by intensity</div>
+      </div>
+      <div class="cross-row" style="grid-template-columns: 160px 1fr 1fr 1fr 1fr;">
+        <div class="cross-cell"><div class="trait">Disengagement Pattern</div></div>
+        <div class="cross-cell">i/S at Segment 1 — collaboration and support are low-comfort zones</div>
+        <div class="cross-cell">Restlessness 52/17 — adaptable but needs advance warning</div>
+        <div class="cross-cell">Can quietly disengage; reluctant to fully delegate authority</div>
+        <div class="cross-cell">Category 4 strong — walks away without explanation or anger</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Core Tensions -->
+  <div class="section">
+    <div class="section-label">Core Tensions</div>
+    <h2>Where the assessments expose paradox — not convergence.</h2>
+    <p style="color:var(--muted);font-size:14px;margin-bottom:24px;">Each row describes a genuine internal contradiction — two things that are both true and in direct tension. That's more useful than convergence.</p>
+
+    <div class="cross-table" style="border-left: 3px solid var(--red);">
+      <div class="cross-row header-row" style="grid-template-columns: 160px 1fr 1fr 1fr 1fr;">
+        <div class="cross-cell header">Tension</div>
+        <div class="cross-cell header">DiSC (2008)</div>
+        <div class="cross-cell header">Birkman</div>
+        <div class="cross-cell header">Predictive Index</div>
+        <div class="cross-cell header">ShadowMatch</div>
+      </div>
+      <div class="cross-row" style="grid-template-columns: 160px 1fr 1fr 1fr 1fr;">
+        <div class="cross-cell"><div class="trait">Systems vs. Freedom</div><div style="font-size:11px;color:var(--muted);margin-top:4px;">Builds the cage. Needs to escape it.</div></div>
+        <div class="cross-cell">C secondary demands accuracy + quality. Creative pattern resists others' controls entirely.</div>
+        <div class="cross-cell">Insistence 97/7 — builds the most rigid systems of anyone</div>
+        <div class="cross-cell">Formality −1.29 — very flexible, bends all rules. <em>Opposite of Insistence 97.</em></div>
+        <div class="cross-cell">Propensity to Change 43 — resists change without strong reason. His systems. Not yours.</div>
+      </div>
+      <div class="cross-row" style="grid-template-columns: 160px 1fr 1fr 1fr 1fr;">
+        <div class="cross-cell"><div class="trait">Need vs. Withdrawal</div><div style="font-size:11px;color:var(--muted);margin-top:4px;">Needs connection most. Initiates it least.</div></div>
+        <div class="cross-cell">i Segment 1 (floor) — not a natural connector. Yet Persuasive is top Birkman interest (96th percentile).</div>
+        <div class="cross-cell">SC 1/79 — needs respect and appreciation more than almost anyone</div>
+        <div class="cross-cell">Extraversion +0.16 — situationally reserved. Needs room to reflect first.</div>
+        <div class="cross-cell">People Positive 52 — only strong habit, but conditional on already feeling safe. <em>The catch-22: needs warmth to give warmth.</em></div>
+      </div>
+    </div>
+
+    <div style="background:var(--red-light);border:1px solid #e8c0c0;padding:20px 24px;margin-top:20px;">
+      <div style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--red);margin-bottom:10px;">What this means</div>
+      <p style="font-size:14px;color:var(--text);margin-bottom:10px;"><strong>Systems vs. Freedom:</strong> Birkman measures how he builds (rigid). PI measures how he responds to external structure (very flexible). These aren't the same thing — they describe the same man in two different contexts. He builds the tightest systems of anyone. Everyone else's systems are intolerable. That's not a contradiction to fix — it's the operating reality to work with.</p>
+      <p style="font-size:14px;color:var(--text);margin-bottom:0;"><strong>Need vs. Withdrawal:</strong> SC Need 79 means he requires genuine respect and appreciation to function well. People Positive conditional means he only extends warmth when conditions are already right. The person in the room who needs connection most is also the one least likely to initiate it when it matters. He waits for the room to make it safe. The room waits for him to open. This is the wound in behavioral data.</p>
+    </div>
+  </div>
+
+  <!-- Longitudinal -->
+  <div class="section">
+    <div class="section-label">17 Years of Data</div>
+    <h2>Five assessments. Nearly two decades. Zero drift.</h2>
+    <p style="color:var(--muted);font-size:14px;margin-bottom:24px;">DiSC 2008 predates the franchise betrayal, Michael's death, Jessica's diagnosis, and most of the hardest decade of his life. The profile was already locked in. Whatever happened to him didn't change who he is — it changed what fuel he ran on.</p>
+
+    <div class="cross-table">
+      <div class="cross-row header-row">
+        <div class="cross-cell header">Year</div>
+        <div class="cross-cell header">Assessment</div>
+        <div class="cross-cell header">Profile</div>
+        <div class="cross-cell header">Key Signal</div>
+      </div>
+      <div class="cross-row">
+        <div class="cross-cell">Dec 2008</div>
+        <div class="cross-cell">DiSC Classic 2.0</div>
+        <div class="cross-cell"><strong>D dominant (7), C secondary (5), i/S near floor (1/1)</strong></div>
+        <div class="cross-cell">Classical Pattern: Creative. Architecture fully formed at 39.</div>
+      </div>
+      <div class="cross-row">
+        <div class="cross-cell">Dec 2008</div>
+        <div class="cross-cell">DiSC Management</div>
+        <div class="cross-cell"><strong>DC — dot near edge</strong></div>
+        <div class="cross-cell">Priorities: Challenge, Drive, Objectivity. Low comfort: Collaboration, Support, Encouragement.</div>
+      </div>
+      <div class="cross-row">
+        <div class="cross-cell">Oct 2019</div>
+        <div class="cross-cell">Birkman Method</div>
+        <div class="cross-cell"><strong>RED usual · YELLOW need · GREEN interests</strong></div>
+        <div class="cross-cell">SC 1/79 gap (78). Insistence 97/7 gap (90). Persuasive interests: 96th percentile.</div>
+      </div>
+      <div class="cross-row">
+        <div class="cross-cell">Apr 2025</div>
+        <div class="cross-cell">Predictive Index</div>
+        <div class="cross-cell"><strong>Maverick — Dominance +1.80, Formality −1.29</strong></div>
+        <div class="cross-cell">Very independent, very flexible. Bends rules. Risk-taking. Undaunted by failure.</div>
+      </div>
+      <div class="cross-row">
+        <div class="cross-cell">Recent</div>
+        <div class="cross-cell">ShadowMatch</div>
+        <div class="cross-cell"><strong>People Positive only strong habit (52)</strong></div>
+        <div class="cross-cell">Responsiveness cross-contextual. Frustration Handling 25. Three attitude quadrants strong.</div>
+      </div>
+    </div>
+
+    <div style="background:var(--surface);border:1px solid var(--border);padding:28px 32px;margin-top:24px;">
+      <div style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:20px;">Opus 4.6 Analysis — Longitudinal Review</div>
+
+      <div style="margin-bottom:20px;">
+        <div style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:12px;font-weight:600;color:var(--text);margin-bottom:6px;">The architecture hasn't changed. The cost of running System A has.</div>
+        <p style="font-size:14px;color:var(--muted);">At 39, System A was sustainable. At 57 — with Jessica, with the losses, with finite time — the cost structure changed even if the wiring didn't. System B isn't about becoming someone different. It's about running the same architecture with a fuel source that matches where he actually is now.</p>
+      </div>
+
+      <div style="margin-bottom:20px;">
+        <div style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:12px;font-weight:600;color:var(--text);margin-bottom:6px;">The Creative Pattern is the most underexamined finding.</div>
+        <p style="font-size:14px;color:var(--muted);">Creative DiSC: independent conclusions, logic-first, challenges status quo, best under difficulty, doesn't naturally explain reasoning, resists being grouped. This is the shape of his output for 17 years — how he built the business, managed the franchise, handled the software project, operates in coaching. He innovates alone. He concludes fast without narrating the path.</p>
+      </div>
+
+      <div style="margin-bottom:20px;">
+        <div style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:12px;font-weight:600;color:var(--text);margin-bottom:6px;">Low i (2008) + Persuasive 96th percentile (2019) = the warmth is real, not aspirational.</div>
+        <p style="font-size:14px;color:var(--muted);">DiSC 2008: Influence at Segment 1 — near floor. Birkman 2019: Persuasive interests at 96th percentile. He deeply values connection and people-motivation but doesn't default to those tools. Leads with logic and challenge. When stressed, the warmth goes away entirely. System B's People Positive isn't constructing something new — it's activating a capacity that's been there the whole time but has been conditional.</p>
+      </div>
+
+      <div>
+        <div style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:12px;font-weight:600;color:var(--text);margin-bottom:6px;">The DC profile gave System A its tools. System A didn't create the DC profile.</div>
+        <p style="font-size:14px;color:var(--muted);">The wound predates the profile by decades — but the profile was already locked in by 39. Five assessments across two decades through franchise betrayal, loss, ALS, sobriety, major business decisions. The wiring didn't move. Whatever happened to him didn't change who he is. The environment changed dramatically. The architecture didn't.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="sig">Compiled by Dude 🫡 — Rich's AI co-pilot</div>
+    <div class="version">v1.3 — March 2026 — Confidential</div>
+  </div>
+
+</div>
+</body>
+</html>
