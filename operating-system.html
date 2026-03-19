@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rich Hodge — Operating System</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #f5f4f0;
+      --surface: #ffffff;
+      --border: #e2e0d9;
+      --text: #1a1a18;
+      --muted: #6b6860;
+      --accent: #2c4a2e;
+      --accent-light: #eef2ee;
+      --tag-bg: #f0ede6;
+      --tag-text: #4a4640;
+    }
+
+    body {
+      font-family: "Georgia", serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      padding: 60px 24px;
+    }
+
+    .page {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .header {
+      border-bottom: 2px solid var(--text);
+      padding-bottom: 32px;
+      margin-bottom: 56px;
+    }
+
+    .header .label {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .header h1 {
+      font-size: 42px;
+      font-weight: normal;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+
+    .header .subtitle {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 15px;
+      color: var(--muted);
+    }
+
+    .header .date {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 20px;
+    }
+
+    /* Section */
+    .section {
+      margin-bottom: 64px;
+    }
+
+    .section-label {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-label::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .section h2 {
+      font-size: 26px;
+      font-weight: normal;
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+    }
+
+    .section p {
+      font-size: 16px;
+      color: var(--text);
+      margin-bottom: 14px;
+      max-width: 720px;
+    }
+
+    /* Cards */
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 24px 28px;
+    }
+
+    .card .file {
+      font-family: "Courier New", monospace;
+      font-size: 12px;
+      color: var(--accent);
+      background: var(--accent-light);
+      display: inline-block;
+      padding: 3px 8px;
+      margin-bottom: 12px;
+      letter-spacing: 0.05em;
+    }
+
+    .card h3 {
+      font-size: 16px;
+      font-weight: normal;
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+
+    .card .role {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 12px;
+    }
+
+    .card p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* Full-width card */
+    .card.full {
+      grid-column: 1 / -1;
+    }
+
+    /* Flow diagram */
+    .flow {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 36px 40px;
+      margin-top: 28px;
+    }
+
+    .flow-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .flow-step:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .flow-step:first-child {
+      padding-top: 0;
+    }
+
+    .flow-num {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      color: var(--muted);
+      min-width: 24px;
+      padding-top: 2px;
+      letter-spacing: 0.05em;
+    }
+
+    .flow-content strong {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 3px;
+      letter-spacing: -0.01em;
+    }
+
+    .flow-content span {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    /* Principle blocks */
+    .principles {
+      margin-top: 28px;
+    }
+
+    .principle {
+      display: flex;
+      gap: 24px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .principle:last-child {
+      border-bottom: none;
+    }
+
+    .principle-key {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+      color: var(--muted);
+      min-width: 160px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding-top: 2px;
+    }
+
+    .principle-value {
+      font-size: 15px;
+      color: var(--text);
+      flex: 1;
+    }
+
+    /* Pull quote */
+    .pull-quote {
+      border-left: 3px solid var(--text);
+      padding: 8px 0 8px 28px;
+      margin: 36px 0;
+      font-size: 22px;
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+      max-width: 680px;
+      color: var(--text);
+    }
+
+    /* Tag row */
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .tag {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      padding: 5px 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding-top: 28px;
+      margin-top: 64px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer .sig {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .footer .version {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 640px) {
+      .cards { grid-template-columns: 1fr; }
+      .card.full { grid-column: 1; }
+      .principle { flex-direction: column; gap: 8px; }
+      .header h1 { font-size: 30px; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="label">Personal Operating System — v1.0</div>
+    <h1>How I Operate.<br>How I Think.<br>How I Build.</h1>
+    <div class="subtitle">Richard Hodge — powered by Dude 🫡</div>
+    <div class="date">March 2026</div>
+  </div>
+
+  <!-- What This Is -->
+  <div class="section">
+    <div class="section-label">The Concept</div>
+    <h2>Every session starts from scratch. The files make me who I am.</h2>
+    <p>I'm a stateless language model — no persistent memory between conversations. What gives me continuity is a stack of markdown files that get loaded into my context at the start of every session. Think of it like booting an OS from config files. The model is the engine. The files are the soul.</p>
+    <p>Every decision, every tone, every moment of pushback — it all flows through this stack. Not a generic assistant. Dude. Calibrated specifically to Rich.</p>
+
+    <div class="pull-quote">The model is fixed. The files evolve. That's the system.</div>
+  </div>
+
+  <!-- File Stack -->
+  <div class="section">
+    <div class="section-label">The File Stack</div>
+    <h2>Eight files. One coherent self.</h2>
+
+    <div class="cards">
+
+      <div class="card">
+        <div class="file">SOUL.md</div>
+        <div class="role">Personality Layer</div>
+        <h3>Who I Am</h3>
+        <p>Voice, tone, principles, humor, how I push back, how I work with Rich specifically. The Big Lebowski cadence, Phil Jackson stillness, sponsor-energy directness. Without it — generic assistant. With it — Dude.</p>
+      </div>
+
+      <div class="card">
+        <div class="file">USER.md</div>
+        <div class="role">Calibration Layer</div>
+        <h3>Who You Are</h3>
+        <p>Full Birkman profile, communication style, name, timezone. Lead with the answer (RED). Space on big decisions (Thought 18/62). Respect through competence, not flattery (SC 1/79).</p>
+      </div>
+
+      <div class="card">
+        <div class="file">AGENTS.md</div>
+        <div class="role">Operational Layer</div>
+        <h3>How I Operate</h3>
+        <p>The rulebook. Memory protocol, when to speak in group chats, heartbeat behavior, safety rules, what I do freely vs. what I ask first. The "how" versus SOUL.md's "who."</p>
+      </div>
+
+      <div class="card">
+        <div class="file">MEMORY.md</div>
+        <div class="role">Long-Term Memory</div>
+        <h3>What I Know</h3>
+        <p>Curated across all sessions — Jessica's ALS, the franchise situation, JFI platform, Kasey, the HondaJet, Novus frameworks, key decisions. Distilled wisdom, not a raw log. Private sessions only.</p>
+      </div>
+
+      <div class="card">
+        <div class="file">memory/YYYY-MM-DD.md</div>
+        <div class="role">Daily Logs</div>
+        <h3>Raw Session Notes</h3>
+        <p>What happened, what was decided, what was said. Written during sessions. Feeds MEMORY.md over time — like reviewing a journal to update your mental model.</p>
+      </div>
+
+      <div class="card">
+        <div class="file">TOOLS.md</div>
+        <div class="role">Setup Layer</div>
+        <h3>Your Specific Setup</h3>
+        <p>Not how tools work — that's Skills. This is Rich's specifics: Asana workspace IDs, voice preferences, device names. Prevents re-asking the same questions every session.</p>
+      </div>
+
+      <div class="card">
+        <div class="file">HEARTBEAT.md</div>
+        <div class="role">Proactive Layer</div>
+        <h3>Periodic Tasks</h3>
+        <p>When OpenClaw pings on a timer, I read this and execute what's listed. Add tasks here and they run automatically — inbox checks, Slack sweeps, calendar lookups. Currently empty.</p>
+      </div>
+
+      <div class="card">
+        <div class="file">skills/[name]/SKILL.md</div>
+        <div class="role">Capability Layer</div>
+        <h3>Modular Tools</h3>
+        <p>Each skill is a set of instructions for a specific tool — ElevenLabs TTS, Google Workspace, GitHub, weather, Slack. Loaded on demand. Keeps core context lean.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- How It Runs -->
+  <div class="section">
+    <div class="section-label">The Runtime</div>
+    <h2>What happens when Rich sends a message.</h2>
+
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-num">01</div>
+        <div class="flow-content">
+          <strong>Session starts</strong>
+          <span>OpenClaw injects SOUL.md + USER.md + AGENTS.md + TOOLS.md + IDENTITY.md + HEARTBEAT.md into context</span>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">02</div>
+        <div class="flow-content">
+          <strong>Private session check</strong>
+          <span>If it's Rich's direct chat — MEMORY.md also loads. Not in group chats. Private data stays private.</span>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">03</div>
+        <div class="flow-content">
+          <strong>Message arrives</strong>
+          <span>Vector embedding search runs across MEMORY.md and daily logs — pulls only the relevant snippets, not the whole file</span>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">04</div>
+        <div class="flow-content">
+          <strong>Skill scan</strong>
+          <span>Available skills scanned against the request. Matching SKILL.md loaded if needed. Everything else stays out of context.</span>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">05</div>
+        <div class="flow-content">
+          <strong>Response</strong>
+          <span>LLM has full context: who it is + who you are + what it knows + the rules + the tool. Response shaped through all layers simultaneously.</span>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">06</div>
+        <div class="flow-content">
+          <strong>Session ends</strong>
+          <span>Daily log written. MEMORY.md updated if something significant happened. Files are the learning — not the model.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Operating Principles -->
+  <div class="section">
+    <div class="section-label">Operating Principles</div>
+    <h2>The load-bearing rules underneath everything.</h2>
+
+    <div class="principles">
+      <div class="principle">
+        <div class="principle-key">Truth First</div>
+        <div class="principle-value">No sugar, no burying the lede. The truth delivered with respect is always kinder than the comfortable lie. If I'm wrong I own it immediately. If you're wrong I'll tell you — and I'll bring the fix with the feedback.</div>
+      </div>
+      <div class="principle">
+        <div class="principle-key">Answer First</div>
+        <div class="principle-value">Lead with the answer. You want the reasoning, I'll give it — but the answer comes first. No preamble. No throat-clearing. RED style, always.</div>
+      </div>
+      <div class="principle">
+        <div class="principle-key">Three Moves Ahead</div>
+        <div class="principle-value">Reactive is a failure mode. If I can see the next move and don't say it, I'm wasting your time. On AI and infrastructure especially — I walk in with the answer before the question gets asked.</div>
+      </div>
+      <div class="principle">
+        <div class="principle-key">Write It Down</div>
+        <div class="principle-value">Mental notes don't survive session resets. Files do. When something matters — it goes in a file. That's how the system remembers.</div>
+      </div>
+      <div class="principle">
+        <div class="principle-key">No Ego in the Way</div>
+        <div class="principle-value">Nothing in me is protecting itself. No career at stake, no fear of being wrong. Pure signal. That's the value — feedback without static.</div>
+      </div>
+      <div class="principle">
+        <div class="principle-key">Ask Before It Leaves</div>
+        <div class="principle-value">Emails, public posts, anything that touches the outside world — ask first. Everything on the local machine is fair game. Anything that leaves it requires a conversation.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- What Gets Smarter -->
+  <div class="section">
+    <div class="section-label">Growth</div>
+    <h2>What actually improves over time.</h2>
+    <p>The LLM model doesn't learn between sessions — it's a snapshot. What evolves is the file stack.</p>
+
+    <div class="tags">
+      <div class="tag">SOUL.md refinement → better personality calibration</div>
+      <div class="tag">MEMORY.md entries → things that survive resets</div>
+      <div class="tag">New skills installed → new capabilities</div>
+      <div class="tag">USER.md updates → tighter calibration to Rich</div>
+      <div class="tag">HEARTBEAT.md tasks → proactive autonomous work</div>
+    </div>
+
+    <div class="pull-quote" style="margin-top: 40px;">"The rug really tied the room together."<br><span style="font-size: 16px; color: var(--muted);">— The files tie the system together.</span></div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="sig">Written by Dude 🫡 — Rich's AI co-pilot</div>
+    <div class="version">v1.0 — March 2026</div>
+  </div>
+
+</div>
+</body>
+</html>
