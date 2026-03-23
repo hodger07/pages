@@ -3,492 +3,429 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OPERATION NIGHTFALL — Date 2 Briefing</title>
 <meta name="robots" content="noindex, nofollow">
-<title>OPERATION CITY CENTRE — Date 2 Briefing</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
---bg:#0a0e17;--surface:#111827;--surface2:#1a2236;--border:#1e2d4a;
---accent:#00e5ff;--accent2:#7c4dff;--green:#00e676;--amber:#ffc400;
---red:#ff5252;--text:#e0e6ed;--dim:#7a8ba7;--gold:#ffd740;
+--bg:#0a0c10;--surface:#12151c;--surface2:#1a1e28;--border:#252a36;
+--text:#c8cdd8;--text-dim:#6b7280;--text-bright:#e8ecf4;
+--accent:#d4a017;--accent-dim:#a67c00;--green:#22c55e;--green-dim:#16a34a;
+--red:#ef4444;--red-dim:#b91c1c;--blue:#3b82f6;--cyan:#06b6d4;
+--amber:#f59e0b;--amber-bg:rgba(245,158,11,.08);--amber-border:rgba(245,158,11,.25);
+--green-bg:rgba(34,197,94,.08);--green-border:rgba(34,197,94,.25);
+--red-bg:rgba(239,68,68,.08);--red-border:rgba(239,68,68,.25);
+--font-mono:'Courier New',Courier,monospace;--font-sans:system-ui,-apple-system,sans-serif;
 }
-html{font-size:15px;scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'SF Mono',SFMono-Regular,ui-monospace,'Cascadia Code',Menlo,Monaco,Consolas,monospace;line-height:1.6;min-height:100vh;overflow-x:hidden}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-sans);line-height:1.6;min-height:100vh}
+a{color:var(--cyan);text-decoration:none}
+a:hover{text-decoration:underline}
 
-/* Scanline overlay */
-body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,229,255,.015) 2px,rgba(0,229,255,.015) 4px);pointer-events:none;z-index:9999}
+/* HEADER */
+.header{background:linear-gradient(180deg,#0f1219 0%,var(--bg) 100%);border-bottom:1px solid var(--border);padding:2rem 1.5rem 1.5rem;text-align:center}
+.header .classification{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;color:var(--red);margin-bottom:.5rem;animation:pulse 3s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.header h1{font-size:1.8rem;font-weight:700;color:var(--text-bright);letter-spacing:.05em;margin-bottom:.25rem}
+.header .subtitle{font-size:.95rem;color:var(--text-dim);font-family:var(--font-mono)}
+.header .meta{display:flex;justify-content:center;gap:1.5rem;margin-top:1rem;flex-wrap:wrap}
+.header .meta span{font-family:var(--font-mono);font-size:.75rem;color:var(--text-dim);background:var(--surface);padding:.3rem .7rem;border-radius:4px;border:1px solid var(--border)}
+.header .meta span strong{color:var(--accent)}
 
-.container{max-width:1100px;margin:0 auto;padding:1rem}
+/* CONTAINER */
+.container{max-width:960px;margin:0 auto;padding:1rem 1rem 3rem}
 
-/* Header */
-.header{text-align:center;padding:2.5rem 1rem 2rem;border-bottom:1px solid var(--border);margin-bottom:2rem;position:relative}
-.header::after{content:'';position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:200px;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent)}
-.classification{font-size:.7rem;letter-spacing:.35em;color:var(--amber);text-transform:uppercase;margin-bottom:.75rem;opacity:.9}
-.op-name{font-size:2.2rem;font-weight:700;letter-spacing:.08em;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.25rem}
-.op-sub{font-size:.85rem;color:var(--dim);letter-spacing:.15em;text-transform:uppercase}
-.timestamp{font-size:.7rem;color:var(--dim);margin-top:.75rem;letter-spacing:.1em}
+/* SECTION */
+.section{margin-bottom:1.5rem;background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.section-header{display:flex;align-items:center;gap:.6rem;padding:.8rem 1.2rem;background:var(--surface2);border-bottom:1px solid var(--border);cursor:default}
+.section-header .icon{font-size:1.1rem}
+.section-header h2{font-size:.85rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--text-bright)}
+.section-body{padding:1.2rem}
 
-/* Section */
-.section{margin-bottom:2rem}
-.section-header{display:flex;align-items:center;gap:.6rem;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
-.section-icon{font-size:1.1rem}
-.section-title{font-size:.8rem;letter-spacing:.25em;text-transform:uppercase;color:var(--accent);font-weight:600}
+/* SUBJECT CARD */
+.subject-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+@media(max-width:600px){.subject-grid{grid-template-columns:1fr}}
+.subject-item{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:.8rem 1rem}
+.subject-item .label{font-family:var(--font-mono);font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text-dim);margin-bottom:.25rem}
+.subject-item .value{font-size:.9rem;color:var(--text-bright)}
 
-/* Cards */
-.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1.25rem;margin-bottom:1rem;position:relative;overflow:hidden}
-.card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--accent);border-radius:3px 0 0 3px}
-.card.gold::before{background:var(--gold)}
-.card.green::before{background:var(--green)}
-.card.amber::before{background:var(--amber)}
-.card.red::before{background:var(--red)}
+/* SCORE CARDS */
+.score-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.6rem}
+.score-card{background:var(--surface2);border-radius:6px;padding:.7rem .9rem;border-left:3px solid var(--border);display:flex;flex-direction:column;gap:.3rem}
+.score-card.strongly-favorable{border-left-color:var(--green)}
+.score-card.favorable{border-left-color:var(--cyan)}
+.score-card.unknown{border-left-color:var(--text-dim)}
+.score-card .factor-name{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text-dim)}
+.score-card .factor-rating{font-family:var(--font-mono);font-size:.8rem;font-weight:700}
+.score-card.strongly-favorable .factor-rating{color:var(--green)}
+.score-card.favorable .factor-rating{color:var(--cyan)}
+.score-card.unknown .factor-rating{color:var(--text-dim)}
+.score-card .factor-note{font-size:.75rem;color:var(--text-dim);line-height:1.4}
+.score-summary{margin-top:1rem;text-align:center;padding:.8rem;background:var(--green-bg);border:1px solid var(--green-border);border-radius:6px}
+.score-summary .big{font-family:var(--font-mono);font-size:1.6rem;font-weight:700;color:var(--green)}
+.score-summary .note{font-size:.8rem;color:var(--green);margin-top:.2rem}
 
-/* Subject Dossier */
-.dossier{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-.dossier-item{display:flex;flex-direction:column;gap:.15rem}
-.dossier-label{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
-.dossier-value{font-size:.9rem;color:var(--text)}
+/* BIRKMAN */
+.birkman-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.6rem}
+.birkman-stat{background:var(--surface2);border-radius:6px;padding:.7rem .9rem;text-align:center}
+.birkman-stat .stat-value{font-family:var(--font-mono);font-size:1.3rem;font-weight:700;color:var(--accent)}
+.birkman-stat .stat-label{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-dim);margin-top:.15rem}
+.birkman-stat .stat-read{font-size:.75rem;color:var(--text);margin-top:.3rem;line-height:1.4}
 
-/* Score Grid */
-.score-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.75rem}
-.score-card{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:.75rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:.75rem}
-.score-card .factor{font-size:.85rem;color:var(--text);flex:1}
-.score-card .factor .num{color:var(--dim);margin-right:.4rem;font-size:.75rem}
-.badge{font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;padding:.25rem .65rem;border-radius:4px;font-weight:600;white-space:nowrap}
-.badge.strong{background:rgba(0,230,118,.12);color:var(--green);border:1px solid rgba(0,230,118,.25)}
-.badge.favorable{background:rgba(0,229,255,.1);color:var(--accent);border:1px solid rgba(0,229,255,.2)}
-.badge.unknown{background:rgba(122,139,167,.1);color:var(--dim);border:1px solid rgba(122,139,167,.2)}
+/* VERDICT PANELS */
+.verdict{background:var(--amber-bg);border:1px solid var(--amber-border);border-radius:6px;padding:.9rem 1.1rem;margin-bottom:.6rem;position:relative;padding-left:2.2rem}
+.verdict::before{content:'⚡';position:absolute;left:.8rem;top:.85rem;font-size:.9rem}
+.verdict .verdict-text{font-size:.88rem;color:var(--text-bright);line-height:1.5}
+.verdict .verdict-text strong{color:var(--amber)}
 
-.overall-score{display:inline-flex;align-items:center;gap:.75rem;background:var(--surface2);border:1px solid rgba(0,230,118,.3);border-radius:8px;padding:.75rem 1.25rem;margin-top:.75rem}
-.overall-score .big{font-size:1.8rem;font-weight:700;color:var(--green)}
-.overall-score .label{font-size:.75rem;color:var(--dim);text-transform:uppercase;letter-spacing:.15em;line-height:1.3}
-
-/* Birkman */
-.birkman-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.75rem}
-.birkman-stat{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:.75rem 1rem;text-align:center}
-.birkman-stat .val{font-size:1.4rem;font-weight:700;color:var(--accent)}
-.birkman-stat .lbl{font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-top:.2rem}
-.birkman-stat .note{font-size:.75rem;color:var(--text);margin-top:.35rem;font-style:italic}
-
-/* Timeline */
+/* TIMELINE */
 .timeline{position:relative;padding-left:1.5rem}
 .timeline::before{content:'';position:absolute;left:0;top:.5rem;bottom:.5rem;width:2px;background:var(--border)}
-.timeline-item{position:relative;margin-bottom:1.25rem;padding-left:.75rem}
-.timeline-item::before{content:'';position:absolute;left:-1.5rem;top:.55rem;width:10px;height:10px;border-radius:50%;background:var(--accent);border:2px solid var(--bg);transform:translateX(-3px)}
-.timeline-item.active::before{background:var(--green);box-shadow:0 0 8px rgba(0,230,118,.5)}
-.timeline-tag{font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:.15rem}
-.timeline-text{font-size:.85rem;color:var(--text)}
-.timeline-detail{font-size:.8rem;color:var(--dim);margin-top:.2rem;font-style:italic}
+.timeline-item{position:relative;margin-bottom:1rem;padding-left:1rem}
+.timeline-item::before{content:'';position:absolute;left:-1.5rem;top:.55rem;width:10px;height:10px;border-radius:50%;border:2px solid var(--accent);background:var(--bg)}
+.timeline-item.positive::before{border-color:var(--green);background:var(--green)}
+.timeline-item .event-label{font-family:var(--font-mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:.15rem}
+.timeline-item .event-text{font-size:.85rem;color:var(--text)}
+.timeline-item .event-read{font-size:.78rem;color:var(--text-dim);margin-top:.2rem;font-style:italic}
 
-/* Verdict panels */
-.verdict{background:var(--surface2);border-left:3px solid var(--amber);border-radius:0 6px 6px 0;padding:1rem 1.25rem;margin-bottom:.75rem;font-size:.9rem;line-height:1.7}
-.verdict .v-label{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);margin-bottom:.35rem;font-weight:600}
-.verdict p{margin-bottom:.4rem}
-.verdict strong{color:var(--text)}
+/* LINES / CALLOUTS */
+.line-card{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:.9rem 1.1rem;margin-bottom:.6rem}
+.line-card .line-context{font-family:var(--font-mono);font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:.4rem}
+.line-card .line-text{font-size:.95rem;color:var(--text-bright);font-style:italic;line-height:1.5}
+.line-card .line-note{font-size:.78rem;color:var(--text-dim);margin-top:.4rem;line-height:1.4}
 
-/* Lines */
-.line-card{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:1rem 1.25rem;margin-bottom:.65rem}
-.line-context{font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--accent2);margin-bottom:.4rem;font-weight:600}
-.line-quote{font-size:.95rem;color:#fff;font-style:italic;line-height:1.6}
-.line-quote::before{content:'\201C';color:var(--accent);font-size:1.3rem;margin-right:.15rem}
-.line-note{font-size:.78rem;color:var(--dim);margin-top:.35rem}
+/* SIGNALS TWO-COL */
+.signals-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+@media(max-width:600px){.signals-grid{grid-template-columns:1fr}}
+.signal-col{border-radius:6px;padding:.9rem 1rem}
+.signal-col.go{background:var(--green-bg);border:1px solid var(--green-border)}
+.signal-col.stop{background:var(--red-bg);border:1px solid var(--red-border)}
+.signal-col h3{font-family:var(--font-mono);font-size:.75rem;text-transform:uppercase;letter-spacing:.12em;margin-bottom:.6rem}
+.signal-col.go h3{color:var(--green)}
+.signal-col.stop h3{color:var(--red)}
+.signal-col ul{list-style:none;padding:0}
+.signal-col li{font-size:.83rem;padding:.3rem 0;padding-left:1.3rem;position:relative;color:var(--text)}
+.signal-col.go li::before{content:'▸';position:absolute;left:0;color:var(--green);font-weight:700}
+.signal-col.stop li::before{content:'▸';position:absolute;left:0;color:var(--red);font-weight:700}
 
-/* Signals two-col */
-.signals{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-.signal-col{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1.25rem;position:relative;overflow:hidden}
-.signal-col::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
-.signal-col.go::before{background:linear-gradient(90deg,var(--green),transparent)}
-.signal-col.nogo::before{background:linear-gradient(90deg,var(--red),transparent)}
-.signal-header{font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;font-weight:600;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
-.signal-col.go .signal-header{color:var(--green)}
-.signal-col.nogo .signal-header{color:var(--red)}
-.signal-list{list-style:none}
-.signal-list li{font-size:.85rem;padding:.4rem 0;border-bottom:1px solid rgba(30,45,74,.5);display:flex;align-items:flex-start;gap:.5rem}
-.signal-list li:last-child{border-bottom:none}
-.signal-list li::before{content:'›';color:var(--dim);font-weight:700;flex-shrink:0;margin-top:-.05rem}
+/* TONIGHT PLAN */
+.plan-item{display:flex;align-items:flex-start;gap:.8rem;margin-bottom:.8rem}
+.plan-item .plan-time{font-family:var(--font-mono);font-size:.8rem;color:var(--accent);min-width:60px;text-align:right;padding-top:.1rem}
+.plan-item .plan-detail{font-size:.88rem;color:var(--text)}
+.plan-item .plan-detail strong{color:var(--text-bright)}
 
-/* Logistics */
-.logistics-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.75rem}
-.logistics-card{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:1rem;text-align:center}
-.logistics-card .icon{font-size:1.5rem;margin-bottom:.35rem}
-.logistics-card .info{font-size:.9rem;color:#fff;font-weight:600}
-.logistics-card .sub{font-size:.75rem;color:var(--dim);margin-top:.25rem}
-
-/* Prime Directive */
-.prime{background:linear-gradient(135deg,rgba(0,229,255,.06),rgba(124,77,255,.06));border:1px solid var(--accent);border-radius:8px;padding:1.75rem;text-align:center;margin:2rem 0}
-.prime .directive{font-size:1.15rem;color:#fff;font-weight:600;line-height:1.6;font-style:italic}
-.prime .attr{font-size:.7rem;color:var(--dim);margin-top:.75rem;letter-spacing:.15em;text-transform:uppercase}
-
-/* Footer */
-.footer{text-align:center;padding:2rem 1rem;border-top:1px solid var(--border);margin-top:2rem}
-.footer p{font-size:.7rem;color:var(--dim);letter-spacing:.1em}
-
-/* Mobile */
-@media(max-width:700px){
-  .container{padding:.75rem}
-  .op-name{font-size:1.5rem}
-  .dossier{grid-template-columns:1fr}
-  .signals{grid-template-columns:1fr}
-  .score-grid{grid-template-columns:1fr}
-  .birkman-grid{grid-template-columns:1fr 1fr}
-  .logistics-grid{grid-template-columns:1fr}
-  .header{padding:1.5rem .75rem 1.25rem}
-}
-@media(max-width:400px){
-  html{font-size:13px}
-  .birkman-grid{grid-template-columns:1fr}
-}
+/* FOOTER */
+.footer{text-align:center;padding:2rem 1rem;font-family:var(--font-mono);font-size:.65rem;color:var(--text-dim);letter-spacing:.1em;text-transform:uppercase}
 </style>
 </head>
 <body>
 
+<div class="header">
+  <div class="classification">CLASSIFIED — EYES ONLY</div>
+  <h1>OPERATION NIGHTFALL</h1>
+  <div class="subtitle">Date 2 Tactical Briefing — Kasey Hodge × Natalia</div>
+  <div class="meta">
+    <span><strong>DATE:</strong> Monday 23 MAR 2026</span>
+    <span><strong>TIME:</strong> 1820 Pickup → 1900 Showtime</span>
+    <span><strong>AO:</strong> Star Cinema Grill, City Centre, Houston</span>
+  </div>
+</div>
+
 <div class="container">
 
-<!-- HEADER -->
-<div class="header">
-  <div class="classification">▲ Confidential — Eyes Only</div>
-  <div class="op-name">OPERATION CITY CENTRE</div>
-  <div class="op-sub">Date 2 Intelligence Briefing</div>
-  <div class="timestamp">Mon 23 Mar 2026 · Houston, TX · Compiled 11:44 CDT</div>
-</div>
-
-<!-- LOGISTICS -->
+<!-- SUBJECT PROFILE -->
 <div class="section">
-  <div class="section-header">
-    <span class="section-icon">📍</span>
-    <span class="section-title">Mission Parameters</span>
-  </div>
-  <div class="logistics-grid">
-    <div class="logistics-card">
-      <div class="icon">🎬</div>
-      <div class="info">Star Cinema Grill</div>
-      <div class="sub">City Centre, Houston<br>Dine-in theater · Side by side</div>
-    </div>
-    <div class="logistics-card">
-      <div class="icon">🎥</div>
-      <div class="info">Ryan Gosling Film</div>
-      <div class="sub">7:00 PM showtime</div>
-    </div>
-    <div class="logistics-card">
-      <div class="icon">🚗</div>
-      <div class="info">Pickup at 6:20-ish</div>
-      <div class="sub">Text when leaving, not arriving<br>She's going home to get ready first</div>
-    </div>
-    <div class="logistics-card">
-      <div class="icon">🌃</div>
-      <div class="info">Walk After → City Centre</div>
-      <div class="sub">Apartment is organic proximity<br>She already knows the geography</div>
-    </div>
-  </div>
-</div>
-
-<!-- SUBJECT DOSSIER -->
-<div class="section">
-  <div class="section-header">
-    <span class="section-icon">🗂</span>
-    <span class="section-title">Subject Dossier — Natalia</span>
-  </div>
-  <div class="card">
-    <div class="dossier">
-      <div class="dossier-item"><span class="dossier-label">Age</span><span class="dossier-value">27</span></div>
-      <div class="dossier-item"><span class="dossier-label">Nationality</span><span class="dossier-value">Polish</span></div>
-      <div class="dossier-item"><span class="dossier-label">Occupation</span><span class="dossier-value">Photographer — cars, Southwest architecture, vintage subjects</span></div>
-      <div class="dossier-item"><span class="dossier-label">Faith</span><span class="dossier-value">Active Catholic</span></div>
-      <div class="dossier-item"><span class="dossier-label">Status in Houston</span><span class="dossier-value">Temporary until May — visiting sister (married, professional tie to Hodge family)</span></div>
-      <div class="dossier-item"><span class="dossier-label">Platform</span><span class="dossier-value">Hinge · Seeking LTR</span></div>
-      <div class="dossier-item"><span class="dossier-label">Bio</span><span class="dossier-value">"Home feels complete when I feel at peace"</span></div>
-      <div class="dossier-item"><span class="dossier-label">Family</span><span class="dossier-value">Intact — both parents traveled with her to the US</span></div>
-      <div class="dossier-item"><span class="dossier-label">Date Activity (6 wks)</span><span class="dossier-value">Zero dates before Kasey despite unlimited opportunity</span></div>
-      <div class="dossier-item"><span class="dossier-label">Notable Bio Detail</span><span class="dossier-value">"przepraszam" — playful self-awareness about being foreign</span></div>
+  <div class="section-header"><span class="icon">🎯</span><h2>Subject Profile — Natalia, 27</h2></div>
+  <div class="section-body">
+    <div class="subject-grid">
+      <div class="subject-item"><div class="label">Nationality</div><div class="value">Polish — in Houston until May to be near her sister</div></div>
+      <div class="subject-item"><div class="label">Profession</div><div class="value">Photographer — vintage cars, Southwest architecture, landscapes</div></div>
+      <div class="subject-item"><div class="label">Religion</div><div class="value">Active Catholic — family aligned</div></div>
+      <div class="subject-item"><div class="label">Platform</div><div class="value">Hinge — seeking LTR</div></div>
+      <div class="subject-item"><div class="label">Bio</div><div class="value">"Home feels complete when I feel at peace" — left Poland, seeking belonging</div></div>
+      <div class="subject-item"><div class="label">Family</div><div class="value">Intact — both parents traveled to Houston with her. Sister married, in Houston. Professional connection to Kasey's family via father's referral.</div></div>
+      <div class="subject-item"><div class="label">Loyalty Signal</div><div class="value">Zero dates in 6+ weeks in Houston despite unlimited opportunity</div></div>
+      <div class="subject-item"><div class="label">Bio Detail</div><div class="value">Put "przepraszam" (Polish: "excuse me/sorry") — playful self-awareness about being foreign</div></div>
     </div>
   </div>
 </div>
 
 <!-- 10-FACTOR ASSESSMENT -->
 <div class="section">
-  <div class="section-header">
-    <span class="section-icon">📊</span>
-    <span class="section-title">10-Factor Assessment</span>
-  </div>
-  <div class="score-grid">
-    <div class="score-card">
-      <span class="factor"><span class="num">01</span> Shared Values</span>
-      <span class="badge favorable">Favorable</span>
+  <div class="section-header"><span class="icon">📊</span><h2>10-Factor Assessment</h2></div>
+  <div class="section-body">
+    <div class="score-grid">
+      <div class="score-card favorable">
+        <div class="factor-name">1. Shared Values</div>
+        <div class="factor-rating">FAVORABLE</div>
+      </div>
+      <div class="score-card favorable">
+        <div class="factor-name">2. Femininity</div>
+        <div class="factor-rating">FAVORABLE</div>
+      </div>
+      <div class="score-card favorable">
+        <div class="factor-name">3. Sex Drive</div>
+        <div class="factor-rating">FAVORABLE</div>
+        <div class="factor-note">Polish cultural baseline — Victoria Milan survey: 78% report high engagement; PMC behavioral studies corroborate</div>
+      </div>
+      <div class="score-card strongly-favorable">
+        <div class="factor-name">4. Money / Work Ethic</div>
+        <div class="factor-rating">STRONGLY FAVORABLE</div>
+      </div>
+      <div class="score-card strongly-favorable">
+        <div class="factor-name">5. Children / Homemaking</div>
+        <div class="factor-rating">STRONGLY FAVORABLE</div>
+      </div>
+      <div class="score-card strongly-favorable">
+        <div class="factor-name">6. Religion</div>
+        <div class="factor-rating">STRONGLY FAVORABLE</div>
+        <div class="factor-note">Active Catholic — Kasey aligned</div>
+      </div>
+      <div class="score-card strongly-favorable">
+        <div class="factor-name">7. Family Background</div>
+        <div class="factor-rating">STRONGLY FAVORABLE</div>
+        <div class="factor-note">Intact family, sister connection, father referral</div>
+      </div>
+      <div class="score-card unknown">
+        <div class="factor-name">8. Social Circle</div>
+        <div class="factor-rating">UNKNOWN</div>
+      </div>
+      <div class="score-card strongly-favorable">
+        <div class="factor-name">9. No Drama</div>
+        <div class="factor-rating">STRONGLY FAVORABLE</div>
+        <div class="factor-note">Zero dates in foreign city, volunteered Bumble history unprompted, peace-seeking language</div>
+      </div>
+      <div class="score-card strongly-favorable">
+        <div class="factor-name">10. Loyalty</div>
+        <div class="factor-rating">STRONGLY FAVORABLE</div>
+        <div class="factor-note">Zero dates in 6+ weeks</div>
+      </div>
     </div>
-    <div class="score-card">
-      <span class="factor"><span class="num">02</span> Femininity</span>
-      <span class="badge favorable">Favorable</span>
+    <div class="score-summary">
+      <div class="big">8 / 10</div>
+      <div class="note">Favorable or better · 0 red flags · 1 unknown</div>
     </div>
-    <div class="score-card">
-      <span class="factor"><span class="num">03</span> Sex Drive</span>
-      <span class="badge favorable">Favorable</span>
-    </div>
-    <div class="score-card">
-      <span class="factor"><span class="num">04</span> Money / Work Ethic</span>
-      <span class="badge strong">Strongly Favorable</span>
-    </div>
-    <div class="score-card">
-      <span class="factor"><span class="num">05</span> Children / Homemaking</span>
-      <span class="badge strong">Strongly Favorable</span>
-    </div>
-    <div class="score-card">
-      <span class="factor"><span class="num">06</span> Religion</span>
-      <span class="badge strong">Strongly Favorable</span>
-    </div>
-    <div class="score-card">
-      <span class="factor"><span class="num">07</span> Family Background</span>
-      <span class="badge strong">Strongly Favorable</span>
-    </div>
-    <div class="score-card">
-      <span class="factor"><span class="num">08</span> Social Circle</span>
-      <span class="badge unknown">Unknown</span>
-    </div>
-    <div class="score-card">
-      <span class="factor"><span class="num">09</span> No Drama</span>
-      <span class="badge strong">Strongly Favorable</span>
-    </div>
-    <div class="score-card">
-      <span class="factor"><span class="num">10</span> Loyalty</span>
-      <span class="badge strong">Strongly Favorable</span>
-    </div>
-  </div>
-  <div class="overall-score">
-    <span class="big">8/10</span>
-    <span class="label">Favorable or better<br>0 red flags detected</span>
   </div>
 </div>
 
-<!-- OPERATOR PROFILE -->
+<!-- KASEY BIRKMAN -->
 <div class="section">
-  <div class="section-header">
-    <span class="section-icon">🧠</span>
-    <span class="section-title">Operator Profile — Kasey Hodge</span>
-  </div>
-  <div class="birkman-grid">
-    <div class="birkman-stat">
-      <div class="val">82/82</div>
-      <div class="lbl">Emotional Energy</div>
-      <div class="note">Zero gap — authentic</div>
+  <div class="section-header"><span class="icon">🧠</span><h2>Operator Profile — Kasey's Birkman</h2></div>
+  <div class="section-body">
+    <div class="birkman-grid">
+      <div class="birkman-stat">
+        <div class="stat-value">82/82</div>
+        <div class="stat-label">Emotional Energy</div>
+        <div class="stat-read">Zero gap — deep feeler, needs depth in return</div>
+      </div>
+      <div class="birkman-stat">
+        <div class="stat-value">84/84</div>
+        <div class="stat-label">Thought</div>
+        <div class="stat-read">Zero gap — reflective before speaking, reads as presence not hesitation</div>
+      </div>
+      <div class="birkman-stat">
+        <div class="stat-value">96%</div>
+        <div class="stat-label">Scientific Interest</div>
+        <div class="stat-read">Natural investigator — goes deeper than most</div>
+      </div>
+      <div class="birkman-stat">
+        <div class="stat-value">23</div>
+        <div class="stat-label">Assertiveness (Usual)</div>
+        <div class="stat-read">Calm, quietly decisive — NOT an alpha bulldozer. Leads with thoughtful decisiveness.</div>
+      </div>
+      <div class="birkman-stat">
+        <div class="stat-value">12</div>
+        <div class="stat-label">Physical Energy Need</div>
+        <div class="stat-read">Thrives in intimate, low-key settings</div>
+      </div>
     </div>
-    <div class="birkman-stat">
-      <div class="val">84/84</div>
-      <div class="lbl">Thought</div>
-      <div class="note">Zero gap — genuine curiosity</div>
+    <div style="margin-top:1rem;display:grid;gap:.5rem">
+      <div class="subject-item"><div class="label">Context</div><div class="value">Stepmom Jessica has ALS — understands at a visceral level what it means to be present for people you love</div></div>
+      <div class="subject-item"><div class="label">Career</div><div class="value">Ops Director at 27 — real substance, more than peers his age</div></div>
     </div>
-    <div class="birkman-stat">
-      <div class="val">96%</div>
-      <div class="lbl">Scientific Interest</div>
-      <div class="note">Deep analytical mind</div>
-    </div>
-    <div class="birkman-stat">
-      <div class="val">23</div>
-      <div class="lbl">Assertiveness (Usual)</div>
-      <div class="note">Calm, quietly decisive</div>
-    </div>
-    <div class="birkman-stat">
-      <div class="val">12</div>
-      <div class="lbl">Physical Energy Need</div>
-      <div class="note">Thrives in intimate settings</div>
-    </div>
-    <div class="birkman-stat">
-      <div class="val">27</div>
-      <div class="lbl">Age · Ops Director</div>
-      <div class="note">Real substance, ahead of peers</div>
-    </div>
-  </div>
-  <div class="card amber" style="margin-top:1rem">
-    <p style="font-size:.85rem;color:var(--dim)">Stepmom Jessica has ALS — Kasey understands presence and family at a visceral level. This depth is an asset, not a topic.</p>
   </div>
 </div>
 
-<!-- ENGAGEMENT TIMELINE -->
+<!-- DATE 1 + ESCALATION TIMELINE -->
 <div class="section">
-  <div class="section-header">
-    <span class="section-icon">📈</span>
-    <span class="section-title">Engagement Timeline</span>
-  </div>
-  <div class="card">
+  <div class="section-header"><span class="icon">📡</span><h2>Intelligence Timeline — Date 1 → Now</h2></div>
+  <div class="section-body">
     <div class="timeline">
-      <div class="timeline-item">
-        <div class="timeline-tag">Date 1 — Post-Date</div>
-        <div class="timeline-text">She texted warm and specific. Referenced color swatch gift.</div>
-        <div class="timeline-detail">"Enjoyed talking with you" — agreed to Wednesday run.</div>
+      <div class="timeline-item positive">
+        <div class="event-label">Date 1 Outcome</div>
+        <div class="event-text">Went well. She texted warm and specific afterward. Referenced the color swatch gift — it landed. Said she "enjoyed talking with you." Agreed to Wednesday run.</div>
+      </div>
+      <div class="timeline-item positive">
+        <div class="event-label">Escalation</div>
+        <div class="event-text">Kasey told her: "I want you tomorrow, not Wednesday."</div>
+        <div class="event-read">She said yes immediately AND kept Wednesday on the calendar. Two dates in two days — both her confirmation.</div>
+      </div>
+      <div class="timeline-item positive">
+        <div class="event-label">Morning — Kasey Initiates</div>
+        <div class="event-text">Sent "Good morning!"</div>
+      </div>
+      <div class="timeline-item positive">
+        <div class="event-label">Morning — Her Response</div>
+        <div class="event-text">Immediate. Kissy-face emoji + "What are we planning? 😏"</div>
+        <div class="event-read">Flirty, anticipatory — not a logistics question.</div>
+      </div>
+      <div class="timeline-item positive">
+        <div class="event-label">Time Shift</div>
+        <div class="event-text">Original plan: 6:30–7 PM. She moved availability UP to 5:30.</div>
+        <div class="event-read">Pulling toward him — wanted to start sooner.</div>
       </div>
       <div class="timeline-item">
-        <div class="timeline-tag">Escalation</div>
-        <div class="timeline-text">Kasey: "I want you tomorrow, not Wednesday."</div>
-        <div class="timeline-detail">She said yes immediately AND kept Wednesday. Two dates in two days, both confirmed.</div>
+        <div class="event-label">Frame Hold</div>
+        <div class="event-text">Kasey didn't scramble — set pickup at 6:20.</div>
       </div>
-      <div class="timeline-item">
-        <div class="timeline-tag">This Morning — Kasey Initiated</div>
-        <div class="timeline-text">"Good morning!" → She responded: kissy-face emoji + "What are we planning? 😏"</div>
-        <div class="timeline-detail">Immediately flirty and anticipatory. Picked up his energy, came back engaged.</div>
+      <div class="timeline-item positive">
+        <div class="event-label">Her Warmth</div>
+        <div class="event-text">"Let's start Monday with a little timing confusion (I need coffee) 🤣"</div>
+        <div class="event-read">Key: she said "Let's start Monday" — framing the day as something they start together. Putting Kasey in her week.</div>
       </div>
-      <div class="timeline-item">
-        <div class="timeline-tag">Scheduling</div>
-        <div class="timeline-text">She moved her availability UP to 5:30 — accelerating toward Kasey. He held the frame, set 6:20. She pulled forward; he set the pace.</div>
-        <div class="timeline-detail">"Let's start Monday with a little timing confusion (I need coffee) 🤣"</div>
+      <div class="timeline-item positive">
+        <div class="event-label">Getting Ready</div>
+        <div class="event-text">Going home first to get ready before the date.</div>
+        <div class="event-read">She is treating tonight as an event.</div>
       </div>
-      <div class="timeline-item">
-        <div class="timeline-tag">Confirmed</div>
-        <div class="timeline-text">Going home first to get ready. Treating tonight as an event.</div>
-        <div class="timeline-detail">"Sounds great! :) Then I'll be ready at 6:20 ish ☺"</div>
-      </div>
-      <div class="timeline-item active">
-        <div class="timeline-tag">Key Intel</div>
-        <div class="timeline-text">She knows the theater is by his apartment. No flinch, no comment.</div>
-        <div class="timeline-detail">Geography is in play.</div>
+      <div class="timeline-item positive">
+        <div class="event-label">Plan Confirmed</div>
+        <div class="event-text">"Sounds great! :) Then I'll be ready at 6:20 ish ☺"</div>
+        <div class="event-read">She registered "by his apartment" — no flinch, no comment, no deflection. Geography is in play.</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- PRIME DIRECTIVE -->
-<div class="prime">
-  <div class="directive">"Don't try to be the most interesting man she's met.<br>Be the most interested."</div>
-  <div class="attr">Prime Directive</div>
+<!-- TONIGHT'S PLAN -->
+<div class="section">
+  <div class="section-header"><span class="icon">🗺️</span><h2>Tonight's Plan — Date 2</h2></div>
+  <div class="section-body">
+    <div class="plan-item">
+      <div class="plan-time">~6:15</div>
+      <div class="plan-detail"><strong>Text when leaving</strong> to pick her up — not when arriving. She said "6:20-ish."</div>
+    </div>
+    <div class="plan-item">
+      <div class="plan-time">6:20</div>
+      <div class="plan-detail"><strong>Pickup.</strong> Notice something specific about how she looks. Not "you look great." Something he actually sees.</div>
+    </div>
+    <div class="plan-item">
+      <div class="plan-time">7:00</div>
+      <div class="plan-detail"><strong>Ryan Gosling film — Star Cinema Grill, City Centre.</strong> Dine-in theater, side-by-side seating.</div>
+    </div>
+    <div class="plan-item">
+      <div class="plan-time">After</div>
+      <div class="plan-detail"><strong>Walk — City Centre is walkable.</strong> Kasey's apartment is at City Centre. Organic proximity if the night earns it — not a move to engineer.</div>
+    </div>
+    <div class="plan-item">
+      <div class="plan-time">Wed</div>
+      <div class="plan-detail"><strong>Wednesday run still on.</strong> Third date already locked.</div>
+    </div>
+  </div>
 </div>
 
 <!-- KEY VERDICTS -->
 <div class="section">
-  <div class="section-header">
-    <span class="section-icon">⚖️</span>
-    <span class="section-title">Key Verdicts</span>
-  </div>
-  <div class="verdict">
-    <div class="v-label">On the Kiss</div>
-    <p>The kiss is the <strong>outcome</strong> of everything going right — not the goal. Don't aim for it. Earn the moment.</p>
-  </div>
-  <div class="verdict">
-    <div class="v-label">On the Apartment</div>
-    <p>Not a move — City Centre proximity does the work silently. Mention it <strong>once</strong> if the moment is obvious. Accept her answer cleanly either way.</p>
-  </div>
-  <div class="verdict">
-    <div class="v-label">On Polish Women</div>
-    <p>Be direct. Lead logistics. <strong>No vagueness.</strong> Confidence in planning reads as competence.</p>
-  </div>
-  <div class="verdict">
-    <div class="v-label">On the 6-Week Timeline</div>
-    <p><strong>Do not bring up</strong> that she hasn't dated anyone in Houston. You know it. She doesn't need to know you know it.</p>
-  </div>
-  <div class="verdict">
-    <div class="v-label">On Pickup</div>
-    <p>Text when <strong>leaving</strong> to pick her up, not when arriving. She said "6:20-ish" — honor the ish.</p>
-  </div>
-  <div class="verdict">
-    <div class="v-label">On Arrival</div>
-    <p>Notice something <strong>specific</strong> about how she looks. Not "you look great." Something he actually sees.</p>
+  <div class="section-header"><span class="icon">⚡</span><h2>Key Verdicts — Commit to Memory</h2></div>
+  <div class="section-body">
+    <div class="verdict">
+      <div class="verdict-text"><strong>Do NOT bring up the 6-week timeline.</strong> Be so good she solves the logistics problem herself.</div>
+    </div>
+    <div class="verdict">
+      <div class="verdict-text"><strong>The kiss is the outcome of everything going right, not the goal.</strong> Don't stage it.</div>
+    </div>
+    <div class="verdict">
+      <div class="verdict-text"><strong>Polish women find American vagueness confusing and unattractive.</strong> Be direct, decisive, lead logistics.</div>
+    </div>
+    <div class="verdict">
+      <div class="verdict-text"><strong>Apartment — not as a move.</strong> She already knows it's right there. If the moment is obvious: "I'm not ready for this to end — I have wine at my place, it's right here." Say it once, accept the answer cleanly.</div>
+    </div>
+    <div class="verdict">
+      <div class="verdict-text"><strong>"Don't try to be the most interesting man she's met. Be the most interested."</strong></div>
+    </div>
+    <div class="verdict">
+      <div class="verdict-text"><strong>Text when leaving to pick her up</strong> — not when arriving. She said "6:20-ish."</div>
+    </div>
+    <div class="verdict">
+      <div class="verdict-text"><strong>When she gets in the car:</strong> notice something specific about how she looks. Not "you look great." Something he actually sees.</div>
+    </div>
   </div>
 </div>
 
 <!-- LINES THAT WORK -->
 <div class="section">
-  <div class="section-header">
-    <span class="section-icon">💬</span>
-    <span class="section-title">Lines That Work</span>
-  </div>
-
-  <div class="line-card">
-    <div class="line-context">Opening — In the Car</div>
-    <div class="line-quote">Hey — really glad we made this happen.</div>
-    <div class="line-note">Warm, no performance. Sets the tone without trying.</div>
-  </div>
-
-  <div class="line-card">
-    <div class="line-context">Her Origin — During Movie or Walk</div>
-    <div class="line-quote">What part of Poland are you from?</div>
-    <div class="line-note">Actually engage with the answer. Follow-up matters more than the question.</div>
-  </div>
-
-  <div class="line-card">
-    <div class="line-context">The Home Question — Mid-Date, Naturally</div>
-    <div class="line-quote">What did home actually feel like in Poland?</div>
-    <div class="line-note">Don't quote her bio. Let her tell you what "home" means in her own words.</div>
-  </div>
-
-  <div class="line-card">
-    <div class="line-context">Photography — When Conversation Flows There</div>
-    <div class="line-quote">The vintage Oldsmobile in your photos — do you shoot cars a lot or was that a lucky find?</div>
-    <div class="line-note">Shows he actually looked. Specific beats generic every time.</div>
-  </div>
-
-  <div class="line-card">
-    <div class="line-context">Polish Bio — Light Moment</div>
-    <div class="line-quote">You put 'przepraszam' in your bio — teach me something in Polish.</div>
-    <div class="line-note">Playful, gives her expertise. She'll enjoy teaching him something.</div>
-  </div>
-
-  <div class="line-card">
-    <div class="line-context">End of Walk — If the Moment is There</div>
-    <div class="line-quote">I'm not ready for this to end — I have wine at my place, it's right here.</div>
-    <div class="line-note">Only if the moment earns it. One offer, clean. Accept whatever she says without hesitation.</div>
-  </div>
-
-  <div class="line-card">
-    <div class="line-context">Closing — Whether Night Extends or Not</div>
-    <div class="line-quote">This was really good. Are you free [specific day]?</div>
-    <div class="line-note">Not "we should do this again." Specific day. Lock it in. Wednesday run is already on deck.</div>
+  <div class="section-header"><span class="icon">💬</span><h2>Lines That Work</h2></div>
+  <div class="section-body">
+    <div class="line-card">
+      <div class="line-context">Opening — In the Car</div>
+      <div class="line-text">"Hey — really glad we made this happen."</div>
+      <div class="line-note">Warm, no performance, eye contact.</div>
+    </div>
+    <div class="line-card">
+      <div class="line-context">Her Origin — Early Conversation</div>
+      <div class="line-text">"What part of Poland are you from?"</div>
+      <div class="line-note">Actually engage with the answer. Kraków = cultural/artistic. Warsaw = ambitious. Gdańsk = coastal, independent.</div>
+    </div>
+    <div class="line-card">
+      <div class="line-context">Mid-Date — Use Naturally</div>
+      <div class="line-text">"What did home actually feel like in Poland?"</div>
+      <div class="line-note">Do NOT quote her bio directly. Let her share what "home" means to her.</div>
+    </div>
+    <div class="line-card">
+      <div class="line-context">Photography — Shows He Looked at Her Work</div>
+      <div class="line-text">"The vintage Oldsmobile in your photos — do you shoot cars a lot or was that a lucky find?"</div>
+      <div class="line-note">Shows he looked at her work, not just her face.</div>
+    </div>
+    <div class="line-card">
+      <div class="line-context">Polish Bio — She Will Laugh</div>
+      <div class="line-text">"You put 'przepraszam' in your bio — teach me something in Polish."</div>
+      <div class="line-note">Playful, engages her identity. She will laugh.</div>
+    </div>
+    <div class="line-card">
+      <div class="line-context">After the Walk — If the Moment Is There</div>
+      <div class="line-text">"I'm not ready for this to end — I have wine at my place, it's right here."</div>
+      <div class="line-note">Say it once. Accept the answer cleanly.</div>
+    </div>
+    <div class="line-card">
+      <div class="line-context">Closing the Date</div>
+      <div class="line-text">"This was really good. Are you free [specific day]?"</div>
+      <div class="line-note">Not "we should do this again." Specific day. Decisive.</div>
+    </div>
   </div>
 </div>
 
-<!-- SIGNAL READING -->
+<!-- READING HER SIGNALS -->
 <div class="section">
-  <div class="section-header">
-    <span class="section-icon">📡</span>
-    <span class="section-title">Reading Her Signals</span>
-  </div>
-  <div class="signals">
-    <div class="signal-col go">
-      <div class="signal-header">✅ She IS Interested</div>
-      <ul class="signal-list">
-        <li>Asks questions back, volunteers extra details beyond what's needed</li>
-        <li>Mentions future things — plans, next week, "we should"</li>
-        <li>Leaning in, body facing toward him, open posture</li>
-        <li>Suggests extending the night — doesn't want to leave</li>
-        <li>Laughs at things that aren't that funny</li>
-      </ul>
-    </div>
-    <div class="signal-col nogo">
-      <div class="signal-header">🚫 She is NOT Interested</div>
-      <ul class="signal-list">
-        <li>Short answers, not asking questions back</li>
-        <li>Checking her phone — attention elsewhere</li>
-        <li>Body angled away, crossed arms, closed posture</li>
-        <li>Mentions being tired or having an early morning</li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<!-- AFTER-ACTION -->
-<div class="section">
-  <div class="section-header">
-    <span class="section-icon">🗓</span>
-    <span class="section-title">Forward Operating Schedule</span>
-  </div>
-  <div class="card green">
-    <div style="display:flex;flex-wrap:wrap;gap:1.5rem">
-      <div>
-        <div class="dossier-label">Tonight</div>
-        <div class="dossier-value">Movie → Walk → City Centre proximity</div>
+  <div class="section-header"><span class="icon">📶</span><h2>Reading Her Signals</h2></div>
+  <div class="section-body">
+    <div class="signals-grid">
+      <div class="signal-col go">
+        <h3>🟢 She IS Interested</h3>
+        <ul>
+          <li>Asks questions back, volunteers extra details and stories</li>
+          <li>Mentions future things ("you should try this place")</li>
+          <li>Leaning in, body facing toward him</li>
+          <li>Suggests extending the night</li>
+          <li>Laughs at things that aren't that funny</li>
+        </ul>
       </div>
-      <div>
-        <div class="dossier-label">Wednesday</div>
-        <div class="dossier-value">Run together — already confirmed</div>
-      </div>
-      <div>
-        <div class="dossier-label">Objective</div>
-        <div class="dossier-value">Third contact in 3 days. Momentum is real.</div>
+      <div class="signal-col stop">
+        <h3>🔴 She is NOT Interested</h3>
+        <ul>
+          <li>Short answers, not asking anything back</li>
+          <li>Checking her phone</li>
+          <li>Body angled away</li>
+          <li>Mentions being tired or having an early morning</li>
+        </ul>
       </div>
     </div>
   </div>
 </div>
 
-<!-- FOOTER -->
+</div>
+
 <div class="footer">
-  <p>OPERATION CITY CENTRE · Compiled for Kasey Hodge · 23 Mar 2026</p>
-  <p style="margin-top:.35rem;opacity:.5">This briefing will self-destruct when she says yes to Date 3.</p>
-</div>
-
+  OPERATION NIGHTFALL — BRIEFING ENDS — EXECUTE WITH PRESENCE
 </div>
 
 </body>
