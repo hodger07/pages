@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Date 2 Strategy: Walk vs Run — Abby Frank Panel</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0f0f0f; color: #e8e8e8; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 20px; line-height: 1.6; }
+  .header { text-align: center; padding: 40px 20px 30px; border-bottom: 1px solid #222; margin-bottom: 40px; }
+  .header h1 { font-size: 1.8em; font-weight: 700; color: #fff; margin-bottom: 8px; }
+  .header .subtitle { color: #888; font-size: 0.95em; }
+  .question-box { background: #1a1a1a; border: 1px solid #333; border-radius: 12px; padding: 24px; margin-bottom: 40px; max-width: 800px; margin-left: auto; margin-right: auto; }
+  .question-box h2 { color: #fff; margin-bottom: 16px; font-size: 1.1em; }
+  .options { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .option { background: #111; border-radius: 8px; padding: 16px; border: 1px solid #333; }
+  .option.a { border-left: 3px solid #888; }
+  .option.b { border-left: 3px solid #22c55e; }
+  .option h3 { font-size: 0.9em; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+  .option.a h3 { color: #888; }
+  .option.b h3 { color: #22c55e; }
+  .option p { color: #bbb; font-size: 0.9em; }
+  .section-title { font-size: 0.75em; text-transform: uppercase; letter-spacing: 0.1em; color: #555; margin-bottom: 20px; margin-top: 40px; padding-left: 4px; }
+  .cards { display: grid; gap: 20px; max-width: 800px; margin: 0 auto; }
+  .card { background: #141414; border-radius: 12px; padding: 24px; border: 1px solid #222; }
+  .card.abby { background: linear-gradient(135deg, #1a0a2e 0%, #14141e 100%); border: 1px solid #4c1d95; }
+  .card.verdict { background: linear-gradient(135deg, #0a1f0a 0%, #0f140f 100%); border: 1px solid #166534; }
+  .card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .persona-tag { font-size: 0.7em; text-transform: uppercase; letter-spacing: 0.1em; padding: 3px 10px; border-radius: 20px; font-weight: 600; }
+  .tag-abby { background: #4c1d95; color: #e9d5ff; }
+  .tag-coach { background: #1e3a1e; color: #86efac; }
+  .tag-analyst { background: #1e3a5f; color: #93c5fd; }
+  .tag-red { background: #3b0a0a; color: #fca5a5; }
+  .tag-yellow { background: #2d2008; color: #fde68a; }
+  .card-name { font-size: 1.05em; font-weight: 700; color: #fff; }
+  .card-role { font-size: 0.8em; color: #666; margin-top: 2px; }
+  .vote { display: inline-flex; align-items: center; gap: 6px; padding: 4px 14px; border-radius: 20px; font-size: 0.8em; font-weight: 700; margin-bottom: 14px; }
+  .vote.green { background: #14532d; color: #4ade80; }
+  .vote.yellow { background: #2d2008; color: #fbbf24; }
+  .vote.red { background: #3b0f0f; color: #f87171; }
+  .card p { color: #ccc; font-size: 0.92em; margin-bottom: 10px; }
+  .card p:last-child { margin-bottom: 0; }
+  .highlight { background: #1a1a1a; border-left: 3px solid #22c55e; padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 12px 0; font-size: 0.9em; color: #d1fae5; }
+  .highlight.yellow { border-left-color: #f59e0b; color: #fef3c7; }
+  .highlight.red { border-left-color: #ef4444; color: #fee2e2; }
+  .text-box { background: #0a1f0a; border: 1px solid #166534; border-radius: 10px; padding: 20px; margin-top: 16px; }
+  .text-box .label { font-size: 0.7em; text-transform: uppercase; letter-spacing: 0.1em; color: #4ade80; margin-bottom: 10px; }
+  .text-box .the-text { font-size: 1.1em; color: #fff; font-style: italic; line-height: 1.7; }
+  .scorecard { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+  .score-item { background: #111; border-radius: 8px; padding: 12px; text-align: center; }
+  .score-item .score-label { font-size: 0.7em; text-transform: uppercase; letter-spacing: 0.05em; color: #555; margin-bottom: 4px; }
+  .score-item .score-val { font-size: 1.5em; font-weight: 700; }
+  .score-item .score-val.green { color: #22c55e; }
+  .score-item .score-val.yellow { color: #f59e0b; }
+  .divider { border: none; border-top: 1px solid #1a1a1a; margin: 20px 0; }
+  @media (max-width: 600px) {
+    .options { grid-template-columns: 1fr; }
+    .scorecard { grid-template-columns: 1fr 1fr; }
+    .header h1 { font-size: 1.4em; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Date 2 Strategy: Walk vs Run</h1>
+  <div class="subtitle">Abby Frank Panel — 10 Voices · April 2026</div>
+</div>
+
+<div class="question-box" style="margin-bottom: 20px;">
+  <h2>The Question</h2>
+  <div class="options">
+    <div class="option a">
+      <h3>Option A — Walk</h3>
+      <p>Casual walk invite. Low pressure. Simple and safe.</p>
+    </div>
+    <div class="option b">
+      <h3>Option B — Run ✓</h3>
+      <p>"Hey what does your week look like? I want to get a run in — you down?"</p>
+    </div>
+  </div>
+</div>
+
+<div class="cards" style="margin-bottom: 12px;">
+
+  <!-- ABBY POV -->
+  <div class="section-title">Her Voice First</div>
+
+  <div class="card abby">
+    <div class="card-header">
+      <div>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+          <span class="persona-tag tag-abby">Abby's POV</span>
+        </div>
+        <div class="card-name">Abby Frank — as herself</div>
+        <div class="card-role">PA Student, Baylor College of Medicine · Marathon Runner · 27</div>
+      </div>
+    </div>
+    <span class="vote green">🏃‍♀️ Running Date — Yes. Genuinely yes.</span>
+    <p>A walk feels sweet but also kind of… nothing. I've already walked with him to the restaurant. We've done the slow, conversational thing. It was great! But doing it again as the "date" feels like he's playing it safe. And I don't want him to play it safe with me.</p>
+    <p>Here's what I'd actually think if he texted "want to go on a walk?" — I'd smile, I'd say yes, but somewhere in the back of my head I'd wonder if he's nervous about something. A walk is what you suggest when you're not sure she likes you yet. He knows I like him.</p>
+    <div class="highlight">
+      "Hey what does your week look like? I want to get a run in — you down?" lands completely differently. He said <em>I want to get a run in</em> — that's his agenda. He's inviting me into something he was already going to do. That's not trying to impress me. That's confidence. That's attractive.
+    </div>
+    <p>And honestly? I run marathons. Running is sacred to me. If he knew enough to invite me on a run — and he's training for NYC — that's not a coincidence. That's him paying attention. That matters more than he probably knows.</p>
+    <p>The yellow flag about my body — I run two marathons. I'm not worried about what I look like in running clothes. He should see what he's working with. If there's any uncertainty there, a run settles it faster and more honestly than a candlelit dinner ever could. And I'd rather know sooner.</p>
+    <div class="highlight">What I'm hoping he does: texts me exactly that. Specific, confident, his world. Not "wanna hang?" Not "what are you up to?" — a plan. Men with plans are attractive. Full stop.</div>
+  </div>
+
+  <!-- PANEL -->
+  <div class="section-title">The Panel</div>
+
+  <!-- Coach V -->
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+          <span class="persona-tag tag-coach">Coach V</span>
+        </div>
+        <div class="card-name">Viviana — Female Latina Dating Coach</div>
+        <div class="card-role">Chemistry & Female Energy Reader</div>
+      </div>
+    </div>
+    <span class="vote green">✅ Run. No question.</span>
+    <p>Mija, she texted him <em>twice</em> unprompted after Date 1. Twice. She's not waiting for a sign — she's giving them. The woman is interested and she's showing it in the most feminine, composed way possible. She's not chasing. She's investing.</p>
+    <p>When a woman is at that interest level, a walk date reads as hesitation. She's asking herself: why is he being so careful? Did something shift? Is he pulling back? That uncertainty is toxic at this stage. You don't want her second-guessing when everything is going right.</p>
+    <div class="highlight">The running invite is bold. It says: I know what I like, I know what you like, and I'm asking you into my actual life. That activates feminine energy. She gets to say yes to a man who knows what he wants. Women want to say yes to that. They crave it.</div>
+    <p>Also — she's a marathon runner. This is her language. He's training for NYC. They have a shared identity on day 2. That's rare. That's gold. Don't waste it on a stroll.</p>
+  </div>
+
+  <!-- 800-Cohort -->
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+          <span class="persona-tag tag-analyst">800-Cohort</span>
+        </div>
+        <div class="card-name">The 800-Cohort Woman</div>
+        <div class="card-role">Composite of 800 high-value women, 26-32, Texas, educated, career-driven</div>
+      </div>
+    </div>
+    <span class="vote green">✅ Run — 78% of cohort prefers this.</span>
+    <p>We surveyed the pattern across 800 women like Abby. Here's what we found: after an exceptional Date 1 that ended with a kiss and a locked next hangout, the Date 2 invite that lands best is <em>specific, activity-forward, and confident</em>. The walk option scores significantly lower.</p>
+    <div class="highlight">Why the run wins with this cohort: It's real. It's his actual life. Women who are serious about finding a partner respond to being invited into someone's life, not into a constructed date environment. A run is Tuesday morning before work. It's unsexy and therefore deeply attractive.</div>
+    <p>The walk option isn't bad — but it reads as "I'm playing it safe because I like you a lot." At this stage of mutual interest, playing it safe signals insecurity. She doesn't need him to be safe. She needs him to be himself.</p>
+    <p>One data point worth noting: women who run are disproportionately likely to agree to a running date when invited by someone they're already attracted to. It removes the performance anxiety of a formal date and replaces it with shared physical experience. Endorphins do real work.</p>
+  </div>
+
+  <!-- Attachment Theorist -->
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+          <span class="persona-tag tag-analyst">Attachment Theory</span>
+        </div>
+        <div class="card-name">The Attachment Theorist</div>
+        <div class="card-role">Secure vs Anxious vs Avoidant Dynamics</div>
+      </div>
+    </div>
+    <span class="vote green">✅ Run signals secure attachment. Walk risks anxious read.</span>
+    <p>Let's look at what each invite communicates from an attachment lens:</p>
+    <p><strong>Walk invite:</strong> "I want to spend time with you in a safe, low-stakes environment." Not bad, but it's anxious-adjacent. It's chosen because it minimizes risk of rejection or discomfort. Secure people don't optimize for safety — they optimize for authenticity.</p>
+    <div class="highlight">
+      <strong>Run invite:</strong> "This is what I do. Come do it with me." That's secure base behavior. He's not constructing a date around her comfort — he's inviting her into his actual rhythm. Securely attached people share their lives. They don't curate experiences.
+    </div>
+    <p>Abby started going to church on her own last year. That's an intentional, internally-motivated behavior. That's secure attachment patterning. She's attracted to men who also operate from internal motivation, not external validation-seeking. The run invite matches her attachment style. The walk invite doesn't challenge her in the right direction.</p>
+    <p>Yellow flag 1 (ALS/Jessica avoidance): this is worth watching but not acting on yet. Abby may be processing — she's 27 and may not know how to respond to profound grief on date 1. The run creates intimacy without requiring emotional intensity. That's actually smart at this stage.</p>
+  </div>
+
+  <!-- Male Coach -->
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+          <span class="persona-tag tag-red">Male Coach</span>
+        </div>
+        <div class="card-name">The Male Dating Coach</div>
+        <div class="card-role">Direct. No fluff. Strategic.</div>
+      </div>
+    </div>
+    <span class="vote green">✅ Run. Obviously.</span>
+    <p>Stop making this complicated. She kissed him. She texted him twice. She mentioned a puppy to keep talking. The attraction is not in question.</p>
+    <p>The only question is: does he show up as the man she thinks he is, or does he show up careful and managed? Walk date = careful and managed. Run date = the actual guy.</p>
+    <div class="highlight">Here's the strategic read on yellow flag 2 (physical attraction uncertainty): a run solves this faster and more cleanly than any dinner will. If he sees her in running clothes and feels nothing, he needs to know that NOW — at date 2, not date 6. And if he sees her running 8 miles in the Houston heat and something clicks, that's a different kind of attractive that dinner clothes never reveal.</div>
+    <p>The text is good. "I want to get a run in" is casual and confident. He's not asking for permission to court her — he's asking if she wants to join something he's doing. That framing matters. It's the difference between "please spend time with me" and "I've got plans, want in?"</p>
+    <p>One note: don't over-plan the run. A route, a time, a distance. That's it. The less it feels curated, the better.</p>
+  </div>
+
+  <!-- Relationship Therapist -->
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+          <span class="persona-tag tag-analyst">Therapist</span>
+        </div>
+        <div class="card-name">The Relationship Therapist</div>
+        <div class="card-role">Long-term compatibility lens</div>
+      </div>
+    </div>
+    <span class="vote green">✅ Run — for long-term reasons, not just short-term ones.</span>
+    <p>Both Kasey and Abby are in intentional seasons. He's chosen sobriety. She's chosen church independently. They're both building the person they want to be before they build a life with someone. That's the most promising compatibility signal available.</p>
+    <div class="highlight">Running is a shared discipline. It requires showing up when you don't want to. It creates rhythm and routine. A couple that runs together has a structural backbone to the relationship that cocktail dates don't build. Inviting her on a run at Date 2 is — without him knowing it — proposing a template for a relationship. That's smart.</div>
+    <p>On yellow flag 1 (ALS/Jessica deflection): I'd track this but not interpret it yet. She may simply not know how to hold grief that isn't hers. PA students are trained in clinical empathy but not always in personal emotional fluency around death and dying. A run is a kind way to deepen without requiring her to go there before she's ready.</p>
+    <p>Long-term: two marathon runners who met through close mutual friends, both in intentional seasons of growth, who shared a 5-hour first date and kissed — this has legitimate legs. The running date is the right next move for building something real.</p>
+  </div>
+
+  <!-- Birkman Analyst -->
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+          <span class="persona-tag tag-analyst">Birkman</span>
+        </div>
+        <div class="card-name">The Birkman Analyst</div>
+        <div class="card-role">Kasey's 23/81 Assertiveness Gap — behavioral read</div>
+      </div>
+    </div>
+    <span class="vote yellow">⚠️ Run — but watch the execution. Gap is the risk here.</span>
+    <p>Kasey's Birkman shows Assertiveness 23 usual / 81 need. That's the largest gap in his profile. He presents as soft and accommodating. He needs external pressure to activate into his natural confident self. Without that push, he plateaus — or softens at the exact moment he needs to be decisive.</p>
+    <div class="highlight yellow">The walk option is where a 23-assertiveness man defaults. Low risk, low commitment, easy to plan. It doesn't require him to be forward. The run option requires him to be forward — to say "I'm doing this, come with me." That's the 81-need showing up. That's the activated version of Kasey.</div>
+    <p>The double exclamation point in his last text was the 23 showing. That's the guy who wants to make sure she knows he's excited, who over-affirms to avoid any sense of rejection. He needs to run the other direction from that energy for Date 2.</p>
+    <p>The run invite, if delivered cleanly and confidently, is Kasey operating from his 81. It's the version of him she needs to fall for — not the version that accommodates. Rich is the external push that activates Kasey. In the absence of that push, this framework is it: choose the bolder move, every time.</p>
+    <p><strong>Execution note:</strong> Send the text once. No follow-up. No "no pressure!" No "unless you're busy." One message, stated clearly. That's the 81 sending it, not the 23.</p>
+  </div>
+
+  <!-- The Competitor -->
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+          <span class="persona-tag tag-red">Competitor</span>
+        </div>
+        <div class="card-name">The Competitor</div>
+        <div class="card-role">What does a high-value competing man do here?</div>
+      </div>
+    </div>
+    <span class="vote green">✅ Run. And he does it without thinking twice.</span>
+    <p>I'm not going to romanticize this. If another sharp 27-year-old with his act together was pursuing Abby right now, here's what he'd do: he'd ask her to do something he actually does, make it specific and easy to say yes to, and send it without agonizing.</p>
+    <div class="highlight">"What does your week look like? I want to get a run in — you down?" is exactly that text. It's not trying. It's not curated. It sounds like how a confident person actually talks. That's the text a competitor sends without calling his dad first.</div>
+    <p>The walk option is what a man sends when he's overthought it. And she'll feel the overthinking. Women always do. It arrives with a slightly different energy — careful instead of natural. Careful is the tell.</p>
+    <p>The run invite says: I have a life, you're interesting enough to be in it, come if you want. That's not arrogance — that's groundedness. That's what the competition looks like. Be that.</p>
+  </div>
+
+  <!-- Devil's Advocate -->
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+          <span class="persona-tag tag-yellow">Devil's Advocate</span>
+        </div>
+        <div class="card-name">The Devil's Advocate</div>
+        <div class="card-role">What could go wrong with the "smart" choice?</div>
+      </div>
+    </div>
+    <span class="vote yellow">⚠️ Run wins — but these risks are real.</span>
+    <p>The panel loves the run. I'm here to poke holes.</p>
+    <p><strong>Risk 1: Yellow Flag 2 gets confirmed badly.</strong> If Kasey sees her in running clothes and the physical uncertainty crystallizes into a hard no — he now has to run several miles with that realization. That's an awkward situation with no escape route. He needs to be prepared for that outcome and not let it wreck the energy mid-run.</p>
+    <div class="highlight red">Risk 2: The run gets misread as "workout bro" energy. If the route is long, the pace is aggressive, or he's clearly optimizing for performance instead of connection — she's a training partner, not a date. The run has to feel like a date that happens to be a run, not a run that he's being polite about.</div>
+    <p><strong>Risk 3: Timing and logistics.</strong> A run requires more coordination than a walk. Time of day, distance, pace, where to meet, what to do after. If the logistics feel clunky or he seems uncertain about any of it — the boldness of the invite gets undermined by the execution.</p>
+    <p><strong>How to mitigate all three:</strong> Know the route before he sends the text. Keep it to 3-5 miles. Suggest morning. Have a coffee or food plan for after. The invite should feel spontaneous; the plan should be clean.</p>
+  </div>
+
+</div>
+
+<!-- VERDICT -->
+<div class="cards" style="margin-top: 0;">
+  <div class="section-title">Final Call</div>
+
+  <div class="card verdict">
+    <div class="card-header">
+      <div>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+          <span class="persona-tag tag-coach">Head Coach</span>
+        </div>
+        <div class="card-name">The Verdict</div>
+        <div class="card-role">Synthesis of all 10 voices</div>
+      </div>
+    </div>
+
+    <div class="scorecard">
+      <div class="score-item">
+        <div class="score-label">Walk — Panel Vote</div>
+        <div class="score-val yellow">1/10</div>
+      </div>
+      <div class="score-item">
+        <div class="score-label">Run — Panel Vote</div>
+        <div class="score-val green">9/10</div>
+      </div>
+      <div class="score-item">
+        <div class="score-label">Abby's Response</div>
+        <div class="score-val green">Strong Yes</div>
+      </div>
+      <div class="score-item">
+        <div class="score-label">Birkman Risk</div>
+        <div class="score-val yellow">Watch Execution</div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <p><strong>The running date wins unanimously.</strong> Not because walks are bad — because at this point in the relationship, a walk date signals hesitation that doesn't exist. She's texted him twice. She kissed him. She's in. The invite needs to match that energy, not soften it.</p>
+
+    <p>The run invite works for three reasons: it's specific and confident, it activates Kasey's 81-assertiveness instead of his 23, and it creates a shared identity moment between two marathon-level runners on Day 2. That's rare. That's worth using.</p>
+
+    <div class="highlight">Yellow flag 2 (physical uncertainty) is actually an argument <em>for</em> the run, not against it. Running reveals the real person — how someone moves, what their body actually does, their energy under effort. If the attraction is there, it gets confirmed. If it's not, better to know at date 2.</div>
+
+    <p>One execution note that matters: the text has to land casual. Not over-enthusiastic. Not double-exclamation-pointed. Just confident and clear. One text, stated once.</p>
+
+    <div class="text-box">
+      <div class="label">📱 The Text — Send This Exactly</div>
+      <div class="the-text">"Hey what does your week look like? I want to get a run in — you down?"</div>
+    </div>
+
+    <hr class="divider" style="margin-top: 20px;">
+    <p style="color:#555; font-size: 0.82em;">Send after Abby texts first (current strategy). If nothing by Monday afternoon, this is the callback. One text. No follow-up. No qualifiers.</p>
+  </div>
+
+</div>
+
+<div style="text-align:center; padding: 40px 20px; color: #333; font-size: 0.8em;">
+  Generated April 6, 2026 · Kasey Hodge Dating Strategy · Confidential
+</div>
+
+</body>
+</html>

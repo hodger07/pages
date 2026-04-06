@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Investment War Room</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#050508;--card:#0a0a10;--card-border:#1a1a2e;--text:#e0e0e8;--text-dim:#8888a0;--text-bright:#ffffff}
+html{font-size:14px}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* TICKER */
+.ticker-wrap{background:#08080f;border-bottom:1px solid #1a1a2e;overflow:hidden;white-space:nowrap;height:36px;display:flex;align-items:center;position:sticky;top:0;z-index:100}
+.ticker-track{display:inline-block;animation:tickerScroll 45s linear infinite;white-space:nowrap}
+.ticker-track:hover{animation-play-state:paused}
+@keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.ticker-item{display:inline-block;padding:0 24px;font-size:0.78rem;font-weight:600;letter-spacing:0.5px}
+.ticker-up{color:#22c55e}.ticker-down{color:#ef4444}.ticker-warn{color:#f59e0b}.ticker-neutral{color:#94a3b8}
+
+/* HEADER */
+.header{text-align:center;padding:28px 20px 18px;border-bottom:1px solid #1a1a2e;background:linear-gradient(180deg,#0a0a14 0%,#050508 100%)}
+.header-top{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:8px}
+.live-dot{width:10px;height:10px;border-radius:50%;background:#ef4444;animation:livePulse 1.5s ease-in-out infinite;box-shadow:0 0 8px #ef4444}
+@keyframes livePulse{0%,100%{opacity:1;box-shadow:0 0 8px #ef4444}50%{opacity:0.3;box-shadow:0 0 2px #ef4444}}
+.header h1{font-size:1.8rem;font-weight:900;letter-spacing:8px;color:#fff;text-transform:uppercase}
+.header .subtitle{font-size:0.78rem;color:var(--text-dim);letter-spacing:1.5px;margin-top:4px}
+.header .date{font-size:0.72rem;color:#666;margin-top:4px;letter-spacing:1px}
+
+/* GRID */
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:16px;max-width:1600px;margin:0 auto}
+@media(max-width:1200px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.grid{grid-template-columns:1fr;gap:10px;padding:10px}}
+
+/* CARD */
+.card{background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:16px;transition:all 0.5s ease;position:relative;overflow:hidden}
+.card.active{opacity:1!important;transform:translateY(-3px);z-index:10}
+.card.inactive{opacity:0.6}
+.card:hover{opacity:0.9!important}
+.card-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.72rem;color:#fff;flex-shrink:0;letter-spacing:1px}
+.card-name{font-weight:700;font-size:0.88rem;color:#fff}
+.card-title{font-size:0.68rem;color:var(--text-dim);margin-top:1px}
+.tagline{font-size:0.72rem;color:var(--text-dim);font-style:italic;margin-bottom:10px;line-height:1.4;min-height:32px}
+
+/* SPEECH BUBBLE */
+.speech{background:#0f0f1a;border:1px solid #1e1e35;border-radius:8px;padding:12px;margin-bottom:12px;min-height:90px;position:relative;transition:border-color 0.5s}
+.speech-text{font-size:0.78rem;line-height:1.55;color:var(--text);opacity:1;transition:opacity 0.4s}
+.speech-text.fading{opacity:0}
+
+/* ALLOCATION TABLE */
+.alloc-table{width:100%;margin-bottom:10px}
+.alloc-table td{font-size:0.7rem;padding:2px 0;vertical-align:middle}
+.alloc-table .alloc-asset{color:var(--text-dim);width:40%}
+.alloc-table .alloc-pct{color:#fff;font-weight:600;width:20%;text-align:right}
+.alloc-table .alloc-amt{color:var(--text-dim);width:40%;text-align:right;font-size:0.65rem}
+
+/* CONFIDENCE BAR */
+.conf-wrap{margin-top:6px}
+.conf-label{font-size:0.65rem;color:var(--text-dim);margin-bottom:3px;display:flex;justify-content:space-between}
+.conf-bar-bg{height:4px;background:#1a1a2e;border-radius:2px;overflow:hidden}
+.conf-bar{height:100%;border-radius:2px;transition:width 1s ease}
+
+/* CONSENSUS PANEL */
+.consensus{max-width:1600px;margin:0 auto;padding:0 16px 16px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:900px){.consensus{grid-template-columns:1fr}}
+.panel{background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:20px}
+.panel-title{font-size:0.85rem;font-weight:700;color:#fff;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+.alloc-bar-wrap{margin-bottom:10px}
+.alloc-bar-label{display:flex;justify-content:space-between;font-size:0.75rem;margin-bottom:4px}
+.alloc-bar-label span:first-child{color:var(--text)}
+.alloc-bar-label span:last-child{color:var(--text-dim)}
+.alloc-bar-outer{height:22px;background:#1a1a2e;border-radius:4px;overflow:hidden}
+.alloc-bar-inner{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:8px;font-size:0.7rem;font-weight:700;color:#fff;transition:width 1.5s ease}
+
+/* VOTE */
+.vote-row{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:0.78rem;border-bottom:1px solid #111}
+.vote-row:last-child{border:none}
+.vote-name{width:180px;color:var(--text-dim)}
+.vote-pick{font-weight:700;color:#fff}
+.vote-tally{margin-top:14px;padding:12px;background:#0f0f1a;border-radius:8px;font-size:0.8rem;line-height:1.6}
+.vote-tally strong{color:#f59e0b}
+.vote-consensus{margin-top:10px;font-size:0.72rem;color:var(--text-dim);line-height:1.5;border-top:1px solid #1e1e35;padding-top:10px}
+
+/* DEBATE LOG */
+.log-wrap{max-width:1600px;margin:0 auto;padding:0 16px 20px}
+.log-panel{background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:16px}
+.log-title{font-size:0.85rem;font-weight:700;color:#fff;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+.log-scroll{height:200px;overflow-y:auto;font-family:'Inter',monospace;font-size:0.72rem;line-height:1.6}
+.log-scroll::-webkit-scrollbar{width:4px}
+.log-scroll::-webkit-scrollbar-track{background:#0a0a10}
+.log-scroll::-webkit-scrollbar-thumb{background:#2a2a3e;border-radius:2px}
+.log-entry{padding:2px 0;color:var(--text-dim)}
+.log-entry .log-time{color:#555}
+.log-entry .log-name{font-weight:700}
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker-wrap"><div class="ticker-track" id="tickerTrack"></div></div>
+
+<!-- HEADER -->
+<div class="header">
+<div class="header-top">
+<div class="live-dot"></div>
+<h1>Investment War Room</h1>
+<div class="live-dot"></div>
+</div>
+<div class="subtitle">LIVE DEBATE PANEL &nbsp;|&nbsp; $12.5M AGGRESSIVE ALLOCATION &nbsp;|&nbsp; AGE 57 &nbsp;|&nbsp; $2.5M ANNUAL INCOME &nbsp;|&nbsp; $25M BUSINESS</div>
+<div class="date">MARCH 21, 2026</div>
+</div>
+
+<!-- INVESTOR GRID -->
+<div class="grid" id="investorGrid"></div>
+
+<!-- CONSENSUS -->
+<div class="consensus">
+<div class="panel">
+<div class="panel-title">Diversified Path &mdash; Weighted Consensus</div>
+<div id="consensusBars"></div>
+</div>
+<div class="panel">
+<div class="panel-title">Single Asset Vote &mdash; All-In Pick</div>
+<div id="votePanel"></div>
+</div>
+</div>
+
+<!-- BATTLE VERDICTS -->
+<div class="log-wrap" style="margin-bottom:0;padding-bottom:0">
+<div class="log-panel" style="margin-bottom:14px">
+<div class="log-title" style="color:#f59e0b;letter-spacing:3px">⚔ BATTLE VERDICTS — WHO WINS EACH ARGUMENT</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:12px;margin-top:10px" id="verdictGrid"></div>
+</div>
+</div>
+
+<!-- DEBATE LOG -->
+<div class="log-wrap">
+<div class="log-panel">
+<div class="log-title">Debate Transcript</div>
+<div class="log-scroll" id="debateLog"></div>
+</div>
+</div>
+
+<script>
+const investors = [
+  {
+    id:'alden', name:'Lyn Alden', title:'Macro Analyst, BTC/Hard Assets', avatar:'LA', color:'#3B82F6',
+    tagline:'Buy the fear. BTC at extreme fear while gold is at greed \u2014 history says this is the moment.',
+    confidence:82,
+    alloc:[['Bitcoin','40%','$5M'],['Energy Stocks','30%','$3.75M'],['Global Equities','20%','$2.5M']],
+    statements:[
+      "BTC is at extreme fear \u2014 18 on the Fear and Greed index. Gold is at 72. I have seen this pattern before. The crowd is euphoric on gold and terrified of Bitcoin. History says you buy the fear. For $12.5M at 57 with $2.5M in annual income, I put $5M into Bitcoin here and do not flinch.",
+      "The fiscal situation guarantees monetary debasement. Bitcoin is the exit ramp. Gold is insurance. Energy is the productive asset that feeds civilization. I want all three \u2014 but Bitcoin leads the position at these fear levels.",
+      "Luke is calling $40K Bitcoin. I hear him on fiscal dominance. But Bitcoin hash rate is at all-time highs. Market dominance is 72 percent. Corporates now hold 8 percent of total supply. This is not a dying asset \u2014 it is accumulating while retail panics.",
+      "Michael, I agree on Bitcoin asymmetry. I disagree on 100 percent concentration at age 57. With $2.5M annual income you can absorb volatility \u2014 but you still need diversification across the macro thesis. Energy is not melting ice. Energy feeds the AI clusters Leopold is talking about.",
+      "I would not touch long-term Treasury bonds. Fiscal dominance means the Fed cannot raise rates fast enough to kill inflation without blowing up the deficit. Real rates stay negative. Hard assets win. But the BEST hard asset right now is the one at extreme fear \u2014 and that is Bitcoin.",
+      "Energy infrastructure is criminally undervalued. AI data centers are consuming enormous power. Nuclear is coming back. $3.75M in energy is not a side bet \u2014 it is a structural position on civilization\u2019s power requirements."
+    ]
+  },
+  {
+    id:'gromen', name:'Luke Gromen', title:'FFTT Research, Fiscal Dominance', avatar:'LG', color:'#F59E0B',
+    tagline:'Fiscal dominance is arithmetic, not opinion. Gold to $12,000 is not a prediction \u2014 it is math.',
+    confidence:91,
+    alloc:[['Gold/Miners','60%','$7.5M'],['Oil/Gas E&P','25%','$3.125M'],['T-Bills','15%','$1.875M']],
+    statements:[
+      "I sold my Bitcoin near $95K. Not because I hate it \u2014 because the math of fiscal dominance does not flow through BTC the way it flows through gold. Gold needs to reach $12,000 to collateralize 40 percent of foreign-held US debt. That is arithmetic. FDR did it in 1934. Nixon did it in 1971. The playbook is not new.",
+      "Michael, I respect your conviction. But Bitcoin is 14 years old and has never been through a true sovereign debt crisis. Gold has been the monetary reset asset for 5,000 years. When the dollar system resets, central banks do not run to Bitcoin \u2014 they run to what they already hold.",
+      "Cathie, what happens to ARK funds in a stagflation scenario? In 2022, ARKK dropped 75 percent. I want assets that hold value when the monetary system resets \u2014 not assets that require a perfect soft landing and sustained risk appetite.",
+      "For this investor \u2014 57 years old, $25M business, $2.5M income \u2014 I put 60 percent in gold. Physical plus miners. When gold reaches $5,000, the miners deliver 300 percent gains. That is the leverage without the crypto volatility.",
+      "Leopold, I do not doubt that AGI is coming. But fiscal dominance is not a backdrop story \u2014 it is THE story. When the monetary system resets, the assets that survive are the ones central banks hold. Central banks hold gold. They do not hold NVDA.",
+      "The petrodollar system is fraying. BRICS nations are pricing oil outside the dollar. Every barrel priced in yuan or rubles is one less reason for the world to hold US Treasuries. This is structural, not cyclical. Gold is the beneficiary."
+    ]
+  },
+  {
+    id:'wood', name:'Cathie Wood', title:'ARK Invest, Exponential Tech', avatar:'CW', color:'#8B5CF6',
+    tagline:'Concentration in exponential technology is not risk \u2014 it is the only rational response to convergence.',
+    confidence:95,
+    alloc:[['AI/Tech ARK ETFs','50%','$6.25M'],['Bitcoin','25%','$3.125M'],['Genomics','15%','$1.875M']],
+    statements:[
+      "We are in the early stages of the greatest technological revolution in human history. Five exponential platforms converging simultaneously: AI, robotics, multiomics, blockchain, energy storage. ARKQ was up 49.8 percent in 2025 alone. This is not hype \u2014 this is compounding in real time.",
+      "Ray, diversification is what you do when you do not have conviction. I have conviction. The deflationary power of AI will shock everyone who is hiding in gold and Treasuries. Productivity gains from AI will suppress inflation \u2014 which is the opposite of what Luke needs for his gold thesis.",
+      "AI infrastructure spending is projected at $1.4 trillion by 2030. Leopold and I agree on the magnitude. Where I disagree: the application layer captures more value than the infrastructure. The picks-and-shovels thesis sounds safe but in tech, the Amazons beat the fiber optic cable companies.",
+      "Luke keeps talking about fiscal dominance and gold to $12,000. But he is missing the deflationary shock coming from AI. When AI drives productivity gains of 30 to 40 percent across the economy, CPI collapses. Gold rallies in inflation. What happens to his thesis when AI creates deflation?",
+      "Michael, I hold Bitcoin too \u2014 25 percent of this portfolio. But 100 percent Bitcoin is not a strategy, it is a religion. The genomics revolution alone could be worth more than the entire crypto market within a decade. You are choosing one exponential when five are available.",
+      "For a 57-year-old with $2.5M annual income, concentrate. You have income to cushion volatility. Concentrated bets in exponential technologies \u2014 that is how real wealth gets made. Diversification at this profile is the enemy of exceptional returns."
+    ]
+  },
+  {
+    id:'dalio', name:'Ray Dalio', title:'Bridgewater Associates, All Weather', avatar:'RD', color:'#10B981',
+    tagline:'He who lives to fight another day wins. Diversify across every scenario.',
+    confidence:73,
+    alloc:[['Gold/Commodities','25%','$3.125M'],['TIPS','25%','$3.125M'],['US Equities','20%','$2.5M']],
+    statements:[
+      "I have studied every major debt cycle in history going back 500 years. We are at the late stage of the long-term debt cycle in the United States. That does not mean stocks crash tomorrow. It means the risk-adjusted returns favor diversification across asset classes, geographies, and currencies.",
+      "I exited all my Chinese equity positions. Not because China is not growing \u2014 but because geopolitical risk has become unquantifiable. When risk cannot be priced, you reduce exposure. This is not pessimism. This is risk management after 50 years of doing this.",
+      "Cathie says diversification is for people without conviction. I have been running Bridgewater since 1975. The people who blew up were always the ones with the most conviction. At 57 years old \u2014 with a business worth $25M and real obligations \u2014 this man cannot afford to be wrong.",
+      "I am not against Bitcoin. I increased crypto exposure in my own portfolio. But 30 percent Bitcoin maximum in this allocation. He who lives to fight another day wins. We are talking about $12.5M \u2014 one bad cycle without diversification and you are starting over.",
+      "Leopold\u2019s AGI timeline may be correct. Or it may be 2032. Or 2040. Nobody knows \u2014 including Leopold. The All Weather approach works regardless of which scenario plays out. That is the entire point of it. Tail risk is real.",
+      "The world order is changing. Dollar dominance is declining. A multipolar reserve currency system is forming. The right response is a portfolio that works in multiple scenarios \u2014 not a single concentrated bet on one technology timeline."
+    ]
+  },
+  {
+    id:'ptj', name:'Paul Tudor Jones', title:'Tudor Investment, Macro Trading', avatar:'PTJ', color:'#F97316',
+    tagline:'I only want to own things that cannot be printed.',
+    confidence:88,
+    alloc:[['Bitcoin','30%','$3.75M'],['Gold','25%','$3.125M'],['Energy','20%','$2.5M']],
+    statements:[
+      "I only want to own things that cannot be printed. Bitcoin and gold are it. The Fed will eventually blink \u2014 they always do. When they restart quantitative easing, the assets that hold value through money printing are the only game in town.",
+      "Luke says BTC goes to $40K. Maybe. But I bought IBIT because the asymmetry is unlike anything I have seen in 40 years of macro trading. If BTC goes to $500K in a dollar crisis \u2014 which is possible \u2014 a $3.75M position becomes $22M. You do not get that asymmetry with gold.",
+      "I am a macro trader. I do not buy and hold. But for this profile \u2014 $2.5M annual income \u2014 you can afford to hold Bitcoin through a 50 percent drawdown because you are not spending the $12.5M. That changes the calculus completely. You are playing a different game than most BTC holders.",
+      "Energy is the great underappreciated trade. The Iran war risk is not fully priced into oil. Data centers are consuming gigawatts of power and accelerating. $2.5M in energy is both a macro hedge AND a growth position. You get paid to wait.",
+      "Ray is right about diversification in theory. But his All Weather portfolio returned 7.7 percent annualized over the last decade. Bitcoin alone returned 30 to 40 percent annualized. At 57, with 10 to 15 good investing years left, I am not satisfied with 7.7 percent.",
+      "The tail hedge position \u2014 $1.875M in volatility strategies \u2014 is not fear. It is precision. When the market cracks, you harvest the vol and redeploy into the assets that fell hardest. That is the difference between investing and trading. I do both."
+    ]
+  },
+  {
+    id:'visser', name:'Jordi Visser', title:'Visser Labs, Macro/AI', avatar:'JV', color:'#06B6D4',
+    tagline:'Physical world upgrade. AI needs electrons. Bet on who provides them.',
+    confidence:85,
+    alloc:[['AI Infrastructure','35%','$4.375M'],['Bitcoin','25%','$3.125M'],['Small-Cap AI','20%','$2.5M']],
+    statements:[
+      "Everyone is debating Bitcoin vs gold. I am looking at where actual capital is flowing in 2026. Data center capex is at Manhattan Project scale. Power providers, semiconductor equipment, and edge computing hardware are the pick-and-shovel plays of the AI revolution. $4.375M into that physical layer.",
+      "NVDA is at $175 right now \u2014 down from its highs. But the real story is Constellation Energy, Vistra, NuScale, and the power infrastructure plays that are just starting. AI needs electrons. Every new model requires more power. Who provides the electrons? That is my core position.",
+      "Cathie and I agree on AI being the mega-theme. I disagree on the vehicle. ARK funds own volatile application-layer names. I want power infrastructure, semiconductors, the physical layer. Assets that benefit regardless of which AI model wins the capability race.",
+      "Bitcoin and AI have a correlation most people have not noticed yet. When software ETFs move, BTC moves. Stablecoins are processing more volume than Mastercard. The financial infrastructure is being rebuilt on crypto rails. $3.125M in BTC is not speculation \u2014 it is infrastructure.",
+      "The small-cap AI opportunity is being missed. While everyone loads up on NVDA and the Mag 7, there are 200 companies under $10B market cap becoming AI-native. Enterprise software, logistics, healthcare AI. That is where the 10x returns come from in this cycle.",
+      "Leopold and I are describing the same physical buildout. I think his 2027 AGI timeline is the aggressive case. But here is what I know for certain: the infrastructure spending is happening regardless of the AGI date. $1 trillion in capex does not care about the philosophical debate about consciousness."
+    ]
+  },
+  {
+    id:'leo', name:'Leopold Aschenbrenner', title:'Situational Awareness / AGI Fund', avatar:'LEO', color:'#EF4444',
+    tagline:'Count the OOMs. The trendlines are straight. AGI by 2027 is not hype \u2014 it is arithmetic.',
+    confidence:97,
+    alloc:[['AI Compute Infra','60%','$7.5M'],['Hyperscalers','25%','$3.125M'],['BTC Hedge','15%','$1.875M']],
+    statements:[
+      "I was at OpenAI. I watched the trendlines from the inside. GPT-2 to GPT-4 was preschooler to smart high-schooler in 4 years. We are on the exact same scaling curve. By 2027, these systems will outpace most PhD researchers. By end of decade \u2014 superintelligence. This is not hype. It is straight lines on a graph.",
+      "The trillion-dollar cluster is not a metaphor. It is a literal industrial mobilization \u2014 more expensive than the International Space Station, requiring the power output of a small US state. For this $12.5M, I put $7.5M into the physical layer: NVDA, TSMC, power utilities, data center REITs, small modular reactors. The compute is the asset.",
+      "Luke, I hear your fiscal dominance thesis. Gold revaluation is historically correct. But you are rearranging deck chairs while the ship is transforming into a spaceship. The question is not which hard asset wins the next currency cycle. The question is whether you are positioned for the most important technological transition in the history of our species.",
+      "Ray says my AGI timeline might be wrong. It might be 2032. Fine. But here is what is certain regardless of the exact date: AI capex is going from $90 billion to $1 trillion annually within a few years. That infrastructure must be built regardless of when the intelligence explosion arrives. Bet on the guaranteed spending.",
+      "I founded an AGI investment fund after leaving OpenAI because I believe the wealth creation happening right now in San Francisco is unlike anything in recorded history. Nvidia datacenter revenue went from $14 billion to $90 billion in ONE year. That is just the opening act. Most investors are still treating this as a normal tech cycle.",
+      "Cathie sees the application layer. Jordi sees the physical infrastructure. I see both \u2014 plus the national security dimension nobody else in this room is pricing in. When The Project launches \u2014 a government AGI program by 2027 to 2028 \u2014 defense contractors, power utilities, and chip fabs become the most strategic assets in America. The government will appropriate trillions. Plan accordingly.",
+      "I include Bitcoin as 15 percent of my allocation as a hedge \u2014 not as a primary thesis. If The Project requires $5 to $10 trillion in government spending, the dollar will be debased. Bitcoin absorbs that. But Michael, with respect, 100 percent Bitcoin assumes AGI does not happen. If AGI happens on my timeline, the compute stack returns 10 times what Bitcoin returns. We are not disagreeing on monetary debasement \u2014 we are disagreeing on which bet is bigger."
+    ]
+  },
+  {
+    id:'saylor', name:'Michael Saylor', title:'Strategy (MicroStrategy), Bitcoin', avatar:'MS', color:'#EAB308',
+    tagline:'Everything is melting ice. There is only one exit ramp from monetary debasement.',
+    confidence:100,
+    alloc:[['Bitcoin','100%','$12.5M'],['','',''],['','','']],
+    statements:[
+      "Everything that is not Bitcoin is melting ice. Gold loses monetary premium to Bitcoin every year \u2014 has for 14 years. Real estate is priced in dollars that debase at 7 percent annually. Equities are great businesses denominated in a failing currency. The only rational allocation for long-term wealth preservation is 100 percent Bitcoin. $12.5 million, all of it.",
+      "Luke, I respect your gold thesis. But gold has been losing monetary premium to Bitcoin for 14 years. Every year, more institutional capital flows out of gold and into BTC. The ETF era just institutionalized that transfer. You are holding the asset that Bitcoin is eating.",
+      "Ray says diversification protects against ignorance. I agree. If you are ignorant about Bitcoin, diversify. If you understand that it is the apex predator monetary asset \u2014 the only property in cyberspace with absolute scarcity \u2014 then diversification is just dilution of your best idea.",
+      "At 57 with $2.5M annual income, you have the most powerful weapon in investing: you do not need to sell. You can hold through 80 percent drawdowns. You can dollar-cost average during crashes. The risk is not owning Bitcoin. The risk is NOT owning Bitcoin while it appreciates at 40 to 50 percent annually.",
+      "Paul, I respect you holding 30 percent Bitcoin. But that is like being 30 percent internet in 1999. You understand the thesis. You are just not sizing the conviction appropriately. The asymmetry you are describing \u2014 from $83K to $500K \u2014 that is the case for 100 percent, not 30 percent.",
+      "Leopold, you say AGI makes the compute stack return more than Bitcoin. Possible. But Bitcoin is the monetary layer that AGI runs on. When superintelligence is deployed at scale, it will need a neutral, programmable, uncensorable money. That is Bitcoin. AGI does not make Bitcoin obsolete \u2014 AGI makes Bitcoin necessary.",
+      "Dalio said the all-weather portfolio returned 7.7 percent annualized. Bitcoin returned 62 percent annualized over the last 10 years. At 57 years old with 15 years of good investing ahead, the math is simple. The only question is whether you have the conviction to hold through the volatility. I have held through four 80 percent drawdowns. This investor has $2.5M income. He can hold."
+    ]
+  }
+];
+
+// Debate order — engineered for tension: BTC vs gold fights, AGI vs prudence, back-and-forth
+const debateOrder = [
+  {inv:7,st:0}, // Saylor opens — everything is melting ice
+  {inv:1,st:0}, // Gromen fires back — I sold my Bitcoin
+  {inv:0,st:0}, // Alden mediates — buy the fear
+  {inv:6,st:0}, // Leopold drops AGI bomb
+  {inv:3,st:2}, // Dalio cautions — conviction kills
+  {inv:6,st:2}, // Leopold vs Gromen — deck chairs on spaceship
+  {inv:1,st:4}, // Gromen vs Leopold — central banks hold gold not NVDA
+  {inv:2,st:0}, // Cathie enters — five platforms converging
+  {inv:7,st:1}, // Saylor vs Gromen — gold losing premium
+  {inv:1,st:1}, // Gromen vs Saylor — 5000 years vs 14
+  {inv:5,st:0}, // Visser on infrastructure
+  {inv:4,st:0}, // PTJ — cannot be printed
+  {inv:7,st:2}, // Saylor vs Dalio — ignorance quote
+  {inv:3,st:0}, // Dalio on debt cycles
+  {inv:6,st:1}, // Leopold trillion cluster
+  {inv:2,st:1}, // Cathie vs Dalio — conviction
+  {inv:0,st:1}, // Alden fiscal debasement
+  {inv:4,st:1}, // PTJ asymmetry — $3.75M to $22M
+  {inv:7,st:3}, // Saylor on income weapon
+  {inv:3,st:3}, // Dalio 30% max BTC
+  {inv:5,st:1}, // Visser on power plays
+  {inv:6,st:3}, // Leopold guaranteed spending
+  {inv:1,st:2}, // Gromen vs Cathie — stagflation
+  {inv:2,st:3}, // Cathie vs Gromen — AI deflation
+  {inv:7,st:4}, // Saylor vs PTJ — 30% is 30% internet
+  {inv:4,st:2}, // PTJ on income advantage
+  {inv:0,st:2}, // Alden hash rate defense
+  {inv:5,st:2}, // Visser vs Cathie — physical layer
+  {inv:6,st:4}, // Leopold wealth creation
+  {inv:3,st:4}, // Dalio — nobody knows timeline
+  {inv:1,st:3}, // Gromen gold leverage — miners 300%
+  {inv:2,st:4}, // Cathie vs Saylor — religion not strategy
+  {inv:7,st:5}, // Saylor vs Leopold — BTC is monetary layer
+  {inv:6,st:5}, // Leopold national security + The Project
+  {inv:0,st:3}, // Alden vs Saylor — disagree on 100%
+  {inv:4,st:3}, // PTJ energy — Iran risk
+  {inv:5,st:3}, // Visser BTC/AI correlation
+  {inv:1,st:5}, // Gromen petrodollar fraying
+  {inv:3,st:5}, // Dalio world order changing
+  {inv:2,st:5}, // Cathie — concentrate at this profile
+  {inv:7,st:6}, // Saylor final — 62% annualized
+  {inv:6,st:6}, // Leopold final — which bet is bigger
+  {inv:0,st:4}, // Alden — no Treasury bonds
+  {inv:4,st:4}, // PTJ — 7.7% not enough
+  {inv:5,st:4}, // Visser small cap AI
+  {inv:0,st:5}, // Alden energy infrastructure
+  {inv:4,st:5}, // PTJ vol hedge precision
+  {inv:5,st:5}, // Visser final — capex doesn't care
+];
+
+let currentStep = 0;
+let debateTime = new Date(2026, 2, 21, 14, 0, 0);
+const logEl = document.getElementById('debateLog');
+
+// Build ticker
+function buildTicker(){
+  const items = [
+    {text:'BTC $83,000',cls:'ticker-up'},{text:'GOLD $3,050',cls:'ticker-up'},
+    {text:'NVDA $175',cls:'ticker-down'},{text:'OIL $68',cls:'ticker-down'},
+    {text:'10Y YIELD 4.30%',cls:'ticker-neutral'},{text:'FED FUNDS 4.25-4.50%',cls:'ticker-neutral'},
+    {text:'US DEBT $36.2T',cls:'ticker-warn'},{text:'BTC FEAR & GREED: 18 EXTREME FEAR',cls:'ticker-down'},
+    {text:'GOLD FEAR & GREED: 72 GREED',cls:'ticker-warn'},{text:'IRAN RISK: ELEVATED',cls:'ticker-warn'},
+    {text:'AI CAPEX 2027E: $1T+',cls:'ticker-up'},{text:'SAYLOR BTC STACK: 500K+ BTC',cls:'ticker-up'},
+  ];
+  let html = '';
+  for(let r=0;r<2;r++) items.forEach(i => html += `<span class="ticker-item ${i.cls}">${i.text}</span>`);
+  document.getElementById('tickerTrack').innerHTML = html;
+}
+
+// Build investor cards
+function buildCards(){
+  const grid = document.getElementById('investorGrid');
+  investors.forEach((inv,i) => {
+    const allocRows = inv.alloc.filter(a=>a[0]).map(a =>
+      `<tr><td class="alloc-asset">${a[0]}</td><td class="alloc-pct">${a[1]}</td><td class="alloc-amt">${a[2]}</td></tr>`
+    ).join('');
+    const card = document.createElement('div');
+    card.className = 'card inactive';
+    card.id = 'card-'+i;
+    card.style.borderColor = inv.color+'22';
+    card.innerHTML = `
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:${inv.color};opacity:0.4;transition:opacity 0.5s" class="top-bar"></div>
+      <div class="card-head">
+        <div class="avatar" style="background:${inv.color}">${inv.avatar}</div>
+        <div><div class="card-name">${inv.name}</div><div class="card-title">${inv.title}</div></div>
+      </div>
+      <div class="tagline">\u201C${inv.tagline}\u201D</div>
+      <div class="speech" id="speech-${i}" style="border-color:${inv.color}33">
+        <div class="speech-text" id="text-${i}"></div>
+      </div>
+      <table class="alloc-table">${allocRows}</table>
+      <div class="conf-wrap">
+        <div class="conf-label"><span>Conviction</span><span>${inv.confidence}%</span></div>
+        <div class="conf-bar-bg"><div class="conf-bar" style="width:${inv.confidence}%;background:${inv.color}"></div></div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+// Build consensus bars
+function buildConsensus(){
+  const bars = [
+    {label:'Bitcoin / Crypto',pct:34,amt:'$4.25M',color:'#F59E0B'},
+    {label:'AI Infrastructure / Tech',pct:27,amt:'$3.375M',color:'#8B5CF6'},
+    {label:'Gold / Hard Assets',pct:18,amt:'$2.25M',color:'#EAB308'},
+    {label:'Energy / Nuclear',pct:14,amt:'$1.75M',color:'#F97316'},
+    {label:'Cash / Hedges / TIPS',pct:7,amt:'$875K',color:'#10B981'},
+  ];
+  const el = document.getElementById('consensusBars');
+  bars.forEach(b => {
+    const wrap = document.createElement('div');
+    wrap.className = 'alloc-bar-wrap';
+    wrap.innerHTML = `
+      <div class="alloc-bar-label"><span>${b.label}</span><span>${b.pct}% \u2014 ${b.amt}</span></div>
+      <div class="alloc-bar-outer"><div class="alloc-bar-inner" style="width:${b.pct}%;background:${b.color}">${b.pct}%</div></div>`;
+    el.appendChild(wrap);
+  });
+}
+
+// Build vote panel
+function buildVotes(){
+  const votes = [
+    {name:'Lyn Alden',pick:'BITCOIN',color:'#F59E0B'},
+    {name:'Luke Gromen',pick:'GOLD',color:'#EAB308'},
+    {name:'Cathie Wood',pick:'ARKK',color:'#8B5CF6'},
+    {name:'Ray Dalio',pick:'GOLD',color:'#EAB308'},
+    {name:'Paul Tudor Jones',pick:'BITCOIN',color:'#F59E0B'},
+    {name:'Jordi Visser',pick:'BITCOIN',color:'#06B6D4'},
+    {name:'Leopold Aschenbrenner',pick:'NVIDIA',color:'#76B900'},
+    {name:'Michael Saylor',pick:'BITCOIN',color:'#EAB308'},
+  ];
+  const el = document.getElementById('votePanel');
+  votes.forEach(v => {
+    const row = document.createElement('div');
+    row.className = 'vote-row';
+    row.innerHTML = `<span class="vote-name">${v.name}</span><span class="vote-pick" style="color:${v.color}">${v.pick}</span>`;
+    el.appendChild(row);
+  });
+  const tally = document.createElement('div');
+  tally.className = 'vote-tally';
+  tally.innerHTML = '<strong>BITCOIN: 4</strong> &nbsp;|&nbsp; GOLD: 2 &nbsp;|&nbsp; NVIDIA: 1 &nbsp;|&nbsp; ARKK: 1';
+  el.appendChild(tally);
+  const consensus = document.createElement('div');
+  consensus.className = 'vote-consensus';
+  consensus.textContent = 'Bitcoin wins the single-asset vote. It satisfies both the monetary debasement thesis (Saylor, PTJ, Alden) and the AI infrastructure narrative (Visser: BTC/AI correlation). Cannot be printed. Cannot be confiscated at scale. 57 years old with $2.5M annual income = can hold through volatility. The asymmetry \u2014 from $83K to potential $500K+ \u2014 is unlike any other asset in this room.';
+  el.appendChild(consensus);
+}
+
+// Add log entry
+function addLog(invIdx, text){
+  debateTime = new Date(debateTime.getTime() + Math.floor(Math.random()*40000+20000));
+  const h = String(debateTime.getHours()).padStart(2,'0');
+  const m = String(debateTime.getMinutes()).padStart(2,'0');
+  const s = String(debateTime.getSeconds()).padStart(2,'0');
+  const inv = investors[invIdx];
+  const short = text.length > 90 ? text.substring(0,90) + '\u2026' : text;
+  const entry = document.createElement('div');
+  entry.className = 'log-entry';
+  entry.innerHTML = `<span class="log-time">[${h}:${m}:${s}]</span> <span class="log-name" style="color:${inv.color}">${inv.name.toUpperCase()}:</span> ${short}`;
+  logEl.appendChild(entry);
+  logEl.scrollTop = logEl.scrollHeight;
+}
+
+// Activate a speaker
+function activateSpeaker(invIdx, stIdx){
+  const inv = investors[invIdx];
+  const text = inv.statements[stIdx];
+
+  // Dim all cards
+  investors.forEach((_,i) => {
+    const card = document.getElementById('card-'+i);
+    card.classList.remove('active');
+    card.classList.add('inactive');
+    card.style.boxShadow = 'none';
+    card.style.borderColor = investors[i].color+'22';
+    const topBar = card.querySelector('.top-bar');
+    if(topBar) topBar.style.opacity = '0.4';
+  });
+
+  // Activate current speaker
+  const card = document.getElementById('card-'+invIdx);
+  card.classList.remove('inactive');
+  card.classList.add('active');
+  card.style.boxShadow = `0 0 25px ${inv.color}40, 0 8px 32px rgba(0,0,0,0.6)`;
+  card.style.borderColor = inv.color+'88';
+  const topBar = card.querySelector('.top-bar');
+  if(topBar) topBar.style.opacity = '1';
+
+  // Fade text transition
+  const textEl = document.getElementById('text-'+invIdx);
+  textEl.classList.add('fading');
+  setTimeout(() => {
+    textEl.textContent = '\u201C' + text + '\u201D';
+    textEl.classList.remove('fading');
+  }, 350);
+
+  // Update speech border
+  document.getElementById('speech-'+invIdx).style.borderColor = inv.color+'66';
+
+  addLog(invIdx, text);
+}
+
+// Pre-populate log and initial card states
+function prePopulate(){
+  const preEntries = [
+    {inv:7,st:0},{inv:1,st:0},{inv:0,st:0},{inv:6,st:0},{inv:3,st:2},{inv:2,st:0}
+  ];
+  preEntries.forEach(e => {
+    addLog(e.inv, investors[e.inv].statements[e.st]);
+    document.getElementById('text-'+e.inv).textContent = '\u201C' + investors[e.inv].statements[e.st] + '\u201D';
+  });
+  currentStep = 0; // start debate from beginning — pre-pop is just visual seed
+}
+
+// Conclude the debate — moderator calls it
+function concludeDebate(){
+  // Dim all cards
+  investors.forEach((_,i) => {
+    const card = document.getElementById('card-'+i);
+    card.classList.remove('active');
+    card.classList.add('inactive');
+    card.style.boxShadow = 'none';
+    card.style.borderColor = investors[i].color+'11';
+    card.style.opacity = '0.35';
+  });
+
+  // Kill live dot
+  document.querySelectorAll('.live-dot').forEach(d => {
+    d.style.animation = 'none';
+    d.style.background = '#555';
+    d.style.boxShadow = 'none';
+  });
+
+  // Update header
+  const subtitle = document.querySelector('.header .subtitle');
+  subtitle.textContent = 'DEBATE CONCLUDED — VERDICT REACHED';
+  subtitle.style.color = '#f59e0b';
+  subtitle.style.letterSpacing = '3px';
+
+  // Add final log entry
+  const finalEntry = document.createElement('div');
+  finalEntry.style.cssText = 'padding:8px 0;color:#f59e0b;font-weight:700;font-size:0.78rem;border-top:1px solid #2a2a1a;margin-top:6px';
+  finalEntry.textContent = '⚖ MODERATOR: The panel has spoken. Scroll to BATTLE VERDICTS for the final call.';
+  logEl.appendChild(finalEntry);
+  logEl.scrollTop = logEl.scrollHeight;
+
+  // Flash the verdict section
+  const verdictGrid = document.getElementById('verdictGrid');
+  const lastVerdict = verdictGrid.lastElementChild;
+  if(lastVerdict){
+    lastVerdict.style.transition = 'box-shadow 1s ease, border-color 1s ease';
+    lastVerdict.style.borderColor = '#3B82F6';
+    lastVerdict.style.boxShadow = '0 0 40px #3B82F660';
+    // Scroll to it
+    setTimeout(() => lastVerdict.scrollIntoView({behavior:'smooth', block:'center'}), 800);
+  }
+}
+
+// Main debate loop — runs ONCE through all steps, then concludes
+function runDebate(){
+  if(currentStep >= debateOrder.length){
+    concludeDebate();
+    return; // STOP. No loop, no reset.
+  }
+  const step = debateOrder[currentStep];
+  activateSpeaker(step.inv, step.st);
+  currentStep++;
+  const delay = 8000 + Math.random()*3000; // 8-11 seconds
+  setTimeout(runDebate, delay);
+}
+
+// Build verdict panel
+function buildVerdicts(){
+  const verdicts = [
+    {
+      title: 'Bitcoin vs Gold: The Monetary Reset Fight',
+      fighters: 'Saylor + Alden + PTJ  vs.  Gromen + Dalio',
+      winner: 'BITCOIN CAMP — NARROW WIN',
+      winnerColor: '#F59E0B',
+      loser: 'Gold camp loses on timing',
+      reasoning: "Gromen's fiscal dominance math is correct — the US debt is unsustainable. But his conclusion (gold wins) relies on central bank behavior from the 1930s. The ETF era has changed institutional access to BTC fundamentally. Alden's point is decisive: BTC at extreme fear (18) while gold is at greed (72) is a contrarian entry signal that history validates. Gold may still reach $5K–$12K. But BTC gets there faster and with more leverage.",
+      lossCause: "Gromen loses because he sold BTC at $95K citing the same fiscal dominance thesis — yet gold has not broken $3,100. His timing on gold miners being 300% leverage assumes a gold move that has not yet materialized at scale."
+    },
+    {
+      title: 'AGI Timeline: Certainty vs Prudence',
+      fighters: 'Leopold + Cathie  vs.  Dalio + Gromen',
+      winner: 'LEOPOLD — ON FACTS',
+      winnerColor: '#EF4444',
+      loser: 'Dalio loses on magnitude',
+      reasoning: "Leopold's core argument is not about philosophy — it is about observed trendlines. Nvidia datacenter revenue: $14B → $90B in 12 months. That is not speculative. That is reported earnings. The infrastructure capex is committed capital — hyperscalers have already authorized $300B+ in spending through 2026. You do not need to believe in AGI to bet on the spending. That makes Leopold's infrastructure thesis nearly unfalsifiable in the 3-5 year window.",
+      lossCause: "Dalio loses because 'maybe 2032' is not a counterargument to 'the $1T in capex is happening now.' He is right about tail risk on timelines but wrong to let that uncertainty prevent positioning in guaranteed infrastructure spending."
+    },
+    {
+      title: 'Concentration vs Diversification at Age 57',
+      fighters: 'Saylor + Cathie + Leopold  vs.  Dalio + Gromen',
+      winner: 'CONCENTRATION CAMP — given the profile',
+      winnerColor: '#8B5CF6',
+      loser: 'Dalio correct in general, wrong for this specific person',
+      reasoning: "Dalio's All Weather framework is correct for someone who NEEDS their capital. This investor earns $2.5M/year and owns a $25M business. He does NOT need the $12.5M. That structural income changes the risk calculus entirely. When you do not need to sell, volatility is just noise. Saylor has held through four 80% BTC drawdowns because MicroStrategy has revenue. Same logic applies here. The income is the hedge.",
+      lossCause: "Dalio's 7.7% annualized All Weather return is mathematically insufficient when you have 15 investing years left and no liquidity need. At that return rate, $12.5M becomes $40M. At BTC's historical rate, it becomes $300M+. The asymmetry is too large to ignore at this profile."
+    },
+    {
+      title: 'AI Infrastructure: Physical Layer vs Application Layer',
+      fighters: 'Leopold + Visser  vs.  Cathie Wood',
+      winner: 'LEOPOLD + VISSER — infrastructure wins',
+      winnerColor: '#06B6D4',
+      loser: 'Cathie partially right on BTC, wrong on ARK vs infrastructure',
+      reasoning: "Cathie's historical analogy — Amazon beat the fiber optic companies — is compelling but flawed for this cycle. Amazon succeeded because it was the ONLY dominant e-commerce application. AI has no single winner in the application layer. There are 500 competing AI startups. But there is only ONE Nvidia for AI chips, and power demand is certain regardless of which model wins. Cathie is right that BTC is part of the ecosystem. She is wrong that ARK funds are safer than the physical infrastructure plays.",
+      lossCause: "ARKK dropped 75% in 2022 in a normal rate-hiking cycle. In a true monetary reset scenario — which Gromen and PTJ are warning about — risk assets get hit hardest. Infrastructure (power, chips, hard assets) is more durable."
+    },
+    {
+      title: 'The $12.5M All-In Question: What ONE Asset?',
+      fighters: 'Saylor (BTC 100%)  vs.  Everyone else',
+      winner: 'BITCOIN — wins the single-asset vote 4-2-1-1',
+      winnerColor: '#EAB308',
+      loser: 'Gold loses: right thesis, wrong asset',
+      reasoning: "If you must go all-in, BTC is the only asset that simultaneously captures: (1) monetary debasement hedge [Gromen's thesis, just different asset], (2) AI infrastructure narrative [Visser's BTC/AI correlation], (3) asymmetric upside [PTJ's $83K → $500K math], and (4) absolute scarcity in a world of infinite money printing [Saylor's core argument]. Gold satisfies only (1). NVDA satisfies only (2). ARK satisfies only (2) partially. BTC is the intersection of every winning thesis.",
+      lossCause: "Leopold's NVDA pick is intellectually honest — it's the most direct AGI infrastructure bet. But NVDA is a company that can be regulated, competed against, and has concentration risk in one nation's supply chain. BTC cannot be shut down. That difference matters at the all-in level."
+    },
+    {
+      title: 'THE DUDE\'S VERDICT: The Right Move for This Investor',
+      fighters: 'All 8 voices synthesized for THIS profile',
+      winner: 'BTC 50% + AI INFRA 30% + GOLD 20%',
+      winnerColor: '#3B82F6',
+      loser: 'Saylor loses because the business IS the infrastructure play',
+      reasoning: "The move nobody in this room fully named: this investor already owns $25M in the physical infrastructure of the AI and energy buildout through his HVAC and electrical business in Houston/DFW. He IS Jordi Visser's trade. He IS Leopold's power play. The $12.5M should NOT duplicate what his business already provides. So: put the digital money ($6.25M BTC) where the business can't go, put the AI infrastructure bet ($3.75M) into compute/nuclear since the business is the energy/electrical side, and put the gold ($2.5M) as the fiscal dominance hedge that requires zero attention. That is the three-asset portfolio built specifically for who this man already is.",
+      lossCause: "Saylor's 100% BTC is compelling but ignores that BTC concentration risk at $12.5M is real when your net worth is $40M+ total. 50% BTC = $6.25M is still an enormous, aggressive position — and it leaves room for the other two themes that your business can't provide."
+    }
+  ];
+
+  const grid = document.getElementById('verdictGrid');
+  verdicts.forEach((v,i) => {
+    const panel = document.createElement('div');
+    const isDude = i === verdicts.length - 1;
+    panel.style.cssText = `background:${isDude ? '#0a0a18' : '#0a0a10'};border:1px solid ${isDude ? v.winnerColor+'55' : '#1a1a2e'};border-radius:10px;padding:16px;${isDude ? 'grid-column:1/-1;border-width:2px;' : ''}`;
+    panel.innerHTML = `
+      <div style="font-size:0.72rem;font-weight:800;color:${v.winnerColor};letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">${v.title}</div>
+      <div style="font-size:0.68rem;color:#555;margin-bottom:8px">${v.fighters}</div>
+      <div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap">
+        <span style="background:${v.winnerColor}22;color:${v.winnerColor};font-size:0.68rem;font-weight:700;padding:3px 8px;border-radius:4px;border:1px solid ${v.winnerColor}44">✓ ${v.winner}</span>
+      </div>
+      <div style="font-size:0.73rem;color:#b0b0c0;line-height:1.55;margin-bottom:8px">${v.reasoning}</div>
+      <div style="font-size:0.68rem;color:#666;line-height:1.45;border-top:1px solid #1a1a2e;padding-top:6px"><span style="color:#ef4444;font-weight:700">WHY THEY LOSE: </span>${v.lossCause}</div>`;
+    grid.appendChild(panel);
+  });
+}
+
+// Initialize everything
+buildTicker();
+buildCards();
+buildConsensus();
+buildVotes();
+buildVerdicts();
+prePopulate();
+
+// Start with Leopold active, then begin cycle
+activateSpeaker(6, 0);
+setTimeout(runDebate, 9000);
+</script>
+</body>
+</html>

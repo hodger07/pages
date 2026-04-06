@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>10x Portfolio Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#050508;--card:#0a0a10;--card-border:#1a1a2e;--text:#e4e4e7;--text-muted:#71717a;
+--text-dim:#52525b;--accent-btc:#F59E0B;--accent-ai:#8B5CF6;--accent-tesla:#EF4444;
+--accent-gold:#EAB308;--accent-options:#06B6D4;--green:#22c55e;--red:#ef4444;--amber:#f59e0b;
+}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;overflow-x:hidden}
+.container{max-width:1400px;margin:0 auto;padding:0 24px}
+
+/* HEADER */
+.header{padding:40px 0 20px;text-align:center;border-bottom:1px solid var(--card-border)}
+.header-title{font-size:clamp(2rem,5vw,3.5rem);font-weight:900;letter-spacing:0.25em;color:#fff;margin-bottom:8px}
+.header-title span{background:linear-gradient(135deg,#F59E0B,#EF4444,#8B5CF6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.header-sub{font-size:clamp(0.85rem,2vw,1.1rem);color:var(--text-muted);font-weight:400;margin-bottom:16px;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+.live-dot{width:8px;height:8px;background:#ef4444;border-radius:50%;display:inline-block;animation:blink 1.5s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+.stats-bar{display:flex;justify-content:center;gap:32px;flex-wrap:wrap;padding:20px 0;font-size:0.85rem}
+.stat-item{text-align:center}
+.stat-label{color:var(--text-dim);font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:2px}
+.stat-value{font-weight:700;font-size:1.1rem;color:#fff}
+
+/* TICKER */
+.ticker-wrap{overflow:hidden;background:#08080f;border-top:1px solid var(--card-border);border-bottom:1px solid var(--card-border);padding:10px 0;white-space:nowrap}
+.ticker-track{display:inline-flex;animation:scroll 40s linear infinite}
+.ticker-track:hover{animation-play-state:paused}
+@keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.ticker-item{padding:0 28px;font-size:0.8rem;font-weight:600;letter-spacing:0.03em}
+.ticker-item .label{color:var(--text-dim);margin-right:6px}
+.t-green{color:var(--green)}.t-red{color:var(--red)}.t-amber{color:var(--amber)}.t-white{color:#fff}
+
+/* SECTIONS */
+section{padding:40px 0}
+.section-title{font-size:1.5rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:24px;color:#fff;display:flex;align-items:center;gap:12px}
+.section-title::before{content:'';width:4px;height:24px;background:linear-gradient(180deg,var(--accent-btc),var(--accent-ai));border-radius:2px}
+
+/* THESIS */
+.collapsible-header{cursor:pointer;user-select:none;display:flex;align-items:center;justify-content:space-between}
+.collapsible-header .chevron{transition:transform 0.3s;font-size:1.2rem;color:var(--text-dim)}
+.collapsible-header.open .chevron{transform:rotate(180deg)}
+.collapsible-body{overflow:hidden;transition:max-height 0.4s ease;max-height:2000px}
+.collapsible-body.collapsed{max-height:0}
+.thesis-card{background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:28px;margin-bottom:16px}
+.thesis-card h3{font-size:0.9rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:10px}
+.thesis-card p{color:var(--text-muted);font-size:0.9rem;line-height:1.7}
+.thesis-card.btc h3{color:var(--accent-btc)}.thesis-card.ai h3{color:var(--accent-ai)}.thesis-card.signal h3{color:var(--green)}
+
+/* ALLOCATION CARDS */
+.alloc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:32px}
+.alloc-card{border-radius:12px;padding:24px;position:relative;overflow:hidden;border:1px solid;transition:transform 0.2s}
+.alloc-card:hover{transform:translateY(-2px)}
+.alloc-card .pct{font-size:2.5rem;font-weight:900;margin-bottom:4px}
+.alloc-card .cat-name{font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px}
+.alloc-card .amount{font-size:1.1rem;font-weight:600;margin-bottom:8px}
+.alloc-card .rationale{font-size:0.75rem;color:rgba(255,255,255,0.6);line-height:1.4}
+.alloc-card.btc{background:rgba(245,158,11,0.08);border-color:rgba(245,158,11,0.3);color:var(--accent-btc)}
+.alloc-card.ai{background:rgba(139,92,246,0.08);border-color:rgba(139,92,246,0.3);color:var(--accent-ai)}
+.alloc-card.tesla{background:rgba(239,68,68,0.08);border-color:rgba(239,68,68,0.3);color:var(--accent-tesla)}
+.alloc-card.gold{background:rgba(234,179,8,0.08);border-color:rgba(234,179,8,0.3);color:var(--accent-gold)}
+.alloc-card.options{background:rgba(6,182,212,0.08);border-color:rgba(6,182,212,0.3);color:var(--accent-options)}
+
+/* DONUT CHART */
+.donut-container{display:flex;align-items:center;justify-content:center;gap:40px;flex-wrap:wrap;margin-top:16px}
+.donut{width:200px;height:200px;border-radius:50%;position:relative;background:conic-gradient(var(--accent-btc) 0deg 144deg,var(--accent-ai) 144deg 234deg,var(--accent-tesla) 234deg 288deg,var(--accent-gold) 288deg 324deg,var(--accent-options) 324deg 360deg)}
+.donut::after{content:'$10M';position:absolute;inset:30px;background:var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem;color:#fff}
+.donut-legend{display:flex;flex-direction:column;gap:8px}
+.legend-item{display:flex;align-items:center;gap:8px;font-size:0.8rem;color:var(--text-muted)}
+.legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+
+/* TABLE */
+.table-controls{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.sort-btn{background:var(--card);border:1px solid var(--card-border);color:var(--text-muted);padding:6px 14px;border-radius:6px;font-size:0.75rem;cursor:pointer;font-family:inherit;transition:all 0.2s}
+.sort-btn:hover,.sort-btn.active{border-color:var(--accent-btc);color:var(--accent-btc)}
+.pos-table{width:100%;border-collapse:collapse;font-size:0.8rem}
+.pos-table thead{position:sticky;top:0;z-index:2}
+.pos-table th{background:#0c0c14;text-align:left;padding:12px 10px;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-dim);border-bottom:1px solid var(--card-border);cursor:pointer;user-select:none;white-space:nowrap}
+.pos-table th:hover{color:var(--text)}
+.pos-table td{padding:10px;border-bottom:1px solid rgba(26,26,46,0.5);vertical-align:top}
+.pos-table tbody tr{cursor:pointer;transition:background 0.15s}
+.pos-table tbody tr:hover{background:rgba(255,255,255,0.02)}
+.pos-table .ticker-cell{font-weight:700;font-size:0.9rem}
+.risk-dots{display:flex;gap:3px}
+.risk-dot{width:8px;height:8px;border-radius:50%}
+.r1{background:var(--green)}.r2{background:#86efac}.r3{background:var(--amber)}.r4{background:#fb923c}.r5{background:var(--red)}
+.cat-badge{font-size:0.65rem;padding:2px 8px;border-radius:4px;font-weight:600;white-space:nowrap}
+.cat-btc{background:rgba(245,158,11,0.15);color:var(--accent-btc)}
+.cat-ai{background:rgba(139,92,246,0.15);color:var(--accent-ai)}
+.cat-tesla{background:rgba(239,68,68,0.15);color:var(--accent-tesla)}
+.cat-gold{background:rgba(234,179,8,0.15);color:var(--accent-gold)}
+.cat-options{background:rgba(6,182,212,0.15);color:var(--accent-options)}
+.cat-cash{background:rgba(100,100,120,0.15);color:var(--text-dim)}
+.expand-row td{padding:16px 20px;background:rgba(255,255,255,0.01);font-size:0.8rem;color:var(--text-muted);line-height:1.6}
+.expand-row{display:none}
+.expand-row.show{display:table-row}
+.table-wrap{overflow-x:auto;border:1px solid var(--card-border);border-radius:12px;background:var(--card)}
+
+/* TESLA */
+.tesla-section{border:2px solid rgba(245,158,11,0.3);border-radius:16px;padding:32px;background:rgba(245,158,11,0.02);margin-top:8px}
+.tesla-scenarios{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:24px}
+.tesla-card{border-radius:12px;padding:20px;text-align:center;border:1px solid var(--card-border);background:var(--card)}
+.tesla-card.bull{border-color:rgba(34,197,94,0.4)}.tesla-card.base{border-color:rgba(245,158,11,0.4)}.tesla-card.bear{border-color:rgba(239,68,68,0.4)}
+.tesla-card .sc-label{font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:8px}
+.tesla-card.bull .sc-label{color:var(--green)}.tesla-card.base .sc-label{color:var(--amber)}.tesla-card.bear .sc-label{color:var(--red)}
+.tesla-card .price{font-size:1.5rem;font-weight:800;color:#fff;margin-bottom:4px}
+.tesla-card .prob{font-size:0.8rem;color:var(--text-muted)}
+.tesla-card .assumption{font-size:0.75rem;color:var(--text-dim);margin-top:8px;line-height:1.4}
+.ev-box{text-align:center;padding:24px;background:var(--card);border:1px solid var(--card-border);border-radius:12px;margin-bottom:24px}
+.ev-box .ev-title{font-size:0.75rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px}
+.ev-box .ev-value{font-size:2rem;font-weight:900;color:var(--green)}
+.ev-box .ev-sub{font-size:0.85rem;color:var(--text-muted);margin-top:4px}
+.drivers-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-bottom:20px}
+.driver-card{background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:20px}
+.driver-card h4{font-size:0.9rem;font-weight:700;color:#fff;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.prob-badge{font-size:0.65rem;padding:2px 8px;border-radius:4px;font-weight:700}
+.prob-high{background:rgba(34,197,94,0.15);color:var(--green)}
+.prob-mid{background:rgba(245,158,11,0.15);color:var(--amber)}
+.prob-low{background:rgba(239,68,68,0.15);color:var(--red)}
+.driver-card p{font-size:0.8rem;color:var(--text-muted);line-height:1.5}
+.verdict{text-align:center;font-size:1.1rem;font-weight:700;color:var(--green);padding:16px;background:rgba(34,197,94,0.05);border:1px solid rgba(34,197,94,0.2);border-radius:8px}
+
+/* SCENARIO PROJECTIONS */
+.scenario-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-bottom:28px}
+.sc-card{border-radius:12px;padding:24px;text-align:center;border:1px solid var(--card-border);background:var(--card)}
+.sc-card.bull{border-color:rgba(34,197,94,0.4)}.sc-card.base{border-color:rgba(245,158,11,0.4)}.sc-card.bear{border-color:rgba(239,68,68,0.4)}
+.sc-card .sc-type{font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:8px}
+.sc-card.bull .sc-type{color:var(--green)}.sc-card.base .sc-type{color:var(--amber)}.sc-card.bear .sc-type{color:var(--red)}
+.sc-card .sc-value{font-size:2rem;font-weight:900;color:#fff;margin-bottom:4px}
+.sc-card .sc-prob{font-size:0.8rem;color:var(--text-muted);margin-bottom:8px}
+.sc-card .sc-driver{font-size:0.75rem;color:var(--text-dim);line-height:1.4}
+.range-bar{position:relative;height:48px;background:var(--card);border:1px solid var(--card-border);border-radius:8px;margin:20px 0;overflow:hidden}
+.range-fill{position:absolute;top:0;bottom:0;border-radius:8px}
+.range-marker{position:absolute;top:0;bottom:0;display:flex;align-items:center;justify-content:center;flex-direction:column;font-size:0.65rem;font-weight:700;z-index:1}
+.range-marker .marker-val{font-size:0.85rem}
+.key-insight{background:var(--card);border:1px solid var(--card-border);border-left:3px solid var(--accent-btc);border-radius:8px;padding:16px 20px;font-size:0.85rem;color:var(--text-muted);line-height:1.6;margin-top:16px}
+
+/* TIMELINE */
+.timeline-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:16px}
+.timeline-col{background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:20px}
+.timeline-col h3{font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:12px;color:var(--accent-btc)}
+.timeline-col ul{list-style:none;padding:0}
+.timeline-col li{padding:6px 0;font-size:0.8rem;color:var(--text-muted);border-bottom:1px solid rgba(26,26,46,0.3);display:flex;align-items:center;gap:8px}
+.timeline-col li:last-child{border-bottom:none}
+.timeline-col li::before{content:'▸';color:var(--accent-btc);font-size:0.7rem}
+.timeline-principle{font-size:0.85rem;color:var(--text-muted);font-style:italic;padding:12px 16px;background:var(--card);border:1px solid var(--card-border);border-radius:8px;line-height:1.5}
+
+/* RISK */
+.risk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.risk-card{background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:20px}
+.risk-card h4{font-size:0.85rem;font-weight:700;color:#fff;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+.risk-card .impact{font-size:0.8rem;color:var(--red);margin-bottom:6px}
+.risk-card .mitigation{font-size:0.8rem;color:var(--text-muted);line-height:1.5}
+
+/* FOOTER */
+.footer{border-top:1px solid var(--card-border);padding:32px 0;text-align:center}
+.footer p{font-size:0.75rem;color:var(--text-dim);margin-bottom:6px}
+.footer .disclaimer{font-style:italic;opacity:0.6}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--card-border);border-radius:3px}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .container{padding:0 16px}
+  .stats-bar{gap:16px}
+  .alloc-card .pct{font-size:1.8rem}
+  .donut-container{flex-direction:column}
+  .tesla-section{padding:20px}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="container">
+    <h1 class="header-title"><span>10x PORTFOLIO</span></h1>
+    <p class="header-sub">
+      <span class="live-dot"></span>
+      $10M → $100M&nbsp;&nbsp;|&nbsp;&nbsp;Age 57&nbsp;&nbsp;|&nbsp;&nbsp;4-Year Horizon&nbsp;&nbsp;|&nbsp;&nbsp;March 2026
+    </p>
+    <div class="stats-bar">
+      <div class="stat-item"><div class="stat-label">Starting Capital</div><div class="stat-value">$10M</div></div>
+      <div class="stat-item"><div class="stat-label">Target</div><div class="stat-value">$100M</div></div>
+      <div class="stat-item"><div class="stat-label">Time Horizon</div><div class="stat-value">4 Years</div></div>
+      <div class="stat-item"><div class="stat-label">Required Return</div><div class="stat-value">78% Ann.</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- TICKER BAR -->
+<div class="ticker-wrap">
+  <div class="ticker-track" id="ticker"></div>
+</div>
+
+<!-- THESIS -->
+<section class="container">
+  <div class="collapsible-header open" onclick="toggleCollapse(this)">
+    <div class="section-title">The Thesis</div>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="collapsible-body" id="thesisBody">
+    <div class="thesis-card btc">
+      <h3>Why Now</h3>
+      <p>Bitcoin sits at extreme fear (18/100) while US debt is $36.2T and growing. The Fed will be forced to cut and restart QE within 12-24 months. You are buying the debasement thesis at maximum pessimism.</p>
+    </div>
+    <div class="thesis-card ai">
+      <h3>AI Infrastructure</h3>
+      <p>NVDA down from highs, AI infrastructure small-caps pulled back 20-40%. Meanwhile hyperscaler capex for 2026-2027 is the largest in corporate history. Leopold Aschenbrenner: AGI by 2027. The physical layer buildout is barely 20% complete.</p>
+    </div>
+    <div class="thesis-card signal">
+      <h3>The Signal</h3>
+      <p>Lyn Alden's personal money — cold storage BTC, MSTR, Metaplanet, BTC private equity — is 3-4x more Bitcoin-concentrated than her public portfolios. The sharpest macro analyst alive has her personal net worth in exactly this thesis.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ALLOCATION ARCHITECTURE -->
+<section class="container">
+  <div class="section-title">Allocation Architecture</div>
+  <div class="alloc-grid">
+    <div class="alloc-card btc">
+      <div class="pct">40%</div>
+      <div class="cat-name">Bitcoin & BTC Ecosystem</div>
+      <div class="amount">$4,000,000</div>
+      <div class="rationale">Core debasement hedge. BTC + leveraged proxies at extreme fear entry.</div>
+    </div>
+    <div class="alloc-card ai">
+      <div class="pct">25%</div>
+      <div class="cat-name">AI Infrastructure</div>
+      <div class="amount">$2,500,000</div>
+      <div class="rationale">Physical layer buildout — optics, power, cooling. Hyperscaler capex is locked in.</div>
+    </div>
+    <div class="alloc-card tesla">
+      <div class="pct">15%</div>
+      <div class="cat-name">Tesla / Autonomy</div>
+      <div class="amount">$1,500,000</div>
+      <div class="rationale">Robotaxi optionality + Megapack energy growth. 86% expected upside at $250.</div>
+    </div>
+    <div class="alloc-card gold">
+      <div class="pct">10%</div>
+      <div class="cat-name">Gold & Hard Assets</div>
+      <div class="amount">$1,000,000</div>
+      <div class="rationale">Portfolio stabilizer. Central bank buying trend + geopolitical hedge.</div>
+    </div>
+    <div class="alloc-card options">
+      <div class="pct">10%</div>
+      <div class="cat-name">Options & Asymmetric</div>
+      <div class="amount">$1,000,000</div>
+      <div class="rationale">LEAPS + BTC calls for convex upside. Accept total loss for 10-17x potential.</div>
+    </div>
+  </div>
+  <div class="donut-container">
+    <div class="donut"></div>
+    <div class="donut-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--accent-btc)"></div>Bitcoin & BTC Ecosystem — 40%</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--accent-ai)"></div>AI Infrastructure — 25%</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--accent-tesla)"></div>Tesla / Autonomy — 15%</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--accent-gold)"></div>Gold & Hard Assets — 10%</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--accent-options)"></div>Options & Asymmetric — 10%</div>
+    </div>
+  </div>
+</section>
+
+<!-- POSITION TABLE -->
+<section class="container">
+  <div class="section-title">Positions</div>
+  <div class="table-controls">
+    <button class="sort-btn active" onclick="sortTable('default',this)">Default</button>
+    <button class="sort-btn" onclick="sortTable('allocation',this)">By Allocation ↓</button>
+    <button class="sort-btn" onclick="sortTable('risk',this)">By Risk ↓</button>
+    <button class="sort-btn" onclick="sortTable('category',this)">By Category</button>
+  </div>
+  <div class="table-wrap">
+    <table class="pos-table" id="posTable">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Ticker</th>
+          <th>Position</th>
+          <th>Category</th>
+          <th>Invested</th>
+          <th>% Port</th>
+          <th>Target</th>
+          <th>Risk</th>
+        </tr>
+      </thead>
+      <tbody id="posBody"></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- TESLA DEEP DIVE -->
+<section class="container">
+  <div class="section-title">Tesla Deep Dive</div>
+  <div class="tesla-section">
+    <div class="tesla-scenarios">
+      <div class="tesla-card bull">
+        <div class="sc-label">Bull Case</div>
+        <div class="price">$800 – $1,000</div>
+        <div class="prob">25% Probability</div>
+        <div class="assumption">Robotaxi scales nationally, Optimus ships commercially, Energy division at $25B revenue</div>
+      </div>
+      <div class="tesla-card base">
+        <div class="sc-label">Base Case</div>
+        <div class="price">$400 – $600</div>
+        <div class="prob">40% Probability</div>
+        <div class="assumption">Robotaxi limited rollout, Energy grows steadily, Auto segment stabilizes margins</div>
+      </div>
+      <div class="tesla-card bear">
+        <div class="sc-label">Bear Case</div>
+        <div class="price">$80 – $150</div>
+        <div class="prob">35% Probability</div>
+        <div class="assumption">Robotaxi fails regulatory/tech hurdles, BYD competition intensifies, brand damage from politics</div>
+      </div>
+    </div>
+    <div class="ev-box">
+      <div class="ev-title">Expected Value Calculation</div>
+      <div class="ev-value">$465 / share</div>
+      <div class="ev-sub">vs. current $250 = <strong style="color:var(--green)">86% expected upside</strong></div>
+    </div>
+    <div class="drivers-grid">
+      <div class="driver-card">
+        <h4>Robotaxi <span class="prob-badge prob-mid">50% by 2028</span></h4>
+        <p>Fully autonomous ride-hailing at scale. Binary outcome — either it works or it doesn't. The single largest swing factor in Tesla's valuation.</p>
+      </div>
+      <div class="driver-card">
+        <h4>Optimus <span class="prob-badge prob-low">30% by 2028</span></h4>
+        <p>Humanoid robot commercialization. If it ships, the TAM dwarfs everything else. Low probability but enormous asymmetric upside.</p>
+      </div>
+      <div class="driver-card">
+        <h4>Megapack Energy <span class="prob-badge prob-high">90% probability</span></h4>
+        <p>$12.8B revenue today growing 30% year-over-year. 30% gross margins. The most underrated, highest-conviction Tesla thesis driver.</p>
+      </div>
+    </div>
+    <div class="verdict">VERDICT: BUY — $1.3M Total Position ($1M Shares + $300K LEAPS)</div>
+  </div>
+</section>
+
+<!-- SCENARIO PROJECTIONS -->
+<section class="container">
+  <div class="section-title">Scenario Projections</div>
+  <div class="scenario-cards">
+    <div class="sc-card bull">
+      <div class="sc-type">Bull Case</div>
+      <div class="sc-value">~$100M</div>
+      <div class="sc-prob">15-20% Probability</div>
+      <div class="sc-driver">BTC to $500K+, AI infrastructure 8-10x, Tesla Robotaxi scales, options hit max payoff</div>
+    </div>
+    <div class="sc-card base">
+      <div class="sc-type">Base Case</div>
+      <div class="sc-value">~$40M</div>
+      <div class="sc-prob">40-45% Probability</div>
+      <div class="sc-driver">BTC to $200-250K, AI infrastructure grows 4-5x, Tesla base case, gold steady appreciation</div>
+    </div>
+    <div class="sc-card bear">
+      <div class="sc-type">Bear Case</div>
+      <div class="sc-value">~$6M</div>
+      <div class="sc-prob">15-20% Probability</div>
+      <div class="sc-driver">Macro recession, crypto winter extended, AI capex pullback, options expire worthless</div>
+    </div>
+  </div>
+  <div class="range-bar">
+    <div class="range-fill" style="left:0;right:0;background:linear-gradient(90deg,rgba(239,68,68,0.15),rgba(245,158,11,0.15) 36%,rgba(34,197,94,0.08))"></div>
+    <div class="range-marker" style="left:6%;color:var(--red)"><div class="marker-val">$6M</div><div>BEAR</div></div>
+    <div class="range-marker" style="left:36%;color:var(--amber)"><div class="marker-val">$40M</div><div>BASE</div></div>
+    <div class="range-marker" style="left:88%;color:var(--green)"><div class="marker-val">$100M</div><div>BULL</div></div>
+  </div>
+  <div class="key-insight">
+    <strong>Key Insight:</strong> Even if only BTC works ($83K → $250K), the 40% allocation + MSTR leverage gets you to $25-30M. The portfolio is constructed so that the largest allocation has the highest base-case probability.
+  </div>
+</section>
+
+<!-- EXECUTION TIMELINE -->
+<section class="container">
+  <div class="section-title">Execution Timeline</div>
+  <div class="timeline-grid">
+    <div class="timeline-col">
+      <h3>Month 1 — Foundation</h3>
+      <ul>
+        <li>BTC: $2M direct purchase (cold storage)</li>
+        <li>TSLA: $1M shares at ~$250</li>
+        <li>MSTR: $800K shares</li>
+        <li>GLD: $700K ETF position</li>
+        <li>Cash reserve: $800K T-bills</li>
+      </ul>
+    </div>
+    <div class="timeline-col">
+      <h3>Month 2 — Infrastructure</h3>
+      <ul>
+        <li>COHR: $500K optical networking</li>
+        <li>MRVL: $500K custom silicon</li>
+        <li>VRT: $400K power/cooling</li>
+        <li>IREN: $300K miner + AI data center</li>
+        <li>SMR + OKLO: $600K nuclear power</li>
+      </ul>
+    </div>
+    <div class="timeline-col">
+      <h3>Month 3 — Asymmetry</h3>
+      <ul>
+        <li>NVDA LEAPS: $400K Jan 2028 $200 calls</li>
+        <li>TSLA LEAPS: $300K Jan 2028 $300 calls</li>
+        <li>BTC Calls: $200K Dec 2027 $150K strike</li>
+        <li>STRF + METU + UEC: $800K remaining</li>
+        <li>GLD covered calls: $100K yield strategy</li>
+      </ul>
+    </div>
+  </div>
+  <div class="timeline-principle">"BTC and TSLA first — they have near-term catalysts (extreme fear entry + Cybercab production April 2026). Deploy Month 1 capital immediately. Options in Month 3 after establishing core positions."</div>
+</section>
+
+<!-- RISK PANEL -->
+<section class="container">
+  <div class="section-title">Risk Panel</div>
+  <div class="risk-grid">
+    <div class="risk-card">
+      <h4>BTC Regulatory Crackdown <span class="prob-badge prob-low" style="font-size:0.65rem">10%</span></h4>
+      <div class="impact">Impact: BTC bucket down 40-60%, portfolio -$1.5M to -$2.5M</div>
+      <div class="mitigation"><strong>Mitigation:</strong> ETF infrastructure makes outright ban near-impossible. MSTR and COIN provide regulated exposure. Geographic diversification via Metaplanet (Japan).</div>
+    </div>
+    <div class="risk-card">
+      <h4>AI Capex Winter <span class="prob-badge prob-mid" style="font-size:0.65rem">15%</span></h4>
+      <div class="impact">Impact: AI infrastructure positions down 50-70%, portfolio -$1.2M to -$1.8M</div>
+      <div class="mitigation"><strong>Mitigation:</strong> Positions chosen for revenue today (COHR, MRVL, VRT) not speculative. Hyperscaler capex already contracted through 2027. Nuclear positions hedge via energy demand regardless of AI spending.</div>
+    </div>
+    <div class="risk-card">
+      <h4>Tesla Key Man Risk — Elon <span class="prob-badge prob-low" style="font-size:0.65rem">10%</span></h4>
+      <div class="impact">Impact: TSLA down 30-50%, portfolio -$500K to -$750K</div>
+      <div class="mitigation"><strong>Mitigation:</strong> LEAPS provide defined-risk exposure. Energy division operates independently. Share position can be hedged with puts if political risk escalates.</div>
+    </div>
+    <div class="risk-card">
+      <h4>Geopolitical / War Escalation <span class="prob-badge prob-low" style="font-size:0.65rem">10%</span></h4>
+      <div class="impact">Impact: Broad market -20-30%, uranium/gold positions may offset</div>
+      <div class="mitigation"><strong>Mitigation:</strong> Gold + uranium positions act as war hedges. BTC historically recovers within 6-12 months of geopolitical shocks. Cash reserve provides dry powder.</div>
+    </div>
+    <div class="risk-card">
+      <h4>Concentration Risk <span class="prob-badge prob-low" style="font-size:0.65rem">5%</span></h4>
+      <div class="impact">Impact: Catastrophic scenario — correlated drawdown across all risk assets simultaneously</div>
+      <div class="mitigation"><strong>Mitigation:</strong> 10% gold + 8% cash provides $1.8M floor. Positions span 5 sectors with different return drivers. Age 57 means this is a 4-year window, not a retirement portfolio — risk is sized accordingly.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer container">
+  <p>Built March 21, 2026 &nbsp;|&nbsp; Analysis powered by Lyn Alden, Leopold Aschenbrenner, Jordi Visser frameworks</p>
+  <p class="disclaimer">Not financial advice. All investments involve risk of loss.</p>
+</footer>
+
+<script>
+// POSITIONS DATA
+const positions = [
+  {id:1,ticker:'BTC',name:'Bitcoin Direct',cat:'BTC',catClass:'cat-btc',amt:2000000,target:'5-6x',risk:2,thesis:'Core position. Cold storage BTC at extreme fear. Debasement thesis with $36.2T national debt and inevitable QE restart. Lyn Alden\'s highest conviction asset.'},
+  {id:2,ticker:'MSTR',name:'MicroStrategy',cat:'BTC',catClass:'cat-btc',amt:800000,target:'5-8x',risk:3,thesis:'Leveraged BTC proxy. NAV premium justified by convertible bond arbitrage structure. Saylor acquiring $42B+ in BTC. Outperforms BTC in bull markets by 2-3x.'},
+  {id:3,ticker:'METU',name:'Metaplanet',cat:'BTC',catClass:'cat-btc',amt:200000,target:'5-10x',risk:4,thesis:'Japan\'s MicroStrategy. Geographic diversification of BTC thesis. Smaller market cap = higher beta. Benefits from yen weakness narrative.'},
+  {id:4,ticker:'IREN',name:'Iris Energy',cat:'BTC',catClass:'cat-btc',amt:300000,target:'6-10x',risk:4,thesis:'BTC miner pivoting to AI data centers. Dual revenue stream: mining + GPU compute. Existing power infrastructure is the moat. Beneficiary of both BTC and AI theses.'},
+  {id:5,ticker:'COIN',name:'Coinbase',cat:'BTC',catClass:'cat-btc',amt:200000,target:'4-5x',risk:3,thesis:'Crypto on-ramp monopoly in US regulated market. Revenue scales with crypto volume. Staking revenue provides floor. Regulatory clarity is a catalyst.'},
+  {id:6,ticker:'HOOD',name:'Robinhood',cat:'BTC',catClass:'cat-btc',amt:200000,target:'4-6x',risk:3,thesis:'Retail trading platform with growing crypto exposure. Crypto revenue accelerating. Gold card + cash management expanding TAM beyond trading.'},
+  {id:7,ticker:'STRF',name:'MSTR Preferred',cat:'BTC',catClass:'cat-btc',amt:300000,target:'1.4x + 10%/yr',risk:2,thesis:'Preferred stock with 10% yield + BTC upside participation. Lower volatility BTC exposure. Income generation while maintaining thesis alignment.'},
+  {id:8,ticker:'COHR',name:'Coherent Corp',cat:'AI',catClass:'cat-ai',amt:500000,target:'5-10x',risk:3,thesis:'Optical networking for AI data centers. 800G/1.6T transceivers are bottleneck for AI cluster scaling. Revenue already inflecting. Hyperscaler capex locked in through 2027.'},
+  {id:9,ticker:'MRVL',name:'Marvell Technology',cat:'AI',catClass:'cat-ai',amt:500000,target:'4-6x',risk:3,thesis:'Custom silicon (ASICs) for hyperscalers. Amazon, Google, Microsoft all designing custom AI chips — Marvell builds them. Revenue visibility through multi-year contracts.'},
+  {id:10,ticker:'SMR',name:'NuScale Power',cat:'AI',catClass:'cat-ai',amt:300000,target:'6-10x',risk:5,thesis:'Small modular nuclear reactors. AI data centers need 24/7 clean baseload power. First-mover in SMR with NRC design approval. High risk but addresses critical infrastructure gap.'},
+  {id:11,ticker:'OKLO',name:'Oklo Inc',cat:'AI',catClass:'cat-ai',amt:300000,target:'5-10x',risk:5,thesis:'Advanced fission microreactors. Sam Altman-backed. Targeting AI data center power needs. Pre-revenue but addresses existential bottleneck for AI scaling.'},
+  {id:12,ticker:'VRT',name:'Vertiv Holdings',cat:'AI',catClass:'cat-ai',amt:400000,target:'4-6x',risk:2,thesis:'Power and cooling infrastructure for data centers. Boring but essential — every AI GPU needs cooling. Revenue growing 20%+ with expanding margins. Lowest risk AI infrastructure play.'},
+  {id:13,ticker:'MOD',name:'Modine Manufacturing',cat:'AI',catClass:'cat-ai',amt:200000,target:'5-8x',risk:3,thesis:'Thermal management for data centers. Liquid cooling specialist as AI racks exceed air cooling limits. Small cap with accelerating revenue from data center segment.'},
+  {id:14,ticker:'TSLA',name:'Tesla Shares',cat:'TSLA',catClass:'cat-tesla',amt:1000000,target:'2.4-4x',risk:4,thesis:'Robotaxi + Optimus optionality at $250. Megapack Energy at $12.8B growing 30%/yr is underappreciated. Expected value $465 vs. $250 current = 86% upside.'},
+  {id:15,ticker:'GLD',name:'Gold ETF',cat:'GOLD',catClass:'cat-gold',amt:700000,target:'1.6-2.3x',risk:1,thesis:'Portfolio stabilizer. Central banks buying at record pace. Geopolitical hedge. $3,050/oz with momentum. Low-vol position that provides portfolio floor.'},
+  {id:16,ticker:'UEC',name:'Uranium Energy',cat:'GOLD',catClass:'cat-gold',amt:300000,target:'4.5-10x',risk:4,thesis:'Uranium producer. Nuclear renaissance driven by AI power demand + energy security. Supply deficit widening. US domestic production premium.'},
+  {id:17,ticker:'NVDA LEAPS',name:'NVDA Jan 2028 $200 Calls',cat:'OPTIONS',catClass:'cat-options',amt:400000,target:'3-9x or zero',risk:4,thesis:'Leveraged bet on continued AI infrastructure buildout. $200 strike gives room for pullback while maintaining upside. 2-year expiry provides time for thesis to play out.'},
+  {id:18,ticker:'TSLA LEAPS',name:'TSLA Jan 2028 $300 Calls',cat:'OPTIONS',catClass:'cat-options',amt:300000,target:'3-12x or zero',risk:5,thesis:'Defined-risk Robotaxi bet. If autonomous driving scales by 2028, these are worth 10x+. If not, lose the premium. Binary outcome with asymmetric payoff.'},
+  {id:19,ticker:'BTC Calls',name:'BTC Dec 2027 $150K Strike',cat:'OPTIONS',catClass:'cat-options',amt:200000,target:'5-17x or zero',risk:4,thesis:'Convex BTC upside. If BTC hits $250-500K by late 2027, these pay 5-17x. Structured as small allocation that can generate portfolio-level returns.'},
+  {id:20,ticker:'GLD CC',name:'GLD Covered Calls',cat:'OPTIONS',catClass:'cat-options',amt:100000,target:'5-8%/yr yield',risk:1,thesis:'Income generation on gold position. Sell OTM calls against GLD holdings. Caps upside at ~15% per cycle but generates consistent yield. Risk-free income on stable asset.'},
+  {id:21,ticker:'CASH',name:'Cash Reserve (T-bills)',cat:'CASH',catClass:'cat-cash',amt:800000,target:'4.25%/yr',risk:1,thesis:'Dry powder for drawdown deployment. Earning 4.25% risk-free in T-bills. Available to buy dips across all categories. Psychological safety net.'}
+];
+
+const total = 10000000;
+
+// RENDER TABLE
+function renderTable(data){
+  const tbody = document.getElementById('posBody');
+  tbody.innerHTML = '';
+  data.forEach((p,i) => {
+    const pct = ((p.amt/total)*100).toFixed(1);
+    const riskDots = Array.from({length:5},(_,j)=>`<div class="risk-dot r${j<p.risk?p.risk:0}" style="${j>=p.risk?'background:#27272a':''}"></div>`).join('');
+    const tr = document.createElement('tr');
+    tr.onclick = () => {
+      const exp = document.getElementById('exp-'+p.id);
+      exp.classList.toggle('show');
+    };
+    tr.innerHTML = `
+      <td style="color:var(--text-dim)">${i+1}</td>
+      <td class="ticker-cell">${p.ticker}</td>
+      <td>${p.name}</td>
+      <td><span class="cat-badge ${p.catClass}">${p.cat}</span></td>
+      <td>$${(p.amt/1000).toFixed(0)}K</td>
+      <td>${pct}%</td>
+      <td style="color:var(--green)">${p.target}</td>
+      <td><div class="risk-dots">${riskDots}</div></td>
+    `;
+    tbody.appendChild(tr);
+    const expTr = document.createElement('tr');
+    expTr.className = 'expand-row';
+    expTr.id = 'exp-'+p.id;
+    expTr.innerHTML = `<td colspan="8">${p.thesis}</td>`;
+    tbody.appendChild(expTr);
+  });
+}
+
+// SORT
+function sortTable(by, btn){
+  document.querySelectorAll('.sort-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  let sorted = [...positions];
+  if(by==='allocation') sorted.sort((a,b)=>b.amt-a.amt);
+  else if(by==='risk') sorted.sort((a,b)=>b.risk-a.risk);
+  else if(by==='category') sorted.sort((a,b)=>a.cat.localeCompare(b.cat));
+  renderTable(sorted);
+}
+
+// TICKER
+const tickerData = [
+  {label:'BTC',value:'$83,000',cls:'t-amber'},
+  {label:'GOLD',value:'$3,050',cls:'t-green'},
+  {label:'NVDA',value:'$175',cls:'t-red'},
+  {label:'TSLA',value:'$250',cls:'t-amber'},
+  {label:'OIL',value:'$68',cls:'t-amber'},
+  {label:'10Y',value:'4.30%',cls:'t-red'},
+  {label:'FED',value:'4.25-4.50%',cls:'t-white'},
+  {label:'US DEBT',value:'$36.2T',cls:'t-red'},
+  {label:'BTC FEAR',value:'18 EXTREME FEAR',cls:'t-red'},
+  {label:'GOLD GREED',value:'72',cls:'t-green'},
+  {label:'IRAN RISK',value:'ELEVATED',cls:'t-amber'}
+];
+function buildTicker(){
+  const track = document.getElementById('ticker');
+  let html = '';
+  for(let r=0;r<2;r++){
+    tickerData.forEach(t=>{
+      html+=`<span class="ticker-item"><span class="label">${t.label}</span><span class="${t.cls}">${t.value}</span></span>`;
+    });
+  }
+  track.innerHTML = html;
+}
+
+// COLLAPSIBLE
+function toggleCollapse(el){
+  el.classList.toggle('open');
+  const body = el.nextElementSibling;
+  body.classList.toggle('collapsed');
+}
+
+// INIT
+buildTicker();
+renderTable(positions);
+</script>
+</body>
+</html>

@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Master Investment Synthesis — April 2026</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, 'Segoe UI', sans-serif; background: #0a0a0f; color: #e8e4df; line-height: 1.6; font-size: 14px; }
+  .hero { background: linear-gradient(135deg, #0f1a0f 0%, #1a2e1a 50%, #0f3410 100%); padding: 40px 20px 30px; text-align: center; border-bottom: 3px solid #27ae60; }
+  .hero h1 { font-size: 1.8em; color: #fff; margin-bottom: 6px; }
+  .hero .sub { font-size: 0.9em; color: #a8a8b3; }
+  .hero .thesis { max-width: 700px; margin: 15px auto 0; background: rgba(39,174,96,0.1); border: 1px solid rgba(39,174,96,0.3); border-radius: 8px; padding: 14px 18px; font-size: 0.95em; color: #e8e4df; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 25px 15px; }
+  h2.section { color: #f39c12; font-size: 1.2em; margin: 30px 0 12px; padding-bottom: 6px; border-bottom: 1px solid #2a2a3d; }
+
+  /* Main table */
+  .mtable { width: 100%; border-collapse: collapse; margin: 12px 0 25px; font-size: 0.82em; }
+  .mtable th { background: #141420; color: #f39c12; padding: 8px 6px; text-align: left; border-bottom: 2px solid #2a2a3d; position: sticky; top: 0; font-size: 0.85em; }
+  .mtable td { padding: 7px 6px; border-bottom: 1px solid #1a1a25; }
+  .mtable tr:hover { background: rgba(39,174,96,0.05); }
+  .mtable .ticker { font-weight: bold; color: #fff; font-size: 1.1em; }
+  .mtable .buy { color: #27ae60; font-weight: bold; }
+  .mtable .wait { color: #f39c12; font-weight: bold; }
+  .mtable .price { color: #3498db; }
+  .mtable .exit { color: #27ae60; }
+  .mtable .upside { color: #2ecc71; font-weight: bold; }
+  .mtable .conv { color: #f39c12; }
+  .tier-label { background: #141420; padding: 6px 12px; font-weight: bold; font-size: 0.9em; border-left: 3px solid; }
+  .t1 { border-left-color: #27ae60; color: #27ae60; }
+  .t2 { border-left-color: #3498db; color: #3498db; }
+  .t3 { border-left-color: #f39c12; color: #f39c12; }
+
+  /* Sources matrix */
+  .smatrix { width: 100%; border-collapse: collapse; margin: 12px 0 25px; font-size: 0.75em; }
+  .smatrix th { background: #141420; color: #888; padding: 6px 4px; text-align: center; border-bottom: 2px solid #2a2a3d; font-size: 0.85em; }
+  .smatrix th:first-child { text-align: left; min-width: 60px; }
+  .smatrix td { padding: 5px 4px; border-bottom: 1px solid #1a1a25; text-align: center; }
+  .smatrix td:first-child { text-align: left; font-weight: bold; color: #fff; }
+  .smatrix .dot { display: inline-block; width: 14px; height: 14px; border-radius: 50%; }
+  .smatrix .core { background: #27ae60; }
+  .smatrix .added { background: #3498db; }
+  .smatrix .agrees { background: #f39c12; }
+  .smatrix .caution { background: #e74c3c; }
+  .smatrix .empty { background: #1a1a25; }
+
+  /* Voice cards */
+  .voices { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; margin: 15px 0; }
+  .voice { background: #141420; border: 1px solid #2a2a3d; border-radius: 8px; padding: 16px; }
+  .voice h3 { font-size: 0.95em; margin-bottom: 8px; }
+  .voice p { color: #999; font-size: 0.85em; margin-bottom: 6px; }
+  .voice .quote { color: #ccc; font-style: italic; font-size: 0.85em; border-left: 2px solid #f39c12; padding-left: 10px; margin: 8px 0; }
+  .voice .positions { color: #27ae60; font-size: 0.82em; margin-top: 6px; }
+
+  /* Theme bars */
+  .theme-row { display: flex; align-items: center; margin: 6px 0; }
+  .theme-label { min-width: 240px; color: #ccc; font-size: 0.82em; }
+  .theme-fill { height: 24px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 0.7em; font-weight: bold; color: #fff; }
+
+  /* Warn cards */
+  .warn { background: #1a1418; border: 1px solid rgba(231,76,60,0.2); border-radius: 8px; padding: 16px; margin: 12px 0; }
+  .warn h3 { color: #e74c3c; font-size: 0.95em; margin-bottom: 8px; }
+  .warn li { color: #ccc; font-size: 0.85em; margin: 4px 0; }
+
+  /* One pick */
+  .one-pick { background: linear-gradient(135deg, #1a2a1a 0%, #142014 100%); border: 2px solid #27ae60; border-radius: 12px; padding: 25px; margin: 25px 0; text-align: center; }
+  .one-pick h2 { color: #27ae60; font-size: 1.3em; margin-bottom: 10px; }
+  .one-pick p { color: #ccc; font-size: 0.9em; max-width: 600px; margin: 0 auto; }
+
+  .footer { text-align: center; padding: 30px 20px; color: #555; font-size: 0.7em; border-top: 1px solid #1e1e30; margin-top: 30px; }
+  .legend { display: flex; gap: 15px; flex-wrap: wrap; margin: 8px 0; font-size: 0.78em; color: #888; }
+  .legend span { display: flex; align-items: center; gap: 4px; }
+
+  @media (max-width: 700px) { .voices { grid-template-columns: 1fr; } .mtable { font-size: 0.72em; } }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>📊 Master Investment Synthesis</h1>
+  <p class="sub">10 Sources · Live Prices April 1, 2026 · Buy & Hold Only</p>
+  <div class="thesis"><strong>Thesis:</strong> Own Bitcoin as the monetary anchor, own the power stack feeding AI, own miner-to-HPC pivots as torque.</div>
+</div>
+
+<div class="container">
+
+<!-- ========== MAIN TABLE ========== -->
+<h2 class="section">📋 Portfolio — Live Prices, Buy Zones, Exit Targets</h2>
+
+<table class="mtable">
+<thead>
+<tr><th>Ticker</th><th>Name</th><th>Price 4/1</th><th>Entry</th><th>Buy Zone</th><th>Base Exit</th><th>Bull Exit</th><th>Upside</th><th>Conv.</th><th>Alloc</th></tr>
+</thead>
+<tbody>
+<tr><td colspan="10" class="tier-label t1">🟢 TIER 1 — Core (65%)</td></tr>
+<tr><td class="ticker">BTC</td><td>Bitcoin</td><td class="price">$67,870</td><td class="buy">✅ NOW</td><td>$60-68K</td><td class="exit">$350,000</td><td class="exit">$750,000</td><td class="upside">+415-1,005%</td><td class="conv">10</td><td>25%*</td></tr>
+<tr><td class="ticker">VST</td><td>Vistra — Nuclear+Gas Power</td><td class="price">$142.35</td><td class="buy">✅ NOW</td><td>&lt;$145</td><td class="exit">$280</td><td class="exit">$450</td><td class="upside">+97-216%</td><td class="conv">9</td><td>12%</td></tr>
+<tr><td class="ticker">CEG</td><td>Constellation Energy — Nuclear</td><td class="price">$218.47</td><td class="buy">✅ NOW</td><td>&lt;$225</td><td class="exit">$450</td><td class="exit">$700</td><td class="upside">+106-220%</td><td class="conv">9</td><td>10%</td></tr>
+<tr><td class="ticker">EQT</td><td>EQT Corp — Nat Gas</td><td class="price">$42.18</td><td class="buy">✅ NOW</td><td>&lt;$44</td><td class="exit">$85</td><td class="exit">$130</td><td class="upside">+102-208%</td><td class="conv">8.5</td><td>8%</td></tr>
+<tr><td class="ticker">AVGO</td><td>Broadcom — AI Networking</td><td class="price">$1,456.89</td><td class="buy">✅ NOW</td><td>&lt;$1,500</td><td class="exit">$3,000</td><td class="exit">$5,000</td><td class="upside">+106-243%</td><td class="conv">8.5</td><td>8%</td></tr>
+<tr><td class="ticker">URNM</td><td>Sprott Uranium Miners</td><td class="price">$48.72</td><td class="wait">⚠️ PARTIAL</td><td>Add $38-42</td><td class="exit">$80</td><td class="exit">$140</td><td class="upside">+64-187%</td><td class="conv">8.5</td><td>6%</td></tr>
+<tr><td class="ticker">GLD</td><td>Gold ETF</td><td class="price">~$430</td><td class="wait">⚠️ PARTIAL</td><td>Add &lt;$4,500 spot</td><td class="exit">$550</td><td class="exit">$700</td><td class="upside">+28-63%</td><td class="conv">8</td><td>4%</td></tr>
+
+<tr><td colspan="10" class="tier-label t2">🔵 TIER 2 — Satellite (25%)</td></tr>
+<tr><td class="ticker">CORZ</td><td>Core Scientific — Miner→AI</td><td class="price">$12.45</td><td class="buy">✅ NOW</td><td>&lt;$13</td><td class="exit">$55</td><td class="exit">$120</td><td class="upside">+342-864%</td><td class="conv">9</td><td>7%</td></tr>
+<tr><td class="ticker">IREN</td><td>Iris Energy — Miner+AI</td><td class="price">$9.82</td><td class="buy">✅ NOW</td><td>&lt;$10</td><td class="exit">$35</td><td class="exit">$75</td><td class="upside">+256-664%</td><td class="conv">8.5</td><td>5%</td></tr>
+<tr><td class="ticker">APLD</td><td>Applied Digital — AI Infra</td><td class="price">$6.91</td><td class="buy">✅ NOW</td><td>&lt;$7</td><td class="exit">$25</td><td class="exit">$55</td><td class="upside">+262-696%</td><td class="conv">8</td><td>5%</td></tr>
+<tr><td class="ticker">TLN</td><td>Talen Energy — Nuclear+Amazon</td><td class="price">~$195</td><td class="buy">✅ NOW</td><td>&lt;$200</td><td class="exit">$400</td><td class="exit">$650</td><td class="upside">+105-233%</td><td class="conv">8</td><td>5%</td></tr>
+<tr><td class="ticker">GLXY</td><td>Galaxy Digital — Crypto Infra</td><td class="price">$18.50</td><td class="buy">✅ NOW</td><td>&lt;$20</td><td class="exit">$65</td><td class="exit">$150</td><td class="upside">+251-711%</td><td class="conv">8</td><td>4%</td></tr>
+<tr><td class="ticker">TSLA</td><td>Tesla — Autonomy/Robotics</td><td class="price">$378.42</td><td class="wait">⚠️ WAIT</td><td>&lt;$350</td><td class="exit">$800</td><td class="exit">$1,500</td><td class="upside">+111-296%</td><td class="conv">7.5</td><td>5%</td></tr>
+
+<tr><td colspan="10" class="tier-label t3">🟡 TIER 3 — Opportunistic (10%)</td></tr>
+<tr><td class="ticker">BE</td><td>Bloom Energy — Fuel Cells</td><td class="price">$24.67</td><td class="wait">⚠️ WAIT</td><td>&lt;$22</td><td class="exit">$55</td><td class="exit">$100</td><td class="upside">+123-305%</td><td class="conv">7</td><td>3%</td></tr>
+<tr><td class="ticker">LITE</td><td>Lumentum — Optical</td><td class="price">$82.14</td><td class="wait">⚠️ WAIT</td><td>&lt;$80</td><td class="exit">$160</td><td class="exit">$250</td><td class="upside">+95-204%</td><td class="conv">7</td><td>2%</td></tr>
+<tr><td class="ticker">HUT</td><td>Hut 8 — Miner/Infra</td><td class="price">$15.28</td><td class="buy">✅ NOW</td><td>&lt;$16</td><td class="exit">$55</td><td class="exit">$110</td><td class="upside">+260-620%</td><td class="conv">6.5</td><td>2%</td></tr>
+<tr><td class="ticker">CIFR</td><td>Cipher Mining</td><td class="price">$5.63</td><td class="buy">✅ NOW</td><td>&lt;$6</td><td class="exit">$18</td><td class="exit">$40</td><td class="upside">+220-611%</td><td class="conv">6.5</td><td>1%</td></tr>
+<tr><td class="ticker">SWVXX</td><td>Schwab MM — Dry Powder</td><td class="price">—</td><td class="buy">✅ HOLD</td><td>—</td><td colspan="2">~4.8-5.0% yield / ~$5,200/mo on $1.3M</td><td>—</td><td class="conv">10</td><td>13%</td></tr>
+</tbody>
+</table>
+<p style="color: #666; font-size: 0.75em;">*BTC = existing position ($5.25M). Allocation % for equities based on ~$10M deployable non-BTC capital.</p>
+
+<!-- ========== SOURCES MATRIX ========== -->
+<h2 class="section">🔍 Sources Matrix — Who Backs What</h2>
+
+<div class="legend">
+  <span><span class="dot core" style="width:10px;height:10px;border-radius:50%;display:inline-block;"></span> Core holding</span>
+  <span><span class="dot added" style="width:10px;height:10px;border-radius:50%;display:inline-block;"></span> Added / Supports</span>
+  <span><span class="dot agrees" style="width:10px;height:10px;border-radius:50%;display:inline-block;"></span> Thesis aligns</span>
+  <span><span class="dot caution" style="width:10px;height:10px;border-radius:50%;display:inline-block;"></span> Caution / Hedge</span>
+</div>
+
+<table class="smatrix">
+<thead>
+<tr><th>Ticker</th><th>Leopold<br>Fund</th><th>Leopold<br>Written</th><th>Lyn<br>Alden</th><th>Zeihan</th><th>Drucken-<br>miller</th><th>PTJ /<br>Hormuz</th><th>Macro<br>Monday</th><th>Invest<br>Answers</th><th>Moon-<br>shots</th><th>Crabtree</th></tr>
+</thead>
+<tbody>
+<tr><td>BTC</td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot core"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot agrees"></span></td><td><span class="dot core"></span></td><td><span class="dot core"></span></td><td><span class="dot core"></span></td><td><span class="dot empty"></span></td></tr>
+<tr><td>VST</td><td><span class="dot core"></span></td><td><span class="dot agrees"></span></td><td><span class="dot empty"></span></td><td><span class="dot agrees"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot agrees"></span></td><td><span class="dot empty"></span></td></tr>
+<tr><td>CEG</td><td><span class="dot core"></span></td><td><span class="dot core"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot agrees"></span></td><td><span class="dot empty"></span></td></tr>
+<tr><td>EQT</td><td><span class="dot core"></span></td><td><span class="dot agrees"></span></td><td><span class="dot empty"></span></td><td><span class="dot core"></span></td><td><span class="dot empty"></span></td><td><span class="dot agrees"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td></tr>
+<tr><td>AVGO</td><td><span class="dot added"></span></td><td><span class="dot agrees"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot agrees"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot agrees"></span></td><td><span class="dot empty"></span></td></tr>
+<tr><td>URNM</td><td><span class="dot empty"></span></td><td><span class="dot core"></span></td><td><span class="dot empty"></span></td><td><span class="dot agrees"></span></td><td><span class="dot empty"></span></td><td><span class="dot core"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td></tr>
+<tr><td>GLD</td><td><span class="dot caution"></span></td><td><span class="dot empty"></span></td><td><span class="dot agrees"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot core"></span></td><td><span class="dot caution"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td></tr>
+<tr><td>CORZ</td><td><span class="dot core"></span></td><td><span class="dot agrees"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot agrees"></span></td><td><span class="dot agrees"></span></td><td><span class="dot empty"></span></td></tr>
+<tr><td>IREN</td><td><span class="dot core"></span></td><td><span class="dot agrees"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td></tr>
+<tr><td>APLD</td><td><span class="dot core"></span></td><td><span class="dot agrees"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td></tr>
+<tr><td>TLN</td><td><span class="dot added"></span></td><td><span class="dot core"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td></tr>
+<tr><td>GLXY</td><td><span class="dot added"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot agrees"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td></tr>
+<tr><td>TSLA</td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot agrees"></span></td><td><span class="dot core"></span></td><td><span class="dot empty"></span></td></tr>
+<tr><td>BE</td><td><span class="dot added"></span></td><td><span class="dot agrees"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot agrees"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td></tr>
+<tr><td>NVDA</td><td><span class="dot caution"></span></td><td><span class="dot agrees"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot empty"></span></td><td><span class="dot agrees"></span></td><td><span class="dot empty"></span></td></tr>
+</tbody>
+</table>
+
+<!-- ========== VOICE CARDS ========== -->
+<h2 class="section">🎙️ The Voices — What Each Pundit Sees</h2>
+
+<div class="voices">
+  <div class="voice" style="border-left: 3px solid #27ae60;">
+    <h3 style="color: #27ae60;">🧠 Leopold Aschenbrenner</h3>
+    <p><strong>Role:</strong> Champion. Fund grew 22x in 4 quarters. Wrote the 165-page AGI thesis.</p>
+    <div class="quote">"It doesn't require believing in sci-fi. It just requires believing in straight lines on a graph."</div>
+    <p><strong>Core thesis:</strong> AGI by 2027. Compute demand parabolic. 2026 clusters = 1 GW = Hoover Dam. 2030 = 100 GW = 20% of US electricity. Government takes over by 2028.</p>
+    <p><strong>What he owns:</strong> Power (VST, CEG, EQT, TLN), miners pivoting to AI (CORZ, IREN, APLD), compute infrastructure (AVGO, LITE, COHR), crypto (GLXY, RIOT, HUT, CIFR).</p>
+    <p><strong>What he hedges:</strong> NVDA puts, TSM puts, SMH puts, GDX puts. Translation: the obvious names are crowded. Own the second-order winners.</p>
+    <div class="positions">Positions: VST · CEG · EQT · CORZ · IREN · APLD · TLN · AVGO · GLXY · BE · LITE · HUT · CIFR</div>
+  </div>
+
+  <div class="voice" style="border-left: 3px solid #e94560;">
+    <h3 style="color: #e94560;">💰 Lyn Alden</h3>
+    <p><strong>Role:</strong> Monetary framework. Author of "Broken Money."</p>
+    <div class="quote">"Every currency system in the world has to grow or die. By the end, it resembles theft."</div>
+    <div class="quote">"The best product Coca-Cola ever sold was their bonds, not their Coke. They're literally shorting the thing you're holding in your bank account."</div>
+    <p><strong>Core thesis:</strong> System must grow or die. Default through debasement is the only exit. Short currency, own scarce things. BTC = zero supply growth vs 7%/year fiat growth. Gold asymmetry gone but not bearish. K-shaped economy. AI extends the system but doesn't fix it.</p>
+    <p><strong>On gold:</strong> Best contrarian adds below $4,500 spot. Forced liquidation selling created the dip — real buyers step in.</p>
+    <p><strong>On BTC:</strong> "Bitcoin held up oddly well during the crisis. Deleveraged, washed out, strong hands only. Portable scarce money."</p>
+    <div class="positions">Aligned: BTC · GLD · Anti-treasuries · Anti-fiat</div>
+  </div>
+
+  <div class="voice" style="border-left: 3px solid #f39c12;">
+    <h3 style="color: #f39c12;">🌍 Peter Zeihan</h3>
+    <p><strong>Role:</strong> Geopolitical strategist. The energy shock lens.</p>
+    <div class="quote">"This is the first time the Strait of Hormuz has ever been blocked. 98% reduction in traffic. We're already in a global recessionary environment even if this stops right now."</div>
+    <p><strong>Core thesis:</strong> Hormuz closure = structural multi-year disruption (1973, not Abqaiq). 81 Mtpa Qatar LNG offline. New Supreme Leader Mojtaba = military, not a negotiator. IRGC can't be bombed out — only internal fracture works (years). Interceptor math: Iran 700 Shaheds/week at $50K vs US 700 PAC-3s/year at $4M.</p>
+    <p><strong>Investment implication:</strong> Energy stays elevated. LNG crisis structural. Nuclear fills the gap. Defense production ramps for years regardless of ceasefire.</p>
+    <div class="positions">Aligned: EQT · URNM · Energy sector · Defense</div>
+  </div>
+
+  <div class="voice" style="border-left: 3px solid #3498db;">
+    <h3 style="color: #3498db;">📊 Macro Monday (Weisberger / McGlone / James)</h3>
+    <p><strong>Role:</strong> Market structure and macro mechanics.</p>
+    <div class="quote">"There's only one thing that's not uncertain. Governments are going to need to print money. The denominator is going to change. Assets denominated in dollars are going to be higher in nominal terms. They don't have to do a damn thing."</div>
+    <p><strong>Key data:</strong> $9.7T in Treasuries maturing 2026 + $2T deficit = $12T to refinance this year. Yield curve control coming — not if, when. World Uncertainty Index at all-time high (105,000).</p>
+    <p><strong>McGlone dissent:</strong> Bearish gold (peaked, $3K-$5K range for decade). Bearish everything except Treasuries. "This is just getting started" on the downside.</p>
+    <p><strong>Weisberger:</strong> BTC bottomed at $60K. Denominator changes. Own hard assets.</p>
+    <div class="positions">Aligned: BTC · Anti-treasuries · Gold (split view)</div>
+  </div>
+
+  <div class="voice" style="border-left: 3px solid #9b59b6;">
+    <h3 style="color: #9b59b6;">🎯 InvestAnswers (James / Rob / Marty / CTO)</h3>
+    <p><strong>Role:</strong> Crypto adoption mechanics and institutional flow tracking.</p>
+    <div class="quote">"Morgan Stanley launching BTC ETF with 16,000 advisors. If those customers dropped 2% into BTC, price goes to $224K."</div>
+    <p><strong>Key data:</strong> Clarity Act reportedly done — classifies crypto as commodity → unlocks pension funds, insurance companies. Genius Act effective Jan 17, 2027 — every US merchant must accept stablecoin. Whale stacking at record highs. MicroStrategy bought 40,000 BTC in 8 days. Institutions front-running Clarity via STRC (11.5% yield).</p>
+    <p><strong>Marty's theory:</strong> Iran war = Trojan horse to eliminate non-USD financial rails. Stablecoin becomes the new petrodollar.</p>
+    <div class="positions">Aligned: BTC · GLXY · Crypto infrastructure · CORZ</div>
+  </div>
+
+  <div class="voice" style="border-left: 3px solid #2ecc71;">
+    <h3 style="color: #2ecc71;">🚀 Moonshots (Diamandis / Dave / Alex / Salim)</h3>
+    <p><strong>Role:</strong> Exponential technology and abundance framework.</p>
+    <div class="quote">"Elon's Terrafab: 1 terawatt = 50x current global AI compute output. This is the most important endeavor in human history."</div>
+    <div class="quote">"W2 income gets pummeled in the next 3 years. Assets and ownership go through the roof. Buy stuff."</div>
+    <p><strong>Key thesis:</strong> S&P repricing — terminal value collapse (Chamath) but capital migrates, doesn't disappear. Mid-caps at 7x FCF with AI automation = triple cash flow. SpaceX IPO prediction markets at $2T+. Leopold's fund = the roadmap. Human drivers will become illegal.</p>
+    <p><strong>Dave's advice:</strong> "Go to 13f.info, look up Leopold's Situational Awareness Fund. Those are the things you want to own."</p>
+    <div class="positions">Aligned: TSLA · AVGO · AI power stack · Leopold's entire thesis</div>
+  </div>
+
+  <div class="voice" style="border-left: 3px solid #e67e22;">
+    <h3 style="color: #e67e22;">🐔 Greg Crabtree (Hunter Company Model)</h3>
+    <p><strong>Role:</strong> Operational reality check. The "chicken farmer from Alabama."</p>
+    <div class="quote">"The US economy has been at zero to negative 1% GDP growth since early 2023. Non-labor OPEX at 8-10% with zero activity growth? That's the real inflation number."</div>
+    <p><strong>Core thesis:</strong> Economy flat/shrinking in real terms. "Participation trophy economy" is over. Best operators separating from pack. PE debt crisis in 2 years. 2026 = year of optimization. Black hole now $3M-$10M.</p>
+    <p><strong>Contrarian view:</strong> No future acceleration possible (flat population). AI = deflation risk + unemployment. Doesn't buy the millennial cohort argument.</p>
+    <p><strong>Value to portfolio:</strong> His OPEX data IS the inflation proof. His PE debt crisis call = avoid leveraged rollups. His "optimize" advice = don't overextend on the bull thesis.</p>
+    <div class="positions">Aligned: Cash/dry powder · Operational discipline · Anti-PE debt</div>
+  </div>
+
+  <div class="voice" style="border-left: 3px solid #1abc9c;">
+    <h3 style="color: #1abc9c;">💼 Stanley Druckenmiller</h3>
+    <p><strong>Role:</strong> Macro legend. 30+ year track record. $54B under management.</p>
+    <p><strong>Biggest bets:</strong> Healthcare/biotech (~28% of portfolio), EM (~15%), financials, semiconductors. Top holdings: NTRA 13%, XLF 6.7%, EWZ 5.5%, TSM 3.7%.</p>
+    <p><strong>Overlap with thesis:</strong> Semi exposure (TSM, ENTG, LSCC), Bloom Energy (BE), emerging markets. Divergence: heavy healthcare that Leopold doesn't touch.</p>
+    <div class="positions">Overlaps: AVGO thesis · BE · Semi stack · EM exposure</div>
+  </div>
+</div>
+
+<!-- ========== THEME BARS ========== -->
+<h2 class="section">📊 Allocation by Theme</h2>
+<div class="theme-bar">
+  <div class="theme-row"><span class="theme-label">💵 Scarce Money (BTC + Gold + Uranium)</span><div class="theme-fill" style="width: 35%; background: linear-gradient(90deg, #f39c12, #e67e22);">35%</div></div>
+  <div class="theme-row"><span class="theme-label">⚡ AI Power & Energy (VST+CEG+EQT+TLN+BE)</span><div class="theme-fill" style="width: 33%; background: linear-gradient(90deg, #27ae60, #2ecc71);">33%</div></div>
+  <div class="theme-row"><span class="theme-label">⛏️ Crypto Equity Torque (CORZ+IREN+APLD+GLXY+HUT+CIFR)</span><div class="theme-fill" style="width: 19%; background: linear-gradient(90deg, #3498db, #2980b9);">19%</div></div>
+  <div class="theme-row"><span class="theme-label">🧠 AI Compute (AVGO + LITE)</span><div class="theme-fill" style="width: 10%; background: linear-gradient(90deg, #9b59b6, #8e44ad);">10%</div></div>
+  <div class="theme-row"><span class="theme-label">🚗 TSLA Optionality</span><div class="theme-fill" style="width: 5%; background: #e74c3c;">5%</div></div>
+  <div class="theme-row"><span class="theme-label">💵 Dry Powder (SWVXX ~5% yield)</span><div class="theme-fill" style="width: 13%; background: #555;">13%</div></div>
+</div>
+
+<!-- AVOID -->
+<div class="warn">
+  <h3>🚫 What to AVOID</h3>
+  <ul style="padding-left: 18px;">
+    <li><strong>NVDA</strong> — Leopold hedges with puts. Too crowded. Own AVGO instead.</li>
+    <li><strong>SMH / broad semi ETFs</strong> — Too blunt. Correlation risk without edge.</li>
+    <li><strong>CF Industries</strong> — Crowded, DOJ probe, negative edge (PTJ/Hormuz analysis).</li>
+    <li><strong>Long-term Treasuries</strong> — Lyn Alden: negative real return in debasement world.</li>
+    <li><strong>PE-backed rollups</strong> — Crabtree + Lyn both flag PE debt crisis in 2 years.</li>
+  </ul>
+</div>
+
+<!-- RISK -->
+<div class="warn">
+  <h3>⚠️ Biggest Risk to Entire Thesis</h3>
+  <p style="color: #ccc; font-size: 0.88em;"><strong>Sustained deflation that overwhelms printing.</strong> If AI productivity gains arrive faster than monetary expansion + demand collapses from demographics + Hormuz destruction simultaneously — every asset here corrects 40-50% together. Probability: ~15%. Mitigation: 13% dry powder + gold + cash-flowing power names (VST/CEG/EQT).</p>
+</div>
+
+<!-- ONE PICK -->
+<div class="one-pick">
+  <div style="font-size: 2em; margin-bottom: 8px;">₿</div>
+  <h2>If You Could Only Buy ONE Thing</h2>
+  <p><strong>Bitcoin at $67,870.</strong> Zero supply growth. Global liquidity sensitivity. Institutional adoption accelerating (Morgan Stanley, Clarity Act, Genius Act). Fully deleveraged after 23% Q1 drawdown. The monetary debasement thesis is the one that EVERY source agrees on. Leopold's fund is the tactical overlay. BTC is the strategic anchor.</p>
+</div>
+
+</div>
+
+<!-- ========== AGENT DEBATE ========== -->
+<h2 class="section">🤖 Agent Debate — 4 Models, 4 Perspectives</h2>
+<p style="color:#666;font-size:0.8em;margin-bottom:15px;">Gemini 2.5 Pro (Bull) · Sonnet (Bear) · Opus 4.6 (Arbiter) · Grok-3 (Sentiment)</p>
+
+<div class="voices">
+
+  <div class="voice" style="border-left: 3px solid #27ae60;">
+    <h3 style="color: #27ae60;">🟢 Gemini 2.5 Pro — Bull Case <span style="font-size:0.8em;background:rgba(39,174,96,0.15);padding:2px 8px;border-radius:8px;">Grade: A</span></h3>
+    <div class="quote">"This is a generational entry point. The 23% Q1 drawdown in Bitcoin shook out weak hands and established a floor before the real ascent."</div>
+    <p><strong>Three-stage rocket to $100M:</strong></p>
+    <p>Stage 1 (2026-27): BTC reclaims ATH, targets $150-200K. Portfolio 2-3x.<br>
+    Stage 2 (2027-28): Market awakens to AI power deficit. VST/CEG/URNM re-rate to tech infrastructure multiples. Another 2-3x.<br>
+    Stage 3 (2028-30): Miners complete HPC pivot. Revenue per megawatt explodes from $50K (mining) to $500K+ (AI compute). That's the 10x torque.</p>
+    <p><strong>Most asymmetric:</strong> CORZ, IREN, HUT. <strong>Catalyst:</strong> Hormuz closure validates the entire energy/nuclear/BTC thesis simultaneously.</p>
+    <div class="quote">"Only reason this isn't A+ is the 13% dry powder. In this environment, cash is a melting ice cube."</div>
+  </div>
+
+  <div class="voice" style="border-left: 3px solid #e74c3c;">
+    <h3 style="color: #e74c3c;">🔴 Sonnet — Bear Case <span style="font-size:0.8em;background:rgba(231,76,60,0.15);padding:2px 8px;border-radius:8px;">Grade: C+</span></h3>
+    <div class="quote">"Brilliant thematic conviction, poor risk architecture. The 10 sources all agreeing is the warning sign, not the green light."</div>
+    <p><strong>Biggest hole nobody's talking about:</strong> Correlated liquidity risk. BTC + CORZ + IREN + APLD + HUT + CIFR + GLXY = the same trade wearing 7 costumes. In a risk-off event, all flush simultaneously. You don't have 10 positions. You have 3 macro bets.</p>
+    <p><strong>Cut these 5:</strong> CIFR (no moat), HUT (redundant), LITE (2% irrelevant), BE (8 years of "about to work"), APLD (covered by AVGO/CORZ).</p>
+    <p><strong>13% cash is dangerously thin.</strong> Need 20-25% when 70%+ of portfolio drops 50-80% in recessions.</p>
+    <p><strong>50% wipeout scenario:</strong> BTC regulatory crackdown + rising rates killing power stock valuations. BTC -60%, crypto equities -80%, VST/CEG/EQT -30%. Portfolio halved in 90 days.</p>
+    <div class="quote">"Most crowded trade: nuclear power. Every newsletter, every podcast owns VST/CEG. When everyone's positioned, the entry is the exit."</div>
+  </div>
+
+  <div class="voice" style="border-left: 3px solid #f39c12;">
+    <h3 style="color: #f39c12;">⚖️ Opus 4.6 — Arbiter Verdict <span style="font-size:0.8em;background:rgba(243,156,18,0.15);padding:2px 8px;border-radius:8px;">Grade: B+</span></h3>
+    <div class="quote">"The main risk isn't the thesis being wrong — it's the position sizing being too scattered to capture what happens when it's right."</div>
+    <p><strong>$100M probability: 15-20%.</strong> Requires BTC above $200K + AI power thesis on schedule + no major recession. More probable: 3-5x ($30-50M). That's still extraordinary.</p>
+    <p><strong>What to change:</strong> BTC to 30% (highest conviction). Miner bucket from 12% → 8% (keep strongest two, cut rest). AVGO to 8%. Reduce position count — 17 is too many. <em>Concentration creates wealth. Diversification preserves it. You need the former.</em></p>
+    <p><strong>Deployment: 60/20/20 over 90 days.</strong> 60% now into BTC/VST/AVGO/CEG/GLD. 20% May-June tranche. 20% permanent dry powder for panic buys.</p>
+    <p><strong>Do FIRST:</strong> Max BTC to 30% at $67.8K. Highest asymmetry, deepest liquidity, clearest thesis.</p>
+    <div class="quote">"This is a concentrated bet on the AI-energy-Bitcoin supercycle built by a disciplined mind — and the main risk isn't the thesis being wrong, it's the position sizing being too scattered to capture what happens when it's right."</div>
+  </div>
+
+  <div class="voice" style="border-left: 3px solid #9b59b6;">
+    <h3 style="color: #9b59b6;">📡 Grok-3 — Market Sentiment</h3>
+    <p><strong>BTC at $67.8K:</strong> Accumulation mode. Whales stacking, retail jumping back in post-drawdown. Not euphoria — buying the dip.</p>
+    <p><strong>AI power trade:</strong> Still early. VST/CEG/TLN getting traction but broader market hasn't fully priced the data center power crunch. Room to run.</p>
+    <p><strong>Biggest contrarian signal:</strong> Gold is 💀 HATED on FinTwit. "Boomer asset." If the debasement thesis is right, that hatred IS the buy signal.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:6px;margin-top:10px;font-size:0.78em;">
+      <span>BTC ⚠️ Crowded</span><span>VST 🔥 Hot</span><span>CEG 🔥 Hot</span>
+      <span>EQT 😴 Sleeper</span><span>AVGO ⚠️ Crowded</span><span>URNM 🤷 Meh</span>
+      <span>CORZ 🔥 Hot</span><span>IREN 🔥 Hot</span><span>APLD 🔥 Hot</span>
+      <span>TLN 🔥 Hot</span><span>GLXY 🔥 Hot</span><span>TSLA ⚠️ Crowded</span>
+      <span>BE 😴 Sleeper</span><span>LITE 🔥 Hot</span><span>HUT 🔥 Hot</span>
+      <span>CIFR 🔥 Hot</span><span>GLD 💀 Hated</span>
+    </div>
+    <p style="margin-top:8px;"><strong>Sleepers (smart money, retail asleep):</strong> BE, EQT — best risk/reward because nobody's watching.<br>
+    <strong>Crowded danger zone:</strong> BTC, AVGO, TSLA — FOMO peak.<br>
+    <strong>Raw take:</strong> Portfolio sharp on AI power and miner pivots, but miners running hot. GLD contrarian play could be the surprise winner if rates peak.</p>
+  </div>
+
+</div>
+
+<!-- SYNTHESIS -->
+<div style="background:#141420;border:1px solid #2a2a3d;border-radius:10px;padding:20px;margin:20px 0;">
+  <h3 style="color:#f39c12;margin-bottom:12px;">🎯 Four-Model Synthesis</h3>
+  <p style="color:#ccc;font-size:0.88em;">Gemini says send it. Sonnet says it's the same trade 7 times. Opus says concentrate harder and deploy 60/20/20. Grok says the sleepers (BE, EQT) have the best risk/reward while miners are running too hot.</p>
+  <p style="color:#ccc;font-size:0.88em;margin-top:8px;"><strong>Where all four agree:</strong> BTC is the anchor and the entry at $67.8K after a 23% drawdown is defensible. The AI power thesis is real. The deployment should be phased, not all at once. Cut the weakest miner names.</p>
+  <p style="color:#e94560;font-weight:bold;font-size:0.92em;margin-top:10px;">Grades: Gemini A · Sonnet C+ · Opus B+ · Grok n/a (sentiment only)<br>Consensus rating: B+/A- on thesis quality, C+ on risk architecture</p>
+</div>
+
+<div class="footer">
+  📊 Master Investment Synthesis · April 1, 2026 · Live Prices<br>
+  GPT-5.4 via OpenRouter · 10 Sources · Buy & Hold Only<br>
+  Sources: Aschenbrenner · Druckenmiller · Lyn Alden · Zeihan · PTJ · Macro Monday · InvestAnswers · Moonshots · Crabtree<br>
+  Not investment advice. For personal reference only.
+</div>
+
+</body>
+</html>

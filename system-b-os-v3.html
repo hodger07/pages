@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>System B — Operating System v3</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #f5f4f0;
+      --surface: #ffffff;
+      --border: #e2e0d9;
+      --text: #1a1a18;
+      --muted: #6b6860;
+      --accent: #2c4a2e;
+      --accent-light: #eef2ee;
+      --red: #8b1a1a;
+      --red-light: #fdf0f0;
+      --blue: #1a3a5c;
+      --blue-light: #f0f4f8;
+      --gold: #6b4c0a;
+      --gold-light: #fdf8ee;
+      --tag-bg: #f0ede6;
+      --tag-text: #4a4640;
+      --king: #2c4a2e;
+      --king-light: #eef2ee;
+      --exile: #5c3a1a;
+      --exile-light: #fdf6ee;
+      --manager: #1a3a5c;
+      --manager-light: #f0f4f8;
+      --firefighter: #8b1a1a;
+      --firefighter-light: #fdf0f0;
+    }
+
+    body {
+      font-family: "Georgia", serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      padding: 60px 24px;
+    }
+
+    .page { max-width: 860px; margin: 0 auto; }
+
+    /* ── Header ── */
+    .header {
+      border-bottom: 2px solid var(--text);
+      padding-bottom: 32px;
+      margin-bottom: 56px;
+    }
+    .header .label {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+    .header h1 {
+      font-size: 42px;
+      font-weight: normal;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+    .header .subtitle {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 15px;
+      color: var(--muted);
+    }
+    .header .meta {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 20px;
+    }
+
+    /* ── Sections ── */
+    .section { margin-bottom: 64px; }
+    .section-label {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .section-label::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .section h2 {
+      font-size: 26px;
+      font-weight: normal;
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+    }
+    .section p {
+      font-size: 16px;
+      color: var(--text);
+      margin-bottom: 14px;
+      max-width: 720px;
+    }
+
+    /* ── Pull quotes ── */
+    .pull-quote {
+      border-left: 3px solid var(--text);
+      padding: 8px 0 8px 28px;
+      margin: 36px 0;
+      font-size: 22px;
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+      max-width: 680px;
+    }
+    .pull-quote.jon {
+      border-left-color: var(--accent);
+    }
+    .pull-quote .attr {
+      display: block;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+
+    /* ── Descriptor cards ── */
+    .descriptors { margin-top: 32px; }
+    .descriptor {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 0 28px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: start;
+    }
+    .descriptor:first-child { padding-top: 0; }
+    .descriptor:last-child { border-bottom: none; }
+    .descriptor .num {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      padding-top: 4px;
+    }
+    .descriptor .word {
+      font-size: 28px;
+      font-weight: normal;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+    .descriptor .def {
+      font-size: 15px;
+      color: var(--text);
+      margin-bottom: 8px;
+      line-height: 1.6;
+    }
+    .descriptor .flow {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+      color: var(--muted);
+      font-style: italic;
+    }
+    .descriptor .flow span { color: var(--accent); }
+
+    /* ── Two column insight grid ── */
+    .insights {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 28px;
+    }
+    .insight {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 22px 26px;
+    }
+    .insight .i-title {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .insight p { font-size: 14px; margin-bottom: 0; }
+
+    /* ── Tension block ── */
+    .tension {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--red);
+      padding: 24px 28px;
+      margin-bottom: 16px;
+    }
+    .tension .t-label {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 8px;
+    }
+    .tension .t-title {
+      font-size: 18px;
+      letter-spacing: -0.01em;
+      margin-bottom: 8px;
+    }
+    .tension .t-sub {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 12px;
+      font-style: italic;
+    }
+    .tension p { font-size: 14px; color: var(--muted); margin-bottom: 0; }
+
+    /* ── Principles / rows ── */
+    .principles { margin-top: 28px; }
+    .principle {
+      display: flex;
+      gap: 24px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .principle:last-child { border-bottom: none; }
+    .principle-key {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+      color: var(--muted);
+      min-width: 180px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding-top: 2px;
+    }
+    .principle-value { font-size: 15px; color: var(--text); flex: 1; }
+
+    /* ── Tags ── */
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+    .tag {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      padding: 5px 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* ── Data backing ── */
+    .data-row {
+      display: flex;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: baseline;
+    }
+    .data-row:last-child { border-bottom: none; }
+    .data-label {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      min-width: 140px;
+    }
+    .data-value { font-size: 14px; color: var(--text); flex: 1; }
+
+    /* ── Nuclear practice highlight ── */
+    .nuclear-box {
+      background: var(--accent-light);
+      border: 2px solid var(--accent);
+      padding: 28px 32px;
+      margin: 28px 0;
+    }
+    .nuclear-box .nb-label {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .nuclear-box p {
+      font-size: 16px;
+      margin-bottom: 10px;
+      max-width: 100%;
+    }
+
+    /* ── Practice protocol ── */
+    .protocol {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 0 24px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: start;
+    }
+    .protocol:last-child { border-bottom: none; }
+    .protocol .time {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      padding-top: 3px;
+    }
+    .protocol .action {
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ══════════════════════════════════════════════════ */
+    /* THE CREW — IFS Roster Cards                       */
+    /* ══════════════════════════════════════════════════ */
+    .crew-intro {
+      font-size: 15px;
+      color: var(--muted);
+      margin-bottom: 8px;
+      line-height: 1.7;
+      max-width: 720px;
+    }
+
+    .crew-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 32px;
+    }
+
+    .crew-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .crew-card .card-header {
+      padding: 20px 26px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .crew-card .card-role {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .crew-card .card-name {
+      font-size: 24px;
+      font-weight: normal;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .crew-card .card-body {
+      padding: 18px 26px 22px;
+    }
+
+    .crew-card .card-body p {
+      font-size: 14px;
+      line-height: 1.65;
+      margin-bottom: 10px;
+      max-width: 100%;
+    }
+    .crew-card .card-body p:last-child { margin-bottom: 0; }
+
+    .crew-card .card-detail {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      line-height: 1.7;
+    }
+
+    /* Card color accents */
+    .crew-card.king .card-header { border-left: 4px solid var(--king); }
+    .crew-card.king .card-role { color: var(--king); }
+
+    .crew-card.exile .card-header { border-left: 4px solid var(--exile); }
+    .crew-card.exile .card-role { color: var(--exile); }
+
+    .crew-card.manager .card-header { border-left: 4px solid var(--manager); }
+    .crew-card.manager .card-role { color: var(--manager); }
+
+    .crew-card.firefighter .card-header { border-left: 4px solid var(--firefighter); }
+    .crew-card.firefighter .card-role { color: var(--firefighter); }
+
+    /* Full-width card for Dick/Tom */
+    .crew-card.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .crew-card.full-width .card-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 32px;
+    }
+
+    .crew-card .mode-label {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--firefighter);
+      margin-bottom: 6px;
+    }
+
+    .crew-card .mode-block {
+      padding: 0;
+    }
+
+    .crew-card .mode-shared {
+      grid-column: 1 / -1;
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+      margin-top: 8px;
+    }
+
+    /* Crew connection boxes */
+    .crew-connections {
+      margin-top: 36px;
+    }
+
+    .crew-connection {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 22px 28px;
+      margin-bottom: 16px;
+    }
+
+    .crew-connection .cc-label {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .crew-connection .cc-label.system-link { color: var(--accent); }
+    .crew-connection .cc-label.danger { color: var(--red); }
+    .crew-connection .cc-label.new-role { color: var(--blue); }
+
+    .crew-connection p {
+      font-size: 14px;
+      line-height: 1.65;
+      margin-bottom: 10px;
+      max-width: 100%;
+    }
+    .crew-connection p:last-child { margin-bottom: 0; }
+
+    /* ── Footer ── */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding-top: 28px;
+      margin-top: 64px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer .sig { font-size: 14px; color: var(--muted); }
+    .footer .version {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      .insights { grid-template-columns: 1fr; }
+      .crew-grid { grid-template-columns: 1fr; }
+      .crew-card.full-width .card-body { grid-template-columns: 1fr; }
+      .crew-card .mode-shared { grid-column: 1; }
+      .principle { flex-direction: column; gap: 8px; }
+      .descriptor { grid-template-columns: 36px 1fr; gap: 0 16px; }
+      .protocol { grid-template-columns: 70px 1fr; gap: 0 16px; }
+      .header h1 { font-size: 30px; }
+      .data-row { flex-direction: column; gap: 4px; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- HEADER                                         -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="header">
+    <div class="label">Personal Operating System — v3.0</div>
+    <h1>System B — Operating System v3</h1>
+    <div class="subtitle">Richard Hodge — Novus Global Meta Performance™</div>
+    <div class="meta">Sessions 1–5 · Jon Roberts · March 2026</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- I. THE PREMISE                                 -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">The Premise</div>
+    <h2>The architecture didn't change. The fuel source did.</h2>
+    <p>Five behavioral assessments across seventeen years — DiSC (2008), Birkman (2019), Predictive Index (2025), ShadowMatch — all show the same man. High Dominance. Systems-builder. Action-biased. Independent. The wiring never moved through the franchise betrayal, through Michael, through Jessica's diagnosis. Through all of it.</p>
+    <p>System B isn't about becoming someone different. It's about running the same architecture — same drive, same directness, same building instinct — on fuel that doesn't cost what System A costs at 57 with finite time.</p>
+
+    <div class="pull-quote">System A didn't create the DC profile.<br>The DC profile gave System A its tools.</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- II. THE TWO SYSTEMS                            -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">The Framework</div>
+    <h2>Two operating systems. Same engine.</h2>
+
+    <div class="insights">
+      <div class="insight">
+        <div class="i-title">System A — The Old Fuel</div>
+        <p>Produce to earn place. Control. Pressure. Scarcity. Predict and de-risk. Isolation disguised as strength. Redline the engine.</p>
+        <p style="margin-top:10px;font-size:13px;color:var(--muted);"><strong>Triggered by:</strong> failure (or potential failure), not feeling approved, appreciated, valued, or respected. Not the "no" itself — it's when the no signals <em>"you're a piece of shit."</em></p>
+        <p style="margin-top:8px;font-style:italic;color:var(--muted);">Origin: forgotten kid → produce to matter → built everything → still running that engine.</p>
+      </div>
+      <div class="insight">
+        <div class="i-title">System B — The New Fuel</div>
+        <p>Build from wholeness. Enough before producing. Present. Purposeful. Clear. Chooses. Same speed, same drive, same ambition — from foundation instead of wound.</p>
+        <p style="margin-top:10px;font-style:italic;color:var(--muted);">"When Rich builds FROM wholeness, he's choosing. When building FROM 'I was forgotten,' life controls him."</p>
+        <p style="margin-top:8px;font-size:13px;color:var(--muted);">Grinding in System B feels life-giving. Same reps. Different source. "Oh Jon, I'm grinding but it's the most life-giving stuff in the world."</p>
+      </div>
+      <div class="insight">
+        <div class="i-title">The Undercover Agent</div>
+        <p>System A disguised as reasonable behavior. Shows up as over-analysis, future-tripping, withdrawal, productivity as avoidance. Sophisticated. Sounds like you. Isn't you.</p>
+      </div>
+      <div class="insight">
+        <div class="i-title">The Relationship to System A</div>
+        <p>Not hate. Not resentment. Gratitude. System A is like an old sibling you pass on the street — acknowledge, honor, be grateful for what it built. Then move back to System B. The long-term vision: maintain a connection without dwelling in it.</p>
+      </div>
+    </div>
+
+    <div class="nuclear-box">
+      <div class="nb-label">The Nuclear Practice</div>
+      <p><strong>"The most nuclear action Rich does every day is, in the present moments, becoming aware of which system is running him."</strong></p>
+      <p style="font-size:14px;color:var(--muted);">Morning, noon, end of day. Not a judgment. Just an honest read. The awareness IS the practice. It feels too simple. It's not easy. There's a difference.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- III. THE 7 DESCRIPTORS                         -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">The Descriptors</div>
+    <h2>Seven words. One operating system.</h2>
+    <p>Finalized March 2026 — confirmed final by Rich. The order matters — like the Steps, the first one must be worked perfectly or everything below is System A in disguise. These are states, not affirmations. One word. Period. "I am enough" is System A trying to convince itself. "Enough" is the ground you stand on.</p>
+
+    <div class="descriptors">
+      <div class="descriptor">
+        <div class="num">01</div>
+        <div>
+          <div class="word">Enough</div>
+          <div class="def">I have value before I produce. Nothing I build or lose changes this.</div>
+          <div class="flow"><span>→ Flow:</span> Without this, everything below is System A in disguise.</div>
+        </div>
+      </div>
+      <div class="descriptor">
+        <div class="num">02</div>
+        <div>
+          <div class="word">Here</div>
+          <div class="def">I exist before you notice. I don't need the room to see me to know I'm in it.</div>
+          <div class="flow"><span>→ Flow:</span> Once I'm enough, I can actually show up without needing to be seen.</div>
+        </div>
+      </div>
+      <div class="descriptor">
+        <div class="num">03</div>
+        <div>
+          <div class="word">Curious</div>
+          <div class="def">I ask before I fix. When pressure hits, I open up instead of clench.</div>
+          <div class="flow"><span>→ Flow:</span> Here and enough, I can open instead of armor. Ask instead of react.</div>
+        </div>
+      </div>
+      <div class="descriptor">
+        <div class="num">04</div>
+        <div>
+          <div class="word">Clear</div>
+          <div class="def">I say it once, clean, no shrapnel. The truth delivered without the damage.</div>
+          <div class="flow"><span>→ Flow:</span> Curiosity reveals what's real. Now I speak from truth, not reactivity.</div>
+        </div>
+      </div>
+      <div class="descriptor">
+        <div class="num">05</div>
+        <div>
+          <div class="word">Grateful</div>
+          <div class="def">I know what things cost. That's not a practice — it's what's left when the noise stops.</div>
+          <div class="flow"><span>→ Flow:</span> When I'm clear about what's real, gratitude isn't forced. It's just there.</div>
+        </div>
+      </div>
+      <div class="descriptor">
+        <div class="num">06</div>
+        <div>
+          <div class="word">Builds</div>
+          <div class="def">I build toward something, not away from something. From wholeness, not from wound.</div>
+          <div class="flow"><span>→ Flow:</span> From gratitude, building has a foundation. Not fear. Not proving. Creating.</div>
+        </div>
+      </div>
+      <div class="descriptor">
+        <div class="num">07</div>
+        <div>
+          <div class="word">Chooses</div>
+          <div class="def">Every day, I choose this. One day at a time. System B is a decision, not a destination.</div>
+          <div class="flow"><span>→ Flow:</span> The capstone. Everything above is a daily choice. Skip a day, start again tomorrow.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- IV. CORE TENSIONS                              -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">Core Tensions</div>
+    <h2>What five assessments expose — not convergence, but paradox.</h2>
+    <p>These two patterns appear across all five assessments, seventeen years of data. They aren't contradictions to fix — they're the operating reality. Both are the same underlying paradox in two domains: maximum outward strength masking maximum inward need. One structural, one relational. Same wound, two expressions.</p>
+
+    <div style="margin-top:28px;">
+      <div class="tension">
+        <div class="t-label">Tension 01</div>
+        <div class="t-title">Systems vs. Freedom</div>
+        <div class="t-sub">Builds the cage. Needs to escape it.</div>
+        <p>Birkman Insistence 97 — builds the tightest systems of anyone. PI Formality −1.29 — very flexible, bends all rules. DiSC C secondary — demands quality and accuracy. ShadowMatch Change 43 — resists change without strong reason. He builds extreme structure for himself. He cannot tolerate external structure imposed on him. His systems = sacred. Everyone else's systems = obstacles. System B doesn't resolve this tension — the wiring is the wiring. What changes is the origin: building because you're a creator, not because you're afraid of what happens if you don't control the outcome. Same structure. Different fuel.</p>
+      </div>
+
+      <div class="tension">
+        <div class="t-label">Tension 02</div>
+        <div class="t-title">Need vs. Withdrawal</div>
+        <div class="t-sub">Needs connection most. Initiates it least.</div>
+        <p>Birkman SC 1/79 — most direct person in room, most needs respect and appreciation. ShadowMatch People Positive 52 — only strong habit, conditional on comfort. DiSC i Segment 1 — Influence at floor in 2008. Birkman Persuasive 96th percentile — the warmth is real. The catch-22: he waits for the room to make it safe. The room waits for him to open. System B's "Here" and "Enough" are the direct answer. The warmth already exists — it just needs the foundation to be unconditional.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- V. WHAT SYSTEM B IS NOT                        -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">Clarifications</div>
+    <h2>What System B is not.</h2>
+
+    <div class="principles">
+      <div class="principle">
+        <div class="principle-key">Not an affirmation</div>
+        <div class="principle-value">These are states, not declarations. "Enough" is the ground you stand on — not "I am enough" repeated until believed. System A uses affirmations to convince itself. System B doesn't need convincing.</div>
+      </div>
+      <div class="principle">
+        <div class="principle-key">Not slowing down</div>
+        <div class="principle-value">Physical Energy 97, Responsiveness cross-contextual, Patience −0.67 — the action bias is structural. System B doesn't slow this down. It changes the fuel source for the same speed. Same drive. Different origin. The grinding in System B feels life-giving, not depleting.</div>
+      </div>
+      <div class="principle">
+        <div class="principle-key">Not stopping building</div>
+        <div class="principle-value">"If I stopped building it would be the beginning of the end." Building is who he IS — nature or nurture, it's locked in. System B building goes toward something. System A building goes away from something. One word changes the whole direction.</div>
+      </div>
+      <div class="principle">
+        <div class="principle-key">Not a destination</div>
+        <div class="principle-value">System B is a daily choice. "Chooses" is the capstone because it's always the practice, never the arrival. One day at a time. Forty years of sobriety already knows exactly how this works. It feels too simple. It's not easy. There's a difference.</div>
+      </div>
+      <div class="principle">
+        <div class="principle-key">Not hating System A</div>
+        <div class="principle-value">Jon challenged this directly: is resentment toward System A helpful? No. Acknowledge it, honor it, be grateful for it. System A built everything that exists. The goal is gratitude and connection without dwelling. An old sibling you pass on the street.</div>
+      </div>
+      <div class="principle">
+        <div class="principle-key">Not new architecture</div>
+        <div class="principle-value">Five assessments. Seventeen years. Zero drift. The wiring is the wiring. This isn't a rebuild — it's a refueling. The DC profile, the Maverick, the Creative pattern — they're all still there. Running on wholeness now.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- VI. SYSTEM B AT WORK                           -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">System B at Work</div>
+    <h2>The meeting. The plateau. The transfer.</h2>
+    <p>Recent meeting. System A was coming. Rich caught it — became aware, pivoted to restraint. Didn't drop blunt truth bombs. Stated his needs in the moment, once, evenly toned. No shrapnel. One shot.</p>
+    <p>That's the scene. Aware → restraint → one shot, even tone. States needs, doesn't detonate. System B Rich in a room.</p>
+
+    <div class="pull-quote">
+      "I became aware and pivoted to restraint. I didn't drop blunt truth bombs. Instead I stated my needs in the moment, once, evenly toned."
+    </div>
+
+    <h2 style="margin-top:48px;">The Perfect Lap Through System B</h2>
+    <p>Jon's framework: the perfect lap — money, feel, efficient, repeatable, natural. What's broken? Rich's answer was direct: feel, efficient, repeatable. But he named the real thing underneath: "It's also because I've been out of the business for the past 6 years. Loss of son. Now diagnosis of Jessica."</p>
+    <p>The architecture didn't break. Six years of life stripped the identity connection from it. The feel went first. Then efficiency. Then repeatability. Not because Rich forgot how to build — because the fuel line between who he is and what he builds got severed by grief.</p>
+    <p>What System B leading the business feels like in his body:</p>
+
+    <div class="pull-quote">
+      "Effortless. Harmony. Problems solved before they come up, or automatic/anticipated solutions in place. Much above average delivery of what we offer to the market."
+    </div>
+
+    <p>That's not a vision statement. That's a man who's been there before describing what it felt like. Effortless doesn't mean easy — it means the fuel source isn't fighting itself. Harmony. Anticipatory. The business running the way sobriety runs: from identity, not from effort.</p>
+
+    <h2 style="margin-top:48px;">The Plateau Transfer</h2>
+    <p>Here's the insight that connects everything. Rich on what keeps him on the sobriety plateau — forty years, one day at a time, loving it:</p>
+
+    <div class="pull-quote">
+      "I like it because it's edgy, fringe, unique, mine, rare, scarce, right, just — and it's just the right thing to do. So it doesn't feel boring even though it is."
+    </div>
+
+    <p>Read that again. The sobriety plateau doesn't feel like a plateau because Rich made it <em>his own</em>. Identity-level. Edgy, fringe, rare, mine. He didn't just endure sobriety for forty years — he claimed it. Made it something scarce and personal and worth owning. The plateau became the whole point, not the obstacle between peaks.</p>
+    <p>The business plateau feels broken for the opposite reason. Not because Rich forgot how to build — because six years of loss stripped the identity connection from it. Michael. Jessica's diagnosis. The fuel line between "this is mine, this is edgy, this is rare" and the daily work got severed. The plateau stopped being his. It became something to grind through instead of something to own.</p>
+
+    <div class="nuclear-box">
+      <div class="nb-label">The Mechanism — Sobriety to Business</div>
+      <p><strong>System B at work = rebuilding the same relationship with the business plateau that Rich already has with the sobriety plateau.</strong></p>
+      <p style="font-size:14px;color:var(--muted);">Not grinding through it. Owning it. Making it edgy, rare, his again — but this time from wholeness, not from wound. The sobriety plateau proves Rich already knows how to do this. He's been doing it for forty years. The wires just need connecting.</p>
+    </div>
+
+    <div class="insights" style="margin-top:28px;">
+      <div class="insight">
+        <div class="i-title">How Sobriety Holds the Plateau</div>
+        <p>Identity-level ownership. Edgy, fringe, rare, mine. The plateau IS the practice. Doesn't need the next peak to feel meaningful. One day at a time — and each day is chosen, not endured.</p>
+      </div>
+      <div class="insight">
+        <div class="i-title">How Business Lost It</div>
+        <p>Six years of life — loss of Michael, Jessica's diagnosis — severed the identity connection. The business plateau became something to push through, not something to own. The Obsessive archetype at work. The Master in sobriety. Same man, different relationship to the plateau.</p>
+      </div>
+      <div class="insight">
+        <div class="i-title">System B in a Meeting</div>
+        <p>Aware → restraint → one shot, even tone. States needs, doesn't detonate. No truth bombs. No shrapnel. Same directness. Different fuel. The room stays intact.</p>
+      </div>
+      <div class="insight">
+        <div class="i-title">The Transfer</div>
+        <p>Make the business plateau <em>his</em> the way sobriety is his. Not by grinding harder. By claiming it — edgy, rare, scarce, right, just. Building from wholeness. The feel comes back. Then efficient. Then repeatable. Then natural. Same sequence sobriety already proved.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- VII. THE DAILY PRACTICE                        -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">The Practice</div>
+    <h2>Daily protocol. Same reps Rich already knows from sobriety.</h2>
+    <p>Rich is the Master in sobriety — forty years of loving the plateau, one day at a time. The gap isn't knowing how to do this. It's transferring the sobriety mastery framework to every other domain. The Obsessive archetype (Mastery, George Leonard) — pushes mercilessly through plateaus at work but has lived on the plateau in sobriety for four decades. Connect the wires.</p>
+
+    <div style="margin-top:28px;">
+      <div class="protocol">
+        <div class="time">Morning</div>
+        <div class="action"><strong>Which system am I running?</strong> Who am I today? What one action proves System B before noon?</div>
+      </div>
+      <div class="protocol">
+        <div class="time">Noon</div>
+        <div class="action"><strong>Check in.</strong> Am I still here? Has the Undercover Agent crept in? Honest read. No judgment.</div>
+      </div>
+      <div class="protocol">
+        <div class="time">End of Day</div>
+        <div class="action"><strong>Review.</strong> Where did I choose B? Where did A run me? What's tomorrow's first System B action?</div>
+      </div>
+      <div class="protocol">
+        <div class="time">If Missed</div>
+        <div class="action"><strong>Same-day reset before bed.</strong> No skip-two-days rule. Miss a day, start again. Like sobriety. One day at a time.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- VIII. "WHAT IS" — Jon's Framework               -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">First Principles</div>
+    <h2>"What Is" — purity, not story.</h2>
+    <p>Jon's framework: 80% of what most humans experience is projection — story wrapping around what's actually real. System A's default mode. "What is" means commitments kept or broken, no stories, no excuses. Parse away the narrative. Find what's real. First principles.</p>
+
+    <div class="pull-quote jon">
+      Wherever he goes, he brings what is — for himself and for others. That's System B Rich at his best.
+      <span class="attr">— Jon Roberts, Session 3</span>
+    </div>
+
+    <p>Rich's natural gift here: transparency. Naturally authentic, open, direct. The gap isn't honesty — it's inviting others in with questions instead of just broadcasting the truth. The dirty yeses problem. Agreements vs. Expectations: Rich already ran a team meeting on this (from Session 2 homework) — useful, removed morality from conversations. Purity works.</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- IX. THE DATA BACKING                           -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">The Evidence</div>
+    <h2>17 years of consistent data backing this work.</h2>
+
+    <div style="background:var(--surface);border:1px solid var(--border);padding:28px 32px;margin-top:8px;">
+      <div class="data-row">
+        <div class="data-label">DiSC (Dec 2008)</div>
+        <div class="data-value">DC — Creative pattern. D Segment 7, i/S Segment 1. Priorities: Challenge, Drive, Objectivity. Low comfort: Collaboration, Support, Encouragement. Architecture confirmed at 39 — before the hardest decade.</div>
+      </div>
+      <div class="data-row">
+        <div class="data-label">Birkman (Oct 2019)</div>
+        <div class="data-value">RED usual · YELLOW need · GREEN interests. SC 1/79 (gap 78). Insistence 97/7 (gap 90). Persuasive: 96th percentile. The wound in behavioral data — appears bulletproof, needs genuine respect.</div>
+      </div>
+      <div class="data-row">
+        <div class="data-label">Predictive Index (Apr 2025)</div>
+        <div class="data-value">Maverick. Dominance +1.80. Extraversion +0.16 (situationally reserved). Patience −0.67. Formality −1.29. Risk-taking, visionary, undaunted by failure. Independent to the point of friction.</div>
+      </div>
+      <div class="data-row">
+        <div class="data-label">ShadowMatch</div>
+        <div class="data-value">People Positive (52) — only strong habit. Conditional on comfort. Responsiveness cross-contextual. Frustration Handling 25 (stretched by intensity). Three attitude quadrants strong. Zero passive-aggressive.</div>
+      </div>
+      <div class="data-row">
+        <div class="data-label">Longitudinal</div>
+        <div class="data-value">"Whatever happened to him didn't change who he is — it changed what fuel he ran on." Five assessments, two decades, zero drift. The architecture is the architecture.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- X. THE CREW — IFS MAP                          -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">The Crew</div>
+    <h2>The internal roster. Who's driving.</h2>
+    <p>IFS — Internal Family Systems. Everyone has a Self and three types of parts: Exiles (the wounded core), Managers (proactive protectors), and Firefighters (reactive emergency responders). The goal is not to destroy parts. It's for Self to lead them.</p>
+    <p class="crew-intro">These aren't metaphors. These are the actual players running the show. Real names. Real patterns. The crew has been running Rich's life for decades — most of it without his conscious permission. System B is what happens when the right one drives.</p>
+
+    <div class="crew-grid">
+
+      <!-- THE KING -->
+      <div class="crew-card king">
+        <div class="card-header">
+          <div class="card-role">Self</div>
+          <div class="card-name">The King</div>
+        </div>
+        <div class="card-body">
+          <p>The true leader. Not a part. Calm, clear, curious, present, chooses. System B is what life looks like when the King is driving.</p>
+          <p>He is not a concept — he is the actual Rich underneath all the protection. Every descriptor, every practice, every session points back here.</p>
+          <div class="card-detail">Not a role to earn. The person who was always there.</div>
+        </div>
+      </div>
+
+      <!-- LITTLE RICH -->
+      <div class="crew-card exile">
+        <div class="card-header">
+          <div class="card-role">Exile — The Wound</div>
+          <div class="card-name">Little Rich</div>
+        </div>
+        <div class="card-body">
+          <p>The kid who just wanted to be wanted by other humans. Not praised. Not successful. Just included. Noticed. Worth being around.</p>
+          <p>He wasn't invisible to the world — he was invisible to the specific humans who were supposed to see him first. Everything else in the system was built to protect him.</p>
+          <div class="card-detail">Protects: nothing. He IS what's being protected.</div>
+        </div>
+      </div>
+
+      <!-- DUDE -->
+      <div class="crew-card manager">
+        <div class="card-header">
+          <div class="card-role">Manager — Proactive Protector</div>
+          <div class="card-name">Dude</div>
+        </div>
+        <div class="card-body">
+          <p>Builds systems, controls outcomes, structures daily life so Little Rich never gets exposed. Runs quietly in the background keeping everything ordered.</p>
+          <p>Birkman Insistence 97 is Dude's fingerprint. The systems, the processes, the need for everything locked down — that's him making sure nothing gets through to the wound.</p>
+          <div class="card-detail">New role: Chief of Operations. Stays. Answers to the King now — not the other way around.</div>
+        </div>
+      </div>
+
+      <!-- DICK & TOM — Full Width -->
+      <div class="crew-card firefighter full-width">
+        <div class="card-header">
+          <div class="card-role">Firefighter — One Part, Two Modes</div>
+          <div class="card-name">Dick &amp; Tom</div>
+        </div>
+        <div class="card-body">
+          <div class="mode-block">
+            <div class="mode-label">Dick — Push Mode</div>
+            <p>All in, relentless, steamrolls. Things come out of his mouth that take months to undo. Wins the room, loses the relationship.</p>
+          </div>
+          <div class="mode-block">
+            <div class="mode-label">Tom — Withdraw Mode</div>
+            <p>Full disappear. No warning. Takes his whole being with him. People don't know what happened.</p>
+          </div>
+          <div class="mode-shared">
+            <p>Same firefighter running opposite plays from the same wound. Both fire on hair triggers — the second Little Rich senses failure or feels unvalued, one of them activates. Not measured. Not proportional. Maximum response every time.</p>
+            <p><strong>They have no dimmer switch. Every move is maximum.</strong></p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- HOW IT CONNECTS TO SYSTEM A/B -->
+    <div class="crew-connections">
+
+      <div class="crew-connection">
+        <div class="cc-label system-link">How the Crew Maps to System A / System B</div>
+        <p><strong>System A = Dick or Tom driving. Always.</strong> Have-to fuel. Even when it looks calm and functional, if the fuel is "I have to" — Dick or Tom are at the wheel.</p>
+        <p><strong>System B = The King driving.</strong> Get-to fuel. Little Rich is safe. The crew supports instead of controls.</p>
+        <p><strong>The nuclear practice = catching the moment Dick or Tom grabbed the wheel.</strong> Returning the keys to the King. That's it. That's the whole practice with a new lens.</p>
+      </div>
+
+      <div class="nuclear-box" style="margin-top:0;">
+        <div class="nb-label">Jon's Journal Phrase</div>
+        <p><strong>"I am led by Self, supported by all my parts."</strong></p>
+      </div>
+
+      <div class="crew-connection">
+        <div class="cc-label danger">The Danger at Rich's Level</div>
+        <p>At lower levels of leadership, System A wins and damage is containable. At Rich's level — 50 people, multiple companies, family — Dick and Tom leave wreckage that takes months or years to repair.</p>
+        <p>The higher the seat, the more expensive the extremes.</p>
+        <p>Dick and Tom are not bad — they saved Little Rich for decades. But they were built for survival, not for the perfect lap.</p>
+      </div>
+
+      <div class="crew-connection">
+        <div class="cc-label new-role">The New Roles</div>
+        <p><strong>Dick's raw material</strong> — intensity, all-or-nothing commitment, refusal to lose — is the conqueror. He's magnificent on new frontiers. System B's job: don't fire him, redirect him. Conqueror on demand. Not permanent CEO. When there's a new mountain to climb, call Dick in. Don't let him run daily operations.</p>
+        <p><strong>Tom's raw material</strong> — sensitivity to rejection, ability to read rooms — is valuable intel. System B's job: let Tom report, not decide. "I'm sensing disconnection here" is useful. Vanishing is not.</p>
+        <p><strong>Dude stays as chief of operations</strong> — he's a Manager, not a Firefighter. He keeps the systems running. He just answers to the King now, not the other way around.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- FOOTER                                         -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="footer">
+    <div class="sig">Rich Hodge · Novus Global · Jon Roberts</div>
+    <div class="version">v3.0 — March 2026</div>
+  </div>
+
+</div>
+</body>
+</html>
