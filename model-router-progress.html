@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="refresh" content="30">
+<title>Model Router — Build Progress</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #0f0f0f; color: #fff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 24px; max-width: 700px; margin: 0 auto; }
+h1 { font-size: 1.4em; margin-bottom: 4px; }
+.subtitle { color: #444; font-size: 0.8em; margin-bottom: 32px; }
+.phase { background: #1a1a1a; border-radius: 12px; padding: 20px; margin-bottom: 16px; border: 1px solid #222; display: flex; align-items: flex-start; gap: 16px; }
+.phase.done { border-left: 3px solid #22c55e; }
+.phase.active { border-left: 3px solid #f59e0b; animation: pulse 2s infinite; }
+.phase.pending { border-left: 3px solid #333; opacity: 0.5; }
+.phase.blocked { border-left: 3px solid #ef4444; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.7; } }
+.icon { font-size: 1.6em; min-width: 32px; text-align: center; }
+.content { flex: 1; }
+.phase-title { font-weight: 700; font-size: 1em; margin-bottom: 4px; }
+.phase-meta { font-size: 0.75em; color: #555; margin-bottom: 8px; }
+.phase-status { font-size: 0.85em; color: #aaa; }
+.phase.done .phase-status { color: #4ade80; }
+.phase.active .phase-status { color: #fbbf24; }
+.phase.blocked .phase-status { color: #f87171; }
+.tag { display: inline-block; background: #222; border-radius: 4px; padding: 2px 8px; font-size: 0.7em; color: #888; margin-right: 4px; margin-top: 4px; }
+.tag.green { background: #14532d; color: #4ade80; }
+.tag.yellow { background: #2d2008; color: #fbbf24; }
+.tag.red { background: #3b0f0f; color: #f87171; }
+.refresh { color: #333; font-size: 0.72em; text-align: center; margin-top: 24px; }
+.models { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 24px; }
+.model-card { background: #1a1a1a; border-radius: 8px; padding: 12px; border: 1px solid #222; }
+.model-name { font-size: 0.8em; font-weight: 700; color: #fff; }
+.model-role { font-size: 0.7em; color: #555; margin-top: 2px; }
+.model-status { font-size: 0.72em; margin-top: 6px; }
+.dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 4px; vertical-align: middle; }
+.dot.green { background: #22c55e; }
+.dot.yellow { background: #f59e0b; }
+.dot.red { background: #ef4444; }
+footer { text-align: center; color: #333; font-size: 0.72em; margin-top: 32px; }
+</style>
+</head>
+<body>
+
+<h1>🔧 Model Router — Build Progress</h1>
+<div class="subtitle">Local AI skill build · Refreshes every 30s · Last updated: April 6, 2026 8:14 PM CT</div>
+
+<div class="phase done">
+  <div class="icon">✅</div>
+  <div class="content">
+    <div class="phase-title">Phase 0 — Setup</div>
+    <div class="phase-meta">No builder · No reviewer</div>
+    <div class="phase-status">Cloud keys kept live for Telegram. Local-only constraint enforced at skill level by design.</div>
+    <span class="tag green">Complete</span>
+  </div>
+</div>
+
+<div class="phase active">
+  <div class="icon">⚙️</div>
+  <div class="content">
+    <div class="phase-title">Phase 1 — Architecture Review</div>
+    <div class="phase-meta">Builder: Qwen3-Coder-Next · Reviewer: Maverick</div>
+    <div class="phase-status">Architecture designed. Waiting for Coder-Next + Maverick review to complete. R1 download in progress (~30 min).</div>
+    <span class="tag yellow">In Progress</span>
+    <span class="tag">No code yet</span>
+  </div>
+</div>
+
+<div class="phase pending">
+  <div class="icon">⏳</div>
+  <div class="content">
+    <div class="phase-title">Phase 2 — Config + Routing Core</div>
+    <div class="phase-meta">Builder: Qwen3-Coder-Next · Reviewer: Maverick</div>
+    <div class="phase-status">Blocked on Phase 1 gate.</div>
+    <span class="tag">Pending</span>
+  </div>
+</div>
+
+<div class="phase pending">
+  <div class="icon">⏳</div>
+  <div class="content">
+    <div class="phase-title">Phase 3 — Conversation History</div>
+    <div class="phase-meta">Builder: Qwen3-Coder-Next · Reviewer: Qwen3 30B</div>
+    <div class="phase-status">Blocked on Phase 2 gate.</div>
+    <span class="tag">Pending</span>
+  </div>
+</div>
+
+<div class="phase pending">
+  <div class="icon">⏳</div>
+  <div class="content">
+    <div class="phase-title">Phase 4 — Commands + Audit Log</div>
+    <div class="phase-meta">Builder: Qwen3-Coder-Next · Reviewer: Maverick</div>
+    <div class="phase-status">Blocked on Phase 3 gate.</div>
+    <span class="tag">Pending</span>
+  </div>
+</div>
+
+<div class="phase pending">
+  <div class="icon">⏳</div>
+  <div class="content">
+    <div class="phase-title">Phase 5 — Full Integration Test</div>
+    <div class="phase-meta">Builder: Qwen3-Coder-Next · Reviewer: Maverick + Qwen3 30B</div>
+    <div class="phase-status">Blocked on Phase 4 gate.</div>
+    <span class="tag">Pending</span>
+  </div>
+</div>
+
+<div class="phase pending">
+  <div class="icon">🚀</div>
+  <div class="content">
+    <div class="phase-title">Deploy</div>
+    <div class="phase-meta">All phases green · Rich approval required</div>
+    <div class="phase-status">Not started.</div>
+    <span class="tag">Pending</span>
+  </div>
+</div>
+
+<div class="models">
+  <div class="model-card">
+    <div class="model-name">Qwen3-Coder-Next</div>
+    <div class="model-role">Builder — all phases</div>
+    <div class="model-status"><span class="dot green"></span><span style="color:#4ade80">Ready · 51GB loaded</span></div>
+  </div>
+  <div class="model-card">
+    <div class="model-name">Llama 4 Maverick</div>
+    <div class="model-role">Security reviewer</div>
+    <div class="model-status"><span class="dot green"></span><span style="color:#4ade80">Ready · 244GB loaded</span></div>
+  </div>
+  <div class="model-card">
+    <div class="model-name">Qwen3 30B</div>
+    <div class="model-role">Logic reviewer</div>
+    <div class="model-status"><span class="dot green"></span><span style="color:#4ade80">Ready · 18GB loaded</span></div>
+  </div>
+  <div class="model-card">
+    <div class="model-name">DeepSeek R1 671B</div>
+    <div class="model-role">Optional final review</div>
+    <div class="model-status"><span class="dot yellow"></span><span style="color:#fbbf24">Downloading · ~47% · ETA 30min</span></div>
+  </div>
+</div>
+
+<div class="refresh">Auto-refreshes every 30 seconds</div>
+
+<footer>Model Router Build · Mac Studio M3 Ultra · All local · $0 API cost · hodger07.github.io</footer>
+
+</body>
+</html>
