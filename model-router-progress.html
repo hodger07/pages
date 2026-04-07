@@ -27,8 +27,6 @@ h1 { font-size: 1.4em; margin-bottom: 4px; }
 .tag.blue { background: #0c1f3d; color: #60a5fa; }
 .findings { margin-top: 12px; border-top: 1px solid #2a2a2a; padding-top: 10px; }
 .finding { font-size: 0.78em; color: #888; margin-bottom: 4px; padding-left: 8px; border-left: 2px solid #333; }
-.finding.high { border-left-color: #f59e0b; color: #fbbf24; }
-.finding.medium { border-left-color: #60a5fa; color: #93c5fd; }
 .finding.fix { border-left-color: #22c55e; color: #4ade80; }
 .finding.dismissed { border-left-color: #333; color: #444; text-decoration: line-through; }
 .models { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 28px; }
@@ -41,22 +39,26 @@ h1 { font-size: 1.4em; margin-bottom: 4px; }
 .dot.yellow { background: #f59e0b; }
 .gate { background: #0a1f0a; border: 1px solid #166534; border-radius: 8px; padding: 10px 14px; margin-top: 10px; font-size: 0.8em; color: #4ade80; }
 .gate.waiting { background: #1a1500; border-color: #854d0e; color: #fbbf24; }
-footer { text-align: center; color: #333; font-size: 0.72em; margin-top: 32px; padding-bottom: 20px; }
+footer { text-align: center; color: #333; font-size: 0.72em; margin-top: 32px; }
 .updated { color: #333; font-size: 0.72em; text-align: right; margin-bottom: 20px; }
+.test { background: #111; border-radius: 8px; padding: 10px 14px; margin-top: 10px; font-size: 0.78em; }
+.test .t { margin-bottom: 4px; }
+.t.pass { color: #4ade80; }
+.t.running { color: #fbbf24; }
+.t.pend { color: #555; }
 </style>
 </head>
 <body>
 
 <h1>🔧 Model Router — Build Progress</h1>
 <div class="subtitle">Local AI skill · 5 local models · $0 API cost · All data stays on Mac Studio</div>
-<div class="updated">Last updated: April 6, 2026 9:00 PM CT · Refreshes every 5 min</div>
+<div class="updated">Last updated: April 6, 2026 9:10 PM CT · Refreshes every 5 min</div>
 
 <div class="phase done">
   <div class="icon">✅</div>
   <div class="content">
     <div class="phase-title">Phase 0 — Setup</div>
-    <div class="phase-meta">No builder · No reviewer</div>
-    <div class="phase-status">Complete. Cloud keys kept live for Telegram only. Local-only constraint enforced at skill level.</div>
+    <div class="phase-status">Complete. Cloud keys for Telegram only.</div>
     <span class="tag green">Complete</span>
   </div>
 </div>
@@ -65,10 +67,10 @@ footer { text-align: center; color: #333; font-size: 0.72em; margin-top: 32px; p
   <div class="icon">✅</div>
   <div class="content">
     <div class="phase-title">Phase 1 — Architecture Review</div>
-    <div class="phase-meta">Architect: Dude (Sonnet) · Coder review: Qwen3-Coder-Next · Security review: Maverick</div>
-    <div class="phase-status">Both reviews complete. 5 real issues incorporated.</div>
+    <div class="phase-meta">Architect: Dude · Coder: Qwen3-Coder-Next · Security: Maverick</div>
+    <div class="phase-status">5 issues incorporated, 3 dismissed.</div>
     <span class="tag green">Complete</span>
-    <div class="gate">✅ Gate passed — Rich approved.</div>
+    <div class="gate">✅ Gate passed</div>
   </div>
 </div>
 
@@ -76,15 +78,10 @@ footer { text-align: center; color: #333; font-size: 0.72em; margin-top: 32px; p
   <div class="icon">✅</div>
   <div class="content">
     <div class="phase-title">Phase 2 — Config + Routing Core</div>
-    <div class="phase-meta">Builder: Qwen3-Coder-Next (direct Ollama) · Reviewer: Maverick</div>
-    <div class="phase-status">config.json + router.js built. Maverick security reviewed, 2 fixes applied. Zero API keys in skill.</div>
+    <div class="phase-meta">Builder: Coder-Next · Reviewer: Maverick</div>
+    <div class="phase-status">config.json + router.js. 2 security fixes applied.</div>
     <span class="tag green">Complete</span>
-    <div class="findings">
-      <div class="finding fix">FIX · Non-string input crash guard added</div>
-      <div class="finding fix">FIX · &lt;script&gt; tag stripping added to sanitizer</div>
-      <div class="finding dismissed">DISMISSED · Hardcoded Ollama endpoint — intentional by design</div>
-    </div>
-    <div class="gate">✅ Gate passed.</div>
+    <div class="gate">✅ Gate passed</div>
   </div>
 </div>
 
@@ -92,35 +89,44 @@ footer { text-align: center; color: #333; font-size: 0.72em; margin-top: 32px; p
   <div class="icon">✅</div>
   <div class="content">
     <div class="phase-title">Phase 3 — Conversation History</div>
-    <div class="phase-meta">Builder: integrated by Dude · Logic reviewer: Qwen3 30B</div>
-    <div class="phase-status">History load/save/clear/clearall added. Qwen3 30B found 2 bugs, both fixed.</div>
+    <div class="phase-meta">Builder: Dude · Logic reviewer: Qwen3 30B</div>
+    <div class="phase-status">Atomic writes, pruning, /clear, /clearall. 2 bugs fixed.</div>
     <span class="tag green">Complete</span>
-    <div class="findings">
-      <div class="finding fix">BUG FIX · Write queue init guard (undefined on first write)</div>
-      <div class="finding fix">BUG FIX · Turn pruning: Math.max(1, maxTurns) prevents negative slice</div>
-    </div>
-    <div class="gate">✅ Gate passed.</div>
+    <div class="gate">✅ Gate passed</div>
+  </div>
+</div>
+
+<div class="phase done">
+  <div class="icon">✅</div>
+  <div class="content">
+    <div class="phase-title">Phase 4 — Commands + Audit Log</div>
+    <div class="phase-meta">Builder: Dude · Reviewer: Maverick</div>
+    <div class="phase-status">/models, /status, /auditlog, audit log with rotation. Maverick signed off.</div>
+    <span class="tag green">Complete</span>
+    <div class="gate">✅ Gate passed</div>
   </div>
 </div>
 
 <div class="phase active">
   <div class="icon">⚙️</div>
   <div class="content">
-    <div class="phase-title">Phase 4 — Commands + Audit Log</div>
-    <div class="phase-meta">Builder: Qwen3-Coder-Next · Reviewer: Maverick</div>
-    <div class="phase-status">Waiting for Rich's go signal.</div>
-    <span class="tag yellow">Awaiting Go</span>
-    <div class="gate waiting">⏳ Waiting for Rich to say go in Telegram.</div>
-  </div>
-</div>
-
-<div class="phase pending">
-  <div class="icon">⏳</div>
-  <div class="content">
     <div class="phase-title">Phase 5 — Full Integration Test</div>
-    <div class="phase-meta">Builder: Qwen3-Coder-Next · Reviewer: Maverick + Qwen3 30B</div>
-    <div class="phase-status">Blocked on Phase 4 gate.</div>
-    <span class="tag">Pending</span>
+    <div class="phase-meta">Tester: Dude · Final reviewer: Maverick + Qwen3 30B</div>
+    <div class="phase-status">Running integration tests now...</div>
+    <span class="tag yellow">In Progress</span>
+    <div class="test">
+      <div class="t running">🔄 Node.js unit tests</div>
+      <div class="t pend">⏳ /models command</div>
+      <div class="t pend">⏳ /status command</div>
+      <div class="t pend">⏳ @fast routing</div>
+      <div class="t pend">⏳ @sim routing</div>
+      <div class="t pend">⏳ Unknown alias handling</div>
+      <div class="t pend">⏳ Input sanitization</div>
+      <div class="t pend">⏳ /clear + /clearall</div>
+      <div class="t pend">⏳ Audit log entries</div>
+      <div class="t pend">⏳ File permissions</div>
+      <div class="t pend">⏳ Final security scan</div>
+    </div>
   </div>
 </div>
 
@@ -137,7 +143,7 @@ footer { text-align: center; color: #333; font-size: 0.72em; margin-top: 32px; p
 <div class="models">
   <div class="model-card">
     <div class="model-name">Qwen3-Coder-Next</div>
-    <div class="model-role">Builder — all phases</div>
+    <div class="model-role">Builder</div>
     <div class="model-status"><span class="dot green"></span><span style="color:#4ade80">Ready · 51GB</span></div>
   </div>
   <div class="model-card">
