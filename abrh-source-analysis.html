@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABRH Source Code Analysis — Clockwork DMR</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --accent2: #3fb950;
+    --warn: #d29922;
+    --danger: #f85149;
+    --critical: #ff7b72;
+    --info: #58a6ff;
+    --purple: #bc8cff;
+    --teal: #39d353;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 15px; line-height: 1.6; }
+  
+  header { background: linear-gradient(135deg, #1a1f2e 0%, #0d1117 100%); border-bottom: 1px solid var(--border); padding: 2rem; }
+  header h1 { font-size: 1.8rem; color: var(--accent); margin-bottom: 0.3rem; }
+  header .meta { color: var(--muted); font-size: 0.85rem; }
+  header .badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; margin-left: 8px; }
+  .badge-live { background: #238636; color: #aff0c0; }
+  .badge-legacy { background: #6e4107; color: #e3b341; }
+  .badge-critical { background: #67060c; color: #ffa198; }
+
+  nav { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; gap: 0; overflow-x: auto; }
+  nav a { color: var(--muted); text-decoration: none; padding: 0.85rem 1.2rem; font-size: 0.85rem; white-space: nowrap; border-bottom: 2px solid transparent; transition: all 0.2s; }
+  nav a:hover { color: var(--text); }
+  nav a.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  main { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+  
+  section { margin-bottom: 3rem; }
+  h2 { font-size: 1.3rem; color: var(--text); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0.5rem; }
+  h3 { font-size: 1.05rem; color: var(--accent); margin: 1.2rem 0 0.6rem; }
+  h4 { font-size: 0.9rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin: 1rem 0 0.4rem; }
+  p { margin-bottom: 0.8rem; color: var(--muted); }
+  p strong { color: var(--text); }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem 1.5rem; margin-bottom: 1rem; }
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.2rem; }
+  .stat-card .num { font-size: 2rem; font-weight: 700; color: var(--accent); }
+  .stat-card .label { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+  .stat-card .sub { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  thead tr { background: #1c2128; }
+  th { padding: 0.6rem 0.8rem; text-align: left; color: var(--muted); font-weight: 600; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid var(--border); }
+  td { padding: 0.55rem 0.8rem; border-bottom: 1px solid #21262d; color: var(--muted); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #1c2128; }
+  td strong { color: var(--text); }
+  td code { background: #1c2128; padding: 1px 5px; border-radius: 3px; font-size: 0.8rem; color: var(--purple); font-family: 'Fira Code', 'Courier New', monospace; }
+
+  .severity { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.03em; }
+  .sev-critical { background: #67060c; color: #ffa198; }
+  .sev-high { background: #6e4107; color: #e3b341; }
+  .sev-medium { background: #1d2d3e; color: #58a6ff; }
+  .sev-low { background: #1b2a1b; color: #56d364; }
+  .sev-info { background: #22262d; color: var(--muted); }
+
+  .arch-box { font-family: 'Fira Code', 'Courier New', monospace; font-size: 0.8rem; background: #0d1117; border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; line-height: 1.8; color: var(--text); overflow-x: auto; white-space: pre; }
+  .arch-box .c1 { color: var(--accent); }
+  .arch-box .c2 { color: var(--accent2); }
+  .arch-box .c3 { color: var(--purple); }
+  .arch-box .c4 { color: var(--warn); }
+  .arch-box .dim { color: var(--muted); }
+
+  code { font-family: 'Fira Code', 'Courier New', monospace; font-size: 0.82rem; color: var(--purple); background: #1c2128; padding: 1px 5px; border-radius: 3px; }
+  pre { background: #0d1117; border: 1px solid var(--border); border-radius: 6px; padding: 1rem; overflow-x: auto; font-size: 0.82rem; color: var(--text); line-height: 1.5; }
+  pre code { background: none; padding: 0; color: inherit; }
+
+  details { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 0.75rem; overflow: hidden; }
+  summary { padding: 0.85rem 1.2rem; cursor: pointer; font-weight: 600; background: var(--surface); color: var(--text); list-style: none; display: flex; align-items: center; gap: 0.5rem; }
+  summary::-webkit-details-marker { display: none; }
+  summary::before { content: '▶'; font-size: 0.65rem; color: var(--muted); transition: transform 0.2s; }
+  details[open] summary::before { transform: rotate(90deg); }
+  details[open] summary { border-bottom: 1px solid var(--border); }
+  .details-body { padding: 1.2rem; }
+
+  .finding { border-left: 3px solid; padding: 0.8rem 1rem; margin-bottom: 0.8rem; border-radius: 0 6px 6px 0; }
+  .finding-critical { border-color: var(--critical); background: #1a0a0a; }
+  .finding-high { border-color: var(--warn); background: #1a130a; }
+  .finding-medium { border-color: var(--info); background: #0d1926; }
+  .finding-low { border-color: var(--teal); background: #0d1a0d; }
+  .finding-title { font-weight: 700; color: var(--text); margin-bottom: 0.3rem; }
+  .finding-loc { font-size: 0.78rem; color: var(--muted); font-family: monospace; margin-bottom: 0.4rem; }
+  .finding-desc { font-size: 0.88rem; color: var(--muted); }
+
+  .workflow-step { display: flex; gap: 1rem; margin-bottom: 0.6rem; align-items: flex-start; }
+  .step-num { background: var(--accent); color: #000; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+  .step-text { color: var(--muted); font-size: 0.9rem; }
+  .step-text strong { color: var(--text); }
+
+  .role-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+  .role-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.1rem; }
+  .role-card .role-name { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 0.3rem; display: flex; align-items: center; gap: 0.5rem; }
+  .role-card .role-icon { font-size: 1.3rem; }
+  .role-card ul { margin: 0.5rem 0 0 1rem; color: var(--muted); font-size: 0.85rem; }
+  .role-card li { margin-bottom: 3px; }
+
+  .rec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media(max-width: 700px) { .rec-grid { grid-template-columns: 1fr; } }
+  .rec-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.1rem; }
+  .rec-card .rec-title { font-weight: 700; color: var(--text); margin-bottom: 0.4rem; font-size: 0.95rem; }
+  .rec-card ul { margin-left: 1rem; color: var(--muted); font-size: 0.85rem; }
+  .rec-card li { margin-bottom: 4px; }
+
+  .tag { display: inline-block; padding: 1px 7px; border-radius: 4px; font-size: 0.72rem; font-weight: 600; margin-left: 4px; }
+  .tag-net35 { background: #3d2a00; color: #e3b341; }
+  .tag-webforms { background: #1d2d3e; color: #58a6ff; }
+  .tag-sqlserver { background: #1d3028; color: #39d353; }
+  .tag-active { background: #1b2a1b; color: #56d364; }
+
+  footer { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.78rem; border-top: 1px solid var(--border); margin-top: 3rem; }
+  
+  .pill-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.5rem 0 1rem; }
+  .pill { padding: 3px 10px; border-radius: 20px; font-size: 0.78rem; border: 1px solid; }
+  .pill-blue { color: var(--accent); border-color: #1e3a5f; background: #0d2135; }
+  .pill-green { color: var(--accent2); border-color: #1a3d1a; background: #0d1f0d; }
+  .pill-orange { color: var(--warn); border-color: #3d2800; background: #1a1200; }
+  .pill-red { color: var(--danger); border-color: #3d0a0a; background: #1a0404; }
+  .pill-purple { color: var(--purple); border-color: #2d1d3d; background: #160d2a; }
+
+  .exec-summary { background: linear-gradient(135deg, #161b22, #0d1520); border: 1px solid #30363d; border-left: 4px solid var(--accent); border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem; }
+  .exec-summary p { color: var(--text); font-size: 0.95rem; margin-bottom: 0.8rem; line-height: 1.7; }
+  .exec-summary p:last-child { margin-bottom: 0; }
+
+  .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem 1.5rem; margin-bottom: 2rem; }
+  .toc h3 { margin: 0 0 0.7rem; color: var(--muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.06em; }
+  .toc ol { margin-left: 1.2rem; color: var(--muted); font-size: 0.88rem; }
+  .toc li { margin-bottom: 3px; }
+  .toc a { color: var(--accent); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+
+  .git-log { font-family: monospace; font-size: 0.8rem; color: var(--muted); }
+  .git-log .sha { color: var(--warn); }
+  .git-log .date { color: var(--accent2); }
+  .git-log .msg { color: var(--text); }
+  .git-log tr:hover td { background: #1c2128; }
+
+  .inline-warn { color: var(--warn); font-weight: 600; }
+  .inline-danger { color: var(--danger); font-weight: 600; }
+  .inline-ok { color: var(--accent2); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🔍 ABRH Source Code Analysis</h1>
+  <div class="meta">
+    Clockwork Home Services DMR · Analyzed April 7, 2026 · 238 C# Files · 84 ASPX Pages · 9 Commits
+    <span class="badge badge-live">Actively Maintained</span>
+    <span class="badge badge-legacy">.NET 3.5 Legacy</span>
+    <span class="badge badge-critical">Security Issues</span>
+  </div>
+</header>
+
+<nav>
+  <a href="#executive" class="active">Executive Summary</a>
+  <a href="#inventory">Inventory</a>
+  <a href="#architecture">Architecture</a>
+  <a href="#security">Security</a>
+  <a href="#business">Business Intel</a>
+  <a href="#recommendations">Recommendations</a>
+</nav>
+
+<main>
+
+  <div class="toc">
+    <h3>Table of Contents</h3>
+    <ol>
+      <li><a href="#executive">Executive Summary</a></li>
+      <li><a href="#inventory">File Inventory &amp; Structure</a></li>
+      <li><a href="#architecture">Architecture Analysis</a></li>
+      <li><a href="#security">Security Findings</a></li>
+      <li><a href="#business">Business Intelligence</a></li>
+      <li><a href="#recommendations">Recommendations</a></li>
+    </ol>
+  </div>
+
+  <!-- EXECUTIVE SUMMARY -->
+  <section id="executive">
+    <h2>📋 Executive Summary</h2>
+    <div class="exec-summary">
+      <p>This is the <strong>Clockwork Home Services DMR (Daily Management Report)</strong> — a business intelligence web application built for ABRH that serves as the operational data backbone for Clockwork home services franchises (Ben Franklin Plumbing, Mister Sparky Electrical, One Hour Heating &amp; Air). Franchise owners ("Members") enter daily KPIs — calls run, revenue, wages, cash position, backlog — and the system calculates daily/month-to-date/year-to-date comparisons against budget targets. Business consultants review aggregated performance across their franchise groups; technicians log individual employee data. It's a purpose-built analytics platform that's been accumulating real operational data since at least 2014.</p>
+      <p>The codebase is a classic <strong>ASP.NET Web Forms / .NET 3.5 application</strong> — architecture from ~2007 — and it is <strong>actively being maintained</strong>, with the most recent commits from August 2025 by an offshore developer (jaymin@spiraltechnolabs.com). The three-tier structure (presentation → business logic → data) is clean for its era: the overwhelming majority of database access uses parameterized stored procedures via Microsoft's SqlHelper pattern, which is correct. There is a modest amount of raw SQL string concatenation in mapping tables (limited attack surface since IDs are GUIDs). The 8,726 PDFs in <code>files/pdf/</code> are generated snapshots of daily and employee reports accumulated over a decade of operation.</p>
+      <p>The most urgent issues are security configuration, not architectural rot. <strong>Passwords are stored and compared in plaintext</strong> (no hashing anywhere in the auth stack — this is the single most critical finding). Production web.config has debug mode on and custom errors off, which leaks full stack traces. Commented-out connection strings in git history expose the real production password (<code>masterdata#$</code>). The authentication also supports querystring-based token passing (<code>?token=</code>) which can leak credentials in server logs. The good news: the framework and data access patterns are consistent, the business logic is well-organized, and the application clearly works — it's serving real data for real franchises. Modernizing the security layer is achievable without rewriting the application.</p>
+    </div>
+  </section>
+
+  <!-- INVENTORY -->
+  <section id="inventory">
+    <h2>📁 File Inventory &amp; Structure</h2>
+
+    <div class="card-grid">
+      <div class="stat-card"><div class="num">238</div><div class="label">C# Source Files</div><div class="sub">Business logic + data access</div></div>
+      <div class="stat-card"><div class="num">84</div><div class="label">ASPX Pages</div><div class="sub">Web Forms UI pages</div></div>
+      <div class="stat-card"><div class="num">8,726</div><div class="label">Generated PDFs</div><div class="sub">Reports since 2014</div></div>
+      <div class="stat-card"><div class="num">9</div><div class="label">Git Commits</div><div class="sub">History starts 2025</div></div>
+      <div class="stat-card"><div class="num">4</div><div class="label">DLLs in Bin</div><div class="sub">ABCpdf, AjaxToolkit, SqlHelper</div></div>
+      <div class="stat-card"><div class="num">.NET 3.5</div><div class="label">Framework Version</div><div class="sub">~2008 vintage</div></div>
+    </div>
+
+    <h3>Directory Structure</h3>
+    <table>
+      <thead><tr><th>Directory</th><th>Contents</th><th>Files</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><strong>/home/</strong></td><td>Member (franchise owner) portal</td><td>~58</td><td>DailyData, EmployeeData, Budget, Reports</td></tr>
+        <tr><td><strong>/consultant/</strong></td><td>Business consultant portal</td><td>~50</td><td>Cross-franchise analytics, group reports</td></tr>
+        <tr><td><strong>/masteradmin/</strong></td><td>Admin portal</td><td>~34</td><td>Manage members, consultants, regions, groups</td></tr>
+        <tr><td><strong>/tech/</strong></td><td>Technician portal</td><td>~10</td><td>Employee-level daily data entry</td></tr>
+        <tr><td><strong>/controls/</strong></td><td>Shared user controls (.ascx)</td><td>~97</td><td>Reusable UI components, data entry forms</td></tr>
+        <tr><td><strong>/masterpages/</strong></td><td>Master pages (5 total)</td><td>10</td><td>Admin, Consultant, Member, Site, Technician</td></tr>
+        <tr><td><strong>/App_Code/data/</strong></td><td>Data access layer</td><td>26</td><td>DB classes, all SQL Server calls</td></tr>
+        <tr><td><strong>/App_Code/businesslogic/</strong></td><td>Business logic layer</td><td>8</td><td>Calculations, auth, PDF generation</td></tr>
+        <tr><td><strong>/App_Code/businessentity/</strong></td><td>Domain model classes</td><td>52</td><td>Entity + List pairs for each domain object</td></tr>
+        <tr><td><strong>/App_Code/Framework/</strong></td><td>Custom framework classes</td><td>8</td><td>Auth, roles, base page/control, principals</td></tr>
+        <tr><td><strong>/App_Code/utilities/</strong></td><td>Utilities</td><td>5</td><td>Email, export (Excel/CSV), image resize, helpers</td></tr>
+        <tr><td><strong>/App_Code/DBudgetLog/</strong></td><td>Budget log module</td><td>2</td><td>Separate namespace (Magnetic.DBudgetLogModule)</td></tr>
+        <tr><td><strong>/Automation/</strong></td><td>Batch processing page</td><td>2</td><td>PopulateFranchiseSummaryReport</td></tr>
+        <tr><td><strong>/Bin/</strong></td><td>Third-party DLLs</td><td>4</td><td>ABCpdf, AjaxControlToolkit, SqlHelper, DataVisualization</td></tr>
+        <tr><td><strong>/files/pdf/</strong></td><td>Generated PDF archive</td><td>8,726</td><td>Reports stored as files, filenames are GUIDs</td></tr>
+        <tr><td><strong>/SP-Changes/</strong></td><td>SQL change scripts</td><td>13</td><td>Manual SP migration files (2025-08-14, 2025-08-21)</td></tr>
+        <tr><td><strong>/App_GlobalResources/</strong></td><td>Resource files</td><td>—</td><td>Localization</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Master Pages (5)</h3>
+    <table>
+      <thead><tr><th>File</th><th>Used By</th></tr></thead>
+      <tbody>
+        <tr><td><code>Admin.master</code></td><td>/masteradmin/ portal</td></tr>
+        <tr><td><code>Consultant.master</code></td><td>/consultant/ portal</td></tr>
+        <tr><td><code>Member.master</code></td><td>/home/ portal (franchise owners)</td></tr>
+        <tr><td><code>Technician.master</code></td><td>/tech/ portal</td></tr>
+        <tr><td><code>Site.master</code></td><td>Root-level public pages (login, forgot, etc.)</td></tr>
+      </tbody>
+    </table>
+
+    <h3>PDF File Naming Convention</h3>
+    <div class="card">
+      <p>All 8,726 PDFs follow the pattern: <code>{MemberGUID}_{YYYYMMDD}_{sequence}_{ReportType}.pdf</code></p>
+      <p>Two report types observed: <strong>DailyData</strong> (day-level KPI snapshots) and <strong>EmployeeReport</strong> / <strong>EmployeeData</strong> (individual technician performance). Oldest PDFs date to <strong>October 2014</strong>. These are printed/saved snapshots of reports, not source data — the database is the source of truth.</p>
+    </div>
+
+    <h3>Git History</h3>
+    <table>
+      <thead><tr><th>Commit</th><th>Date</th><th>Author</th><th>Summary</th></tr></thead>
+      <tbody>
+        <tr><td class="git-log"><span class="sha">28cb65d</span></td><td class="git-log"><span class="date">2025-08-26</span></td><td>jaymin2025</td><td>Added BCC field to Budget; DMR Daily/YTD calls closed</td></tr>
+        <tr><td class="git-log"><span class="sha">1f01225</span></td><td class="git-log"><span class="date">2025-08-21</span></td><td>jaymin2025</td><td>Added BCC field</td></tr>
+        <tr><td class="git-log"><span class="sha">a532548</span></td><td class="git-log"><span class="date">2025-08-21</span></td><td>jaymin2025</td><td>Budget grid edits; export to Excel/CSV; employee report fields</td></tr>
+        <tr><td class="git-log"><span class="sha">53ce25c</span></td><td class="git-log"><span class="date">2025-08-21</span></td><td>jaymin2025</td><td>Export to Excel (later reverted, then re-added)</td></tr>
+        <tr><td class="git-log"><span class="sha">68346d3</span></td><td class="git-log"><span class="date">—</span></td><td>jaymin2025</td><td>Initial commit</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:0.5rem">Developer: <strong>jaymin@spiraltechnolabs.com</strong> — offshore dev shop, India. Git history starts with this developer; likely existing codebase moved into git repo in 2025.</p>
+  </section>
+
+  <!-- ARCHITECTURE -->
+  <section id="architecture">
+    <h2>🏗 Architecture Analysis</h2>
+
+    <div class="pill-row">
+      <span class="pill pill-blue">ASP.NET Web Forms</span>
+      <span class="pill pill-orange">.NET Framework 3.5</span>
+      <span class="pill pill-green">SQL Server</span>
+      <span class="pill pill-purple">3-Tier Architecture</span>
+      <span class="pill pill-blue">Forms Authentication</span>
+      <span class="pill pill-blue">Stored Procedures</span>
+    </div>
+
+    <h3>Architecture Diagram</h3>
+    <div class="arch-box"><span class="c4">┌─────────────────────────────────────────────────────────────────────┐
+│                    CLOCKWORK HOME SERVICES DMR                      │
+│                    ASP.NET Web Forms / .NET 3.5                     │
+└─────────────────────────────────────────────────────────────────────┘</span>
+
+<span class="dim">┌─────────────────────── PRESENTATION LAYER ──────────────────────────┐</span>
+<span class="c1">│  /masteradmin/     │  /home/            │  /consultant/  │  /tech/  │
+│  Admin Portal      │  Member Portal     │  BC Portal     │  Tech    │
+│  14 pages          │  24 pages          │  22 pages      │  5 pages │
+│  Admin.master      │  Member.master     │  Consul.master │  Tech.m  │</span>
+<span class="dim">└────────────────────────────────────────────────────────────────────-┘
+                             │ ASPX + ASCX Controls (/controls/ ~50 ascx)
+┌─────────────────────── BUSINESS LOGIC LAYER ───────────────────────┐</span>
+<span class="c2">│  AuthenticationBL    DailyDataCalculation    KPICalculation         │
+│  DailyDataOneHourCalculation    EmployeeReportCalculation           │
+│  MemberManager    ConvertPdf (ABCpdf6)    ExportHelper              │</span>
+<span class="dim">└────────────────────────────────────────────────────────────────────-┘
+                             │ Domain Entities (/App_Code/businessentity/)
+┌─────────────────────── DATA ACCESS LAYER ──────────────────────────┐</span>
+<span class="c3">│  DailyDataDB   MemberDB   PlumberDB   BudgetDataDB   DBudgetDB      │
+│  FranchiseGroupDB   RegionDB   SummaryReportDB   SetUpDB ...        │
+│  Microsoft.ApplicationBlocks.Data.SqlHelper (parameterized SPs)    │</span>
+<span class="dim">└────────────────────────────────────────────────────────────────────-┘
+                             │ SQL Server stored procedures (xsp_*)
+┌─────────────────────── DATABASE ───────────────────────────────────┐</span>
+<span class="c4">│  SQL Server: ClockWorkProdJuly2014                                  │
+│  Production URL: dmr.clockworkhomeservices.com                      │
+│  Tables: Member, Plumber, PlumberData, DailyData, DBudget,          │
+│          BudgetData, FranchiseGroup, FranchiseGroupMapping,         │
+│          BusinessConsultant, BusinessConsultantMapping, Region ...   │</span>
+<span class="dim">└────────────────────────────────────────────────────────────────────-┘</span>
+
+<span class="dim">EXTERNAL:  ABCpdf6 (PDF gen)  |  AjaxControlToolkit  |  SMTP (mail.magnetic.com)
+STORAGE:   /files/pdf/ (8,726 PDFs)  |  SQL Server (operational data)</span></div>
+
+    <details>
+      <summary>🔐 Authentication System</summary>
+      <div class="details-body">
+        <p>Uses <strong>ASP.NET Forms Authentication</strong> with a custom cookie structure. Auth is role-based with 4 roles: <code>Administrator</code>, <code>Member</code>, <code>Consultant</code>, <code>Tech</code>. Web.config enforces role restrictions per directory (e.g., <code>/consultant</code> requires role "Consultant").</p>
+        <p>The <code>AuthenticationBL</code> class handles all 4 auth paths. Login pages exist at <code>/masteradmin/login.aspx</code>, <code>/consultant/login.aspx</code>, <code>/tech/login.aspx</code>, and <code>/login.aspx</code> (members).</p>
+        <p><strong>Key implementation:</strong> Custom <code>FormsAuthenticationTicket</code> stores serialized <code>UserData</code> (role + user attributes) in the auth cookie. The <code>Global.asax</code> <code>FormsAuthentication_OnAuthenticate</code> handler also supports <strong>querystring token authentication</strong> (<code>?token=encrypted_ticket</code>) for page linking between portals.</p>
+        <p><span class="inline-danger">Critical:</span> Passwords are retrieved from the database and compared as <strong>plaintext strings</strong>. No hashing, no salting. Example: <code>if (member != null && member.Password == password)</code></p>
+      </div>
+    </details>
+
+    <details>
+      <summary>🗄 Database &amp; Data Access Patterns</summary>
+      <div class="details-body">
+        <p><strong>Database:</strong> SQL Server. Production database named <code>ClockworkHomeServicesDMR</code>, dev/current config points to <code>ClockWorkProdJuly2014</code>. Connection string pulled from web.config via <code>Helper.ConnectionString</code> static property.</p>
+        <p><strong>Primary pattern:</strong> Stored procedures (prefixed <code>xsp_*</code> for custom, <code>sp_*</code> for some member ops) called via <code>Microsoft.ApplicationBlocks.Data.SqlHelper</code> with parameterized <code>SqlParameter[]</code> arrays. This is safe and correct.</p>
+        <p><strong>SP migration management:</strong> Done manually via text files in <code>/SP-Changes/</code>. No automated migration framework (no Flyway, EF Migrations, etc.).</p>
+        <p><strong>Secondary pattern:</strong> Two files use raw SQL string concatenation (see Security section). Not parameterized, but limited attack surface due to GUID keys.</p>
+        <p><strong>Data volume indicators:</strong> Paging implemented in DBudgetLogDB. 8,726 PDFs suggest years of daily reporting activity by dozens of franchisees.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>📦 External Dependencies (Bin DLLs)</summary>
+      <div class="details-body">
+        <table>
+          <thead><tr><th>DLL</th><th>Purpose</th><th>Version/Notes</th></tr></thead>
+          <tbody>
+            <tr><td><code>ABCpdf.DLL</code> + <code>ABCpdfCE6.dll</code></td><td>PDF generation (HTML → PDF via headless browser)</td><td>ABCpdf 6, license key hardcoded in source</td></tr>
+            <tr><td><code>AjaxControlToolkit.dll</code></td><td>AJAX UI components for Web Forms</td><td>Classic Web Forms era toolkit</td></tr>
+            <tr><td><code>Microsoft.ApplicationBlocks.Data.dll</code></td><td>SQL Server data access helper (SqlHelper)</td><td>Microsoft Patterns &amp; Practices, .NET 2.0 era</td></tr>
+            <tr><td><code>System.Web.DataVisualization.dll</code></td><td>Chart rendering</td><td>.NET 3.5 charting library</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:0.8rem">No NuGet packages.config found — all dependencies are checked-in DLLs. No package management.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>⚙️ Automation Module</summary>
+      <div class="details-body">
+        <p>The <code>/Automation/</code> directory contains a single page: <code>PopulateFranchiseSummaryReport.aspx</code>. This is a <strong>batch processing page</strong>, not a scheduled service. It:</p>
+        <ol style="margin-left: 1.2rem; color: var(--muted); font-size:0.88rem; line-height:1.8">
+          <li>Fetches all Members not yet marked as "processed" (<code>GetMembersTopNotProcessed()</code>)</li>
+          <li>Iterates every day of a hardcoded year (currently set to <strong>2008</strong> in code)</li>
+          <li>Calls <code>FranchiseSummaryReportDB.Save()</code> for each franchise/day/month combination</li>
+          <li>Marks the member as processed when done</li>
+        </ol>
+        <p>Sets <code>Server.ScriptTimeout = 9999999</code> to run without timeout. This is a data backfill utility, not a real-time automation. The hardcoded year 2008 is likely a placeholder that would be updated before use.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>🔄 Code Age &amp; Maintenance Status</summary>
+      <div class="details-body">
+        <p><strong>Framework vintage:</strong> .NET 3.5 / ASP.NET Web Forms — technology from 2007-2008. However, this doesn't mean the code was written then. The code quality and patterns are consistent with mid-2010s Web Forms development.</p>
+        <p><strong>Oldest data evidence:</strong> PDF files dating to October 2014 (<code>6b3cf3e6..._20141013_890_DailyData.pdf</code>). The original database was named <code>ClockworkHomeServicesDMR</code>, suggesting the system launched around 2014.</p>
+        <p><strong>Active development:</strong> <span class="inline-ok">YES</span> — commits as recent as August 26, 2025. Recent work added export to Excel/CSV, BCC budget field, and "Calls Closed" metrics for Scheduled Service &amp; Comfort Club.</p>
+        <p><strong>Developer:</strong> <code>jaymin2025 &lt;jaymin@spiraltechnolabs.com&gt;</code> — appears to be an offshore contractor from India (Spiral Technolabs). All 9 git commits are from this single developer, all within ~1 week in August 2025, suggesting the git repo was set up recently and earlier history may not be tracked.</p>
+        <p><strong>Visual Studio version:</strong> <code>.vs/ABRH/v17</code> and <code>v18</code> folders present with GitHub Copilot indices (v17.14) — developed in VS 2022 despite the .NET 3.5 target.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- SECURITY -->
+  <section id="security">
+    <h2>🚨 Security Findings</h2>
+    <p>Findings ordered by severity. Address CRITICAL and HIGH before next deployment.</p>
+
+    <h3><span class="severity sev-critical">CRITICAL</span> Findings</h3>
+
+    <div class="finding finding-critical">
+      <div class="finding-title">🔴 Plaintext Password Storage &amp; Comparison</div>
+      <div class="finding-loc">App_Code/businesslogic/AuthenticationBL.cs, App_Code/data/MemberDB.cs, AdminUserDB.cs, PlumberDB.cs, BusinessConsultantDB.cs</div>
+      <div class="finding-desc">
+        Passwords for all four user roles (Admin, Member, Consultant, Tech) are stored in the database as plaintext and compared with <code>==</code> string equality. No hashing, no salting, no bcrypt, nothing. A single database read exposes every user's password in clear text.
+        <pre><code>// AuthenticationBL.cs — this is the entire auth check:
+if (member != null && member.Password == password)
+    return member;</code></pre>
+        <strong>Impact:</strong> Complete credential exposure on any DB breach. If users reuse passwords (they do), this affects accounts far beyond this application. All 4 user types affected.
+        <br><strong>Fix:</strong> Implement PBKDF2 (built into .NET as <code>Rfc2898DeriveBytes</code>) or BCrypt. Migrate existing passwords on next login with a hash-on-first-login pattern.
+      </div>
+    </div>
+
+    <div class="finding finding-critical">
+      <div class="finding-title">🔴 Full Stack Traces Exposed in Production (customErrors Off)</div>
+      <div class="finding-loc">web.config line 67</div>
+      <div class="finding-desc">
+        <code>&lt;customErrors mode="Off" /&gt;</code> means any unhandled exception returns a full ASP.NET yellow screen of death, including stack traces, file paths, code snippets, and connection string details. This is active in the deployed configuration.
+        <br><strong>Fix:</strong> Set <code>mode="RemoteOnly"</code> or <code>mode="On"</code> with a generic error page.
+      </div>
+    </div>
+
+    <div class="finding finding-critical">
+      <div class="finding-title">🔴 Production Credentials in Git History</div>
+      <div class="finding-loc">web.config (commented connection strings)</div>
+      <div class="finding-desc">
+        Multiple commented-out connection strings in web.config expose historical production credentials in the repository. The password <strong><code>masterdata#$</code></strong> appears across multiple commented connection strings pointing to production database servers (<code>sql2.magnetic.com</code>, <code>ClockworkHomeServicesDMR</code> database). These are in git history permanently unless the repo history is rewritten.
+        <pre><code>&lt;!-- EXPOSED IN GIT HISTORY: --&gt;
+Password=masterdata#$
+Password=masterdata#$
+Password=sa (dev machine)</code></pre>
+        <strong>Fix:</strong> Rotate these credentials immediately if still in use. Rewrite git history with BFG Repo Cleaner to scrub the secrets. Move secrets to environment variables or Azure Key Vault.
+      </div>
+    </div>
+
+    <h3><span class="severity sev-high">HIGH</span> Findings</h3>
+
+    <div class="finding finding-high">
+      <div class="finding-title">🟠 debug="true" in Production Web.Config</div>
+      <div class="finding-loc">web.config line 49</div>
+      <div class="finding-desc">
+        <code>&lt;compilation debug="true"&gt;</code> in the active web.config disables ASP.NET batch compilation optimizations, enables request timeouts being disabled, exposes script resource mappings, and slows the application. In production this is a performance and mild security issue.
+        <br><strong>Fix:</strong> Set <code>debug="false"</code>. Use web.config transformations (web.Release.config) for deployment.
+      </div>
+    </div>
+
+    <div class="finding finding-high">
+      <div class="finding-title">🟠 Querystring Auth Token Leakage Risk</div>
+      <div class="finding-loc">Global.asax — FormsAuthentication_OnAuthenticate</div>
+      <div class="finding-desc">
+        The application supports passing the encrypted Forms Authentication ticket via URL querystring (<code>?token=encrypted_ticket</code>). While the ticket is encrypted with the machine key, URLs appear in server logs, browser history, Referer headers, and can be bookmarked. A leaked URL = stolen session.
+        <pre><code>if (Request.QueryString["token"] != null) {
+    FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(
+        Request.QueryString["token"].ToString());
+    args.User = new Framework.FormsPrincipal(new FormsIdentity(ticket));
+}</code></pre>
+        <strong>Fix:</strong> If cross-portal linking is needed, use a short-lived one-time token exchanged server-side rather than passing the full auth ticket in the URL.
+      </div>
+    </div>
+
+    <div class="finding finding-high">
+      <div class="finding-title">🟠 ABCpdf License Key Hardcoded in Source</div>
+      <div class="finding-loc">App_Code/businesslogic/ConvertPdf.cs line ~32</div>
+      <div class="finding-desc">
+        The ABCpdf 6 license key is hardcoded directly in source code: <code>theDoc.SetInfo(0, "License", "810-031-225-276-7580-581")</code>. A prior license key is also visible in a comment. This is now in git history.
+        <br><strong>Fix:</strong> Move to app settings key in web.config (and then to environment variable / secrets store).
+      </div>
+    </div>
+
+    <h3><span class="severity sev-medium">MEDIUM</span> Findings</h3>
+
+    <div class="finding finding-medium">
+      <div class="finding-title">🔵 SQL String Concatenation in Mapping Tables</div>
+      <div class="finding-loc">App_Code/data/BusinessConsultantMappingDB.cs, App_Code/data/FranchiseGroupMappingDB.cs</div>
+      <div class="finding-desc">
+        Two data access classes build SQL strings via direct string concatenation instead of parameterized queries:
+        <pre><code>string sql = "DELETE FROM BusinessConsultantMapping WHERE BusinessConsultantId = '" 
+    + businessConsultantId + "'";
+sql = "INSERT INTO BusinessConsultantMapping ... VALUES ('" 
+    + businessConsultantId + "', '" + fgml[i].FranchiseGroupId + "')";
+</code></pre>
+        <strong>Mitigating factor:</strong> The concatenated values are C# <code>Guid</code> types, so they cannot contain SQL injection payloads — Guid.ToString() only produces hex+dashes. Attack surface is extremely limited but the pattern is still wrong and should be fixed.
+        <br><strong>Fix:</strong> Convert to parameterized queries for consistency and defense-in-depth.
+      </div>
+    </div>
+
+    <div class="finding finding-medium">
+      <div class="finding-title">🔵 Dynamic SQL with Partial Injection Risk (DBudgetLog Search)</div>
+      <div class="finding-loc">App_Code/DBudgetLog/DBudgetLogDB.cs — BuildSearchQuery()</div>
+      <div class="finding-desc">
+        The DBudgetLog search builds a dynamic paged query with string concatenation for <code>sortColumn</code> and <code>sortDirection</code>. Direction is properly whitelisted (ASC/DESC). The column switch statement's default falls back to a safe value. But the column value itself is interpolated directly into the SQL string before the switch runs:
+        <pre><code>SELECT *, ROW_NUMBER() OVER(ORDER BY + " + sortColumn + " " + sortDirection + @") AS RowNumber</code></pre>
+        If the switch statement is ever extended carelessly, or if caller validation is bypassed, this becomes injectable. The pattern is risky even if currently safe.
+        <br><strong>Fix:</strong> Build column allowlist first, then use the whitelisted value in the query.
+      </div>
+    </div>
+
+    <div class="finding finding-medium">
+      <div class="finding-title">🔵 No CSRF Protection</div>
+      <div class="finding-loc">All ASPX form pages</div>
+      <div class="finding-desc">
+        ASP.NET Web Forms provides built-in ViewState MAC (message authentication code) that offers some CSRF protection when <code>EnableViewStateMac="true"</code> (default). However, no explicit anti-forgery tokens are observed. Pages with sensitive actions (data entry, admin operations) could be targeted by CSRF if ViewState MAC is disabled or pages have postback patterns without ViewState.
+        <br><strong>Fix:</strong> Verify ViewState MAC is enabled globally. Consider adding explicit AntiForgery tokens for sensitive mutation endpoints.
+      </div>
+    </div>
+
+    <h3><span class="severity sev-low">LOW</span> Findings</h3>
+
+    <div class="finding finding-low">
+      <div class="finding-title">🟢 Email Credentials / SMTP Config</div>
+      <div class="finding-loc">web.config appSettings</div>
+      <div class="finding-desc">SMTP server configured as <code>mail.magnetic.com</code> (likely a legacy Magnetic.com hosting setup). No password visible in current config, but the "From" addresses (<code>info@mark.magnetic.com</code>) suggest this may be an old configuration that needs updating. Email functionality should be verified as operational.</div>
+    </div>
+
+    <div class="finding finding-low">
+      <div class="finding-title">🟢 Error Handling: Empty Catch Blocks</div>
+      <div class="finding-loc">Multiple files — Automation page, ConvertPdf.cs, Helper.cs</div>
+      <div class="finding-desc">Several <code>catch { }</code> blocks silently swallow exceptions. The Automation page wraps each daily save in a try/catch with no logging, meaning silent failures during backfill processing. No centralized error logging system (no Elmah, Serilog, etc.).</div>
+    </div>
+
+    <div class="finding finding-low">
+      <div class="finding-title">🟢 Session Configuration</div>
+      <div class="finding-loc">web.config — forms auth timeout</div>
+      <div class="finding-desc">Forms auth session timeout is 50 minutes with <code>slidingExpiration="true"</code>. Reasonable for a business app but worth reviewing if users access from shared computers.</div>
+    </div>
+
+    <h3>Security Summary Scorecard</h3>
+    <table>
+      <thead><tr><th>Category</th><th>Status</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Password Storage</strong></td><td><span class="severity sev-critical">CRITICAL</span></td><td>Plaintext. No hashing at all.</td></tr>
+        <tr><td><strong>Error Disclosure</strong></td><td><span class="severity sev-critical">CRITICAL</span></td><td>customErrors=Off, debug=true</td></tr>
+        <tr><td><strong>Secrets in Source</strong></td><td><span class="severity sev-high">HIGH</span></td><td>DB passwords + license key in git history</td></tr>
+        <tr><td><strong>SQL Injection</strong></td><td><span class="severity sev-medium">MEDIUM</span></td><td>95% parameterized SPs; 2 files with GUID concatenation</td></tr>
+        <tr><td><strong>Auth Tokens in URL</strong></td><td><span class="severity sev-high">HIGH</span></td><td>?token= querystring pattern</td></tr>
+        <tr><td><strong>XSS</strong></td><td><span class="severity sev-low">LOW</span></td><td>Web Forms server controls encode output; minimal raw HTML output</td></tr>
+        <tr><td><strong>CSRF</strong></td><td><span class="severity sev-medium">MEDIUM</span></td><td>ViewState MAC helps but no explicit tokens</td></tr>
+        <tr><td><strong>Transport Security</strong></td><td><span class="severity sev-info">UNKNOWN</span></td><td>Can't assess HTTPS from source; assume TLS at load balancer</td></tr>
+        <tr><td><strong>Input Validation</strong></td><td><span class="severity sev-low">LOW</span></td><td>Mostly typed parameters; some QueryString parsing</td></tr>
+        <tr><td><strong>Dependency Security</strong></td><td><span class="severity sev-medium">MEDIUM</span></td><td>ABCpdf 6 is 15+ years old; no dependency scanning</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- BUSINESS INTELLIGENCE -->
+  <section id="business">
+    <h2>💼 Business Intelligence</h2>
+
+    <h3>What This Application Does</h3>
+    <div class="card">
+      <p>This is a <strong>franchise performance tracking and business intelligence platform</strong> for Clockwork Home Services — a franchise network of residential service businesses. The three franchise brands are:</p>
+      <div class="pill-row">
+        <span class="pill pill-blue">🔧 Ben Franklin Plumbing (FranchiseTypeId: 52681c18...)</span>
+        <span class="pill pill-orange">⚡ Mister Sparky Electrical (d3a41545...)</span>
+        <span class="pill pill-green">🌡️ One Hour Heating &amp; Air (cd81ce8b...)</span>
+      </div>
+      <p>Each franchise owner (a "Member") logs daily operational KPIs. Business consultants review these numbers across their assigned franchise groups. The system calculates whether each franchise is hitting budget targets — color-coding metrics red/blue/black based on performance thresholds. These thresholds are different per franchise type and are hardcoded in the business logic (Helper.cs: <code>GetNumberColorPercent()</code>).</p>
+    </div>
+
+    <h3>User Roles &amp; Access</h3>
+    <div class="role-grid">
+      <div class="role-card">
+        <div class="role-name"><span class="role-icon">👑</span> Administrator</div>
+        <p style="font-size:0.83rem; color:var(--muted); margin: 0.4rem 0 0.5rem">Full system control via <code>/masteradmin/</code></p>
+        <ul>
+          <li>Add/edit/delete franchise Members</li>
+          <li>Manage Business Consultants</li>
+          <li>Manage Franchise Groups &amp; Regions</li>
+          <li>View Clockwork-Owned franchise reports</li>
+          <li>Manage franchise-to-group assignments</li>
+        </ul>
+      </div>
+      <div class="role-card">
+        <div class="role-name"><span class="role-icon">🏠</span> Member (Franchise Owner)</div>
+        <p style="font-size:0.83rem; color:var(--muted); margin: 0.4rem 0 0.5rem">Daily data entry &amp; reporting via <code>/home/</code></p>
+        <ul>
+          <li>Enter daily KPI data</li>
+          <li>Manage employee/technician records</li>
+          <li>View daily/MTD/YTD reports</li>
+          <li>Budget data entry &amp; comparison</li>
+          <li>Employee performance reports</li>
+          <li>Export to Excel/CSV/PDF</li>
+        </ul>
+      </div>
+      <div class="role-card">
+        <div class="role-name"><span class="role-icon">📊</span> Business Consultant</div>
+        <p style="font-size:0.83rem; color:var(--muted); margin: 0.4rem 0 0.5rem">Cross-franchise analytics via <code>/consultant/</code></p>
+        <ul>
+          <li>View reports across assigned franchise groups</li>
+          <li>Group summary &amp; comparison reports</li>
+          <li>KPI reports across franchises</li>
+          <li>Matrix reports (employee efficiency)</li>
+          <li>Total sales reports, install/service breakdowns</li>
+          <li>Can view any member's data in their groups</li>
+        </ul>
+      </div>
+      <div class="role-card">
+        <div class="role-name"><span class="role-icon">🔨</span> Technician (Plumber)</div>
+        <p style="font-size:0.83rem; color:var(--muted); margin: 0.4rem 0 0.5rem">Individual performance via <code>/tech/</code></p>
+        <ul>
+          <li>View their own daily data</li>
+          <li>Employee matrix view</li>
+          <li>Employee report (own data only)</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Core Data Model &amp; KPIs Tracked</h3>
+    <table>
+      <thead><tr><th>KPI Category</th><th>Fields Tracked</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Call Center</strong></td><td>Calls Taken, Calls Booked, New BSA/CSR, Clubs Cancelled</td></tr>
+        <tr><td><strong>Revenue</strong></td><td>Revenue (Jobs Completed), Sales Commissions, Revenue/Employee</td></tr>
+        <tr><td><strong>Financial Health</strong></td><td>Office Wages, Cash Snapshot, AR (30-day), Backlog, EDP/DA</td></tr>
+        <tr><td><strong>Operations</strong></td><td>Employee Count, Working Days, Comfort Club metrics, BCC (budget)</td></tr>
+        <tr><td><strong>Employee Level</strong></td><td>Dollar/Hour, Calls Run, Calls Closed (by service type), Visit-to-Calls ratio</td></tr>
+        <tr><td><strong>Budget vs Actual</strong></td><td>Daily/MTD/YTD comparisons for all above against DBudget targets</td></tr>
+        <tr><td><strong>Service Types</strong></td><td>Plumbing Service (PS), Scheduled Service (SS), Comfort Club (CC), Install, Demand, One Hour specific types</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Main Workflows</h3>
+    <div class="workflow-step"><div class="step-num">1</div><div class="step-text"><strong>Daily Data Entry (Member):</strong> Franchise owner logs in, opens DailyData.aspx for today, enters operational numbers (calls, revenue, wages, cash). System loads franchise-type-specific form (standard or OneHour variant). Data saves to <code>xsp_DailyData_Save</code> SP.</div></div>
+    <div class="workflow-step"><div class="step-num">2</div><div class="step-text"><strong>Budget Tracking:</strong> Members enter monthly budget targets in BudgetData. System compares daily actuals against DBudget (daily budget allocation) to generate red/blue/black color-coded performance indicators.</div></div>
+    <div class="workflow-step"><div class="step-num">3</div><div class="step-text"><strong>Employee Management:</strong> Members manage technician records (via Plumber entity), track dollar/hour, service categories, supervisory relationships. Technicians log their own individual daily call data.</div></div>
+    <div class="workflow-step"><div class="step-num">4</div><div class="step-text"><strong>Report Generation:</strong> Members &amp; consultants run various reports (Daily, YTD, Employee, Matrix, Group Summary, KPI). ABCpdf converts report pages to PDF files stored in <code>/files/pdf/</code>. Export to Excel/CSV also available.</div></div>
+    <div class="workflow-step"><div class="step-num">5</div><div class="step-text"><strong>Consultant Review:</strong> Business consultants see aggregated data across their assigned franchise groups via FranchiseGroupMapping. They can compare performance across multiple franchises in a single view.</div></div>
+    <div class="workflow-step"><div class="step-num">6</div><div class="step-text"><strong>Admin Management:</strong> Administrators add new franchise owners, assign them to groups and regions, manage business consultant accounts, control which consultants can see which franchise groups.</div></div>
+
+    <h3>Pain Points &amp; Complexity Indicators</h3>
+    <table>
+      <thead><tr><th>Pain Point</th><th>Evidence</th><th>Impact</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Franchise-type branching everywhere</strong></td>
+          <td>GUID comparisons for franchise type hardcoded throughout code (Helper.cs, DailyData.aspx.cs, DailyDataCalculation.cs). One Hour AC has separate DB tables, DB classes, calculations, and UI controls.</td>
+          <td>Adding a 4th franchise brand requires changes in 20+ files. High maintenance cost.</td>
+        </tr>
+        <tr>
+          <td><strong>Dual data model for One Hour</strong></td>
+          <td>Parallel entity stack: <code>DailyData</code> + <code>DailyDataOneHour</code>, <code>DailyDataOneHourDB</code>, <code>DailyDataOneHourCalculation</code>, separate ASCX controls</td>
+          <td>Any KPI change must be made in both codepaths. BCC field addition (Aug 2025) touched 15 files.</td>
+        </tr>
+        <tr>
+          <td><strong>No automated DB migrations</strong></td>
+          <td>Schema changes tracked in <code>/SP-Changes/*.txt</code> files applied manually</td>
+          <td>Deployment risk. Easy to forget a step, no rollback plan.</td>
+        </tr>
+        <tr>
+          <td><strong>8,726 PDFs in web directory</strong></td>
+          <td>All PDFs live in <code>/files/pdf/</code> under the web root, accessible via URL</td>
+          <td>These PDFs contain business financial data. No access control on the files themselves — anyone with the filename can access them without authentication.</td>
+        </tr>
+        <tr>
+          <td><strong>Hardcoded business rules</strong></td>
+          <td>Performance thresholds (redlines) per franchise type hardcoded in Helper.cs with GUID comparisons</td>
+          <td>Threshold changes require code deployment, not config change.</td>
+        </tr>
+        <tr>
+          <td><strong>Calculation complexity</strong></td>
+          <td>DailyDataCalculation.cs has 60+ public fields for DA/DB/DP/MA/MB/MP/YA/YB/YP variants (Daily Actual/Budget/Projected, Monthly, Yearly)</td>
+          <td>Hard to test, hard to modify. Bug surface area is large.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Unprotected PDF Files</h3>
+    <div class="finding finding-high">
+      <div class="finding-title">🟠 PDF Files Directly Accessible Without Auth</div>
+      <div class="finding-loc">/files/pdf/ — 8,726 files</div>
+      <div class="finding-desc">The web.config only protects the portal directories (<code>/home/</code>, <code>/consultant/</code>, etc.). The <code>/files/pdf/</code> directory has no explicit access restriction defined. Files are named with GUIDs (effectively unguessable from outside), but if a filename were known or guessed, the PDF would be served without authentication. These PDFs contain franchise financial data. Recommend adding an HTTP handler or moving PDFs outside the web root with server-side delivery.</div>
+    </div>
+  </section>
+
+  <!-- RECOMMENDATIONS -->
+  <section id="recommendations">
+    <h2>🎯 Recommendations</h2>
+
+    <h3>Decision Framework: Maintain vs. Modernize vs. Replace?</h3>
+    <div class="card" style="border-left: 4px solid var(--accent);">
+      <p><strong>Short answer: Maintain + targeted modernization. Don't replace.</strong></p>
+      <p>This application works. It has 10+ years of operational data, real franchise owners who know how to use it, and active development. A full rewrite would cost far more than incremental improvement and carries the risk of breaking workflows that have been refined over a decade. The right move is:</p>
+      <ol style="margin-left: 1.2rem; color: var(--muted); line-height: 1.9; font-size: 0.9rem;">
+        <li><strong>Immediate:</strong> Fix the critical security issues (password hashing, error disclosure, secrets rotation)</li>
+        <li><strong>Short-term (3-6 months):</strong> Upgrade to .NET 8 (Web Forms still fully supported on .NET 8 via <code>Microsoft.AspNet.WebFormsDotNet8</code>... actually for Web Forms, upgrade path is .NET Framework 4.8 first, then evaluate Blazor migration)</li>
+        <li><strong>Medium-term:</strong> Replace the dual One-Hour data model with a configuration-driven approach; add automated DB migrations</li>
+        <li><strong>Long-term:</strong> Consider migrating to Blazor Server or Razor Pages — these are the modern successors to Web Forms and the C# business logic can be largely reused</li>
+      </ol>
+    </div>
+
+    <div class="rec-grid">
+      <div class="rec-card" style="border-top: 3px solid var(--critical);">
+        <div class="rec-title">🔴 Do This Week — Security Fixes</div>
+        <ul>
+          <li>Implement <code>Rfc2898DeriveBytes</code> password hashing for all 4 user types</li>
+          <li>Set <code>customErrors mode="RemoteOnly"</code></li>
+          <li>Set <code>debug="false"</code> in production config</li>
+          <li>Rotate the <code>masterdata#$</code> database password</li>
+          <li>Move ABCpdf license key to appSettings</li>
+          <li>Audit <code>/files/pdf/</code> access — add auth handler or move off web root</li>
+        </ul>
+      </div>
+      <div class="rec-card" style="border-top: 3px solid var(--warn);">
+        <div class="rec-title">🟠 This Month — High Priority</div>
+        <ul>
+          <li>Rewrite SQL string concatenation in mapping DBs with parameterized queries</li>
+          <li>Fix querystring token auth — use server-side token exchange instead</li>
+          <li>Add proper error logging (Elmah or Serilog)</li>
+          <li>Add web.config transforms for release vs. debug configurations</li>
+          <li>Move connection strings to environment variables</li>
+          <li>Add <code>.gitignore</code> for web.config secrets</li>
+        </ul>
+      </div>
+      <div class="rec-card" style="border-top: 3px solid var(--accent);">
+        <div class="rec-title">🔵 This Quarter — Architecture</div>
+        <ul>
+          <li>Upgrade to .NET Framework 4.8 (immediate Win)</li>
+          <li>Add Flyway or DbUp for automated DB migrations</li>
+          <li>Replace hardcoded GUID franchise-type comparisons with DB-driven config</li>
+          <li>Unify DailyData and DailyDataOneHour into single configurable model</li>
+          <li>Add unit tests for DailyDataCalculation (highest complexity, highest bug risk)</li>
+          <li>Replace ABCpdf 6 (15 years old) with modern alternative (wkhtmltopdf, PuppeteerSharp)</li>
+        </ul>
+      </div>
+      <div class="rec-card" style="border-top: 3px solid var(--purple);">
+        <div class="rec-title">🟣 Strategic — Platform Modernization</div>
+        <ul>
+          <li>Evaluate migration to Blazor Server (C# reuse, modern UI, same .NET ecosystem)</li>
+          <li>Consider a REST API layer to enable mobile access</li>
+          <li>Move PDF storage to Azure Blob or S3 with SAS tokens (auth + cost-effective)</li>
+          <li>Add monitoring (Application Insights / Datadog)</li>
+          <li>Replace manual SP change files with EF Core migrations or Fluent Migrator</li>
+          <li>Move business rules (performance thresholds) to database configuration table</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Risk Assessment</h3>
+    <table>
+      <thead><tr><th>Risk</th><th>Likelihood</th><th>Impact</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td>Credential breach via plaintext passwords</td><td><span class="severity sev-high">HIGH</span></td><td><span class="severity sev-critical">CRITICAL</span></td><td>Hash passwords immediately</td></tr>
+        <tr><td>Stack trace exposure aids attacker reconnaissance</td><td><span class="severity sev-medium">MEDIUM</span></td><td><span class="severity sev-medium">MEDIUM</span></td><td>Enable customErrors</td></tr>
+        <tr><td>Old masterdata#$ password still active</td><td><span class="severity sev-medium">MEDIUM</span></td><td><span class="severity sev-critical">CRITICAL</span></td><td>Rotate now</td></tr>
+        <tr><td>PDF financial data accessible without auth</td><td><span class="severity sev-low">LOW</span></td><td><span class="severity sev-high">HIGH</span></td><td>Add auth handler</td></tr>
+        <tr><td>Developer (jaymin) has production DB creds via git</td><td><span class="severity sev-high">HIGH</span></td><td><span class="severity sev-high">HIGH</span></td><td>Rotate creds, rewrite git history</td></tr>
+        <tr><td>ABCpdf 6 has unpatched vulnerabilities (2008 library)</td><td><span class="severity sev-low">LOW</span></td><td><span class="severity sev-medium">MEDIUM</span></td><td>Replace PDF library in next quarter</td></tr>
+        <tr><td>.NET 3.5 / 4.x goes out of support</td><td><span class="severity sev-medium">MEDIUM</span></td><td><span class="severity sev-medium">MEDIUM</span></td><td>Plan .NET 4.8 upgrade</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+</main>
+
+<footer>
+  ABRH Source Code Analysis · Generated April 7, 2026 · Analysis by Dude (OpenClaw) · Clockwork Home Services DMR · Confidential
+</footer>
+
+</body>
+</html>
