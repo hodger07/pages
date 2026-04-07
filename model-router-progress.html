@@ -29,6 +29,7 @@ h1 { font-size: 1.4em; margin-bottom: 4px; }
 .finding { font-size: 0.78em; color: #888; margin-bottom: 4px; padding-left: 8px; border-left: 2px solid #333; }
 .finding.high { border-left-color: #f59e0b; color: #fbbf24; }
 .finding.medium { border-left-color: #60a5fa; color: #93c5fd; }
+.finding.fix { border-left-color: #22c55e; color: #4ade80; }
 .finding.dismissed { border-left-color: #333; color: #444; text-decoration: line-through; }
 .models { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 28px; }
 .model-card { background: #1a1a1a; border-radius: 8px; padding: 12px; border: 1px solid #222; }
@@ -48,79 +49,71 @@ footer { text-align: center; color: #333; font-size: 0.72em; margin-top: 32px; p
 
 <h1>🔧 Model Router — Build Progress</h1>
 <div class="subtitle">Local AI skill · 5 local models · $0 API cost · All data stays on Mac Studio</div>
-<div class="updated">Last updated: April 6, 2026 8:45 PM CT · Refreshes every 5 min</div>
+<div class="updated">Last updated: April 6, 2026 9:00 PM CT · Refreshes every 5 min</div>
 
-<!-- PHASE 0 -->
 <div class="phase done">
   <div class="icon">✅</div>
   <div class="content">
     <div class="phase-title">Phase 0 — Setup</div>
     <div class="phase-meta">No builder · No reviewer</div>
-    <div class="phase-status">Complete. Cloud keys kept live for Telegram. Local-only constraint enforced at skill level.</div>
+    <div class="phase-status">Complete. Cloud keys kept live for Telegram only. Local-only constraint enforced at skill level.</div>
     <span class="tag green">Complete</span>
   </div>
 </div>
 
-<!-- PHASE 1 -->
 <div class="phase done">
   <div class="icon">✅</div>
   <div class="content">
     <div class="phase-title">Phase 1 — Architecture Review</div>
     <div class="phase-meta">Architect: Dude (Sonnet) · Coder review: Qwen3-Coder-Next · Security review: Maverick</div>
-    <div class="phase-status">Both reviews complete. 5 real issues incorporated into revised architecture.</div>
+    <div class="phase-status">Both reviews complete. 5 real issues incorporated.</div>
     <span class="tag green">Complete</span>
-    <span class="tag blue">5 issues incorporated</span>
-    <span class="tag">3 dismissed</span>
-    <div class="findings">
-      <div class="finding high">HIGH · Concurrency: no write queue → history corruption on concurrent messages → fix: per-alias write queue</div>
-      <div class="finding high">HIGH · Unbounded growth: history + audit log → disk fill → fix: maxTurns + log rotation</div>
-      <div class="finding high">HIGH · biz + general both map to qwen3:30b-a3b → confusing → fix: deduplicate</div>
-      <div class="finding medium">MED · chmod 600 stated but not enforced in code → fix: set explicitly on file creation</div>
-      <div class="finding medium">MED · DoS via large input: hard-reject before Ollama POST, not just config</div>
-      <div class="finding dismissed">LOW · Hardcoded Ollama endpoint — intentional by design, dismissed</div>
-      <div class="finding dismissed">LOW · /health endpoint — not a web service, dismissed</div>
-      <div class="finding dismissed">LOW · Encrypt history files — 600 perms sufficient for local personal tool, dismissed</div>
-    </div>
-    <div class="gate">✅ Gate passed — Rich approved. Proceed to Phase 2.</div>
+    <div class="gate">✅ Gate passed — Rich approved.</div>
   </div>
 </div>
 
-<!-- PHASE 2 -->
-<div class="phase active">
-  <div class="icon">⚙️</div>
+<div class="phase done">
+  <div class="icon">✅</div>
   <div class="content">
     <div class="phase-title">Phase 2 — Config + Routing Core</div>
     <div class="phase-meta">Builder: Qwen3-Coder-Next (direct Ollama) · Reviewer: Maverick</div>
-    <div class="phase-status">Phase 2 complete. config.json + router.js built, Maverick security reviewed, 2 fixes applied. Zero API keys in skill.</div>
-    <span class="tag yellow">Complete</span>
-    <span class="tag">No code yet</span>
+    <div class="phase-status">config.json + router.js built. Maverick security reviewed, 2 fixes applied. Zero API keys in skill.</div>
+    <span class="tag green">Complete</span>
+    <div class="findings">
+      <div class="finding fix">FIX · Non-string input crash guard added</div>
+      <div class="finding fix">FIX · &lt;script&gt; tag stripping added to sanitizer</div>
+      <div class="finding dismissed">DISMISSED · Hardcoded Ollama endpoint — intentional by design</div>
+    </div>
+    <div class="gate">✅ Gate passed.</div>
+  </div>
+</div>
+
+<div class="phase done">
+  <div class="icon">✅</div>
+  <div class="content">
+    <div class="phase-title">Phase 3 — Conversation History</div>
+    <div class="phase-meta">Builder: integrated by Dude · Logic reviewer: Qwen3 30B</div>
+    <div class="phase-status">History load/save/clear/clearall added. Qwen3 30B found 2 bugs, both fixed.</div>
+    <span class="tag green">Complete</span>
+    <div class="findings">
+      <div class="finding fix">BUG FIX · Write queue init guard (undefined on first write)</div>
+      <div class="finding fix">BUG FIX · Turn pruning: Math.max(1, maxTurns) prevents negative slice</div>
+    </div>
+    <div class="gate">✅ Gate passed.</div>
+  </div>
+</div>
+
+<div class="phase active">
+  <div class="icon">⚙️</div>
+  <div class="content">
+    <div class="phase-title">Phase 4 — Commands + Audit Log</div>
+    <div class="phase-meta">Builder: Qwen3-Coder-Next · Reviewer: Maverick</div>
+    <div class="phase-status">Waiting for Rich's go signal.</div>
+    <span class="tag yellow">Awaiting Go</span>
     <div class="gate waiting">⏳ Waiting for Rich to say go in Telegram.</div>
   </div>
 </div>
 
-<!-- PHASE 3 -->
-<div class="phase pending">
-  <div class="icon">⏳</div>
-  <div class="content">
-    <div class="phase-title">Phase 3 — Conversation History</div>
-    <div class="phase-meta">Builder: Qwen3-Coder-Next · Reviewer: Qwen3 30B</div>
-    <div class="phase-status">Blocked on Phase 2 gate.</div>
-    <span class="tag">Pending</span>
-  </div>
-</div>
-
-<!-- PHASE 4 -->
-<div class="phase pending">
-  <div class="icon">⏳</div>
-  <div class="content">
-    <div class="phase-title">Phase 4 — Commands + Audit Log</div>
-    <div class="phase-meta">Builder: Qwen3-Coder-Next · Reviewer: Maverick</div>
-    <div class="phase-status">Blocked on Phase 3 gate.</div>
-    <span class="tag">Pending</span>
-  </div>
-</div>
-
-<!-- PHASE 5 -->
 <div class="phase pending">
   <div class="icon">⏳</div>
   <div class="content">
@@ -131,7 +124,6 @@ footer { text-align: center; color: #333; font-size: 0.72em; margin-top: 32px; p
   </div>
 </div>
 
-<!-- DEPLOY -->
 <div class="phase pending">
   <div class="icon">🚀</div>
   <div class="content">
@@ -142,7 +134,6 @@ footer { text-align: center; color: #333; font-size: 0.72em; margin-top: 32px; p
   </div>
 </div>
 
-<!-- MODELS -->
 <div class="models">
   <div class="model-card">
     <div class="model-name">Qwen3-Coder-Next</div>
@@ -162,7 +153,7 @@ footer { text-align: center; color: #333; font-size: 0.72em; margin-top: 32px; p
   <div class="model-card">
     <div class="model-name">DeepSeek R1 671B</div>
     <div class="model-role">Optional final review</div>
-    <div class="model-status"><span class="dot yellow"></span><span style="color:#fbbf24">Downloading · ~47%</span></div>
+    <div class="model-status"><span class="dot yellow"></span><span style="color:#fbbf24">Downloading</span></div>
   </div>
 </div>
 
