@@ -6,156 +6,43 @@
 <title>The Morning Signal — Wednesday, April 8, 2026</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    background: #FFF8F0;
-    font-family: Georgia, 'Times New Roman', serif;
-    color: #1a1a1a;
-    font-size: 15px;
-    line-height: 1.6;
-  }
-  .header {
-    background: #0d1117;
-    color: #FFF8F0;
-    padding: 18px 24px 14px;
-    border-bottom: 3px double #C41E3A;
-  }
-  .header h1 { font-size: 24px; letter-spacing: 2px; font-weight: 400; text-transform: uppercase; }
-  .header .date { font-size: 12px; color: #777; letter-spacing: 0.5px; margin-top: 4px; font-family: Arial, sans-serif; }
-  .container { max-width: 860px; margin: 0 auto; padding: 0 16px 40px; }
-  .section {
-    border-bottom: 1px solid #ddd;
-    padding: 20px 0 16px;
-  }
+  body { background: #0f0f0f; color: #e8e8e8; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 0; line-height: 1.6; font-size: 15px; }
+  .header { background: #0f0f0f; padding: 30px 24px 20px; border-bottom: 1px solid #222; text-align: center; }
+  .header h1 { font-size: 1.6em; font-weight: 700; color: #fff; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
+  .header .date { font-size: 0.85em; color: #555; letter-spacing: 0.5px; }
+  .container { max-width: 800px; margin: 0 auto; padding: 0 16px 40px; }
+  .section { border-bottom: 1px solid #1a1a1a; padding: 24px 0 20px; }
   .section:last-child { border-bottom: none; }
-  .section-title {
-    font-family: Arial, sans-serif;
-    font-size: 11px;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: #888;
-    margin-bottom: 12px;
-  }
+  .section-title { font-size: 0.7em; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #555; margin-bottom: 14px; }
   .hit-list { list-style: none; }
-  .hit-list li {
-    padding: 9px 0 9px 16px;
-    border-left: 3px solid #C41E3A;
-    margin-bottom: 8px;
-    background: #fff8f4;
-    padding-left: 14px;
-    border-radius: 0 4px 4px 0;
-  }
-  .hit-list li strong { color: #C41E3A; }
-  .reminder-box {
-    background: #fff3e0;
-    border: 1px solid #ffcc80;
-    border-radius: 4px;
-    padding: 10px 14px;
-    margin-bottom: 6px;
-    font-family: Arial, sans-serif;
-    font-size: 13px;
-  }
-  .cal-event {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 10px 14px;
-    margin-bottom: 8px;
-  }
-  .cal-event .time {
-    font-family: Arial, sans-serif;
-    font-size: 12px;
-    color: #1565C0;
-    font-weight: bold;
-    margin-bottom: 3px;
-  }
-  .cal-event .title { font-weight: bold; font-size: 15px; }
-  .cal-event .attendees { font-family: Arial, sans-serif; font-size: 12px; color: #666; margin-top: 4px; }
-  .cal-event.conflict { border-left: 3px solid #C41E3A; }
-  .task-row {
-    display: flex;
-    align-items: flex-start;
-    padding: 7px 0;
-    border-bottom: 1px solid #f0ece4;
-  }
-  .task-row:last-child { border-bottom: none; }
-  .task-due {
-    font-family: Arial, sans-serif;
-    font-size: 11px;
-    color: #C41E3A;
-    min-width: 90px;
-    padding-top: 2px;
-    font-weight: bold;
-  }
-  .task-due.ok { color: #2E7D32; }
-  .task-due.none { color: #999; }
-  .task-name { flex: 1; }
-  .task-proj { font-family: Arial, sans-serif; font-size: 11px; color: #888; }
-  .market-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-    gap: 10px;
-  }
-  .market-card {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 10px 14px;
-    text-align: center;
-  }
-  .market-card .ticker { font-family: Arial, sans-serif; font-size: 12px; color: #888; font-weight: bold; }
-  .market-card .price { font-size: 20px; font-weight: bold; margin: 4px 0; }
-  .market-card .change { font-family: Arial, sans-serif; font-size: 13px; font-weight: bold; }
-  .up { color: #2E7D32; }
-  .down { color: #C41E3A; }
-  .neutral { color: #666; }
-  .flag-up { background: #e8f5e9; border-color: #2E7D32; }
-  .flag-down { background: #fce8e8; border-color: #C41E3A; }
-  .email-item {
-    padding: 9px 0;
-    border-bottom: 1px solid #f0ece4;
-  }
-  .email-item:last-child { border-bottom: none; }
-  .email-from { font-family: Arial, sans-serif; font-size: 12px; color: #666; }
-  .email-subject { font-weight: bold; }
-  .email-note { font-family: Arial, sans-serif; font-size: 12px; color: #333; font-style: italic; margin-top: 2px; }
-  .unread .email-subject { color: #1565C0; }
-  .slack-item {
-    padding: 8px 0;
-    border-bottom: 1px solid #f0ece4;
-    font-family: Arial, sans-serif;
-    font-size: 13px;
-  }
-  .slack-item:last-child { border-bottom: none; }
-  .slack-channel { font-size: 11px; color: #888; font-weight: bold; text-transform: uppercase; margin-bottom: 2px; }
-  .slack-alert { background: #fce8e8; border-left: 3px solid #C41E3A; padding: 8px 10px; border-radius: 0 4px 4px 0; margin-bottom: 6px; }
-  .slack-win { background: #e8f5e9; border-left: 3px solid #2E7D32; padding: 8px 10px; border-radius: 0 4px 4px 0; margin-bottom: 6px; }
-  .slack-note { background: #e3f2fd; border-left: 3px solid #1565C0; padding: 8px 10px; border-radius: 0 4px 4px 0; margin-bottom: 6px; }
-  .text-item {
-    padding: 7px 0;
-    border-bottom: 1px solid #f0ece4;
-    font-family: Arial, sans-serif;
-    font-size: 13px;
-  }
-  .text-item:last-child { border-bottom: none; }
-  .text-from { font-size: 11px; color: #888; font-weight: bold; }
-  .credit-item { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f0ece4; font-family: Arial, sans-serif; font-size: 13px; }
-  .credit-item:last-child { border-bottom: none; }
-  .ai-item { padding: 8px 0; border-bottom: 1px solid #f0ece4; font-family: Arial, sans-serif; font-size: 13px; }
-  .ai-item:last-child { border-bottom: none; }
-  .weather-bar { display: flex; flex-wrap: wrap; gap: 12px; }
-  .weather-card { background: #fff; border: 1px solid #ddd; border-radius: 4px; padding: 12px 16px; flex: 1; min-width: 180px; }
-  .weather-card .location { font-family: Arial, sans-serif; font-size: 11px; color: #888; font-weight: bold; text-transform: uppercase; }
-  .weather-card .temp { font-size: 28px; font-weight: bold; margin: 4px 0; }
-  .weather-card .desc { font-family: Arial, sans-serif; font-size: 13px; color: #555; }
-  .na-note { font-family: Arial, sans-serif; font-size: 13px; color: #999; font-style: italic; }
-  .badge-urgent { background: #C41E3A; color: #fff; font-size: 10px; font-family: Arial, sans-serif; font-weight: bold; padding: 1px 6px; border-radius: 10px; vertical-align: middle; margin-left: 6px; }
-  .badge-win { background: #2E7D32; color: #fff; font-size: 10px; font-family: Arial, sans-serif; font-weight: bold; padding: 1px 6px; border-radius: 10px; vertical-align: middle; margin-left: 6px; }
-  a { color: #1565C0; text-decoration: none; }
+  .hit-list li { padding: 10px 14px; border-left: 3px solid #C41E3A; margin-bottom: 8px; background: #141414; border-radius: 0 8px 8px 0; color: #ccc; font-size: 0.92em; }
+  .hit-list li strong { color: #f87171; }
+  .reminder-box { background: #1a1500; border: 1px solid #854d0e; border-radius: 10px; padding: 14px 18px; margin-bottom: 8px; }
+  .reminder-box span { color: #fbbf24; font-weight: 700; }
+  table { width: 100%; border-collapse: collapse; margin: 8px 0; }
+  th { text-align: left; font-size: 0.7em; text-transform: uppercase; letter-spacing: 0.1em; color: #555; padding: 6px 8px; border-bottom: 1px solid #222; }
+  td { padding: 8px; border-bottom: 1px solid #1a1a1a; color: #ccc; font-size: 0.9em; }
+  tr:hover { background: #141414; }
+  .urgent { color: #f87171; font-weight: 700; }
+  .win { color: #4ade80; font-weight: 700; }
+  .muted { color: #555; }
+  .flag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; font-weight: 700; }
+  .flag.red { background: #3b0f0f; color: #f87171; }
+  .flag.green { background: #14532d; color: #4ade80; }
+  .flag.yellow { background: #2d2008; color: #fbbf24; }
+  .card { background: #141414; border-radius: 10px; padding: 16px; border: 1px solid #222; margin-bottom: 10px; }
+  .card p { color: #ccc; font-size: 0.9em; margin-bottom: 6px; }
+  .card strong { color: #fff; }
+  .highlight { background: #1a1a1a; border-left: 3px solid #22c55e; padding: 10px 14px; border-radius: 0 8px 8px 0; margin: 8px 0; font-size: 0.88em; color: #d1fae5; }
+  .highlight.yellow { border-left-color: #f59e0b; color: #fef3c7; }
+  .highlight.red { border-left-color: #ef4444; color: #fee2e2; }
+  a { color: #60a5fa; text-decoration: none; }
   a:hover { text-decoration: underline; }
-  @media (max-width: 600px) {
-    .market-grid { grid-template-columns: 1fr 1fr; }
-    .header h1 { font-size: 18px; }
+  footer { text-align: center; padding: 30px 20px; color: #333; font-size: 0.75em; border-top: 1px solid #1a1a1a; margin-top: 20px; }
+  @media (max-width: 600px) { 
+    .header h1 { font-size: 1.3em; } 
+    body { font-size: 14px; }
+    td, th { padding: 6px 4px; font-size: 0.85em; }
   }
 </style>
 </head>
