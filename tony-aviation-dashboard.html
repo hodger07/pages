@@ -29,8 +29,6 @@ td { padding: 10px 14px; border-bottom: 1px solid #eee; font-size: 14px; }
 td.num { text-align: right; font-variant-numeric: tabular-nums; }
 tr.total { background: #f5f0e8; font-weight: bold; }
 tr.total td { border-top: 2px solid #ccc; padding: 12px 14px; }
-tr.subtotal { background: #faf7f2; }
-tr.subtotal td { font-weight: 600; font-style: italic; }
 
 /* Delta column */
 .delta-pos { color: #C41E3A; }
@@ -68,8 +66,8 @@ tr.subtotal td { font-weight: 600; font-style: italic; }
 <div class="cards">
   <div class="card red">
     <div class="label">Outstanding Balance</div>
-    <div class="value">$75,345</div>
-    <div class="sub">6 invoices · Jan–Apr 2026</div>
+    <div class="value">$57,517</div>
+    <div class="sub">4 invoices · Jan–Mar 2026</div>
   </div>
   <div class="card red">
     <div class="label">Unbilled Q1 Reserves</div>
@@ -86,6 +84,98 @@ tr.subtotal td { font-weight: 600; font-style: italic; }
     <div class="value">$303,264</div>
     <div class="sub">Before variable trip costs</div>
   </div>
+</div>
+
+<!-- PROBLEM & SOLUTION — TOP -->
+<div class="section">
+<h2>The Problem &amp; The Fix</h2>
+
+<h3>Current Structure</h3>
+<table>
+<tbody>
+<tr><td style="width:40%">Who pays all bills</td><td>Rich / Laminar Holdings</td></tr>
+<tr><td>Who invoices Tony</td><td>Rich's accounting team</td></tr>
+<tr><td>Payment terms</td><td>Due on receipt (not enforced)</td></tr>
+<tr><td>Current float carried by Rich</td><td style="color:#C41E3A; font-weight:bold">$57,517 invoiced + ~$18,155 unbilled = ~$75,672</td></tr>
+<tr><td>Oldest unpaid invoice</td><td style="color:#C41E3A">68 days (January 31, 2026)</td></tr>
+</tbody>
+</table>
+
+<h3>Proposed Structure</h3>
+<table>
+<tbody>
+<tr><td style="width:40%">Variable trip expenses</td><td>Go on <strong>Tony's credit card</strong>. David carries Tony's card for Tony's missions (FBO, fuel, hotel, food, rideshares).</td></tr>
+<tr><td>Fixed costs + maintenance</td><td>Continue through Laminar with <strong>monthly billing including EMC²/P3 reserves</strong></td></tr>
+<tr><td>Cirrus SR-22T costs</td><td>Flip to <strong>Tony pays directly</strong>. Rich's team reimburses Rich's half.</td></tr>
+<tr><td>Payment terms</td><td><strong>Net 15</strong> or auto-ACH</td></tr>
+<tr><td>Goal</td><td>Rich is never the bank. Tony's variable costs don't touch Rich's accounts.</td></tr>
+</tbody>
+</table>
+
+<div class="note green">
+  <strong>Why this works:</strong> It's not about trust — it's about simplicity. Each person handles their own expenses directly. Less invoicing, less back and forth, less accounting for both sides. The operation outgrew the original structure. This catches it up.
+</div>
+</div>
+
+<!-- Outstanding Balance Detail -->
+<div class="section">
+<h2>Outstanding Invoices — Tony Bradfield</h2>
+
+<table class="outstanding-table">
+<thead>
+<tr>
+  <th>Invoice #</th>
+  <th>Date</th>
+  <th>Type</th>
+  <th>Due</th>
+  <th style="text-align:right">Amount</th>
+  <th>Days Past Due</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>186</td>
+  <td>01/31/2026</td>
+  <td>January Variable</td>
+  <td>On receipt</td>
+  <td class="num">$18,465.59</td>
+  <td class="overdue">68 days</td>
+</tr>
+<tr>
+  <td>185</td>
+  <td>02/01/2026</td>
+  <td>February Fixed</td>
+  <td>On receipt</td>
+  <td class="num">$16,319.37</td>
+  <td class="overdue">67 days</td>
+</tr>
+<tr>
+  <td>189</td>
+  <td>02/28/2026</td>
+  <td>February Variable</td>
+  <td>On receipt</td>
+  <td class="num">$8,161.44</td>
+  <td class="overdue">40 days</td>
+</tr>
+<tr>
+  <td>188</td>
+  <td>03/01/2026</td>
+  <td>March Fixed</td>
+  <td>On receipt</td>
+  <td class="num">$14,570.26</td>
+  <td class="overdue">39 days</td>
+</tr>
+<tr class="total">
+  <td colspan="4">TOTAL OUTSTANDING</td>
+  <td class="num">$57,516.66</td>
+  <td></td>
+</tr>
+</tbody>
+</table>
+
+<div class="note warn">
+  <strong>Additionally:</strong> Q1 2026 EMC² and P3 maintenance reserves (~$18,155) have not yet been invoiced to Tony. Total exposure including unbilled reserves: <strong>~$75,672</strong>.
+</div>
 </div>
 
 <!-- HondaJet vs TBM Comparison -->
@@ -212,83 +302,6 @@ tr.subtotal td { font-weight: 600; font-style: italic; }
 </div>
 </div>
 
-<!-- Outstanding Balance Detail -->
-<div class="section">
-<h2>Outstanding Invoices — Tony Bradfield</h2>
-
-<table class="outstanding-table">
-<thead>
-<tr>
-  <th>Invoice #</th>
-  <th>Date</th>
-  <th>Type</th>
-  <th>Due</th>
-  <th style="text-align:right">Amount</th>
-  <th>Days Past Due</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-  <td>186</td>
-  <td>01/31/2026</td>
-  <td>January Variable</td>
-  <td>On receipt</td>
-  <td class="num">$18,465.59</td>
-  <td class="overdue">68 days</td>
-</tr>
-<tr>
-  <td>185</td>
-  <td>02/01/2026</td>
-  <td>February Fixed</td>
-  <td>On receipt</td>
-  <td class="num">$16,319.37</td>
-  <td class="overdue">67 days</td>
-</tr>
-<tr>
-  <td>189</td>
-  <td>02/28/2026</td>
-  <td>February Variable</td>
-  <td>On receipt</td>
-  <td class="num">$8,161.44</td>
-  <td class="overdue">40 days</td>
-</tr>
-<tr>
-  <td>188</td>
-  <td>03/01/2026</td>
-  <td>March Fixed</td>
-  <td>On receipt</td>
-  <td class="num">$14,570.26</td>
-  <td class="overdue">39 days</td>
-</tr>
-<tr>
-  <td>192</td>
-  <td>03/31/2026</td>
-  <td>March Variable</td>
-  <td>On receipt</td>
-  <td class="num">$2,232.13</td>
-  <td class="overdue">9 days</td>
-</tr>
-<tr>
-  <td>191</td>
-  <td>04/01/2026</td>
-  <td>April Fixed</td>
-  <td>On receipt</td>
-  <td class="num">$15,596.66</td>
-  <td class="overdue">8 days</td>
-</tr>
-<tr class="total">
-  <td colspan="4">TOTAL OUTSTANDING</td>
-  <td class="num">$75,345.45</td>
-  <td></td>
-</tr>
-</tbody>
-</table>
-
-<div class="note warn">
-  <strong>Additionally:</strong> Q1 2026 EMC² and P3 maintenance reserves (~$18,155) have not yet been invoiced to Tony. Total exposure including unbilled reserves: <strong>~$93,500</strong>.
-</div>
-</div>
-
 <!-- Contract Minimums -->
 <div class="section">
 <h2>Annual Contract Minimums — HondaJet N820JL</h2>
@@ -396,39 +409,8 @@ tr.subtotal td { font-weight: 600; font-style: italic; }
 </table>
 
 <div class="note warn">
-  <strong>Cost trajectory:</strong> P3 rates escalate significantly over the 5-year term. By 2029, the hourly rate increases 36% ($332 → $453) and the cycle rate increases 36% ($289 → $394). Tony's maintenance floor will grow from ~$6,052/month today to ~$8,200/month by 2029. Plan accordingly.
+  <strong>Cost trajectory:</strong> P3 rates escalate significantly over the 5-year term. By 2029, the hourly rate increases 36% ($332 → $453) and the cycle rate increases 36% ($289 → $394). Tony's maintenance floor will grow from ~$6,052/month today to ~$8,200/month by 2029.
 </div>
-</div>
-
-<!-- Proposed Restructure -->
-<div class="section">
-<h2>Proposed Financial Restructure</h2>
-
-<div class="note green">
-  <strong>Goal:</strong> Simplify the financial flow so neither party is carrying a float. Predictable. Monthly. No surprises.
-</div>
-
-<h3>Current Structure (Problem)</h3>
-<table>
-<tbody>
-<tr><td style="width:40%">Who pays all bills</td><td>Rich / Laminar Holdings</td></tr>
-<tr><td>Who invoices Tony</td><td>Rich's accounting team</td></tr>
-<tr><td>Payment terms</td><td>Due on receipt (not enforced)</td></tr>
-<tr><td>Current float carried by Rich</td><td style="color:#C41E3A; font-weight:bold">$75,345 + ~$18,155 unbilled = ~$93,500</td></tr>
-<tr><td>Oldest unpaid invoice</td><td style="color:#C41E3A">68 days (January 31, 2026)</td></tr>
-</tbody>
-</table>
-
-<h3>Proposed Structure (Fix)</h3>
-<table>
-<tbody>
-<tr><td style="width:40%">Variable trip expenses</td><td>Go on <strong>Tony's credit card</strong>. David carries Tony's card for Tony's missions (FBO, fuel, hotel, food, rideshares).</td></tr>
-<tr><td>Fixed costs + maintenance</td><td>Continue through Laminar with <strong>monthly billing including EMC²/P3 reserves</strong></td></tr>
-<tr><td>Cirrus SR-22T costs</td><td>Flip to <strong>Tony pays directly</strong>. Rich's team reimburses Rich's half.</td></tr>
-<tr><td>Payment terms</td><td><strong>Net 15</strong> or auto-ACH</td></tr>
-<tr><td>Goal</td><td>Rich is never the bank. Tony's variable costs don't touch Rich's accounts.</td></tr>
-</tbody>
-</table>
 </div>
 
 <div class="footer">
