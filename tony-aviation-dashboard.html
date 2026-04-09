@@ -3,265 +3,134 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aviation Partnership — Conversation Guide</title>
+<title>Aviation Partnership — Financial Review</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: Georgia, 'Times New Roman', serif; background: #FFF8F0; color: #1a1a1a; padding: 24px; max-width: 1000px; margin: 0 auto; line-height: 1.65; }
-h1 { font-size: 26px; color: #1a1a1a; border-bottom: 2px solid #1a1a1a; padding-bottom: 12px; margin-bottom: 6px; }
-.subtitle { font-size: 14px; color: #888; margin-bottom: 36px; font-style: italic; }
-h2 { font-size: 19px; color: #1a1a1a; margin: 36px 0 14px 0; padding-bottom: 6px; border-bottom: 1px solid #ddd; }
-h3 { font-size: 15px; color: #555; margin: 22px 0 10px 0; text-transform: uppercase; letter-spacing: 0.5px; }
+body { font-family: Georgia, 'Times New Roman', serif; background: #FFF8F0; color: #1a1a1a; padding: 32px 24px; max-width: 960px; margin: 0 auto; line-height: 1.7; }
 
-/* Conversation beats */
-.beat { background: #fff; border: 1px solid #e0dcd4; border-radius: 6px; padding: 22px 24px; margin: 16px 0; }
-.beat-number { font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; color: #1565C0; font-weight: 700; margin-bottom: 6px; }
-.beat-title { font-size: 17px; font-weight: 700; color: #1a1a1a; margin-bottom: 10px; }
-.beat p { font-size: 15px; color: #333; margin-bottom: 8px; }
-.quote { font-style: italic; color: #1a1a1a; background: #f9f6f0; border-left: 3px solid #c8b890; padding: 12px 18px; margin: 12px 0; font-size: 15px; }
+/* Header */
+.header { margin-bottom: 40px; }
+h1 { font-size: 30px; color: #1a1a1a; font-weight: 700; margin-bottom: 4px; }
+.header-rule { width: 100%; height: 3px; background: #1a1a1a; margin: 8px 0 12px 0; }
+.header-sub { font-size: 14px; color: #888; font-style: italic; }
 
-/* Deflection counters */
-.counter { background: #fff; border: 1px solid #e0dcd4; border-radius: 6px; padding: 16px 20px; margin: 10px 0; }
-.counter-label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #C41E3A; font-weight: 700; margin-bottom: 4px; }
-.counter-move { font-weight: 600; margin-bottom: 6px; }
-.counter-response { font-style: italic; color: #333; }
+/* Section headers */
+h2 { font-size: 18px; color: #1a1a1a; margin: 44px 0 6px 0; font-weight: 700; letter-spacing: -0.2px; }
+.section-rule { width: 100%; height: 1px; background: #ddd; margin-bottom: 18px; }
+h3 { font-size: 15px; color: #555; margin: 28px 0 10px 0; }
+
+/* Lead paragraph */
+.lead { font-size: 17px; color: #333; margin-bottom: 24px; line-height: 1.75; }
+
+/* Narrative paragraphs */
+.narrative { font-size: 15px; color: #333; margin-bottom: 16px; line-height: 1.75; }
+
+/* Pull quotes / callouts */
+.callout { background: #fff; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; padding: 20px 24px; margin: 24px 0; }
+.callout-number { font-size: 36px; font-weight: 700; color: #1a1a1a; margin-bottom: 2px; }
+.callout-label { font-size: 13px; text-transform: uppercase; letter-spacing: 1.2px; color: #888; }
+
+/* Three-stat row */
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin: 28px 0; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; }
+.stat { padding: 20px 16px; text-align: center; border-right: 1px solid #eee; }
+.stat:last-child { border-right: none; }
+.stat-value { font-size: 28px; font-weight: 700; color: #1a1a1a; }
+.stat-label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-top: 4px; }
+.stat-sub { font-size: 12px; color: #aaa; margin-top: 2px; }
+.stat-value.red { color: #C41E3A; }
 
 /* Tables */
-table { width: 100%; border-collapse: collapse; margin: 12px 0 20px 0; background: #fff; }
+table { width: 100%; border-collapse: collapse; margin: 14px 0 22px 0; }
 th { background: #f5f0e8; text-align: left; padding: 9px 14px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: #666; border-bottom: 2px solid #ddd; }
-td { padding: 9px 14px; border-bottom: 1px solid #eee; font-size: 14px; }
+td { padding: 9px 14px; border-bottom: 1px solid #eee; font-size: 14px; background: #fff; }
 td.num { text-align: right; font-variant-numeric: tabular-nums; }
-tr.total { background: #f5f0e8; font-weight: bold; }
-tr.total td { border-top: 2px solid #ccc; }
-
+tr.total { font-weight: 700; }
+tr.total td { background: #f5f0e8; border-top: 2px solid #ccc; }
 .delta-pos { color: #C41E3A; }
 .delta-neg { color: #2E7D32; }
+.muted { color: #999; font-size: 13px; }
+.accent { color: #C41E3A; font-weight: 600; }
 
-/* Notes */
-.note { background: #fff; border-left: 3px solid #1565C0; padding: 14px 18px; margin: 14px 0; font-size: 14px; line-height: 1.6; }
-.note.warn { border-left-color: #C41E3A; }
-.note.green { border-left-color: #2E7D32; }
-.note strong { color: #1a1a1a; }
+/* Insight boxes */
+.insight { background: #fff; border-left: 3px solid #c8b890; padding: 16px 20px; margin: 18px 0; font-size: 14px; line-height: 1.65; color: #444; }
+.insight strong { color: #1a1a1a; }
 
-/* Key takeaway boxes */
-.takeaway { background: #f9f6f0; border: 1px solid #e0dcd4; border-radius: 6px; padding: 18px 22px; margin: 20px 0; }
-.takeaway-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: #888; margin-bottom: 6px; }
-.takeaway p { font-size: 15px; color: #1a1a1a; font-weight: 600; }
+/* Proposed changes */
+.proposal { background: #fff; border: 1px solid #e0dcd4; border-radius: 4px; margin: 12px 0; }
+.proposal-row { display: flex; border-bottom: 1px solid #eee; padding: 14px 20px; }
+.proposal-row:last-child { border-bottom: none; }
+.proposal-label { width: 35%; font-size: 13px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; padding-top: 2px; }
+.proposal-value { width: 65%; font-size: 15px; color: #1a1a1a; }
 
 /* Overdue */
 .overdue { color: #C41E3A; font-weight: 600; }
 
-/* Divider */
-.divider { border: none; border-top: 1px solid #ddd; margin: 40px 0; }
-
-.footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid #ddd; font-size: 12px; color: #aaa; }
+/* Footer */
+.footer { margin-top: 56px; padding-top: 16px; border-top: 1px solid #ddd; font-size: 11px; color: #bbb; line-height: 1.6; }
 
 @media (max-width: 600px) {
-  body { padding: 16px; }
-  h1 { font-size: 21px; }
-  .beat { padding: 16px 18px; }
-  td, th { padding: 7px 10px; font-size: 13px; }
+  body { padding: 20px 16px; }
+  h1 { font-size: 24px; }
+  .stats { grid-template-columns: 1fr; }
+  .stat { border-right: none; border-bottom: 1px solid #eee; }
+  .stat:last-child { border-bottom: none; }
+  .proposal-row { flex-direction: column; }
+  .proposal-label { width: 100%; margin-bottom: 4px; }
+  .proposal-value { width: 100%; }
 }
 </style>
 </head>
 <body>
 
-<h1>Aviation Partnership Review</h1>
-<p class="subtitle">A conversation guide — not a collections call</p>
+<!-- HEADER -->
+<div class="header">
+  <h1>Aviation Partnership</h1>
+  <div class="header-rule"></div>
+  <div class="header-sub">Laminar Holdings LLC &amp; Anthony Bradfield — Financial Review, April 2026</div>
+</div>
+
+<!-- SECTION 1: THE STORY -->
+<p class="lead">This partnership started with a TBM 940 and grew into a HondaJet. The operation got bigger, the costs got more complex, and the financial structure didn't keep pace. This document lays out where we are, where we're headed, and a cleaner way to run it going forward.</p>
+
+<!-- Key stats -->
+<div class="stats">
+  <div class="stat">
+    <div class="stat-value">$239K</div>
+    <div class="stat-label">TBM Annual Cost</div>
+    <div class="stat-sub">Years 1–5 (Under Warranty)</div>
+  </div>
+  <div class="stat">
+    <div class="stat-value">$267K</div>
+    <div class="stat-label">TBM Annual Cost</div>
+    <div class="stat-sub">Years 6–10 (Post-Warranty)</div>
+  </div>
+  <div class="stat">
+    <div class="stat-value">$303K</div>
+    <div class="stat-label">HondaJet Annual Cost</div>
+    <div class="stat-sub">Current</div>
+  </div>
+</div>
+
+<p class="narrative">Tony's share of the operation has grown from roughly $20,000 per month on the TBM to $25,000 per month on the HondaJet. But about half of that increase — $27,000 annually — was already coming when the TBM moved out of warranty and realistic maintenance costs reached $120,000 per year. The HondaJet added $36,000 on top of that, mostly from the EMC² and P3 maintenance programs and an amortization reserve that didn't exist on the TBM.</p>
+
+<p class="narrative">The loan payment actually went <em>down</em> $820 a month. The cost increase is almost entirely in maintenance and reserves — the structural cost of operating a jet vs. a turboprop.</p>
 
 <!-- ============================================ -->
-<!-- SECTION 1: THE CONVERSATION -->
+<!-- SECTION 2: COST EVOLUTION -->
 <!-- ============================================ -->
 
-<h2>The Conversation</h2>
+<h2>Cost Evolution</h2>
+<div class="section-rule"></div>
 
-<div class="beat">
-  <div class="beat-number">Beat 1 · Open</div>
-  <div class="beat-title">Acknowledge it. Be direct. No warm-up.</div>
-  <div class="quote">"Tony, I appreciate you making time for this. I'm gonna be direct because that's how we work best — the partnership finances have gotten sideways, and that's on both of us. I want to fix the system so we're not here again, and I want to make sure this still works for you."</div>
-  <p>30 seconds. Then stop. Don't fill the silence.</p>
-</div>
-
-<div class="beat">
-  <div class="beat-number">Beat 2 · Check In</div>
-  <div class="beat-title">Ask the real question before the numbers.</div>
-  <div class="quote">"Before we get into the details — is this partnership still working for you at this level?"</div>
-  <p>Genuine question. Wait for the answer. If Tony's been avoiding because the costs are more than he wants to carry, you need to know now — before building a better system for something he secretly wants to scale back.</p>
-</div>
-
-<div class="beat">
-  <div class="beat-number">Beat 3 · The Fix</div>
-  <div class="beat-title">Present the restructure as an upgrade, not a correction.</div>
-  <div class="quote">"We went from a $240K/year TBM to a $300K/year jet. The accounting never caught up. Here's what I want to put in place."</div>
-  <p><strong>The changes:</strong></p>
-  <p>→ Your trip expenses go on <strong>your card</strong>. David carries your card for your missions.<br>
-  → Cirrus costs flip — you pay directly, my team reimburses my half.<br>
-  → EMC² and P3 reserves get billed monthly starting now.<br>
-  → Net 15 or auto-ACH — eliminates the check cycle entirely.</p>
-  <div class="quote">"I don't want to be your bank and you don't want to owe me. This fixes both."</div>
-</div>
-
-<div class="beat">
-  <div class="beat-number">Beat 4 · The Number</div>
-  <div class="beat-title">Name the balance. Ask for a date.</div>
-  <div class="quote">"Right now there's about $57,500 open across four invoices, plus another $18K in maintenance reserves I haven't billed yet. How do you want to handle getting current?"</div>
-  <p>Don't say "you owe me." Say "there's $57K open." Then ask <em>how</em> he wants to handle it — give him agency on the method, not the whether.</p>
-  <p><strong>You need a specific date.</strong> Not "soon." Not "I'll get to it." A date you can tell your accounting team.</p>
-</div>
-
-<div class="beat">
-  <div class="beat-number">Beat 5 · The Future</div>
-  <div class="beat-title">Plant the seed — costs are going up.</div>
-  <div class="quote">"I also want you to see where we're headed. The P3 maintenance rates escalate about 15% per tier. By 2029, your monthly floor is closer to $28–29K. I want us both going in with eyes open."</div>
-  <p>This is respect — giving Tony information to make decisions. It also subtly signals that this partnership is a privilege that gets more expensive, not less.</p>
-</div>
-
-<hr class="divider">
-
-<!-- ============================================ -->
-<!-- SECTION 2: WHEN TONY DEFLECTS -->
-<!-- ============================================ -->
-
-<h2>When Tony Deflects</h2>
-<p style="font-size:14px; color:#666; margin-bottom:16px;">He will. Here's what to say.</p>
-
-<div class="counter">
-  <div class="counter-label">If he changes the subject</div>
-  <div class="counter-move">Tony pivots to a trip, the planes, anything else.</div>
-  <div class="counter-response">"Yeah, we can get to that. But I need to finish this first."</div>
-</div>
-
-<div class="counter">
-  <div class="counter-label">If he goes vague</div>
-  <div class="counter-move">"Yeah man, I know, I'll get that taken care of."</div>
-  <div class="counter-response">"Good. When? I need a specific date I can tell my accounting team."</div>
-</div>
-
-<div class="counter">
-  <div class="counter-label">If he gets agreeable but non-committal</div>
-  <div class="counter-move">"That sounds reasonable, let's figure it out."</div>
-  <div class="counter-response">"Good. So the $57K — can you have that cleared by [date]? And I'll have Kristie send you the new expense setup by Friday."</div>
-</div>
-
-<div class="counter">
-  <div class="counter-label">If he gets emotional / plays the relationship card</div>
-  <div class="counter-move">"Rich, you know I'm good for it..."</div>
-  <div class="counter-response">"I know you are. That's not the question. The question is when, and how we set this up so neither of us has to have this conversation again."</div>
-</div>
-
-<div class="counter">
-  <div class="counter-label">If he pushes back on the restructure</div>
-  <div class="counter-move">"That seems like a lot of changes."</div>
-  <div class="counter-response">"It's actually simpler. One card per person. Your expenses on yours, mine on mine. Less accounting for everyone."</div>
-</div>
-
-<div class="takeaway">
-  <div class="takeaway-label">The one phrase that kills deflection</div>
-  <p>"I need a specific date I can tell my accounting team."</p>
-</div>
-
-<hr class="divider">
-
-<!-- ============================================ -->
-<!-- SECTION 3: CLOSE THE CALL -->
-<!-- ============================================ -->
-
-<h2>Close the Call With Two Commitments</h2>
-
-<div class="beat">
-  <div class="beat-number">Commitment 1</div>
-  <div class="beat-title">A date for the $57,517.</div>
-  <div class="quote">"So I'll tell Kristie to expect that by [date]. Good?"</div>
-</div>
-
-<div class="beat">
-  <div class="beat-number">Commitment 2</div>
-  <div class="beat-title">Agreement on the new expense structure.</div>
-  <div class="quote">"And you're good with splitting the cards and flipping the Cirrus expenses? I'll have my team send the details so we're all on the same page."</div>
-</div>
-
-<div class="note warn">
-  <strong>Do not accept verbal agreement as resolution.</strong> End the call with: "I'll have Kristie send you a summary of what we agreed to today. Can you confirm it by end of day tomorrow?" Written confirmation or it didn't happen.
-</div>
-
-<div class="takeaway">
-  <div class="takeaway-label">How you know it worked</div>
-  <p>Whether Tony makes the first payment within 10 days. Not whether he agreed. Not whether it felt good. The check clears or it doesn't.</p>
-</div>
-
-<hr class="divider">
-
-<!-- ============================================ -->
-<!-- SECTION 4: SUPPORTING DATA -->
-<!-- ============================================ -->
-
-<h2>Supporting Data</h2>
-<p style="font-size:14px; color:#666; margin-bottom:20px;">Reference only. Don't lead with this — use it if Tony asks or if you need to show the math.</p>
-
-<!-- Outstanding Invoices -->
-<h3>Outstanding Invoices</h3>
-
-<table>
-<thead>
-<tr>
-  <th>Invoice</th>
-  <th>Date</th>
-  <th>Type</th>
-  <th style="text-align:right">Amount</th>
-  <th>Past Due</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-  <td style="font-weight:600">#186</td>
-  <td>01/31/2026</td>
-  <td>January Variable</td>
-  <td class="num">$18,465.59</td>
-  <td class="overdue">68 days</td>
-</tr>
-<tr>
-  <td style="font-weight:600">#185</td>
-  <td>02/01/2026</td>
-  <td>February Fixed</td>
-  <td class="num">$16,319.37</td>
-  <td class="overdue">67 days</td>
-</tr>
-<tr>
-  <td style="font-weight:600">#189</td>
-  <td>02/28/2026</td>
-  <td>February Variable</td>
-  <td class="num">$8,161.44</td>
-  <td class="overdue">40 days</td>
-</tr>
-<tr>
-  <td style="font-weight:600">#188</td>
-  <td>03/01/2026</td>
-  <td>March Fixed</td>
-  <td class="num">$14,570.26</td>
-  <td class="overdue">39 days</td>
-</tr>
-<tr class="total">
-  <td colspan="3">Total Outstanding</td>
-  <td class="num">$57,516.66</td>
-  <td></td>
-</tr>
-</tbody>
-</table>
-
-<div class="note warn">
-  Plus ~$18,155 in unbilled Q1 EMC²/P3 reserves. Total exposure: <strong>~$75,672</strong>.
-</div>
-
-<!-- Cost Evolution Grid -->
-<h3>Tony's Cost Evolution — Three Eras</h3>
-<p style="font-size:13px; color:#888; margin-bottom:12px;">Shows how the partnership cost has grown through each phase of aircraft ownership.</p>
+<p class="narrative">Tony's monthly share across the three phases of the partnership:</p>
 
 <table>
 <thead>
 <tr>
   <th>Category</th>
-  <th style="text-align:right">TBM 940<br><span style="font-weight:400;font-size:11px;color:#888">Years 1–5 (Under Warranty)</span></th>
-  <th style="text-align:right">TBM 940<br><span style="font-weight:400;font-size:11px;color:#888">Years 6–10 (Post-Warranty)</span></th>
-  <th style="text-align:right">HondaJet N820JL<br><span style="font-weight:400;font-size:11px;color:#888">Current</span></th>
+  <th style="text-align:right">TBM 940<br><span style="font-weight:400;font-size:11px;color:#888">Yrs 1–5 · Warranty</span></th>
+  <th style="text-align:right">TBM 940<br><span style="font-weight:400;font-size:11px;color:#888">Yrs 6–10 · Post-Warranty</span></th>
+  <th style="text-align:right">HondaJet<br><span style="font-weight:400;font-size:11px;color:#888">Current</span></th>
 </tr>
 </thead>
 <tbody>
@@ -274,14 +143,14 @@ tr.total td { border-top: 2px solid #ccc; }
 <tr>
   <td>Maintenance</td>
   <td class="num">$2,708</td>
-  <td class="num" style="color:#C41E3A;font-weight:600">$5,000</td>
+  <td class="num accent">$5,000</td>
   <td class="num">$6,052</td>
 </tr>
 <tr>
-  <td style="padding-left:28px;font-size:13px;color:#888">Warranty annuals / EMC²+P3</td>
-  <td class="num" style="font-size:13px;color:#888">~$65K/yr ÷ 2</td>
-  <td class="num" style="font-size:13px;color:#C41E3A">~$120K/yr ÷ 2</td>
-  <td class="num" style="font-size:13px;color:#888">5hr/5cycle/½ cal</td>
+  <td class="muted" style="padding-left:28px">Detail</td>
+  <td class="num muted">~$65K/yr ÷ 2</td>
+  <td class="num muted">~$120K/yr ÷ 2</td>
+  <td class="num muted">EMC² + P3 (5hr/5cyc/½ cal)</td>
 </tr>
 <tr>
   <td>Pilot</td>
@@ -296,13 +165,13 @@ tr.total td { border-top: 2px solid #ccc; }
   <td class="num">$2,708</td>
 </tr>
 <tr>
-  <td>Amortization</td>
+  <td>Amortization Reserve</td>
   <td class="num">—</td>
   <td class="num">—</td>
   <td class="num">$1,267</td>
 </tr>
 <tr>
-  <td>Recurrency</td>
+  <td>Recurrency Training</td>
   <td class="num">$417</td>
   <td class="num">$417</td>
   <td class="num">$833</td>
@@ -334,12 +203,18 @@ tr.total td { border-top: 2px solid #ccc; }
 </tbody>
 </table>
 
-<div class="note">
-  <strong>The story in three numbers:</strong> Tony's annual floor went from $239K (TBM under warranty) → $267K (TBM post-warranty, realistic $120K/yr maintenance) → $303K (HondaJet). That's a $64K increase over the full arc — but $27K of it was coming regardless when the TBM fell out of warranty. The HondaJet added $36K on top of that, mostly from the EMC²/P3 programs and amortization reserve.
+<div class="insight">
+  <strong>Variable costs are on top of these numbers.</strong> Trip expenses — FBO fees, fuel, GoGo internet, crew meals and hotels, ground transport — add $5,000–$15,000+ per month depending on usage. The numbers above are the floor before anyone flies anywhere.
 </div>
 
-<!-- P3 Escalation -->
-<h3>P3 Rate Escalation — Where Costs Are Heading</h3>
+<!-- ============================================ -->
+<!-- SECTION 3: WHERE COSTS ARE HEADED -->
+<!-- ============================================ -->
+
+<h2>Where Costs Are Headed</h2>
+<div class="section-rule"></div>
+
+<p class="narrative">The HondaJet's P3 airframe maintenance rates are contractually scheduled to escalate over the 5-year term. These increases are built into the Honda Aircraft agreement and are not negotiable. Tony's maintenance floor will grow each year regardless of usage.</p>
 
 <table>
 <thead>
@@ -352,7 +227,7 @@ tr.total td { border-top: 2px solid #ccc; }
 </thead>
 <tbody>
 <tr style="background:#f5f0e8; font-weight:600;">
-  <td>Feb 2026 – Feb 2027 ← Now</td>
+  <td>Feb 2026 – Feb 2027 &nbsp;← Now</td>
   <td class="num">$1,568</td>
   <td class="num">$332</td>
   <td class="num">$289</td>
@@ -384,58 +259,187 @@ tr.total td { border-top: 2px solid #ccc; }
 </tbody>
 </table>
 
-<div class="note">
-  By 2029, Tony's maintenance floor grows from ~$6,052/month to ~$8,200/month. The partnership gets more expensive every year — both partners should know the trajectory.
+<div class="insight">
+  By 2029, the P3 hourly rate increases 36% and the cycle rate increases 36%. Tony's maintenance share alone grows from ~$6,052/month today to approximately <strong>$8,200/month</strong>. Combined with EMC² engine escalation (adjusted annually by labor and metals indices), the total monthly floor will approach <strong>$28,000–$29,000</strong> by the end of the current P3 term.
 </div>
 
-<!-- Contract Minimums -->
-<h3>Annual Contract Minimums — HondaJet N820JL</h3>
+<!-- ============================================ -->
+<!-- SECTION 4: CURRENT BALANCE -->
+<!-- ============================================ -->
+
+<h2>Current Open Balance</h2>
+<div class="section-rule"></div>
+
+<div class="stats" style="grid-template-columns: 1fr 1fr;">
+  <div class="stat">
+    <div class="stat-value red">$57,517</div>
+    <div class="stat-label">Invoiced &amp; Outstanding</div>
+    <div class="stat-sub">4 invoices · Jan – Mar 2026</div>
+  </div>
+  <div class="stat">
+    <div class="stat-value red">~$18,155</div>
+    <div class="stat-label">Unbilled Reserves</div>
+    <div class="stat-sub">Q1 EMC² + P3 · Not yet invoiced</div>
+  </div>
+</div>
+
+<table>
+<thead>
+<tr>
+  <th>Invoice</th>
+  <th>Date</th>
+  <th>Description</th>
+  <th style="text-align:right">Amount</th>
+  <th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td style="font-weight:600">#186</td>
+  <td>01/31/2026</td>
+  <td>January Variable Costs</td>
+  <td class="num">$18,465.59</td>
+  <td class="overdue">68 days past due</td>
+</tr>
+<tr>
+  <td style="font-weight:600">#185</td>
+  <td>02/01/2026</td>
+  <td>February Fixed Costs</td>
+  <td class="num">$16,319.37</td>
+  <td class="overdue">67 days past due</td>
+</tr>
+<tr>
+  <td style="font-weight:600">#189</td>
+  <td>02/28/2026</td>
+  <td>February Variable Costs</td>
+  <td class="num">$8,161.44</td>
+  <td class="overdue">40 days past due</td>
+</tr>
+<tr>
+  <td style="font-weight:600">#188</td>
+  <td>03/01/2026</td>
+  <td>March Fixed Costs</td>
+  <td class="num">$14,570.26</td>
+  <td class="overdue">39 days past due</td>
+</tr>
+<tr class="total">
+  <td colspan="3">Total Outstanding</td>
+  <td class="num">$57,516.66</td>
+  <td></td>
+</tr>
+</tbody>
+</table>
+
+<p class="narrative">Additionally, EMC² and P3 maintenance reserves for Q1 2026 (~$18,155) have not yet been invoiced. Going forward, these reserves will be billed monthly to prevent large quarterly or annual true-up surprises.</p>
+
+<!-- ============================================ -->
+<!-- SECTION 5: A SIMPLER STRUCTURE -->
+<!-- ============================================ -->
+
+<h2>A Simpler Structure Going Forward</h2>
+<div class="section-rule"></div>
+
+<p class="narrative">The current financial structure was built for a smaller, simpler operation. With the move from the TBM to the HondaJet — and the added complexity of EMC², P3, and multiple aircraft — it makes sense to modernize how the money flows. The goal is simple: less invoicing, less back-and-forth, and no one carrying a float.</p>
+
+<h3>What Changes</h3>
+
+<div class="proposal">
+  <div class="proposal-row">
+    <div class="proposal-label">Trip Expenses</div>
+    <div class="proposal-value">Each partner's variable trip costs go on <strong>their own card</strong>. David carries the appropriate card for each mission — FBO, fuel, hotel, food, ground transport.</div>
+  </div>
+  <div class="proposal-row">
+    <div class="proposal-label">Cirrus SR-22T</div>
+    <div class="proposal-value">All Cirrus costs (insurance, annuals, hangar, maintenance) go directly to Tony. Rich's team reimburses Rich's share.</div>
+  </div>
+  <div class="proposal-row">
+    <div class="proposal-label">Maintenance Reserves</div>
+    <div class="proposal-value">EMC² and P3 reserves billed <strong>monthly</strong> — no more end-of-year surprises.</div>
+  </div>
+  <div class="proposal-row">
+    <div class="proposal-label">Payment Terms</div>
+    <div class="proposal-value"><strong>Net 15</strong> or auto-ACH on fixed monthly invoices.</div>
+  </div>
+</div>
+
+<h3>What Stays the Same</h3>
+
+<div class="proposal">
+  <div class="proposal-row">
+    <div class="proposal-label">Fixed Costs</div>
+    <div class="proposal-value">Pilot, loan, hangar, insurance, amortization, recurrency — continue through Laminar with monthly invoicing.</div>
+  </div>
+  <div class="proposal-row">
+    <div class="proposal-label">Cost Split</div>
+    <div class="proposal-value">50/50 on shared costs. Tony's minimum: 5 flight hours, 5 cycles, half the calendar rate.</div>
+  </div>
+  <div class="proposal-row">
+    <div class="proposal-label">Partnership</div>
+    <div class="proposal-value">Same team, same planes, same pilot. Just a cleaner way to handle the money.</div>
+  </div>
+</div>
+
+<div class="insight">
+  <strong>The bottom line:</strong> This structure is designed so neither partner is carrying a balance for the other. Each person's expenses flow through their own accounts. Shared costs stay centralized through Laminar with predictable monthly billing. It's simpler for everyone — including the accounting team on both sides.
+</div>
+
+<!-- ============================================ -->
+<!-- CONTRACT MINIMUMS -->
+<!-- ============================================ -->
+
+<h2>Contract Minimums Reference</h2>
+<div class="section-rule"></div>
+
+<p class="narrative">Both the EMC² engine program and the P3 airframe program carry contractual annual minimums. These are obligations to Honda Aircraft and GE Honda regardless of actual usage.</p>
 
 <table>
 <thead>
 <tr>
   <th>Program</th>
-  <th>Min/Year</th>
-  <th style="text-align:right">Rate</th>
-  <th style="text-align:right">Tony's Share</th>
+  <th>Annual Minimum</th>
+  <th style="text-align:right">Current Rate</th>
+  <th style="text-align:right">Tony's Annual Share</th>
 </tr>
 </thead>
 <tbody>
 <tr>
   <td>EMC² Engines</td>
-  <td>120 hrs/engine</td>
+  <td>120 hrs/yr per engine</td>
   <td class="num">$216.19/hr × 2</td>
-  <td class="num">$25,944/yr</td>
+  <td class="num">$25,944</td>
 </tr>
 <tr>
-  <td>P3 Hourly</td>
-  <td>120 hrs</td>
+  <td>P3 Airframe — Hourly</td>
+  <td>120 flight hours/yr</td>
   <td class="num">$332.25/hr</td>
-  <td class="num">$19,932/yr</td>
+  <td class="num">$19,932</td>
 </tr>
 <tr>
-  <td>P3 Cycles</td>
-  <td>120 cycles</td>
+  <td>P3 Airframe — Cycles</td>
+  <td>120 cycles/yr</td>
   <td class="num">$288.87/cycle</td>
-  <td class="num">$17,328/yr</td>
+  <td class="num">$17,328</td>
 </tr>
 <tr>
-  <td>P3 Calendar</td>
-  <td>Monthly</td>
+  <td>P3 Airframe — Calendar</td>
+  <td>Monthly (regardless)</td>
   <td class="num">$1,568/mo</td>
-  <td class="num">$9,408/yr</td>
+  <td class="num">$9,408</td>
 </tr>
 <tr class="total">
-  <td colspan="2">Total Annual Minimums</td>
+  <td colspan="2">Total Annual Maintenance Minimums</td>
   <td class="num"></td>
-  <td class="num">$72,612/yr</td>
+  <td class="num">$72,612</td>
 </tr>
 </tbody>
 </table>
 
+<p class="narrative">If the aircraft flies fewer than 120 hours or 120 cycles in a calendar year, Honda Aircraft and GE Honda issue reconciliation invoices for the shortfall. Monthly billing of these reserves prevents that from becoming a lump-sum surprise at year-end.</p>
+
+<!-- FOOTER -->
 <div class="footer">
-  Laminar Holdings LLC · April 9, 2026<br>
-  Sources: QuickBooks, Honda Aircraft P3 Agreement, GE Honda EMC² Agreement, 2026 Escalation Letters
+  Laminar Holdings LLC · Prepared April 9, 2026<br>
+  Sources: QuickBooks Open Balance Report (04/09/26), Honda Aircraft FlightReady P3 Agreement (HA420_P3_2025-NOV_SN140_R1_AM), GE Honda EMC² Agreement (H625), 2026 Rate Escalation Letters, Historical TBM 940 Invoices
 </div>
 
 </body>
