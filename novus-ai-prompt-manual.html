@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The AI Prompt Manual — Build Your Own Operating System</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: #fff;
+    color: #2a2a2a;
+    line-height: 1.75;
+    font-size: 18px;
+  }
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 60px 24px 100px;
+  }
+  h1 {
+    font-size: 2.4em;
+    color: #2c5f8a;
+    line-height: 1.2;
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+  .subtitle {
+    font-size: 1.05em;
+    color: #6a6a6a;
+    font-style: italic;
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 2px solid #e8e8e8;
+  }
+  nav {
+    background: #f8f9fb;
+    border: 1px solid #e0e4ea;
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 48px;
+  }
+  nav p { font-weight: 700; color: #2c5f8a; margin-bottom: 10px; font-size: 0.95em; text-transform: uppercase; letter-spacing: 0.5px; }
+  nav ol { margin: 0 0 0 20px; font-size: 0.95em; }
+  nav li { margin-bottom: 6px; }
+  nav a { color: #2c5f8a; text-decoration: none; }
+  nav a:hover { text-decoration: underline; }
+  .back-link { font-size: 0.9em; color: #888; margin-bottom: 24px; }
+  .back-link a { color: #2c5f8a; text-decoration: none; }
+  .back-link a:hover { text-decoration: underline; }
+  h2 {
+    font-size: 1.6em;
+    color: #2c5f8a;
+    margin-top: 56px;
+    margin-bottom: 20px;
+    font-weight: 700;
+  }
+  h3 {
+    font-size: 1.15em;
+    color: #2c5f8a;
+    margin-top: 28px;
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+  p { margin-bottom: 16px; }
+  ul, ol { margin: 12px 0 20px 24px; }
+  li { margin-bottom: 8px; }
+  strong { color: #2a2a2a; }
+  .prompt-label {
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #888;
+    margin-bottom: 6px;
+    font-family: -apple-system, sans-serif;
+  }
+  .prompt-box {
+    background: #f5f5f5;
+    border-left: 3px solid #ccc;
+    padding: 16px 20px;
+    margin: 4px 0 24px;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.88em;
+    color: #333;
+    line-height: 1.6;
+    border-radius: 0 4px 4px 0;
+    white-space: pre-wrap;
+  }
+  .callout {
+    background: #f0f5fa;
+    border-left: 4px solid #2c5f8a;
+    padding: 20px 24px;
+    margin: 24px 0;
+    font-style: italic;
+    color: #2c5f8a;
+    font-size: 1.05em;
+    line-height: 1.6;
+    border-radius: 0 6px 6px 0;
+  }
+  .callout-green {
+    background: #f2f8ee;
+    border-left: 4px solid #5a8a3c;
+    padding: 20px 24px;
+    margin: 24px 0;
+    border-radius: 0 6px 6px 0;
+  }
+  .callout-green strong { color: #5a8a3c; }
+  .callout-amber {
+    background: #fdf6e8;
+    border-left: 4px solid #c8860a;
+    padding: 20px 24px;
+    margin: 24px 0;
+    border-radius: 0 6px 6px 0;
+  }
+  .callout-amber strong { color: #c8860a; }
+  .callout-blue {
+    background: #edf3fa;
+    border-left: 4px solid #2c5f8a;
+    padding: 20px 24px;
+    margin: 24px 0;
+    border-radius: 0 6px 6px 0;
+  }
+  .callout-blue strong { color: #2c5f8a; }
+  .callout-gray {
+    background: #f0f2f4;
+    border-left: 4px solid #607080;
+    padding: 20px 24px;
+    margin: 24px 0;
+    border-radius: 0 6px 6px 0;
+  }
+  .callout-gray strong { color: #607080; }
+  .pull-quote {
+    text-align: center;
+    padding: 48px 32px;
+    margin: 40px 0;
+    border-top: 2px solid #e8e8e8;
+    border-bottom: 2px solid #e8e8e8;
+  }
+  .pull-quote p {
+    font-size: 1.35em;
+    font-style: italic;
+    color: #2c5f8a;
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+  .pull-quote .attrib {
+    font-size: 0.85em;
+    color: #888;
+    font-style: normal;
+  }
+  .phase-header {
+    background: #2c5f8a;
+    color: #fff;
+    padding: 16px 24px;
+    border-radius: 6px;
+    margin: 48px 0 24px;
+    font-size: 1.2em;
+    font-weight: 700;
+  }
+  .closing {
+    margin-top: 56px;
+    padding-top: 32px;
+    border-top: 2px solid #e8e8e8;
+    text-align: center;
+    color: #888;
+    font-style: italic;
+  }
+  @media (max-width: 600px) {
+    .container { padding: 32px 16px 60px; }
+    h1 { font-size: 1.8em; }
+    h2 { font-size: 1.3em; }
+    body { font-size: 16px; }
+    .pull-quote p { font-size: 1.15em; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<p class="back-link">← <a href="novus-build-story.html">Back to How Dad Built His Operating System</a></p>
+
+<h1>The AI Prompt Manual</h1>
+<h1 style="font-size:1.4em;color:#2c5f8a;margin-bottom:8px;font-weight:400;font-style:italic">Build Your Own Operating System</h1>
+<p class="subtitle">Step-by-step instructions, exact prompts, and the questions that extract the real work · Content generated with GPT-5.4 via OpenRouter</p>
+
+<p>Before you start: <strong><a href="novus-ifs-diagram.html" style="color:#2c5f8a">see how the crew map works →</a></strong></p>
+
+<nav>
+<p>Contents</p>
+<ol>
+  <li><a href="#what-youre-building">What You're Building</a></li>
+  <li><a href="#what-to-gather">What to Gather First</a></li>
+  <li><a href="#the-question">The Question That Opens Everything</a></li>
+  <li><a href="#phase1">Phase 1: Establish the Two Systems</a></li>
+  <li><a href="#phase2">Phase 2: Build Your System B Descriptors</a></li>
+  <li><a href="#phase3">Phase 3: Map Your Inner Crew (IFS)</a></li>
+  <li><a href="#questions">Questions the AI Should Ask You</a></li>
+  <li><a href="#stuck">When You Get Stuck</a></li>
+  <li><a href="#working">How to Know It's Working</a></li>
+</ol>
+</nav>
+
+<!-- SECTION 1 -->
+<h2 id="what-youre-building">1. What You're Building</h2>
+
+<h3>What is a personal operating system?</h3>
+<p>A personal operating system is a document that explains how <strong>you</strong> work underneath your habits, goals, reactions, strengths, stress patterns, and leadership style.</p>
+
+<p>It is <strong>not</strong> a vision board, a motivational manifesto, a personality test summary, or a productivity system.</p>
+
+<p>It <strong>is</strong>: a practical map of your internal wiring. A language for your best self and your reactive self. A way to notice what drives your behavior in real time. A repeatable daily practice for returning to the version of you that you actually want leading your life.</p>
+
+<p>The core idea is simple:</p>
+
+<div class="callout"><strong>You likely already know how to act competent.</strong> What matters is: what fuel source is driving you?</div>
+
+<p>Two people can do the exact same action — lead a meeting, set a boundary, push hard, rest, tell the truth, build a company, apologize, walk away. From the outside, the actions may look identical.</p>
+
+<p>But internally, one may be driven by fear, scarcity, proving, control, needing approval, avoiding failure. And the other may be driven by wholeness, clarity, grounded choice, purpose, enoughness, calm agency.</p>
+
+<p>That is the difference between <strong>System A</strong> and <strong>System B</strong>.</p>
+
+<h3>Why it matters</h3>
+<p>Without this work, most high-capacity people keep using the same old internal engine: achieve to feel safe, control to avoid pain, produce to earn worth, withdraw or attack under stress, keep winning externally while paying more internally.</p>
+
+<p>This eventually gets expensive — in relationships, in leadership, in health, in energy, in peace, in integrity, in how much damage your reactive self can do when you are in a big seat.</p>
+
+<h3>What the finished product looks like</h3>
+<p>A finished product usually includes:</p>
+<ol>
+  <li><strong>The premise</strong> — What changed, and why this work matters now.</li>
+  <li><strong>The two systems</strong> — System A (reactive, fear-fueled) vs. System B (grounded, whole, chosen).</li>
+  <li><strong>Your core descriptors for System B</strong> — Usually 5–9 words. Not random values — the distilled architecture of who you are when led by your best self.</li>
+  <li><strong>Your inner crew map</strong> — Using IFS: Self, Exile, Manager, Firefighter(s).</li>
+  <li><strong>Your core tensions</strong> — The paradoxes that show up across assessments, history, and lived experience.</li>
+  <li><strong>Your triggers into System A</strong> — The situations that activate your old protective patterns.</li>
+  <li><strong>Your daily practice</strong> — Morning, midday, evening check-ins.</li>
+  <li><strong>A one-page version</strong> — A concise operating sheet you can actually use.</li>
+</ol>
+
+<h3>How long this takes</h3>
+<p>Do <strong>not</strong> expect this to happen in one chat.</p>
+<ul>
+  <li>First useful draft: 1–2 weeks</li>
+  <li>Strong version: 3–6 weeks</li>
+  <li>Fully personalized and emotionally true version: 4–8+ weeks</li>
+</ul>
+<p>If you rush it, you will get a smart document. If you stay with it, you can get a <strong>true</strong> document. The goal is not speed. The goal is <strong>recognition</strong>: "Yes. That's me."</p>
+
+<!-- SECTION 2 -->
+<h2 id="what-to-gather">2. What to Gather First</h2>
+
+<p>Before you start, gather the following materials. Each one gives the AI a different layer of who you are.</p>
+
+<div class="callout-green">
+<strong>Step 0 — Feed the AI the finished reference</strong>
+<p style="margin-top:8px">Before you do anything else — open <a href="https://hodger07.github.io/pages/system-b-os-v3.html" style="color:#5a8a3c" target="_blank">Dad's System B Operating System</a> and copy the full text. Paste it in with this instruction:</p>
+<p class="prompt-label" style="margin-top:12px">Copy this prompt ↓</p>
+<div class="prompt-box">"I am going to build my own personal operating system. Here is an example of what a finished one looks like — it was built by my dad, Richard Hodge, through 5 sessions with his coach Jon Roberts at Novus Global. I am NOT trying to copy his — I want to build my own that is authentic to me. But I want you to understand the structure, depth, and format of what we are working toward. Read this carefully, then tell me what you notice about how it is structured, and what makes it feel personal and true rather than generic."</div>
+<p style="font-size:0.9em;color:#555">This sets the standard, establishes the format, and creates a reference point. When your work gets vague, the AI can say "compare this to the example — does yours feel this specific and true?"</p>
+</div>
+
+<div class="callout-green">
+<strong>Step 0b — Feed session summaries for context</strong>
+<p style="margin-top:8px">If you want the AI to understand the coaching methodology, feed it the session summaries from <a href="novus-build-story.html" style="color:#5a8a3c">How Dad Built His Operating System</a>. This gives the AI the arc of how the work develops over time.</p>
+</div>
+
+<h3>1. Your Birkman report or similar assessment</h3>
+<p>Best option: Birkman. Also useful: DiSC, Enneagram, CliftonStrengths, Predictive Index, Kolbe, Hogan, MBTI, shadow assessment work, attachment style assessment. If you have multiple assessments over time, even better.</p>
+<p>What the AI needs: the report itself, screenshots, copied text of key findings, or your summary of patterns you see repeated.</p>
+
+<h3>2. Your stress cycle description</h3>
+<p>Write out, in sequence, what overwhelm looks like in your body and behavior. Not just "I get stressed." Describe it: What happens first? What do you feel in your body? What happens next? What do you start thinking? What do you do outwardly? What do others experience from you? How do you come down? What damage usually gets done?</p>
+
+<h3>3. Three recent examples of yourself at your best</h3>
+<p>Choose actual moments from the last 6–12 months. For each one: what happened, what role you were in, how you felt in your body, how you treated people, what made that version different, what fuel source was present.</p>
+
+<h3>4. Three recent examples of yourself in stress/reaction mode</h3>
+<p>Real examples. For each: what triggered it, what story got activated, what happened in your body, whether you pushed/controlled/defended/shut down/vanished/overworked/numbed, how others likely experienced you, what the cost was.</p>
+
+<div class="callout-amber">
+<strong>5. Your pivotal experience — if you have one</strong>
+<p style="margin-top:8px">If you have ever had an experience that broke through your armor and showed you who you actually are underneath everything — write about it. This could be: a near-death experience, deep grief, a plant medicine or psychedelic experience, a moment of complete surrender, a spiritual experience, a breakdown that became a breakthrough, or a period of sobriety that cracked open what you were protecting.</p>
+<p style="margin-top:8px">Write: what happened, what you saw about yourself that you hadn't been able to see before, what felt true that you couldn't argue with, what you wanted to be after it, and what you were afraid of returning to.</p>
+<p style="margin-top:8px;font-size:0.9em;color:#8a6e10"><em>This is not required. But if you have it, it is the most important thing to feed the AI. It gives access to the pre-intellectual version of who you are — before the defenses rebuilt. An operating system built without this tends to stay clever. One built with this tends to become true.</em></p>
+</div>
+
+<div class="callout-blue">
+<strong>6. Your deepest truth — live stories</strong>
+<p style="margin-top:8px">This is the one most people skip. Don't skip it.</p>
+<p style="margin-top:8px">Tell the AI your stories. Not your resume. Not your frameworks. Your actual stories. The ones you tell when the guard is down. The ones that come out at 2 AM when someone you trust asks the right question.</p>
+<p style="margin-top:8px">What to share: the story of when you first realized something was wrong with how you were operating. The moment you chose yourself over the safer path — or didn't, and paid for it. The relationship that revealed the most about you. The version of yourself you're most ashamed of. The version you're most proud of that nobody knows about. What you want your kids to know about you when you're gone. The truth about what you're afraid of that ambition has been covering.</p>
+<p style="margin-top:8px">How: talk into a voice memo and transcribe it (Otter.ai is free), or write stream-of-consciousness for 20 minutes without editing. Paste it raw.</p>
+<p class="prompt-label" style="margin-top:12px">Copy this prompt ↓</p>
+<div class="prompt-box">"This is a raw, unfiltered account of my life and what I've been through. I didn't edit it. Read it and tell me what you see in me that I might not be able to see in myself right now."</div>
+</div>
+
+<div class="callout-gray">
+<strong>7. Your mental health history and self-diagnosis</strong>
+<p style="margin-top:8px">Feed the AI what has been named about you, or what you have named yourself. Any clinical diagnoses, self-identified patterns (people-pleasing, perfectionism, avoidant attachment, hypervigilance, codependency), substances or behaviors used to manage emotions, therapy history, family mental health history, any genetic or chemical layer you know about.</p>
+<p style="margin-top:8px">Why: the AI will misread your System A if it doesn't know what's underneath it. Someone with anxiety-driven System A operates differently than depression-driven. Someone with ADHD has a different relationship to the plateau than someone with perfectionism.</p>
+<p class="prompt-label" style="margin-top:12px">Copy this prompt ↓</p>
+<div class="prompt-box">"Here is my mental health and self-diagnosis history. I am not sharing this for therapy. I'm sharing it because it's part of my wiring. Read it alongside everything else and tell me how it shapes what my System A is actually running on — what it's protecting, what it's managing, and what it will try to protect against in this work."</div>
+</div>
+
+<h3>8. Your relationship history — patterns, not people</h3>
+<p>Feed the AI the pattern of who you've loved, who's hurt you, and who you've hurt. Not gossip. The recurring shape. What you tend to seek, what you tend to flee, the pattern across your most significant relationships, your attachment style in practice.</p>
+<p class="prompt-label">Copy this prompt ↓</p>
+<div class="prompt-box">"Here is my relationship history and the patterns I see in it. Tell me what this reveals about my exile — the part of me that is most protected and most hidden. What does Lil' [Your Name] most need that they've been trying to get through relationships?"</div>
+
+<h3>9. Your parents — specifically</h3>
+<p>This one is not optional if you want the work to go deep. The exile in IFS is almost always connected to the specific humans who were supposed to see you first and didn't.</p>
+<p>Write: how your mother made you feel about yourself, how your father made you feel about yourself, what you were supposed to be for them, what you learned to do to be loved or safe in that house, what you learned to hide, what you're still trying to prove to them.</p>
+<p class="prompt-label">Copy this prompt ↓</p>
+<div class="prompt-box">"Here is my honest account of my parents and what I learned in that house. Tell me: based on this, what did I have to become to survive it? And what did I have to abandon in myself to do that? That abandoned thing — that's Lil' [Your Name]."</div>
+
+<h3>10. Your physical story</h3>
+<p>The body keeps the score. Where do you hold stress? Sleep patterns? Chronic pain or tension connected to emotional patterns? How does your body signal System A before your mind catches up?</p>
+<p class="prompt-label">Copy this prompt ↓</p>
+<div class="prompt-box">"Here's my physical story. Tell me how my nervous system is likely wired based on what I've described. What does my body do that my mind hasn't caught up to yet?"</div>
+
+<h3>11. Your answer to this question</h3>
+<p>Answer in writing: <strong>"What does the mature version of me look like? Not what they do — who they ARE?"</strong></p>
+<p>Don't list achievements, goals, roles, or outputs. Describe qualities of being: steady, honest, warm, clear, rooted, unhurried, discerning, kind without being weak, strong without force, open without leaking, committed without control. Write at least one full page.</p>
+
+<!-- SECTION 3 -->
+<div class="pull-quote" id="the-question">
+<p>"Walk me through what happens when you feel stressed or overwhelmed — not what you think about it, but what actually happens in your body and behavior. Start with what you feel in your body first. Then tell me what happens next. Give me the whole sequence in order."</p>
+<p class="attrib">— Jon Roberts' first real diagnostic question</p>
+</div>
+
+<h2>3. The Question That Opens Everything</h2>
+
+<p>Before any prompt in Phase 1 — ask yourself this question. Or better, have the AI ask you.</p>
+
+<p>Why this question first: most people can describe their stress after the fact, intellectually. This question forces you to map the actual sequence — body → thought → behavior → damage. Once you have that map, you know where to intervene. Jon's instruction: catch it at signal 1 or 2 (the body). Not signal 5 or 6 when the damage is already done.</p>
+
+<p class="prompt-label">Copy this prompt ↓</p>
+<div class="prompt-box">"I want to map my stress sequence — not describe it conceptually, but walk through it in order. Ask me: what happens first? What do I notice in my body before my mind catches up? Then keep asking me 'what happens next?' until we get to the end of the cycle. Don't let me stay abstract. If I describe a thought or a behavior, ask me where I first felt it in my body."</div>
+
+<!-- PHASE 1 -->
+<div class="phase-header" id="phase1">Phase 1: Establish the Two Systems</div>
+
+<h3>Prompt 1 — Describe System A</h3>
+<p class="prompt-label">Copy this prompt ↓</p>
+<div class="prompt-box">I want to build a personal operating system document. Start by helping me define my System A.
+
+System A is my default reactive operating mode. It is the version of me driven by fear, scarcity, control, proving, protection, old survival strategies, or "have to" energy.
+
+I am going to give you:
+1. personality assessments
+2. my stress cycle
+3. examples of me at my best
+4. examples of me in stress/reaction mode
+5. my description of the mature version of me
+
+Your job is to analyze all of it and write:
+- a concise definition of my System A
+- the fuel source of System A
+- what System A is trying to protect
+- how System A tends to show up in behavior
+- what other people likely experience when I am in System A
+- what System A helps me do well
+- what it costs me
+
+Then give me:
+- 5 possible names for my System A
+- 10 clarifying questions to refine it
+
+Important constraints:
+- Do not moralize System A.
+- Do not make it a villain.
+- Treat it as an intelligent adaptation.
+- Be psychologically precise and practical, not poetic.
+
+After I answer your questions, revise the System A definition into a tighter final version.</div>
+
+<h3>Prompt 2 — Describe System B</h3>
+<p class="prompt-label">Copy this prompt ↓</p>
+<div class="prompt-box">Now help me define my System B.
+
+System B is not a fantasy self. It is the grounded, mature, present, whole version of me. It is the version of me that acts from wholeness, choice, enoughness, truth, and purpose instead of fear, proving, or protection.
+
+Based on everything I've shared, write:
+- a concise definition of my System B
+- the fuel source of System B
+- what becomes possible when I am in System B
+- how I likely feel in my body in System B
+- how other people likely experience me in System B
+- what kinds of decisions System B makes differently
+- what System B does with pressure, conflict, disappointment, and uncertainty
+
+Then give me:
+- 5 possible names for my System B
+- 10 clarifying questions to refine it
+
+Important constraints:
+- Do not make System B sound soft, passive, vague, or generic.
+- This should still sound like me at full strength.
+- Show how power, action, and drive can remain intact while the fuel source changes.
+
+After I answer your questions, revise it into a tighter final version.</div>
+
+<h3>Prompt 3 — Same action, different fuel</h3>
+<p class="prompt-label">Copy this prompt ↓</p>
+<div class="prompt-box">Now identify the key distinction between my System A and System B:
+
+The outside action can look identical, but only I know which fuel source is driving it.
+
+I want you to explain this distinction specifically for me, using my material.
+
+Please do all of the following:
+1. Write a short explanation of the principle in plain English.
+2. Give 10 paired examples from my life where the same outward action could be either System A or System B depending on the internal fuel.
+3. For each example, show:
+   - the outward behavior
+   - what makes it System A internally
+   - what makes it System B internally
+4. End by writing a one-paragraph "nuclear practice" statement answering this question:
+   - "At any given moment, which system am I running?"
+
+Important:
+- Use examples from leadership, relationships, rest, conflict, communication, ambition, and decision-making.
+- Make the distinctions sharp and practical.
+- Do not stay abstract.</div>
+
+<h3>Prompt 4 — Your two main System A triggers</h3>
+<p class="prompt-label">Copy this prompt ↓</p>
+<div class="prompt-box">Based on everything I've shared, help me identify the 2 most important triggers that activate my System A.
+
+I do not want a generic list. I want the deepest 2 trigger categories that seem to drive most of my reactive behavior.
+
+Please do all of the following:
+- identify the top 2 trigger patterns
+- explain why each one has so much power in my system
+- describe what each trigger feels like in my body and mind
+- describe what behavior usually follows
+- describe what story or fear gets activated underneath
+- show how these triggers connect to childhood adaptation, attachment, grief, shame, or worth if relevant
+- give me 10 reflection questions to test whether these are truly the main two
+
+Then propose a simple final version written in this format:
+- "System A gets activated when..."
+- "What looks like anger/control/withdrawal is often actually..."
+
+Important:
+- Push deeper than surface annoyances.
+- "No" is not a trigger by itself unless it means something deeper.
+- Distinguish between the event and the meaning I assign to the event.</div>
+
+<!-- PHASE 2 -->
+<div class="phase-header" id="phase2">Phase 2: Build Your System B Descriptors</div>
+
+<h3>Prompt 5 — Generate first draft of 7 descriptors</h3>
+<p class="prompt-label">Copy this prompt ↓</p>
+<div class="prompt-box">Help me create the first draft of my 7 System B descriptors.
+
+These should be 7 words or short phrases that describe who I am when I am operating from my grounded, mature, Self-led mode. They are not performance goals. They are identity-level descriptors.
+
+Based on everything I've shared, generate:
+- 15 candidate descriptors
+- a one-sentence definition for each
+- why each one fits me specifically
+- which descriptors feel foundational versus downstream
+
+Then recommend the best 7 as a first draft.
+
+Important constraints:
+- Avoid generic corporate values language.
+- Avoid words that are just nice-sounding but empty.
+- The words should be simple, memorable, and emotionally true.
+- The list should still sound like someone strong, capable, and decisive.
+- Include at least 2 descriptors that directly counter my System A wiring.</div>
+
+<h3>Prompt 6 — Challenge them: System A in disguise?</h3>
+<p class="prompt-label">Copy this prompt ↓</p>
+<div class="prompt-box">Now challenge my first-draft System B descriptors hard.
+
+I want you to test whether any of these are actually System A in disguise.
+
+For each descriptor, answer:
+- What does this look like in true System B?
+- What does this same word look like when hijacked by System A?
+- How would I know the difference internally?
+- Is this descriptor foundational, derivative, or fake-good for me?
+
+Then tell me:
+- which descriptors should stay
+- which should be renamed
+- which should be removed
+- which missing descriptor is more fundamental than the others
+
+Important:
+- Be ruthless about false virtue.
+- If a descriptor only works when I'm already resourced, say so.
+- If a descriptor can become control, performance, image management, or dissociation, point it out clearly.</div>
+
+<h3>Prompt 7 — Find the right order</h3>
+<p class="prompt-label">Copy this prompt ↓</p>
+<div class="prompt-box">Now help me put my final 7 System B descriptors in the right order.
+
+I want the order to matter. Think of it like this:
+- if I skip descriptor #1, the rest become unstable
+- some descriptors are prerequisites for others
+- some are outcomes, not foundations
+
+Your task:
+1. take my current best 7 descriptors
+2. determine the most psychologically accurate sequence
+3. explain why each descriptor must come before the next
+4. show what collapses when the order is wrong
+5. identify which descriptor is the true foundation and why
+
+Then present the final list in this format:
+1. [descriptor] - [1-2 sentence explanation]
+2. [descriptor] - [1-2 sentence explanation]
+etc.
+
+End with:
+- one paragraph on why "order matters"
+- one paragraph on how skipping the foundation turns the rest into System A in disguise</div>
+
+<h3>Prompt 8 — Stress-test the final 7</h3>
+<p class="prompt-label">Copy this prompt ↓</p>
+<div class="prompt-box">Stress-test my final 7 System B descriptors against real life.
+
+For each descriptor, show how it would function in:
+- a conflict conversation
+- a leadership decision
+- disappointment
+- fatigue
+- success
+- failure
+- family tension
+- uncertainty
+
+Then answer:
+- which descriptor I am most likely to skip under pressure
+- which descriptor I may overestimate in myself
+- which descriptor will feel the most unnatural at first
+- which descriptor, if practiced daily, would change the whole system fastest
+
+End by writing:
+- 7 short self-check questions, one for each descriptor
+- 7 one-line reminders I can use in the moment</div>
+
+<!-- PHASE 3 -->
+<div class="phase-header" id="phase3">Phase 3: Map Your Inner Crew (IFS)</div>
+
+<h3>Prompt 9 — Introduce IFS and map your parts</h3>
+<p class="prompt-label">Copy this prompt ↓</p>
+<div class="prompt-box">I want to use the Internal Family Systems (IFS) framework to map my inner world in a practical way.
+
+Please briefly explain IFS in simple language, specifically:
+- Self
+- Exiles
+- Managers
+- Firefighters
+
+Then, based on everything I've shared, help me build a first draft of my internal crew map.
+
+Your job is to infer:
+- what my Self seems like when present
+- what vulnerable or exiled part seems most protected in me
+- what manager parts likely organize my life proactively
+- what firefighter parts likely activate when the vulnerable part gets triggered
+
+For each likely part, describe:
+- what it is trying to protect
+- what it fears would happen if it stopped doing its job
+- how it shows up in my life
+- what strengths it has
+- what problems it creates when it overfunctions
+
+Important:
+- Do not force certainty.
+- Offer hypotheses, not diagnoses.
+- Keep it grounded in the actual examples I shared.</div>
+
+<h3>Prompt 10 — Name each part</h3>
+<p class="prompt-label">Copy this prompt ↓</p>
+<div class="prompt-box">Now help me name my parts in a way that feels memorable, emotionally accurate, and useful in real life.
+
+I want names for:
+- my Self
+- my main Exile
+- my main Manager
+- my main Firefighter
+- if needed, 1-2 additional protectors
+
+For each part, give me:
+- 5 possible names
+- the emotional tone of each name
+- what kind of person would naturally use that name
+- the risks of naming it too harshly or too softly
+
+Then recommend the strongest naming set for me.
+
+Important:
+- The names should feel human and practical, not cute or cringe.
+- They should help me notice the part quickly in real time.
+- If one part has two opposite modes, suggest whether they are two parts or one part with two faces.</div>
+
+<h3>Prompt 11 — Give each part a new role</h3>
+<p class="prompt-label">Copy this prompt ↓</p>
+<div class="prompt-box">Now help me redesign my inner crew so that my parts are not fired, but re-roled.
+
+I want to assume my protectors are not bad. They developed for a reason. But they may be doing the wrong job, or too much of the right job.
+
+For each part:
+- what was its original job (the survival role)?
+- what did it learn to do to keep me safe?
+- what does it look like when it's overfunctioning now?
+- what new role could it serve under System B leadership?
+- what would it need from my Self to trust the new role?
+
+End with a crew roster in this format:
+- [Name] — Old role: [x]. New role: [y]. What they need from Self: [z].
+
+Important:
+- No part gets fired.
+- The exile is not a project to fix — it is a part to witness.
+- The goal is: "I am led by Self, supported by all my parts."</div>
+
+<!-- SECTION: QUESTIONS -->
+<h2 id="questions">4. Questions the AI Should Ask You</h2>
+
+<p>These are the questions that extract what you can't easily volunteer. Have the AI work through these across sessions. Don't answer them all at once.</p>
+
+<h3>On your stress and wiring</h3>
+<ol>
+  <li>Walk me through what happens when you feel stressed — start with your body.</li>
+  <li>When have you felt most at peace in your life? What was true then that isn't true now?</li>
+  <li>What do you do when you feel let down by someone you counted on?</li>
+  <li>Is your body tight right now?</li>
+</ol>
+
+<h3>On your history</h3>
+<ol start="5">
+  <li>What did you have to become to be loved or safe in the house you grew up in?</li>
+  <li>What did you have to hide?</li>
+  <li>Who were the specific humans who were supposed to see you first — and what did they miss?</li>
+  <li>What are you still trying to prove to someone who may not even be watching anymore?</li>
+</ol>
+
+<h3>On your identity</h3>
+<ol start="9">
+  <li>If your System A completely disappeared tomorrow, what are you afraid would also disappear with it?</li>
+  <li>What's the difference between who you are and what you've built?</li>
+  <li>If your kids described you honestly — not kindly, honestly — what would they say?</li>
+</ol>
+
+<h3>On your System B</h3>
+<ol start="12">
+  <li>When have you felt most like yourself? Not most successful — most yourself?</li>
+  <li>What does it feel like in your body when you're building from wholeness instead of fear?</li>
+  <li>What would "no one has it better than me" actually mean for your life — not as competition, but as total presence?</li>
+  <li>If the mature version of you walked into a hard conversation tomorrow, what would be different?</li>
+</ol>
+
+<h3>On the work itself</h3>
+<ol start="16">
+  <li>What in this document feels true? What feels clever but not quite real?</li>
+  <li>What are you most resistant to naming?</li>
+  <li>Where is the Undercover Agent showing up in how you're doing this work?</li>
+</ol>
+
+<!-- SECTION: STUCK -->
+<h2 id="stuck">5. When You Get Stuck</h2>
+
+<p>You will get stuck. Here's what that looks like and what to do.</p>
+
+<p><strong>It stays intellectual.</strong> You're writing smart things that don't land. The fix: go back to your stories. Stop building the system. Just tell the AI what happened last Tuesday when things went sideways. Real data beats framework every time.</p>
+
+<p><strong>It feels like everyone else.</strong> Your System B descriptors sound generic. The fix: ask the AI, "Which of these could belong to anyone? Remove those. What's left that's specifically mine?"</p>
+
+<p><strong>You want to quit.</strong> You're on the plateau. This is the most important moment in the work. The plateau is not failure — it's where integration happens. The fix: don't push for new insight. Re-read what you've already built. Ask the AI: "What's already here that I'm not using?"</p>
+
+<p><strong>It feels true but you can't act on it.</strong> You have the document but nothing changes. The fix: the document is not the work. The daily practice is the work. Ask the AI to build you a 3-question morning check-in based on your specific triggers and descriptors. That's the bridge from knowing to doing.</p>
+
+<!-- SECTION: WORKING -->
+<h2 id="working">6. How to Know It's Working</h2>
+
+<p><strong>Signs it's landing:</strong></p>
+<ul>
+  <li>You read it back and it makes you slightly uncomfortable — not inspired, uncomfortable. That's the right kind of recognition.</li>
+  <li>Someone who knows you well reads it and says "yeah, that's you" without prompting.</li>
+  <li>You catch yourself mid-conversation and think "that's System A right now" — and you have a name for it.</li>
+  <li>The daily practice feels real, not aspirational.</li>
+</ul>
+
+<p><strong>Signs it's staying intellectual:</strong></p>
+<ul>
+  <li>It sounds good but doesn't cost you anything.</li>
+  <li>You could have written it without the work.</li>
+  <li>It describes an ideal rather than a truth.</li>
+  <li>You feel proud of it instead of slightly exposed by it.</li>
+</ul>
+
+<div class="callout"><strong>The real test:</strong> Read your finished System B document out loud. If you feel seen — that's it. If you feel like you're reading someone else's vision board, go back to your stories.</div>
+
+<div class="closing">
+  <p>The goal isn't to kill System A. The goal is for the King to take the throne.<br>Built one session at a time. One day at a time.</p>
+  <p style="margin-top:16px"><a href="novus-build-story.html" style="color:#2c5f8a;text-decoration:none">← Back to How Dad Built His Operating System</a></p>
+</div>
+
+</div>
+</body>
+</html>
