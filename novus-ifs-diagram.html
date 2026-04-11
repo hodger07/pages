@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Kelsey & Kasey Hodge — Dad's Operating System</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: #fff;
+    color: #2a2a2a;
+    line-height: 1.75;
+    font-size: 18px;
+  }
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 60px 24px 100px;
+  }
+  h1 {
+    font-size: 2.4em;
+    color: #2c5f8a;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .subtitle {
+    font-size: 1.15em;
+    color: #6a6a6a;
+    font-style: italic;
+    margin-bottom: 48px;
+    padding-bottom: 32px;
+    border-bottom: 2px solid #e8e8e8;
+  }
+  h2 {
+    font-size: 1.5em;
+    color: #2c5f8a;
+    margin-top: 56px;
+    margin-bottom: 12px;
+  }
+  p { margin-bottom: 16px; }
+
+  .pull-quote {
+    border-left: 4px solid #c8a84e;
+    padding: 16px 20px;
+    margin: 28px 0;
+    background: #fdf8ee;
+    font-style: italic;
+    color: #4a4a4a;
+  }
+  .pull-quote .speaker {
+    display: block;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 0.85em;
+    color: #2c5f8a;
+    margin-bottom: 4px;
+  }
+  .caption {
+    font-size: 0.95em;
+    color: #6a6a6a;
+    font-style: italic;
+    margin-top: 24px;
+    margin-bottom: 40px;
+    text-align: center;
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .intro-text {
+    margin-bottom: 32px;
+    color: #444;
+  }
+
+  /* ── DIAGRAM SHARED ── */
+  .diagram {
+    position: relative;
+    margin: 32px 0 16px;
+    padding: 32px 20px;
+    background: #fafafa;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+  }
+  .diagram-label {
+    text-align: center;
+    font-size: 0.8em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #999;
+    margin-bottom: 20px;
+  }
+
+  /* ── PART BOXES ── */
+  .part-box {
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin: 0;
+    text-align: center;
+  }
+  .part-box .part-name {
+    font-weight: 700;
+    font-size: 1.1em;
+    margin-bottom: 4px;
+  }
+  .part-box .part-role {
+    font-size: 0.8em;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #888;
+    margin-bottom: 6px;
+  }
+  .part-box .part-desc {
+    font-size: 0.9em;
+    line-height: 1.5;
+  }
+
+  /* color themes */
+  .box-manager { background: #e8eef4; border: 2px solid #7a9bb5; color: #2a3d50; }
+  .box-dick { background: #fbeae8; border: 2px solid #c47a6e; color: #5a2a22; }
+  .box-tom { background: #eef0f2; border: 2px solid #9aa3ab; color: #3a3f44; }
+  .box-exile { background: #f5f0e0; border: 2px solid #a89860; color: #4a4230; }
+  .box-exile-buried { background: #eae5d5; border: 2px dashed #8a7e5a; color: #5a5040; opacity: 0.85; }
+  .box-king { background: #fdf6e3; border: 3px solid #c8a84e; color: #4a3e1a; }
+  .box-king-dormant { background: #f5f5f5; border: 1px dashed #ccc; color: #bbb; }
+
+  /* ── DIAGRAM A LAYOUT ── */
+  .dia-a-top { margin-bottom: 8px; }
+  .arrow-down {
+    text-align: center;
+    font-size: 1.6em;
+    color: #bbb;
+    padding: 6px 0;
+    line-height: 1;
+  }
+  .layer-label {
+    text-align: center;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #b44;
+    margin: 12px 0 8px;
+    font-weight: 700;
+  }
+  .layer-label-top { color: #7a9bb5; }
+  .layer-label-bottom { color: #a89860; }
+  .firefighter-row {
+    display: flex;
+    gap: 16px;
+  }
+  .firefighter-row .part-box { flex: 1; }
+  .dia-a-dormant {
+    position: absolute;
+    bottom: 16px;
+    right: 20px;
+    width: 140px;
+    padding: 10px;
+    text-align: center;
+    font-size: 0.8em;
+  }
+
+  /* ── DIAGRAM B LAYOUT ── */
+  .dia-b-king { margin-bottom: 8px; }
+  .dia-b-crew {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .dia-b-crew .part-box { flex: 1; }
+  .dia-b-exile { max-width: 360px; margin: 0 auto; }
+  .arrow-up {
+    text-align: center;
+    font-size: 1.4em;
+    color: #c8a84e;
+    padding: 4px 0;
+    line-height: 1;
+  }
+  .arrows-crew {
+    display: flex;
+    justify-content: space-around;
+    font-size: 1.4em;
+    color: #c8a84e;
+    padding: 4px 0;
+  }
+  .new-role {
+    display: inline-block;
+    background: #e8f5e9;
+    color: #2e7d32;
+    font-size: 0.75em;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-top: 6px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .container { padding: 32px 16px 60px; }
+    h1 { font-size: 1.8em; }
+    .firefighter-row, .dia-b-crew { flex-direction: column; }
+    .dia-a-dormant { position: static; width: 100%; margin-top: 12px; }
+    .part-box { padding: 14px 16px; }
+  }
+
+  .back-link {
+    display: inline-block;
+    margin-bottom: 32px;
+    color: #2c5f8a;
+    text-decoration: none;
+    font-size: 0.95em;
+  }
+  .back-link:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<a href="novus-build-story.html" class="back-link">← Back to the full story</a>
+
+<h1>For Kelsey &amp; Kasey Hodge</h1>
+<div class="subtitle">Dad's Operating System — How It Works and Where It Came From</div>
+
+<p>In Session 5 with Jon Roberts, your dad learned something that changed the whole framework: <strong>you're not one person. You're a crew.</strong> The question isn't whether the parts exist — it's who's driving.</p>
+
+<p>Jon introduced a model from psychology called Internal Family Systems (IFS). The idea is simple: every person has parts — a manager, protectors, an exile (the wound), and Self (the true leader). Your dad took it and named every part from his own life, right there in session.</p>
+
+<div class="pull-quote">
+  <span class="speaker">Jon Roberts, Session 5:</span>
+  "I view myself way more as a team, rather than just as an individual. I am led by Self, supported by all my parts."
+</div>
+
+<p>What follows are two diagrams. The first is how the system runs by default — what Jon calls "System A." The second is what the Novus work is building — "System B." Same crew. Different leader.</p>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- DIAGRAM 1: SYSTEM A -->
+<!-- ═══════════════════════════════════════ -->
+
+<h2>Diagram 1: How Most People Operate</h2>
+<p class="intro-text">This is the default. For most high-performers — your dad included — the Manager runs the show, the Firefighters take over under pressure, and the real wound stays buried. The King is asleep. Nobody asked him to lead.</p>
+
+<div class="pull-quote">
+  <span class="speaker">Rich, Session 5:</span>
+  "Let's just name him Fred. So Fred is in charge of systems."
+</div>
+
+<div class="diagram">
+  <div class="diagram-label">System A — The Default Operating System</div>
+
+  <div class="layer-label layer-label-top">↑ What the world sees</div>
+  <div class="dia-a-top">
+    <div class="part-box box-manager">
+      <div class="part-role">The Manager</div>
+      <div class="part-name">FRED</div>
+      <div class="part-desc">Builds systems. Controls outcomes. Keeps everything running. Looks confident from the outside.<br>In your dad's case: Insistence 97 — always building, always producing.</div>
+    </div>
+  </div>
+
+  <div class="arrow-down">⬇</div>
+  <div class="layer-label">When things go wrong — Firefighters take over</div>
+
+  <div class="firefighter-row">
+    <div class="part-box box-dick">
+      <div class="part-role">Firefighter · Push Mode</div>
+      <div class="part-name">DICK</div>
+      <div class="part-desc">Steamrolls. All in. Wins the room, loses the relationship. No dimmer switch.</div>
+    </div>
+    <div class="part-box box-tom">
+      <div class="part-role">Firefighter · Withdraw Mode</div>
+      <div class="part-name">TOM</div>
+      <div class="part-desc">Full disappear. No warning. Maximum distance. Gone.</div>
+    </div>
+  </div>
+
+  <div class="arrow-down">⬇</div>
+  <div class="layer-label layer-label-bottom">↓ What's being protected — buried deep</div>
+
+  <div class="part-box box-exile-buried">
+    <div class="part-role">The Exile</div>
+    <div class="part-name">LIL' RICH</div>
+    <div class="part-desc">The wound. Not invisible to the world — invisible to the specific humans who were supposed to see him first. Buried and protected at all costs.</div>
+  </div>
+
+  <div class="dia-a-dormant part-box box-king-dormant">
+    <div class="part-name">The King</div>
+    <div style="font-size:0.85em;">(dormant)</div>
+  </div>
+</div>
+
+<div class="pull-quote">
+  <span class="speaker">Rich, Session 5:</span>
+  "I have a high need for systems, but then that stops with myself. But yet, when they become external systems that are imposed on me, I reject them... So I have some schizophrenia going on in these two areas."
+</div>
+
+<p class="caption">In System A, the Manager and Firefighters run the show. The King is asleep. The Exile is buried and protected at all costs. This is the default for most high-performers.</p>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- DIAGRAM 2: SYSTEM B -->
+<!-- ═══════════════════════════════════════ -->
+
+<h2>Diagram 2: What the Novus Work Is Building</h2>
+<p class="intro-text">Same crew. Nobody gets fired. But the King wakes up and takes the throne. Every part gets a new role — in service to the true leader, not running on autopilot from the wound.</p>
+
+<div class="pull-quote">
+  <span class="speaker">Jon Roberts, Session 5:</span>
+  "The boy is now growing up, the boy's becoming a prince, and the boy is going to become a king, and the boy is finally going to lead the samurai... He's finally taking the throne, he's finally maturing, he's finally stepping out. It's kind of discombobulating for the crew, because they're like, <em>Wait, we're not going to run all our same plays.</em>"
+</div>
+
+<div class="diagram">
+  <div class="diagram-label">System B — The King Takes the Throne</div>
+
+  <div class="dia-b-king">
+    <div class="part-box box-king">
+      <div class="part-role">Self — The True Leader</div>
+      <div class="part-name">THE KING</div>
+      <div class="part-desc">Present. Enough. Clear. Leads from wholeness, not wound. This is who your dad actually is when the noise clears.</div>
+    </div>
+  </div>
+
+  <div class="arrows-crew">
+    <span>↕</span><span>↕</span><span>↕</span>
+  </div>
+
+  <div class="dia-b-crew">
+    <div class="part-box box-manager">
+      <div class="part-role">Manager</div>
+      <div class="part-name">FRED / DUDE</div>
+      <div class="part-desc">Now in service to the King, not running in fear. Builds systems with purpose, not protection.</div>
+      <div class="new-role">New Role: Builder</div>
+    </div>
+    <div class="part-box box-dick">
+      <div class="part-role">Conqueror</div>
+      <div class="part-name">DICK</div>
+      <div class="part-desc">New frontiers only. Deployed by the King, not triggered by threat.</div>
+      <div class="new-role">New Role: Conqueror</div>
+    </div>
+    <div class="part-box box-tom">
+      <div class="part-role">Intel</div>
+      <div class="part-name">TOM</div>
+      <div class="part-desc">Information, not decisions. Observes, reports to the King.</div>
+      <div class="new-role">New Role: Intel</div>
+    </div>
+  </div>
+
+  <div class="arrow-up">↑ held, not buried ↑</div>
+
+  <div class="dia-b-exile">
+    <div class="part-box box-exile">
+      <div class="part-role">The Exile — Now Held</div>
+      <div class="part-name">LIL' RICH</div>
+      <div class="part-desc">Safe. Seen. The King knows he's there. Doesn't need to be protected from life anymore.</div>
+    </div>
+  </div>
+</div>
+
+<div class="pull-quote">
+  <span class="speaker">Jon Roberts, Session 5:</span>
+  "I don't want System B to destroy them. I want your soul to mature and lead them. These guys have been leading you your whole life... System B rising up, and he's just like, <em>hey guys, no, we're not doing that anymore. You can still come along. I need your brilliance.</em> Tom, Fred, you're brilliant at things. But you're part of my racing team now. You can't take over."
+</div>
+
+<p class="caption">In System B, the King takes the throne. The parts don't go away — they get new roles. The Exile is held, not buried. This is the work.</p>
+
+<!-- ═══════════════════════════════════════ -->
+
+<div style="margin-top:56px; padding-top:32px; border-top:2px solid #e8e8e8;">
+  <h2 style="margin-top:0;">The Moment It Clicked</h2>
+  <p>This whole crew map came from one session — Session 5 with Jon Roberts. Your dad named Fred and Tom right there in the conversation. He'd been living with these parts his entire life but had never given them names, never separated them from himself, never asked: <em>who's actually driving right now?</em></p>
+  <p>That's the shift. Not getting rid of the parts. Not fighting them. Naming them, knowing them, and letting the King lead.</p>
+
+  <div class="pull-quote">
+    <span class="speaker">Jon Roberts:</span>
+    "System B is the captain. Your soul, your true choice is coming in. He's okay, he's enough."
+  </div>
+
+  <p style="margin-top:32px;"><a href="novus-build-story.html" class="back-link">← Read the full story of how Dad built this</a></p>
+</div>
+
+</div>
+</body>
+</html>
