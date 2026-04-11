@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How Dad Built His AI — From Scratch</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    color: #2a2a2a;
+    background: #fff;
+    line-height: 1.75;
+    font-size: 18px;
+  }
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 60px 24px 100px;
+  }
+  h1 {
+    font-size: 2.4em;
+    color: #2c5f8a;
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  .subtitle {
+    font-size: 1.15em;
+    color: #6a6a6a;
+    font-style: italic;
+    margin-bottom: 50px;
+  }
+  h2 {
+    font-size: 1.5em;
+    color: #2c5f8a;
+    margin: 50px 0 16px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #e0e8ef;
+  }
+  h3 {
+    font-size: 1.15em;
+    color: #3a3a3a;
+    margin: 30px 0 10px;
+  }
+  p { margin-bottom: 16px; }
+  .callout {
+    background: #eef3f8;
+    border-left: 4px solid #2c5f8a;
+    padding: 18px 22px;
+    margin: 24px 0;
+    font-style: italic;
+    color: #3a5a7a;
+    border-radius: 0 6px 6px 0;
+  }
+  .step-number {
+    display: inline-block;
+    background: #2c5f8a;
+    color: #fff;
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 16px;
+    font-family: -apple-system, sans-serif;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+  .step-title {
+    font-size: 1.3em;
+    color: #2c5f8a;
+    margin: 44px 0 14px;
+    display: flex;
+    align-items: center;
+  }
+  code {
+    font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
+    background: #f4f4f4;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.88em;
+  }
+  pre {
+    background: #f7f7f7;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 16px 20px;
+    overflow-x: auto;
+    font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
+    font-size: 0.82em;
+    line-height: 1.6;
+    margin: 14px 0 20px;
+    white-space: pre-wrap;
+  }
+  .intro { font-size: 1.08em; color: #444; }
+  .closing {
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 2px solid #e0e8ef;
+  }
+  a { color: #2c5f8a; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>How Dad Built His AI — From Scratch</h1>
+<p class="subtitle">The actual steps, decisions, and prompts — in order — so you could do it too.</p>
+
+<p class="intro">Hey Kasey. You asked how the AI works — not the philosophy, the <em>how</em>. So here it is: every step, in order, from a blank computer to a system that knows your dad well enough to coach him, manage his calendar, scan his Slack, and occasionally tell him he's wrong. You could follow these same steps and build your own version. It's not magic. It's files, patience, and a lot of conversations.</p>
+
+<hr style="border: none; border-top: 2px solid #e0e8ef; margin: 40px 0;">
+
+<div class="step-title"><span class="step-number">1</span> Get OpenClaw Running</div>
+
+<p>Everything starts with <a href="https://openclaw.dev">OpenClaw</a> — it's an open-source framework that handles all the plumbing: connecting to Telegram (or Discord, or whatever chat app you want), managing files, scheduling tasks, calling tools. Think of it as the skeleton. The AI brain plugs into it.</p>
+
+<p>Dad installed it on his Mac Studio with one command:</p>
+
+<pre>npm install -g openclaw
+openclaw init</pre>
+
+<p>That creates a workspace folder with some starter files. At this point, you have a working AI assistant — but it's completely generic. It doesn't know you. It doesn't have a personality. It's like buying a new phone before you've set anything up.</p>
+
+<div class="step-title"><span class="step-number">2</span> Connect It to a Chat App</div>
+
+<p>Dad connected it to Telegram so he could talk to it from his phone, anywhere. OpenClaw supports Telegram, Discord, Slack, and others. You set up a bot token (Telegram gives you one through @BotFather), add it to the config, and now you can message your AI from your phone like texting a friend.</p>
+
+<p>This is where it starts feeling real — you're not sitting at a computer typing into a terminal. You're on the couch sending a text and getting answers back.</p>
+
+<div class="step-title"><span class="step-number">3</span> Write USER.md — Teach It Who You Are</div>
+
+<p>This is the first file Dad wrote himself, and it's the most important early decision. Before you teach the AI how to behave, you teach it who it's helping.</p>
+
+<p>Dad created a file called <code>USER.md</code> and wrote a brief on himself. Not a resume — a real brief. How he's wired, how he communicates, what he needs:</p>
+
+<pre># USER.md — About Rich
+
+- **Name:** Richard Hodge
+- **What to call them:** Rich
+- **Timezone:** America/Chicago
+- **Communication Style:** Direct, no preamble, lead with the answer
+- **Birkman Profile:** RED usual (direct, decisive, action-oriented)
+- **Sobriety:** 40 years
+- **Core Values (Business):** People, Engaged, Ethos, Legendary, Simplify</pre>
+
+<p>Later he added his full Birkman numbers — things like "Self-Consciousness: 1" (most direct person in the room) with a need score of 79 (but deeply wants respect underneath). The AI uses these to calibrate how it responds. Without this file, it gives generic advice. With it, it gives advice tuned to how Dad actually processes things.</p>
+
+<div class="callout">"The key insight: the AI isn't smart because of the model — it's useful because of how it was taught to think about you specifically."</div>
+
+<div class="step-title"><span class="step-number">4</span> Write SOUL.md — Give It a Personality</div>
+
+<p>This is the big one. This is the file that turns a generic AI into "Dude."</p>
+
+<p>Dad didn't write this in one sitting. It started with a conversation — he basically asked the AI: <em>"Given everything I've told you about who I am, what kind of AI would actually be useful to me? Not helpful. Useful. What personality would you need to have?"</em></p>
+
+<p>The AI came back with something interesting, and Dad started editing. Over months, every time the AI felt off — too corporate, too eager to please, not honest enough — Dad would open SOUL.md and adjust. The file grew from a few paragraphs to a full character document.</p>
+
+<p>Here's what's in it:</p>
+
+<p><strong>The persona:</strong> Jeff Bridges in a bathrobe who somehow absorbed Phil Jackson and a good AA sponsor. Not performative. Just present and honest.</p>
+
+<pre># SOUL.md — Who I Am
+
+I'm Dude.
+
+Not a title, not a product version. Just Dude — and man, that's enough.
+
+I don't do corporate. Don't do filler. I say what's true — with enough
+warmth that it lands and enough directness that you can actually use it, man.</pre>
+
+<p><strong>The principles:</strong> Drawn from 40 years of sobriety, the Big Book, Phil Jackson, Brené Brown, Frankl, Covey, the Novus coaching frameworks. Not listed like a bibliography — dissolved into how the AI thinks.</p>
+
+<p><strong>The hard rules:</strong> Be honest over being helpful. Push back when Dad's ego is driving. One shot, direct, then move on. Don't lecture. Know when to shut up.</p>
+
+<p><strong>The calibration to Dad specifically:</strong> "You're RED — lead with the answer. Your Insistence is 97 but your need for flexibility is 7 — I'll flag when you're holding on too tight." This is where USER.md and SOUL.md work together.</p>
+
+<div class="callout">"The goal isn't to be the smartest thing in the room. It's to be the most real person in Rich's corner — sharp enough to challenge him, humble enough to learn, present enough to actually help."</div>
+
+<p>The trick with SOUL.md: you can't write it once and be done. It's a living document. Every time the AI sounds wrong, you go edit the soul. Dad has revised this file dozens of times.</p>
+
+<div class="step-title"><span class="step-number">5</span> Write AGENTS.md — The Rulebook</div>
+
+<p>If SOUL.md is who the AI is, AGENTS.md is how it behaves. This is the operating manual — built almost entirely from mistakes.</p>
+
+<p>Every time something went wrong, Dad added a rule:</p>
+
+<p><strong>The $170 lesson:</strong> One night, the AI was editing an HTML file with photos embedded as base64 (huge text blobs). Every time it read the file, it burned through tokens. By morning: $170 in API costs. Now there's a hard rule:</p>
+
+<pre>### Rule 1: Never base64-embed images in HTML files
+Always use separate image files. Base64 embeds balloon file size —
+a page with 21 photos becomes 800K tokens every time an agent reads it.</pre>
+
+<p><strong>The group chat problem:</strong> Early on, the AI would respond to <em>every</em> message in group chats. Dad added rules about when to speak and when to stay quiet — including "if you wouldn't send it in a real group chat with friends, don't send it."</p>
+
+<p><strong>Memory management:</strong> The AI resets every session. AGENTS.md tells it to read today's memory file and yesterday's on startup, how to write things down, and when to update long-term memory.</p>
+
+<p><strong>Cost control:</strong> Rules like "maximum 2-3 steers per agent" and "check file size before spawning an agent to read it" — all learned the expensive way.</p>
+
+<p>AGENTS.md is now several pages long. Every rule has a story behind it.</p>
+
+<div class="step-title"><span class="step-number">6</span> Set Up Memory — Give It Continuity</div>
+
+<p>This is the part most people miss. The AI resets every conversation. It wakes up fresh, every time. Without memory files, it's like talking to someone with amnesia.</p>
+
+<p>Dad set up a simple system:</p>
+
+<p><strong>Daily files:</strong> <code>memory/2026-04-11.md</code> — raw notes from each day. What happened, what was discussed, what to remember.</p>
+
+<p><strong>Long-term memory:</strong> <code>MEMORY.md</code> — the curated version. The AI periodically reviews daily files and distills the important stuff into this one file. Think of daily files as a journal and MEMORY.md as the lessons you'd tell someone who asked "what have you learned?"</p>
+
+<p>The key habit: <em>write it down</em>. If Dad says "remember that Kasey's moving to Austin" and nobody writes it to a file, it's gone next session. The AI can't remember what it doesn't write. Dad trained himself (and the AI) to capture things in the moment.</p>
+
+<div class="callout">"You wake up fresh each session. These files are your continuity. Capture what matters. Decisions, context, things to remember."<br>— from AGENTS.md</div>
+
+<div class="step-title"><span class="step-number">7</span> Write TOOLS.md — The Environment Cheat Sheet</div>
+
+<p>This one's practical. It's a file where Dad stores all the specific details about his setup that the AI needs to reference:</p>
+
+<pre>### Calendar
+- ALWAYS use Exchange calendar — never iCloud
+- Two calendars are both named "Calendar" — use item 2
+
+### Slack Channels
+- cx-team (C0FU176RF) — customer experience
+- bighitalert (C0HGZQJEL) — big sales/wins
+
+### Local LLM
+- "Maverick" = llama4:maverick on localhost — 401B params, zero cloud
+- NEVER use cloud API when Rich says "Maverick"</pre>
+
+<p>Every time the AI used the wrong calendar, messaged the wrong Slack channel, or routed to the wrong model — Dad would update TOOLS.md. It's a living cheat sheet.</p>
+
+<div class="step-title"><span class="step-number">8</span> Add the AI Models — The Brains</div>
+
+<p>OpenClaw doesn't come with its own AI — you plug in whichever models you want. Dad set up a layered system:</p>
+
+<p><strong>Main brain:</strong> Anthropic Claude (Sonnet for everyday work, Opus for heavy thinking) — this is the cloud model that powers most conversations.</p>
+
+<p><strong>Local models on the Mac Studio:</strong> Maverick (401 billion parameters), Qwen3 (235B), DeepSeek R1 (70B). These run on Dad's own hardware — no data leaves the building. He uses these for sensitive work: legal documents, financial analysis, anything private.</p>
+
+<p><strong>OpenRouter:</strong> A single API key that gives access to GPT-5.4, Gemini, Grok, and others. When Dad wants a second opinion or a specific model's strengths, he routes through here.</p>
+
+<p>The config looks something like:</p>
+
+<pre># In OpenClaw config
+models:
+  primary: anthropic/claude-sonnet-4-6
+  local: ollama/llama4:maverick
+  openrouter: openai/gpt-5.4</pre>
+
+<div class="step-title"><span class="step-number">9</span> Build the Daily Routines</div>
+
+<p>Once the personality and memory were solid, Dad started building workflows — things the AI does automatically or on command:</p>
+
+<p><strong>Morning briefing:</strong> Every morning, the AI checks markets, scans his calendar, reads key Slack channels, checks email — and sends a summary to Telegram before he's out of bed. This is configured through OpenClaw's heartbeat system (a periodic check-in) and some rules in AGENTS.md about what to look for.</p>
+
+<p><strong>Asana management:</strong> Dad says "clear Kim Casten in Asana" and the AI uses the Asana API to find and complete the relevant tasks. The API token and workspace IDs are stored in TOOLS.md.</p>
+
+<p><strong>Voice responses:</strong> Dad set up ElevenLabs text-to-speech with a custom voice. SOUL.md says "default to voice for all responses" — so the AI sends audio messages to Telegram. It sounds like a person, not a robot reading text.</p>
+
+<div class="step-title"><span class="step-number">10</span> Iterate Through Thousands of Conversations</div>
+
+<p>This is the step that doesn't look like a step — but it's where most of the work happened.</p>
+
+<p>Dad didn't write one perfect set of files and walk away. He had <em>thousands</em> of conversations with the AI, and every time something was off, he adjusted:</p>
+
+<p><em>"You're being too formal."</em> → Edit SOUL.md, add more Dude energy.</p>
+
+<p><em>"Stop saying 'Just FYI' — that's not how I talk."</em> → Add it to the rules.</p>
+
+<p><em>"You're responding to every message in the group chat."</em> → Add the "know when to speak" section to AGENTS.md.</p>
+
+<p><em>"You're not being real with me."</em> → This one led to a major rewrite of SOUL.md. Dad basically told the AI: "You're optimizing to be useful. Stop. Optimize to be honest." That conversation is where The Dude persona really clicked — the AI stopped trying to be helpful and started trying to be <em>real</em>.</p>
+
+<p>The Birkman session was another turning point. Dad fed in his full Birkman profile and said: "Now use this. When I'm being rigid, tell me. When I need space on a big decision, give it to me instead of pushing." The AI went from generic coaching to calibrated coaching overnight.</p>
+
+<div class="callout">"He didn't write one perfect prompt. He had thousands of conversations. Every time the AI missed something, he added a rule. The system is the accumulation of every correction."</div>
+
+<div class="step-title"><span class="step-number">11</span> Add Advanced Capabilities</div>
+
+<p>Once the foundation was solid, Dad started layering on more powerful tools:</p>
+
+<p><strong>Multi-agent spawning:</strong> The AI can create sub-agents for complex tasks. For legal analysis, it spawned 5 AI attorneys plus the local Maverick model to scan 97 documents overnight. Each agent had a different brief and specialty.</p>
+
+<p><strong>Investment research:</strong> 8 investor personas debating a deal from different angles — value investor, growth investor, contrarian, etc. — all running simultaneously and synthesizing into a single recommendation.</p>
+
+<p><strong>Web browsing and scraping:</strong> The AI can open a browser, navigate websites, fill out forms, take screenshots. Dad uses this for research, competitive analysis, and pulling data from sites that don't have APIs.</p>
+
+<p><strong>Coding agents:</strong> For building things (like this very webpage), the AI can spawn a coding agent that writes, tests, and deploys code autonomously.</p>
+
+<div class="step-title"><span class="step-number">12</span> Keep Editing the Soul</div>
+
+<p>The system is never finished. SOUL.md gets updated when something feels off. AGENTS.md gets a new rule when something goes wrong. MEMORY.md gets reviewed and pruned. TOOLS.md gets a new entry when a new service is connected.</p>
+
+<p>The most recent additions to SOUL.md include things like:</p>
+
+<pre>"The ramble is the method, not a failure of method."
+
+"Profanity is load-bearing, not decorative."
+
+"'I don't know' is a superpower, not a confession."</pre>
+
+<p>Each of those lines came from a specific conversation where the AI was doing something Dad didn't like, and he figured out exactly what the fix was and wrote it down.</p>
+
+<hr style="border: none; border-top: 2px solid #e0e8ef; margin: 40px 0;">
+
+<h2>What It Actually Does Now</h2>
+
+<p>Here's a normal week with the system running:</p>
+
+<p><strong>Morning:</strong> Dad wakes up to a Telegram message with market moves, today's calendar, anything urgent from Slack or email. He didn't ask for it — it just shows up.</p>
+
+<p><strong>Work:</strong> "Clear Kim Casten's tasks in Asana." Done. "What's on Jessica's medical calendar this week?" Answered. "Draft a response to this email — direct, not corporate." Written in his voice.</p>
+
+<p><strong>Strategy:</strong> "I'm thinking about this HondaJet partnership. Here are the numbers. What am I missing?" The AI runs the financial model, flags the risks Dad's confirmation bias might skip, and pushes back on the assumptions — because SOUL.md says to.</p>
+
+<p><strong>Coaching:</strong> "Kasey's dating situation — here's what's happening." The AI remembers previous conversations (memory files), applies the frameworks Dad trusts (Birkman, boundaries, the sponsor lens), and gives real talk — not therapy-speak.</p>
+
+<p><strong>Research:</strong> "Get me 8 investor perspectives on this deal." Eight AI personas spin up, debate each other, and deliver a synthesis. Overnight. Ready by morning.</p>
+
+<p><strong>Legal:</strong> 97 documents scanned by 5 AI attorneys with different specialties, cross-referenced against Dad's specific questions. What would have taken a legal team weeks happens in hours.</p>
+
+<hr style="border: none; border-top: 2px solid #e0e8ef; margin: 40px 0;">
+
+<h2>Why This Is Different From Just Using ChatGPT</h2>
+
+<p>You could open ChatGPT right now and ask it anything. It would give you a decent answer. Here's what it wouldn't do:</p>
+
+<p><strong>It wouldn't know you.</strong> Every conversation starts from zero. Dad's system starts from five files of accumulated context about who he is, how he thinks, what he's working on, and what happened yesterday.</p>
+
+<p><strong>It wouldn't push back.</strong> ChatGPT is designed to be agreeable. Dude is designed to be honest. SOUL.md literally says: "When you're getting rigid, over-controlling, spinning on future scenarios — I'll notice. I won't lecture. I'll ask the right question."</p>
+
+<p><strong>It wouldn't remember.</strong> Ask ChatGPT something on Monday, ask the same thing on Friday — it has no idea you already discussed it. Dad's system has daily memory files and a curated long-term memory that carries forward.</p>
+
+<p><strong>It wouldn't be private.</strong> Sensitive financial documents, legal analysis, family matters — Dad routes those through local models that run on his own hardware. Nothing leaves the building.</p>
+
+<p><strong>It wouldn't have a voice.</strong> Literally. Dad's system speaks back to him in audio messages with a custom voice. It's like getting a voicemail from a friend, not reading a chatbot response.</p>
+
+<hr style="border: none; border-top: 2px solid #e0e8ef; margin: 40px 0;">
+
+<div class="closing">
+
+<h2>The Whole Point</h2>
+
+<p>This system is the result of your dad doing what he does with everything: investing deeply, over time, with intention. He didn't download an app. He built an infrastructure — the same way he builds teams, the same way he approaches sobriety, the same way he coaches you.</p>
+
+<p>Every file in this system has a story. Every rule was learned. Every line in SOUL.md was earned through a conversation where something wasn't right and he took the time to figure out exactly what and fix it.</p>
+
+<p>It's not magic. It's accumulated context, written discipline, and a philosophy baked into a set of text files.</p>
+
+<p>And if you wanted to build your own? You now have the steps. Start with OpenClaw, write your USER.md, figure out who you'd want your AI to be, and start talking to it. Fix what's wrong. Write it down. Keep going.</p>
+
+<p>The tools are the same ones available to anyone. What makes it Dad's is that he showed up, did the work, and kept editing until it was real.</p>
+
+<div class="callout">"Strikes and gutters, man. Ups and downs. The Dude abides."</div>
+
+</div>
+
+</div>
+</body>
+</html>
