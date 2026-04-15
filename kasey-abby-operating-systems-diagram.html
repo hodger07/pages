@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Kasey + Abby — Operating System A / Operating System B</title>
+<title>Kasey + Abby — System A vs System B</title>
 <style>
   * { box-sizing: border-box; }
   body {
@@ -14,12 +14,9 @@
     line-height: 1.7;
   }
   .wrap {
-    max-width: 1060px;
+    max-width: 1100px;
     margin: 0 auto;
     padding: 48px 28px 72px;
-  }
-  .hero {
-    margin-bottom: 34px;
   }
   h1 {
     margin: 0 0 8px;
@@ -29,358 +26,377 @@
     color: #111;
   }
   .sub {
-    max-width: 860px;
+    max-width: 880px;
     color: #5d5a54;
     font-size: 1.02rem;
-    margin: 0;
+    margin: 0 0 36px;
   }
-  .legend {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin: 22px 0 36px;
+
+  /* FLOW SECTIONS */
+  .flow-section {
+    margin-bottom: 48px;
   }
-  .tag {
-    padding: 8px 14px;
-    border-radius: 999px;
-    font-size: 0.88rem;
+  .flow-label {
+    font-size: 1.5rem;
     font-weight: 700;
-    border: 1px solid transparent;
-  }
-  .tag.a { background: #fdf0ee; color: #8a2015; border-color: #efc3bc; }
-  .tag.b { background: #eef8f1; color: #17643d; border-color: #bfdac7; }
-  .tag.n { background: #f4f6f8; color: #44505a; border-color: #d6dde3; }
-  .section {
-    margin-bottom: 26px;
-    background: #fff;
-    border: 1px solid #dfd8cf;
-    border-radius: 18px;
-    overflow: hidden;
-    box-shadow: 0 1px 0 rgba(0,0,0,0.03);
-  }
-  .section-head {
-    padding: 22px 24px 14px;
-    border-bottom: 1px solid #eee6dc;
-    background: linear-gradient(to bottom, #fff, #fdfbf8);
-  }
-  .section-head h2 {
-    margin: 0 0 6px;
-    font-size: 1.55rem;
     color: #16384a;
+    margin: 0 0 6px;
   }
-  .section-head p {
-    margin: 0;
+  .flow-sub {
     color: #646057;
     font-size: 0.97rem;
+    margin: 0 0 20px;
   }
-  .parts-map {
-    padding: 20px 24px 24px;
-    border-bottom: 1px solid #eee6dc;
+
+  /* THE VISUAL FLOW */
+  .flow-track {
+    position: relative;
   }
-  .parts-map h3 {
-    margin: 0 0 14px;
-    font-size: 1.08rem;
-    color: #16384a;
-  }
-  .part {
-    margin-bottom: 14px;
-    padding: 14px 16px;
-    border-radius: 12px;
-    background: #f9f7f3;
-    border: 1px solid #e8e2d8;
-  }
-  .part strong {
-    display: block;
-    margin-bottom: 4px;
-    font-size: 0.98rem;
-  }
-  .part p {
-    margin: 0;
-    font-size: 0.93rem;
-    color: #3a3630;
-  }
-  .lane-wrap {
+  .flow-step {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
+    grid-template-columns: 60px 1fr;
+    gap: 16px;
+    margin-bottom: 0;
+    position: relative;
   }
-  .lane {
-    padding: 22px 24px 24px;
+  .flow-dot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 18px;
   }
-  .lane + .lane {
-    border-left: 1px solid #eee6dc;
+  .dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    flex-shrink: 0;
   }
-  .lane h3 {
-    margin: 0 0 12px;
-    font-size: 1.08rem;
+  .dot.trigger { background: #d4880f; border: 2px solid #b87608; }
+  .dot.a { background: #c0392b; border: 2px solid #96291c; }
+  .dot.b { background: #27ae60; border: 2px solid #1e8c4d; }
+  .dot.outcome { background: #16384a; border: 2px solid #0f2a38; }
+  .line {
+    width: 2px;
+    flex-grow: 1;
+    margin-top: 4px;
   }
-  .lane.a h3 { color: #8a2015; }
-  .lane.b h3 { color: #17643d; }
-  .lane p {
-    margin: 0 0 12px;
-    font-size: 0.96rem;
+  .line.a { background: #e8bcb7; }
+  .line.b { background: #b8dcc6; }
+  .line.trigger { background: #e8d5a8; }
+
+  .flow-card {
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin-bottom: 12px;
+    border: 1px solid transparent;
+  }
+  .flow-card h4 {
+    margin: 0 0 8px;
+    font-size: 1rem;
+  }
+  .flow-card p {
+    margin: 0;
+    font-size: 0.95rem;
     color: #2a2a2a;
   }
-  .lane ul {
+  .flow-card ul {
+    margin: 8px 0 0;
+    padding-left: 18px;
+  }
+  .flow-card li {
+    margin-bottom: 6px;
+    font-size: 0.93rem;
+  }
+  .flow-card.trigger {
+    background: #fff8ef;
+    border-color: #e8d5a8;
+  }
+  .flow-card.trigger h4 { color: #8a5a00; }
+  .flow-card.a {
+    background: #fff6f5;
+    border-color: #efc5bf;
+  }
+  .flow-card.a h4 { color: #96291c; }
+  .flow-card.b {
+    background: #f5fdf7;
+    border-color: #bfe2ca;
+  }
+  .flow-card.b h4 { color: #1a7542; }
+  .flow-card.outcome {
+    background: #f0f4f7;
+    border-color: #c4d0da;
+  }
+  .flow-card.outcome h4 { color: #16384a; }
+
+  /* FORK VISUAL */
+  .fork {
+    display: grid;
+    grid-template-columns: 1fr 40px 1fr;
+    gap: 0;
+    margin: 12px 0 12px 76px;
+  }
+  .fork-path {
+    border-radius: 14px;
+    padding: 18px 20px;
+    border: 1px solid transparent;
+  }
+  .fork-path h4 {
+    margin: 0 0 10px;
+    font-size: 1rem;
+  }
+  .fork-path ul {
     margin: 0;
     padding-left: 18px;
   }
-  .lane li {
-    margin-bottom: 8px;
+  .fork-path li {
+    margin-bottom: 6px;
     font-size: 0.93rem;
   }
-  .lane.a { background: #fffaf9; }
-  .lane.b { background: #fbfefb; }
-  .strip {
+  .fork-path.a {
+    background: #fff6f5;
+    border-color: #efc5bf;
+  }
+  .fork-path.a h4 { color: #96291c; }
+  .fork-path.b {
+    background: #f5fdf7;
+    border-color: #bfe2ca;
+  }
+  .fork-path.b h4 { color: #1a7542; }
+  .fork-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    color: #b49b7a;
+    font-weight: 700;
+  }
+
+  /* OUTCOME CARDS */
+  .outcomes {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0;
-    border-top: 1px solid #eee6dc;
+    gap: 16px;
+    margin: 24px 0 0 76px;
   }
-  .strip-block {
-    padding: 16px 24px 18px;
-    font-size: 0.93rem;
+  .outcome-card {
+    border-radius: 14px;
+    padding: 20px;
+    border: 1px solid transparent;
   }
-  .strip-block + .strip-block {
-    border-left: 1px solid #eee6dc;
+  .outcome-card h4 {
+    margin: 0 0 10px;
+    font-size: 1.05rem;
   }
-  .strip-block h4 {
-    margin: 0 0 8px;
-    font-size: 0.86rem;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
-  .strip-block.break { background: #fff4f2; }
-  .strip-block.break h4 { color: #9a291d; }
-  .strip-block.accel { background: #f2faf4; }
-  .strip-block.accel h4 { color: #1c7645; }
-  .strip-block p {
+  .outcome-card p {
     margin: 0;
-    color: #413b35;
+    font-size: 0.95rem;
   }
+  .outcome-card.a {
+    background: #fff6f5;
+    border-color: #efc5bf;
+  }
+  .outcome-card.a h4 { color: #96291c; }
+  .outcome-card.b {
+    background: #f5fdf7;
+    border-color: #bfe2ca;
+  }
+  .outcome-card.b h4 { color: #1a7542; }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px solid #e0d9ce;
+    margin: 48px 0;
+  }
+
+  /* HINGE */
   .hinge {
-    margin-top: 24px;
     background: #fff;
     border-left: 4px solid #0f5b7a;
-    padding: 18px 20px;
+    padding: 20px 22px;
     color: #33444d;
     border-radius: 10px;
+    margin-top: 36px;
+    font-size: 1.05rem;
   }
   .hinge strong { color: #0f5b7a; }
+
   @media (max-width: 860px) {
-    .lane-wrap, .strip {
+    .fork, .outcomes {
       grid-template-columns: 1fr;
+      margin-left: 0;
     }
-    .lane + .lane,
-    .strip-block + .strip-block {
-      border-left: none;
-      border-top: 1px solid #eee6dc;
-    }
+    .fork-center { display: none; }
+    .outcomes { margin-left: 0; }
   }
 </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="hero">
-      <h1>Kasey + Abby — Operating System A / Operating System B</h1>
-      <p class="sub">Built from Kasey's canonical profile (Birkman, behavioral patterns, dating history, ibogaine integration) and Abby's full dossier (family fracture, PA training, communication style, physical/emotional progression). Each person gets their own parts map before the couple system is mapped.</p>
+    <h1>Kasey + Abby — Where It Goes</h1>
+    <p class="sub">Follow the flow. Same trigger, two paths, two completely different outcomes. Built from their actual data.</p>
+
+    <!-- SCENARIO 1 -->
+    <div class="flow-section">
+      <p class="flow-label">Scenario 1: The Flat Text</p>
+      <p class="flow-sub">Abby sends a short, corporate-style text after a big night together.</p>
+
+      <div class="flow-track">
+        <div class="flow-step">
+          <div class="flow-dot"><div class="dot trigger"></div><div class="line trigger"></div></div>
+          <div class="flow-card trigger">
+            <h4>⚡ The Trigger</h4>
+            <p>Abby sends: "I had a great time, can't wait for another movie night :) I would love to chat while i'm away!" — after a night where she orgasmed, held him, cooked for him, and told him he was confident and sweet.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="fork">
+        <div class="fork-path a">
+          <h4>System A Path</h4>
+          <ul>
+            <li><strong>Little Kasey</strong> reads the flat tone and panics: "she's pulling away already"</li>
+            <li><strong>The Soft Front</strong> can't name the fear, so it just sits there</li>
+            <li><strong>Dick</strong> sends a follow-up text to re-secure the connection</li>
+            <li>OR <strong>Tom</strong> goes quiet and waits for her to chase him</li>
+            <li><strong>Abby's Chart</strong> was just being Abby — but now she senses his shift</li>
+            <li><strong>The Wall</strong> goes up: she gets more formal, more managed</li>
+            <li>10-day trip becomes a silent anxiety spiral for both</li>
+          </ul>
+        </div>
+        <div class="fork-center">or</div>
+        <div class="fork-path b">
+          <h4>System B Path</h4>
+          <ul>
+            <li><strong>The King</strong> reads the content, not the temperature: she said yes to calls, yes to seeing him again, yes to staying connected</li>
+            <li>Notices Little Kasey's ping ("she's cold") and says: "that's the wound, not the data"</li>
+            <li>Sends one warm reply. Doesn't chase. Doesn't withdraw. Doesn't over-analyze.</li>
+            <li>Abby feels no pressure. <strong>The Nurse</strong> stays warm. <strong>The Chart</strong> relaxes because nothing is being demanded of it.</li>
+            <li>10-day trip becomes a natural breathing room where the bond sets quietly</li>
+          </ul>
+        </div>
+      </div>
     </div>
 
-    <div class="legend">
-      <div class="tag a">System A = wound-managed / have-to fuel</div>
-      <div class="tag b">System B = enough / clear / chosen</div>
-      <div class="tag n">Parts maps are derived from their actual data, not projected from Rich's framework</div>
+    <hr class="divider" />
+
+    <!-- SCENARIO 2 -->
+    <div class="flow-section">
+      <p class="flow-label">Scenario 2: She Goes Quiet for 36 Hours Mid-Trip</p>
+      <p class="flow-sub">Abby is out of town. They've been talking daily. Then nothing for a day and a half.</p>
+
+      <div class="fork" style="margin-left:0;">
+        <div class="fork-path a">
+          <h4>System A Path</h4>
+          <ul>
+            <li><strong>Little Kasey:</strong> "She's done. She met someone. She's regretting everything."</li>
+            <li><strong>Dick:</strong> Double text. "Hey, you good?" Then another. Then analyzing her last message for clues.</li>
+            <li>OR <strong>Tom:</strong> Decides he doesn't care. Goes cold. Starts mentally drafting the exit narrative.</li>
+            <li><strong>Abby</strong> comes back online and finds either clingy or ice. Both feel wrong to her.</li>
+            <li><strong>The Wall</strong> activates: she tightens, controls, and the reconnection at the airport feels slightly off.</li>
+          </ul>
+        </div>
+        <div class="fork-center">or</div>
+        <div class="fork-path b">
+          <h4>System B Path</h4>
+          <ul>
+            <li><strong>The King:</strong> "She hates texting. She's with family. She'll come back when she's ready."</li>
+            <li>Goes for a run. Works. Plays with Blu. Lives his life.</li>
+            <li>Sends nothing. Or sends one light thing with zero pressure: a funny photo, a "hope the trip's good."</li>
+            <li><strong>Abby</strong> comes back online to a man who didn't collapse, didn't chase, didn't punish the gap.</li>
+            <li><strong>The Nurse</strong> softens: "He stayed steady while I was gone." Trust deepens. Airport reunion hits right.</li>
+          </ul>
+        </div>
+      </div>
     </div>
 
-    <!-- KASEY -->
-    <section class="section">
-      <div class="section-head">
-        <h2>Kasey Hodge</h2>
-        <p>27. Partner & Operations Director. Private pilot. Eagle Scout. No degree, no debt, no alcohol in 2026. Ibogaine-cracked-open 13 months ago. Birkman Assertiveness gap of 58 (shows soft, needs strong push). Searching for a wife. Done with casual sex by choice.</p>
-      </div>
+    <hr class="divider" />
 
-      <div class="parts-map">
-        <h3>Kasey's Parts Map</h3>
+    <!-- SCENARIO 3 -->
+    <div class="flow-section">
+      <p class="flow-label">Scenario 3: The Sex Threshold</p>
+      <p class="flow-sub">They're alone. Things are escalating. She's aroused, engaged, has already orgasmed from oral. The moment arrives where it could become full sex.</p>
 
-        <div class="part">
-          <strong>The King (Self)</strong>
-          <p>Who Kasey is when he's grounded: warm, emotionally brave, competent, direct without being aggressive, willing to be seen. Post-ibogaine Kasey with heart open. The version of him that brought up divorce on Date 4 and said "there's no rush" about sex. Leads from clarity, not hunger.</p>
-        </div>
-
-        <div class="part">
-          <strong>Little Kasey (Exile)</strong>
-          <p>The wound: a kid who grew up watching his mom battle ALS, lost Michael, lost Paige, and carries grief tattoos on his body. The part that desperately wants to be chosen by a specific woman and fears being too much for her. "I was worried it would be too much for girls." That line is Little Kasey talking.</p>
-        </div>
-
-        <div class="part">
-          <strong>The Soft Front (Manager) — Assertiveness 23</strong>
-          <p>Shows up accommodating, easy, gives people outs. Doesn't push. This is the Birkman gap in action: presents at 23 but needs 81. Without external push (Rich, life pressure, a strong woman), Kasey can plateau, drift, or let things die that should have been fought for. In dating: gives easy outs to women, doesn't escalate when he should, waits instead of moves. In the relationship: risks becoming passive if Abby's caretaker takes over.</p>
-        </div>
-
-        <div class="part">
-          <strong>Dick (Firefighter — Push Mode)</strong>
-          <p>When Little Kasey gets activated: over-pursuit. More texts, more plans, more proving, more intensity. In dating history this looked like the womanizer phase — conquest as reassurance. In this relationship: could show up as flooding Abby during the 10-day trip, future-casting too fast, or trying to lock things down before the foundation is fully built. Pursuit energy that feels like pressure to a woman who paces carefully.</p>
-        </div>
-
-        <div class="part">
-          <strong>Tom (Firefighter — Withdraw Mode)</strong>
-          <p>The other response when the wound activates: full disappear. Goes quiet, gets cool, creates distance before he can be rejected. In dating: the slow-roll with Natalia after Date 3 — just let the texting die instead of saying it directly. In this relationship: if Abby's text tone goes flat or she pulls back to regulate, Tom could grab the wheel and create a cold standoff neither of them intended.</p>
-        </div>
-
-        <div class="part">
-          <strong>Harry (Manager — System Builder)</strong>
-          <p>The part that tries to engineer outcomes. In career: built real operational systems, runs 30+ trucks. In dating: the Hinge optimization, the LinkedIn strategy, the dating panel. Useful when channeled into structure. Dangerous when it starts trying to strategize the relationship itself — turning Abby into a project to be managed rather than a person to be known.</p>
-        </div>
-      </div>
-
-      <div class="lane-wrap">
-        <div class="lane a">
-          <h3>System A Kasey</h3>
-          <p>Little Kasey gets activated. The Soft Front gives too much room. Dick or Tom takes the wheel.</p>
+      <div class="fork" style="margin-left:0;">
+        <div class="fork-path a">
+          <h4>System A Path</h4>
           <ul>
-            <li>Reads Abby's flat texts or slow replies as early signs of abandonment</li>
-            <li>Relief at being seen gets mistaken for "this is definitely the one"</li>
-            <li>Dick floods: more texts, more plans, more emotional intensity than the moment calls for</li>
-            <li>Tom withdraws: goes quiet, gets cool, creates distance to pre-empt rejection</li>
-            <li>Harry over-strategizes: turns the relationship into a project with tactics instead of trust</li>
-            <li>The Soft Front accommodates her pacing without ever naming what he actually needs</li>
+            <li><strong>Dick:</strong> Pushes for it. "We're already here. Why not?" Even subtly — body language, positioning, asking.</li>
+            <li><strong>The Gate</strong> locks harder. Her body tightens. The moment breaks.</li>
+            <li>She feels pressure instead of safety. She doesn't say it, but she files it.</li>
+            <li>OR <strong>Tom:</strong> Acts hurt that she didn't reciprocate. Gets quiet. She reads the shift. <strong>The Wall</strong> comes up.</li>
+            <li>Next time they're physical, she's more guarded, not less. The threshold moves backward.</li>
           </ul>
         </div>
-        <div class="lane b">
-          <h3>System B Kasey</h3>
-          <p>The King drives. Little Kasey is heard but not obeyed. The Soft Front becomes genuine warmth instead of accommodation.</p>
+        <div class="fork-center">or</div>
+        <div class="fork-path b">
+          <h4>System B Path</h4>
           <ul>
-            <li><strong>Enough:</strong> Abby is a gift, not medicine for the wound</li>
-            <li><strong>Here:</strong> a flat text is a flat text, not proof of loss</li>
-            <li><strong>Curious:</strong> "what is actually happening?" instead of "what does this mean about me?"</li>
-            <li><strong>Clear:</strong> names what he needs directly — "I notice I lose you over text, that matters to me"</li>
-            <li><strong>Grateful:</strong> receives her care without fusing his identity to it</li>
-            <li><strong>Chooses:</strong> lets consistency earn deeper access instead of rushing the timeline</li>
+            <li><strong>The King:</strong> Doesn't push. Stays warm. Holds her. Says "there's no rush" — and means it.</li>
+            <li><strong>The Gate</strong> registers: "He could have pushed. He didn't. He stayed."</li>
+            <li>She tells him about her difficulty transitioning into sex with new people. He receives it without making it a project.</li>
+            <li><strong>Little Abby</strong> feels something rare: a man who was trusted with her body and didn't take more than was offered.</li>
+            <li>Next time they're physical, <strong>The Gate</strong> is looser. Not because he earned it. Because he proved it was safe to open.</li>
           </ul>
         </div>
       </div>
+    </div>
 
-      <div class="strip">
-        <div class="strip-block break">
-          <h4>Where System A breaks Kasey</h4>
-          <p>Flat texts. Slow replies. Abby regulating by going controlled or formal. The 10-day absence. Any moment where the warmth dims and Little Kasey reads it as "she's leaving." Also: being so accommodating (Assertiveness 23) that he never names his own needs until resentment builds.</p>
-        </div>
-        <div class="strip-block accel">
-          <h4>Where System B accelerates</h4>
-          <p>Keeping his own life full (work, running, Blu, mission). Naming fear without obeying it. Letting her text style be her problem, not his wound. Being direct when something matters. Staying warm without chasing. Trusting that reliability over time proves more than intensity in the moment.</p>
-        </div>
-      </div>
-    </section>
+    <hr class="divider" />
 
-    <!-- ABBY -->
-    <section class="section">
-      <div class="section-head">
-        <h2>Abby Frank</h2>
-        <p>25. Trauma PA (BCM). Parents divorced at 3. Bio parents don't speak. Dad distant. Stepmom not close. Built safety with siblings. Mothered her younger half-brother. 4-year D1 softball player. Funniest Teammate award. Started going to church on her own. No boyfriend since 2022. Hates texting. Warm, nurturing, physically affectionate, and deeply present in person.</p>
-      </div>
+    <!-- SCENARIO 4 -->
+    <div class="flow-section">
+      <p class="flow-label">Scenario 4: Six Months In — The Real Test</p>
+      <p class="flow-sub">The novelty fades. Kasey's had a bad week at work. Abby is stressed from her new PA job. They haven't had a deep conversation in days.</p>
 
-      <div class="parts-map">
-        <h3>Abby's Parts Map</h3>
-
-        <div class="part">
-          <strong>Little Abby (Exile)</strong>
-          <p>The 3-year-old whose parents split and stopped speaking. The kid who was not fought over but divided. Dad became distant. Stepmom never really landed. The wound is not dramatic abandonment — it's quiet disappearance. Adults who were supposed to be there just… weren't. Safety had to be built sideways, with siblings, with her own hands.</p>
-        </div>
-
-        <div class="part">
-          <strong>The Nurse (Manager — Caretaker)</strong>
-          <p>The part that stepped up when the adults failed. Mothered her half-brother by choice. Feeds people. Packs lunches. Remembers the cookies. Cooks dinner. Handles grief without flinching. This part earns love by being indispensable. It is genuine warmth, but it is also a survival strategy: if I am useful enough, I am safe enough. Risk: she gives until she's empty, then quietly resents without ever having asked for what she needed.</p>
-        </div>
-
-        <div class="part">
-          <strong>The Chart (Manager — Clinical Container)</strong>
-          <p>Strips communication down to clean, efficient, low-risk signal. Corporate memo texting. SBAR-style handoffs bleeding into personal life. This part protects Little Abby from being overexposed, misread, or trapped by permanent written record of wanting something. In person she has tone, touch, timing, repair. Over text she has none of that, so The Chart takes over and keeps it sterile.</p>
-        </div>
-
-        <div class="part">
-          <strong>The Gate (Firefighter — Threshold Control)</strong>
-          <p>Controls the final step of sexual and emotional surrender. High desire with a deliberate brake. She can initiate kissing, get on top, orgasm, stay close — but The Gate holds the line at full sex and full reciprocity until safety is deeply verified. She named it herself: "I have a problem transitioning into sex with new people." That is The Gate talking — not lack of desire, but the need to control the crossing point.</p>
-        </div>
-
-        <div class="part">
-          <strong>The Wall (Firefighter — Distance Mode)</strong>
-          <p>When she feels pressured, misread over text, or forced to receive care she didn't ask for — The Wall goes up. Goes quiet. Goes formal. Goes clinical. This is not hostility. It is self-protection. The Wall looks like the corporate memo, the controlled pacing, the slight coolness after a big night. It is what happens when Little Abby's system detects that the environment might not be safe enough to stay open.</p>
-        </div>
-      </div>
-
-      <div class="lane-wrap">
-        <div class="lane a">
-          <h3>System A Abby</h3>
-          <p>The Nurse runs the show. The Chart handles all mediated communication. The Gate controls the sexual threshold. Little Abby stays hidden.</p>
+      <div class="fork" style="margin-left:0;">
+        <div class="fork-path a">
+          <h4>System A Path</h4>
           <ul>
-            <li>Nurtures instead of receiving — earns love through usefulness</li>
-            <li>Texts like a memo because written vulnerability feels dangerous</li>
-            <li>Paces everything carefully — not from wisdom but from fear of losing control</li>
-            <li>Desire is real but final surrender stays locked behind The Gate</li>
-            <li>Anger or hurt turns into The Wall: quiet, formal, distant</li>
-            <li>Can become indispensable to Kasey without ever letting him see Little Abby</li>
+            <li><strong>The Nurse:</strong> Doubles down on care. Cooks more. Manages his mood. Over-functions.</li>
+            <li><strong>The Soft Front:</strong> Accepts the care without naming what he actually needs (which is not dinner — it's her attention).</li>
+            <li>Both look close from the outside. Neither feels seen.</li>
+            <li>She's exhausted from giving. He's lonely despite her presence.</li>
+            <li>The real conversation never happens because <strong>The Chart</strong> manages the gap and <strong>The Soft Front</strong> never pushes past it.</li>
+            <li>Resentment builds in clean packaging. Polite, warm, and slowly hollow.</li>
           </ul>
         </div>
-        <div class="lane b">
-          <h3>System B Abby</h3>
-          <p>Little Abby is safe enough to be seen. The Nurse offers care freely, not as a transaction. The Chart loosens. The Gate opens on her timeline, not from fear.</p>
+        <div class="fork-center">or</div>
+        <div class="fork-path b">
+          <h4>System B Path</h4>
           <ul>
-            <li><strong>Enough:</strong> she does not have to earn love by being useful</li>
-            <li><strong>Here:</strong> stays in the room instead of retreating into controlled channels</li>
-            <li><strong>Curious:</strong> notices her own defenses without defending them</li>
-            <li><strong>Clear:</strong> can say "I'm scared" or "I'm angry" without packaging it</li>
-            <li><strong>Grateful:</strong> receives care without apologizing or redirecting</li>
-            <li><strong>Chooses:</strong> lets trust deepen because she wants to, not because she verified enough safety metrics</li>
+            <li>Kasey says: "I've had a brutal week and I'm not doing a great job of being present. I just want to sit with you."</li>
+            <li>Abby doesn't cook. Doesn't fix. Sits with him. Says: "I've got nothing tonight either."</li>
+            <li>Nobody performs. Nobody manages. They're just two people in the same room being honest about where they are.</li>
+            <li>Kasey notices she didn't try to fix it and says: "That was exactly what I needed."</li>
+            <li>Abby realizes she didn't have to do anything to be enough. <strong>Little Abby</strong> breathes.</li>
+            <li>That night is boring and perfect. The compound starts building.</li>
           </ul>
         </div>
       </div>
+    </div>
 
-      <div class="strip">
-        <div class="strip-block break">
-          <h4>Where System A breaks Abby</h4>
-          <p>Being pressured to text warmly when she can't. Conflict that doesn't get repaired in person. Having to receive care (activates The Wall because receiving feels like losing control). Being asked to disclose more than she's ready to. Kasey's pursuit energy (Dick) feeling like demand instead of desire.</p>
+    <hr class="divider" />
+
+    <!-- FINAL OUTCOMES -->
+    <div class="flow-section">
+      <p class="flow-label">Where Each System Ends</p>
+      <p class="flow-sub">Two years out. Same two people. Different operating system. Different life.</p>
+
+      <div class="outcomes" style="margin-left:0;">
+        <div class="outcome-card a">
+          <h4>System A Outcome</h4>
+          <p>They look good on paper. She takes care of everything. He accommodates everything. The sex is fine but not growing. The hard conversations don't happen because The Nurse and The Soft Front collude to keep the surface smooth. She's tired. He's vaguely lonely. Neither can name why. They call it "we're just busy." The relationship is stable but not alive.</p>
         </div>
-        <div class="strip-block accel">
-          <h4>Where System B accelerates</h4>
-          <p>Kasey being predictably present without being intense. Being specifically noticed for what she does ("you packed my lunch — that meant something"). No-rush pacing that lets The Gate open naturally. Safe in-person conversations where she can use her real tools (tone, touch, presence). Kasey naming something honestly without making her responsible for fixing his feeling about it.</p>
+        <div class="outcome-card b">
+          <h4>System B Outcome</h4>
+          <p>They fight sometimes. They repair. She cries in front of him and lets him hold it. He tells her when he's scared without making her responsible for fixing it. The sex gets better because trust keeps deepening. She stopped packing his lunch every day — not because she cares less, but because she doesn't need to earn her place anymore. He stopped reading her texts like tea leaves. They are boring, steady, honest, and real. The compound is working.</p>
         </div>
       </div>
-    </section>
-
-    <!-- COUPLE -->
-    <section class="section">
-      <div class="section-head">
-        <h2>The Couple System</h2>
-        <p>Where his parts meet her parts. The relationship doesn't break because chemistry is weak. It breaks if his wound meets her control and both mistake the collision for the truth about each other.</p>
-      </div>
-
-      <div class="lane-wrap">
-        <div class="lane a">
-          <h3>System A Couple — Where It Breaks</h3>
-          <ul>
-            <li>Abby's Chart sends a flat text. Kasey's Little Kasey reads it as withdrawal. Dick floods or Tom goes cold. Abby's Wall goes up in response. Spiral.</li>
-            <li>The Nurse over-functions. The Soft Front accommodates. Neither names what they actually need. Both feel unseen while looking close.</li>
-            <li>The Gate stays locked because Dick's pursuit energy feels like pressure, not patience.</li>
-            <li>Kasey mistakes relief (finally being seen) for destiny (she's the answer). Abby mistakes caregiving (being useful) for intimacy (being known).</li>
-            <li>Conflict gets managed by The Nurse and avoided by The Soft Front. Nothing real gets said. Resentment accumulates in clean packaging.</li>
-          </ul>
-        </div>
-        <div class="lane b">
-          <h3>System B Couple — Where It Accelerates</h3>
-          <ul>
-            <li>Kasey stays warm without chasing. Abby stays open without over-managing. Both nervous systems learn that the other person is still there even when the signal dims.</li>
-            <li>Kasey names the pattern directly: "I notice I get in my head when your texts go short. That's mine, but I wanted you to know." Abby receives it without The Wall.</li>
-            <li>Abby lets Kasey carry something real for her — and doesn't redirect, minimize, or caretake her way out of receiving it.</li>
-            <li>The Gate opens because The King's patience earned it, not because Dick's pursuit pressured it.</li>
-            <li>In-person contact becomes the place where ruptures repair, not just where chemistry happens. Text loses its danger because the live bond proves itself over and over.</li>
-            <li>Admiration, softness, steadiness, honesty, and genuine knowing compound instead of novelty doing all the lifting.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
+    </div>
 
     <div class="hinge">
-      <strong>The hinge:</strong> This does not become a great relationship because the chemistry gets hotter or because they "align" on enough values. It becomes great if Kasey stops treating every signal change as proof of the old wound, Abby stops treating every vulnerability gap as a management problem, and both of them learn to stay in the room when the room stops being easy — not because they have to, but because they are enough, and they choose to.
+      <strong>The whole thing:</strong> Same two people. Same chemistry. Same wounds. Same strengths. The only variable is which operating system is driving. System A will keep them close and slowly hollow. System B will keep them honest and slowly exceptional. The choice isn't once — it's every flat text, every quiet night, every moment where the old pattern offers to drive and The King has to say no.
     </div>
   </div>
 </body>
