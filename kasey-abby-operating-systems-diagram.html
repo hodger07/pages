@@ -3,136 +3,164 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Kasey + Abby — System A vs System B</title>
+<title>Kasey + Abby — System A / System B</title>
 <style>
   * { box-sizing: border-box; }
   body {
     margin: 0;
     font-family: Georgia, "Times New Roman", serif;
-    background: #f7f4ee;
-    color: #1f1f1f;
-    line-height: 1.65;
+    background: #fcfaf6;
+    color: #181818;
+    line-height: 1.7;
   }
   .wrap {
-    max-width: 1060px;
+    max-width: 1100px;
     margin: 0 auto;
-    padding: 42px 26px 70px;
+    padding: 48px 28px 72px;
   }
   .hero {
-    margin-bottom: 30px;
-    padding-bottom: 22px;
-    border-bottom: 1px solid #d8d0c3;
+    margin-bottom: 34px;
   }
   h1 {
-    margin: 0 0 10px;
-    font-size: 2.25rem;
+    margin: 0 0 8px;
+    font-size: 2.4rem;
+    font-weight: 700;
     letter-spacing: -0.03em;
     color: #111;
   }
   .sub {
-    max-width: 900px;
-    color: #5f5a52;
+    max-width: 860px;
+    color: #5d5a54;
+    font-size: 1.02rem;
     margin: 0;
-    font-size: 1rem;
   }
   .legend {
     display: flex;
-    flex-wrap: wrap;
     gap: 10px;
-    margin: 24px 0 34px;
+    flex-wrap: wrap;
+    margin: 22px 0 36px;
   }
   .tag {
-    border-radius: 999px;
     padding: 8px 14px;
-    font-size: 0.9rem;
+    border-radius: 999px;
+    font-size: 0.88rem;
     font-weight: 700;
-  }
-  .tag.a { background: #fbe1de; color: #8b2115; }
-  .tag.b { background: #e5f7eb; color: #186940; }
-  .tag.c { background: #eef4ff; color: #164f86; }
-  .person, .relationship {
-    background: #fff;
-    border: 1px solid #d8d0c3;
-    border-radius: 18px;
-    padding: 26px;
-    margin-bottom: 24px;
-    box-shadow: 0 1px 0 rgba(0,0,0,0.04);
-  }
-  .person h2, .relationship h2 {
-    margin: 0 0 10px;
-    font-size: 1.55rem;
-    color: #17384a;
-  }
-  .intro {
-    color: #5f5a52;
-    margin-bottom: 18px;
-  }
-  .cards {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 18px;
-  }
-  .card {
-    border-radius: 16px;
-    padding: 18px 18px 14px;
     border: 1px solid transparent;
   }
-  .card h3 {
-    margin: 0 0 10px;
-    font-size: 1.05rem;
+  .tag.a { background: #fdf0ee; color: #8a2015; border-color: #efc3bc; }
+  .tag.b { background: #eef8f1; color: #17643d; border-color: #bfdac7; }
+  .tag.n { background: #f4f6f8; color: #44505a; border-color: #d6dde3; }
+
+  .section {
+    margin-bottom: 26px;
+    background: #fff;
+    border: 1px solid #dfd8cf;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.03);
   }
-  .card p {
-    margin: 0 0 10px;
+  .section-head {
+    padding: 22px 24px 12px;
+    border-bottom: 1px solid #eee6dc;
+    background: linear-gradient(to bottom, #fff, #fdfbf8);
+  }
+  .section-head h2 {
+    margin: 0 0 6px;
+    font-size: 1.5rem;
+    color: #16384a;
+  }
+  .section-head p {
+    margin: 0;
+    color: #646057;
+    font-size: 0.97rem;
+  }
+  .lane-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  .lane {
+    padding: 22px 24px 24px;
+  }
+  .lane + .lane {
+    border-left: 1px solid #eee6dc;
+  }
+  .lane h3 {
+    margin: 0 0 12px;
+    font-size: 1.08rem;
+  }
+  .lane.a h3 { color: #8a2015; }
+  .lane.b h3 { color: #17643d; }
+  .lane p {
+    margin: 0 0 12px;
     font-size: 0.96rem;
+    color: #2a2a2a;
   }
-  .card ul {
+  .lane ul {
     margin: 0;
     padding-left: 18px;
   }
-  .card li {
+  .lane li {
     margin-bottom: 8px;
     font-size: 0.93rem;
   }
-  .card.a { background: #fff7f6; border-color: #efc5bf; }
-  .card.b { background: #f5fcf7; border-color: #bfe2ca; }
-  .middle-band {
-    margin-top: 18px;
+  .lane.a { background: #fffaf9; }
+  .lane.b { background: #fbfefb; }
+
+  .strip {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;
+    gap: 0;
+    border-top: 1px solid #eee6dc;
   }
-  .band {
-    border-radius: 14px;
-    padding: 14px 16px;
-    border: 1px solid #d8d0c3;
-    min-height: 100%;
-  }
-  .band h4 {
-    margin: 0 0 8px;
-    font-size: 0.96rem;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-  }
-  .band p {
-    margin: 0;
+  .strip-block {
+    padding: 16px 24px 18px;
     font-size: 0.93rem;
-    color: #3e3933;
   }
-  .band.break { background: #fff1ef; }
-  .band.break h4 { color: #96291c; }
-  .band.accel { background: #eef9f2; }
-  .band.accel h4 { color: #1f7a46; }
+  .strip-block + .strip-block {
+    border-left: 1px solid #eee6dc;
+  }
+  .strip-block h4 {
+    margin: 0 0 8px;
+    font-size: 0.86rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .strip-block.break {
+    background: #fff4f2;
+  }
+  .strip-block.break h4 {
+    color: #9a291d;
+  }
+  .strip-block.accel {
+    background: #f2faf4;
+  }
+  .strip-block.accel h4 {
+    color: #1c7645;
+  }
+  .strip-block p {
+    margin: 0;
+    color: #413b35;
+  }
+
   .hinge {
-    margin-top: 22px;
-    background: #f4f8fc;
+    margin-top: 24px;
+    background: #fff;
     border-left: 4px solid #0f5b7a;
-    padding: 16px 18px;
+    padding: 18px 20px;
     color: #33444d;
+    border-radius: 10px;
   }
   .hinge strong { color: #0f5b7a; }
+
   @media (max-width: 860px) {
-    .cards, .middle-band {
+    .lane-wrap, .strip {
       grid-template-columns: 1fr;
+    }
+    .lane + .lane,
+    .strip-block + .strip-block {
+      border-left: none;
+      border-top: 1px solid #eee6dc;
     }
   }
 </style>
@@ -140,33 +168,35 @@
 <body>
   <div class="wrap">
     <div class="hero">
-      <h1>Kasey + Abby — System A vs System B</h1>
-      <p class="sub">A cleaner visual map of how each of them is likely to function when the relationship is being driven by wound, control, and have-to fuel versus presence, enoughness, clarity, and deliberate choice.</p>
+      <h1>Kasey + Abby — Operating System A / Operating System B</h1>
+      <p class="sub">A cleaner strategy brief for how each of them is likely to behave under pressure, what breaks the system, and what accelerates the relationship when The King is driving instead of the wound.</p>
     </div>
 
     <div class="legend">
-      <div class="tag a">System A = have-to fuel / wound-managed</div>
-      <div class="tag b">System B = The King driving / enoughness / choice</div>
-      <div class="tag c">Middle strip = where the system breaks or accelerates</div>
+      <div class="tag a">System A = wound-managed / have-to fuel</div>
+      <div class="tag b">System B = enough / clear / chosen</div>
+      <div class="tag n">Read this as a pressure map, not a verdict</div>
     </div>
 
-    <section class="person">
-      <h2>Kasey</h2>
-      <p class="intro">When he feels deeply seen, the upside is depth, warmth, and real leadership. The risk is that relief can get mistaken for destiny and the old wound can grab the wheel.</p>
-      <div class="cards">
-        <div class="card a">
+    <section class="section">
+      <div class="section-head">
+        <h2>Kasey</h2>
+        <p>His gift is depth, warmth, and real leadership when he feels safe. His risk is that feeling deeply seen can wake up the old scarcity story faster than he realizes.</p>
+      </div>
+      <div class="lane-wrap">
+        <div class="lane a">
           <h3>System A Kasey</h3>
           <p>Little Kasey gets activated and the relationship starts carrying the weight of an old hunger.</p>
           <ul>
             <li>Reads signal changes as threat</li>
             <li>Relief becomes attachment, attachment becomes urgency</li>
             <li>Dick pushes: more intensity, more proving, more pursuit</li>
-            <li>Tom withdraws: coolness, distance, pre-emptive self-protection</li>
-            <li>Harry strategizes around not getting hurt</li>
+            <li>Tom withdraws: coolness, distance, self-protection</li>
+            <li>Harry builds strategy around not getting hurt</li>
             <li>The relationship becomes an answer instead of a reality</li>
           </ul>
         </div>
-        <div class="card b">
+        <div class="lane b">
           <h3>System B Kasey</h3>
           <p>The King notices the wound and does not surrender leadership to it.</p>
           <ul>
@@ -175,27 +205,29 @@
             <li><strong>Curious:</strong> asks what is actually happening</li>
             <li><strong>Clear:</strong> says what matters without flooding</li>
             <li><strong>Grateful:</strong> receives her care without fusing to it</li>
-            <li><strong>Builds / Chooses:</strong> lets consistency earn access</li>
+            <li><strong>Chooses:</strong> lets consistency earn deeper access</li>
           </ul>
         </div>
       </div>
-      <div class="middle-band">
-        <div class="band break">
-          <h4>Where Kasey’s System A breaks down</h4>
-          <p>Flat texts, slow replies, ambiguous tone, or feeling deeply seen too fast can all wake up the old scarcity story and push him toward pursuit, withdrawal, or over-interpretation.</p>
+      <div class="strip">
+        <div class="strip-block break">
+          <h4>Where System A breaks him</h4>
+          <p>Flat texts, slow replies, ambiguous tone, and early intensity can all make him treat a normal fluctuation like proof of loss.</p>
         </div>
-        <div class="band accel">
-          <h4>Where Kasey’s System B accelerates</h4>
-          <p>Daily A/B check-ins, staying in mission, naming fear without obeying it, and letting consistency prove truth keep the King in the chair.</p>
+        <div class="strip-block accel">
+          <h4>Where System B accelerates</h4>
+          <p>Daily A/B check-ins, staying in mission, naming fear without obeying it, and letting truth prove itself over time.</p>
         </div>
       </div>
     </section>
 
-    <section class="person">
-      <h2>Abby</h2>
-      <p class="intro">Her warmth is real, but so is her management system. She appears to love through care, presence, and embodied closeness, while using control to protect the final threshold of surrender.</p>
-      <div class="cards">
-        <div class="card a">
+    <section class="section">
+      <div class="section-head">
+        <h2>Abby</h2>
+        <p>Her warmth is real. So is her management system. She appears to love through presence, care, and embodied closeness, while using control to protect the final threshold of surrender.</p>
+      </div>
+      <div class="lane-wrap">
+        <div class="lane a">
           <h3>System A Abby</h3>
           <p>Parentified competence stays in charge and care quietly becomes control.</p>
           <ul>
@@ -207,61 +239,63 @@
             <li>She can become indispensable without becoming fully open</li>
           </ul>
         </div>
-        <div class="card b">
+        <div class="lane b">
           <h3>System B Abby</h3>
-          <p>Her warmth stays warm without having to supervise the outcome.</p>
+          <p>Her warmth stays warm without needing to supervise the outcome.</p>
           <ul>
             <li><strong>Enough:</strong> she does not have to earn love by usefulness</li>
             <li><strong>Here:</strong> stays in the room instead of hiding in controlled channels</li>
-            <li><strong>Curious:</strong> notices her own defenses without defending them</li>
+            <li><strong>Curious:</strong> notices her defenses without defending them</li>
             <li><strong>Clear:</strong> can say awkward, angry, or vulnerable things directly</li>
             <li><strong>Grateful:</strong> receives care without apologizing for it</li>
-            <li><strong>Builds / Chooses:</strong> lets trust deepen without over-managing</li>
+            <li><strong>Chooses:</strong> lets trust deepen without over-managing</li>
           </ul>
         </div>
       </div>
-      <div class="middle-band">
-        <div class="band break">
-          <h4>Where Abby’s System A breaks down</h4>
-          <p>Pressure, misread texts, conflict without repair, or situations where she has to receive care can make her tighten, go formal, or retreat into controlled distance.</p>
+      <div class="strip">
+        <div class="strip-block break">
+          <h4>Where System A breaks her</h4>
+          <p>Pressure, misread texts, conflict without repair, or having to receive care can make her tighten, go formal, or disappear into controlled distance.</p>
         </div>
-        <div class="band accel">
-          <h4>Where Abby’s System B accelerates</h4>
-          <p>Predictable follow-through, no-rush pacing, being specifically seen for what she gives, and safe live conversations help her loosen the armor and trust what is happening.</p>
+        <div class="strip-block accel">
+          <h4>Where System B accelerates</h4>
+          <p>Predictability, no-rush pacing, being specifically seen for what she gives, and safe live conversations help her loosen the armor.</p>
         </div>
       </div>
     </section>
 
-    <section class="relationship">
-      <h2>The Couple System</h2>
-      <div class="cards">
-        <div class="card a">
-          <h3>System A Couple — Where it breaks</h3>
+    <section class="section">
+      <div class="section-head">
+        <h2>The Couple System</h2>
+        <p>The relationship does not break because chemistry is weak. It breaks if his wound meets her control and both mistake that collision for the truth.</p>
+      </div>
+      <div class="lane-wrap">
+        <div class="lane a">
+          <h3>System A Couple</h3>
           <ul>
-            <li>He interprets her controlled signal as retreat and either chases harder or pulls away first.</li>
-            <li>She feels pressure, gets even more formal, and manages the pace tighter.</li>
+            <li>He interprets her controlled signal as retreat and chases or pulls away.</li>
+            <li>She feels pressure, goes colder, and manages the pace tighter.</li>
             <li>He mistakes relief for destiny. She mistakes caregiving for intimacy.</li>
-            <li>He gets louder emotionally. She gets cleaner and colder.</li>
-            <li>Conflict gets managed instead of metabolized.</li>
-            <li>They can look close while the real conversation never happens.</li>
+            <li>He gets louder emotionally. She gets cleaner and more formal.</li>
+            <li>Conflict gets managed, not metabolized.</li>
           </ul>
         </div>
-        <div class="card b">
-          <h3>System B Couple — Where it accelerates</h3>
+        <div class="lane b">
+          <h3>System B Couple</h3>
           <ul>
             <li>He stays warm without chasing. She stays open without over-managing.</li>
             <li>He names the pattern without blame. She receives it without defense.</li>
             <li>She lets him carry real weight. He lets her see him without performance.</li>
             <li>Live contact becomes the place where things repair, not just where chemistry happens.</li>
-            <li>Text loses some of its danger because the in-person bond proves itself repeatedly.</li>
             <li>Admiration, softness, steadiness, and honesty begin compounding.</li>
           </ul>
         </div>
       </div>
-      <div class="hinge">
-        <strong>The hinge:</strong> This relationship does not become exceptional because the chemistry gets hotter. It becomes exceptional if Kasey stops turning every signal change into threat, Abby stops turning care into control, and both of them learn how to stay in the room when the room is no longer easy.
-      </div>
     </section>
+
+    <div class="hinge">
+      <strong>The hinge:</strong> This gets great not because the chemistry gets hotter, but because Kasey stops turning every signal change into threat, Abby stops turning care into control, and both of them learn how to stay in the room when the room is no longer easy.
+    </div>
   </div>
 </body>
 </html>
