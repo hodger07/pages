@@ -22,7 +22,7 @@ Further post-date exchange. Light, comfortable. Abby reopening threads naturally
 
 ---
 
-## Florida trip texts (05–14)
+## Florida trip texts (05–15)
 
 ### abby-kasey-text-05.jpg
 Abby texted first from Florida. Shared a beach photo of the labs (Roxy) belonging to the friend she is visiting. Early trip warmth.
@@ -55,10 +55,15 @@ Kasey: *"You too :) yeah I should be good for that!"*
 — Abby proactively suggested a phone call. She escalated the modality on her own initiative.
 
 ### abby-kasey-text-13.jpg
+Kasey explicitly opened the voice-contact lane: *"I loved seeing you last night. I've been thinking about you this morning! I know we don't like to live on text so I'd love to hear your voice while you're gone. Facetime or phone calls here and there while you're away?"*
+Abby replied: *"I had a great time, can’t wait for another movie night :) I would love to chat while i’m away!"*
+— Important because it confirms voice contact was not just strategy in the file; it was actually proposed and accepted.
+
+### abby-kasey-text-14.jpg
 UIW athletics roster screenshot — confirms: Abby Frank, #22, 5′3″, R/R, Spring TX, Klein HS.
 UIW bio details: two-time 1st Team All-District Infield, top 10% in class, NHS, career ambition physician assistant. Family: dad David played hockey, brother Zack played baseball, siblings Regan/Zack/Cooper. Quote about UIW's "family atmosphere" feeling "like home."
 
-### abby-kasey-text-14.jpg
+### abby-kasey-text-15.jpg
 2020 Cardinal Red Carpet Awards screenshot — Abby won "Funniest Teammate."
 
 ---
@@ -69,7 +74,8 @@ UIW bio details: two-time 1st Team All-District Infield, top 10% in class, NHS, 
 - She shares her days in detail without prompting.
 - She engages his world (Astros game, Wayne) with genuine enthusiasm.
 - She reopens threads the next morning unprompted.
-- She proactively suggested a phone call (Sunday or Monday).
+- Kasey explicitly asked to hear her voice while she was away, and Abby warmly accepted.
+- She later proactively suggested a phone call (Sunday or Monday) on her own.
 - Tone: warm, playful, comfortable. No flatness. Better than pre-trip baseline.
 
 ---
