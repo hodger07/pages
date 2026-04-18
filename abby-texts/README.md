@@ -55,9 +55,9 @@ Kasey: *"You too :) yeah I should be good for that!"*
 — Abby proactively suggested a phone call. She escalated the modality on her own initiative.
 
 ### abby-kasey-text-13.jpg
-Kasey explicitly opened the voice-contact lane: *"I loved seeing you last night. I've been thinking about you this morning! I know we don't like to live on text so I'd love to hear your voice while you're gone. Facetime or phone calls here and there while you're away?"*
+**Pre-trip voice-lane setup.** Kasey explicitly opened the voice-contact lane before Abby left: *"I loved seeing you last night. I've been thinking about you this morning! I know we don't like to live on text so I'd love to hear your voice while you're gone. Facetime or phone calls here and there while you're away?"*
 Abby replied: *"I had a great time, can’t wait for another movie night :) I would love to chat while i’m away!"*
-— Important because it confirms voice contact was not just strategy in the file; it was actually proposed and accepted.
+— Important because it confirms voice contact was not just strategy in the file; it was actually proposed and accepted before the trip.
 
 ### abby-kasey-text-14.jpg
 UIW athletics roster screenshot — confirms: Abby Frank, #22, 5′3″, R/R, Spring TX, Klein HS.
