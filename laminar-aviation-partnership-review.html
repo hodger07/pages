@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laminar Aviation Partnership Review</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: Georgia, 'Times New Roman', serif; background: #FFF8F0; color: #1a1a1a; padding: 32px 24px; max-width: 960px; margin: 0 auto; line-height: 1.7; }
+.header { margin-bottom: 40px; }
+h1 { font-size: 30px; color: #1a1a1a; font-weight: 700; margin-bottom: 4px; }
+.header-rule { width: 100%; height: 3px; background: #1a1a1a; margin: 8px 0 12px 0; }
+.header-sub { font-size: 14px; color: #888; font-style: italic; }
+h2 { font-size: 18px; color: #1a1a1a; margin: 44px 0 6px 0; font-weight: 700; letter-spacing: -0.2px; }
+.section-rule { width: 100%; height: 1px; background: #ddd; margin-bottom: 18px; }
+h3 { font-size: 15px; color: #555; margin: 28px 0 10px 0; }
+.lead { font-size: 17px; color: #333; margin-bottom: 24px; line-height: 1.75; }
+.narrative { font-size: 15px; color: #333; margin-bottom: 16px; line-height: 1.75; }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin: 28px 0; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; }
+.stat { padding: 20px 16px; text-align: center; border-right: 1px solid #eee; }
+.stat:last-child { border-right: none; }
+.stat-value { font-size: 28px; font-weight: 700; color: #1a1a1a; }
+.stat-label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-top: 4px; }
+.stat-sub { font-size: 12px; color: #aaa; margin-top: 2px; }
+.stat-value.red { color: #C41E3A; }
+table { width: 100%; border-collapse: collapse; margin: 14px 0 22px 0; }
+th { background: #f5f0e8; text-align: left; padding: 9px 14px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: #666; border-bottom: 2px solid #ddd; }
+td { padding: 9px 14px; border-bottom: 1px solid #eee; font-size: 14px; background: #fff; }
+td.num { text-align: right; font-variant-numeric: tabular-nums; }
+tr.total { font-weight: 700; }
+tr.total td { background: #f5f0e8; border-top: 2px solid #ccc; }
+.delta-pos { color: #C41E3A; }
+.delta-neg { color: #2E7D32; }
+.muted { color: #999; font-size: 13px; }
+.accent { color: #C41E3A; font-weight: 600; }
+.insight { background: #fff; border-left: 3px solid #c8b890; padding: 16px 20px; margin: 18px 0; font-size: 14px; line-height: 1.65; color: #444; }
+.insight strong { color: #1a1a1a; }
+.proposal { background: #fff; border: 1px solid #e0dcd4; border-radius: 4px; margin: 12px 0; }
+.proposal-row { display: flex; border-bottom: 1px solid #eee; padding: 14px 20px; }
+.proposal-row:last-child { border-bottom: none; }
+.proposal-label { width: 35%; font-size: 13px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; padding-top: 2px; }
+.proposal-value { width: 65%; font-size: 15px; color: #1a1a1a; }
+.overdue { color: #C41E3A; font-weight: 600; }
+.footer { margin-top: 56px; padding-top: 16px; border-top: 1px solid #ddd; font-size: 11px; color: #bbb; line-height: 1.6; }
+@media (max-width: 600px) {
+  body { padding: 20px 16px; }
+  .hero-aircraft { width: 100%; margin: 0 0 24px 0; }
+  .hero-aircraft-image { min-height: 240px; }
+  .hero-aircraft-label { left: 18px; bottom: 18px; }
+  .hero-aircraft-label .tail { font-size: 24px; }
+  h1 { font-size: 24px; }
+  .stats { grid-template-columns: 1fr; }
+  .stat { border-right: none; border-bottom: 1px solid #eee; }
+  .stat:last-child { border-bottom: none; }
+  .proposal-row { flex-direction: column; }
+  .proposal-label { width: 100%; margin-bottom: 4px; }
+  .proposal-value { width: 100%; }
+}
+
+.hero-aircraft { display:block; width: calc(100% + 120px); margin: 0 0 30px -60px; background:#fff; border:1px solid #e0dcd4; border-radius:8px; overflow:hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.03); }
+.hero-aircraft-image { width:100%; min-height:520px; background-size:cover; background-repeat:no-repeat; background-position:center center; background-color:#f5f0e8; position:relative; }
+.hero-aircraft-image::after { content:""; position:absolute; inset:0; background:transparent; }
+.hero-aircraft-label { position:absolute; left:36px; bottom:34px; z-index:2; color:#fff; text-shadow:0 2px 10px rgba(0,0,0,0.55); }
+.hero-aircraft-label .tail { font-size:34px; font-weight:700; letter-spacing:0.3px; line-height:1; }
+.hero-aircraft-label .model { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:1.2px; margin-top:8px; display:inline-block; padding:6px 10px; border:1px solid rgba(255,255,255,0.75); border-radius:999px; background:rgba(0,0,0,0.18); backdrop-filter: blur(3px); }
+.hero-aircraft-copy { width:48%; padding:28px 28px 24px 0; display:flex; flex-direction:column; justify-content:center; }
+.hero-kicker { font-size:11px; text-transform:uppercase; letter-spacing:1.2px; color:#888; margin-bottom:10px; }
+.hero-title { font-size:28px; line-height:1.2; font-weight:700; color:#1a1a1a; margin-bottom:10px; }
+.hero-sub { font-size:15px; color:#444; margin-bottom:16px; }
+.hero-badges { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px; }
+.hero-badge { display:inline-block; padding:6px 10px; border-radius:999px; font-size:11px; font-weight:700; letter-spacing:.4px; text-transform:uppercase; }
+.hero-badge.gold { background:#fdf4e3; color:#b8860b; }
+.hero-badge.green { background:#edf7ed; color:#2E7D32; }
+.hero-badge.blue { background:#eef6fb; color:#0274B6; }
+.hero-links a { color:#0274B6; text-decoration:underline; font-weight:600; font-size:14px; }
+@media (max-width: 800px) {
+}
+</style>
+</head>
+<body>
+<!-- Password Overlay -->
+<div id="password-overlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#f4f7f6; z-index:9999; display:flex; align-items:center; justify-content:center; flex-direction:column; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <div style="background:white; padding:40px; border-radius:12px; box-shadow:0 10px 25px rgba(0,0,0,0.1); text-align:center; max-width:400px; width:90%; box-sizing: border-box;">
+    <h2 style="margin-top:0; color:#0274B6;">Protected Document</h2>
+    <p style="color:#666; font-size:14px; margin-bottom:20px;">Please enter the password to view this dashboard.</p>
+    <input type="password" id="doc-password" placeholder="Password" style="width:100%; padding:12px; border:1px solid #ddd; border-radius:6px; font-size:16px; margin-bottom:20px; box-sizing:border-box;">
+    <button onclick="checkPassword()" style="background:#0274B6; color:white; border:none; padding:12px 24px; border-radius:6px; font-size:16px; font-weight:bold; cursor:pointer; width:100%;">Unlock Document</button>
+    <p id="password-error" style="color:#C41E3A; font-size:13px; margin-top:15px; display:none;">Incorrect password. Please try again.</p>
+  </div>
+</div>
+
+<!-- Main Content Wrapper -->
+<div id="main-content" style="display:none;">
+
+
+<!-- HEADER -->
+<div class="header">
+  <h1>Laminar Aviation Partnership Review</h1>
+  <div class="header-rule"></div>
+  <div class="header-sub">Laminar Holdings LLC &amp; Anthony Bradfield &mdash; April 2026 Operating, Billing, and Utilization Snapshot</div>
+</div>
+<!-- NAVIGATION BAR -->
+<div style="background: #fff; padding: 12px 20px; border: 1px solid #e0dcd4; border-radius: 6px; margin-bottom: 30px; font-size: 13px; font-weight: 600; display: flex; justify-content: space-between; flex-wrap: wrap; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+  <a href="#current-status" style="color: #0274B6; text-decoration: none; padding: 4px 8px;">Current Status</a>
+  <a href="#decisions" style="color: #0274B6; text-decoration: none; padding: 4px 8px;">Decisions</a>
+  <a href="#action-items" style="color: #0274B6; text-decoration: none; padding: 4px 8px;">Action Items</a>
+  <a href="#open-balances" style="color: #0274B6; text-decoration: none; padding: 4px 8px;">Open Balances</a>
+  <a href="#flight-capacity" style="color: #0274B6; text-decoration: none; padding: 4px 8px;">Flight Pacing</a>
+  <a href="#contract-minimums" style="color: #0274B6; text-decoration: none; padding: 4px 8px;">Contract Minimums</a>
+  <a href="#cost-evolution" style="color: #0274B6; text-decoration: none; padding: 4px 8px;">Cost Context</a>
+</div>
+
+
+<div class="hero-aircraft">
+  <div class="hero-aircraft-image" style="background-image:url('docs/N820JL_Hero_v3.jpg');"><div class="hero-aircraft-label"><div class="tail">N820JL</div><div class="model">HondaJet Elite-S</div></div></div>
+</div>
+
+
+<!-- ============================================ -->
+<!-- ACTION ITEMS -->
+<!-- ============================================ -->
+
+<h2 id="current-status">Current Status</h2>
+<div class="section-rule"></div>
+
+<div class="stats" style="grid-template-columns: repeat(2, 1fr); margin-bottom: 26px;">
+  <div class="stat" style="border-top: 3px solid #b8860b;">
+    <div class="stat-value" style="color:#b8860b; font-size: 20px; font-weight: 700; margin-bottom: 8px;">Current Service Visit</div>
+    <div class="stat-label" style="text-transform: none; font-size: 14px; color: #333; line-height: 1.6;">
+      N820JL is currently in service at Banyan FXE from Apr 20 to Apr 24. <a href="service-visit-n820jl-apr-2026.html" style="color:#0274B6; text-decoration:underline; font-weight:600;">Click to view service items and visit details</a>.
+    </div>
+  </div>
+  <div class="stat" style="border-top: 3px solid #2E7D32;">
+    <div class="stat-value" style="color:#2E7D32; font-size: 20px; font-weight: 700; margin-bottom: 8px;">Aircraft Status</div>
+    <div class="stat-label" style="text-transform: none; font-size: 14px; color: #333; line-height: 1.6;">
+      Work authorization is complete and the aircraft is actively in service now.
+    </div>
+  </div>
+</div>
+
+<h2 id="decisions">Decisions</h2>
+<div class="section-rule"></div>
+<div class="insight" style="margin-top:0; margin-bottom:30px;">
+  <strong>Option A selected:</strong> Tony chose to keep the current operating structure in place. That means the partnership stays intact, ACH becomes the payment mechanism, and the arrangement gets documented in a simple written memorandum rather than moving to a separated-risk structure. For reference, <a href="partnership-options-reference.html" style="color:#0274B6; text-decoration:underline; font-weight:600;">click here to view the full Two Paths Forward table and archived Option B detail</a>.
+</div>
+
+<h2 id="action-items">Action Items</h2>
+<div class="section-rule"></div>
+
+<div class="stats" style="grid-template-columns: repeat(2, 1fr); margin-bottom: 40px;">
+  <div class="stat" style="border-top: 3px solid #2E7D32;">
+    <div class="stat-value" style="color:#2E7D32; font-size: 20px; font-weight: 700; margin-bottom: 8px;">Tony's Next Steps</div>
+    <div class="stat-label" style="text-transform: none; font-size: 14px; color: #333; line-height: 1.5;">
+      Set up ACH payments for the aviation account by the end of the first week of May.
+    </div>
+  </div>
+  <div class="stat" style="border-top: 3px solid #0274B6;">
+    <div class="stat-value" style="color:#0274B6; font-size: 20px; font-weight: 700; margin-bottom: 8px;">Rich's Next Steps</div>
+    <div class="stat-label" style="text-transform: none; font-size: 14px; color: #333; line-height: 1.5;">
+      Draft and send over the "Partnership Memorandum of Understanding" formalizing Option A.
+    </div>
+  </div>
+</div>
+
+<h2 id="open-balances">Current Open Balance</h2>
+<div class="section-rule"></div>
+
+<div class="stats" style="grid-template-columns: repeat(2, 1fr);">
+  <div class="stat">
+    <div class="stat-value" style="color:#b8860b;">$15,596.66</div>
+    <div class="stat-label"><a href="docs/Invoice_191_April_Fixed.pdf" target="_blank" style="color:#b8860b; text-decoration:underline;">Invoice #191</a> <span style="font-size:10px; color:#999; font-weight:normal; text-transform:none;">(Click to view PDF)</span></div>
+    <div class="stat-sub">March Fixed Costs (Dated 4/1/26)</div>
+  </div>
+  <div class="stat">
+    <div class="stat-value" style="color:#b8860b;">$14,534.17</div>
+    <div class="stat-label"><a href="docs/Invoice_193_March_Variable.pdf" target="_blank" style="color:#b8860b; text-decoration:underline;">Invoice #193</a> <span style="font-size:10px; color:#999; font-weight:normal; text-transform:none;">(Click to view PDF)</span></div>
+    <div class="stat-sub">March Variable + Q1 True-Up (Dated 3/31/26)</div>
+  </div>
+</div>
+
+<table>
+<thead>
+<tr>
+  <th>Invoice</th>
+  <th>Date</th>
+  <th>Description</th>
+  <th style="text-align:right">Amount</th>
+  <th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr style="opacity: 0.6;">
+  <td style="text-decoration: line-through;">#186</td>
+  <td style="text-decoration: line-through;">01/31/2026</td>
+  <td style="text-decoration: line-through;">January Variable Costs</td>
+  <td class="num" style="text-decoration: line-through;">$18,465.59</td>
+  <td style="color:#2E7D32;">✅ Paid (Check rec'd week of 4/14)</td>
+</tr>
+<tr style="opacity: 0.6;">
+  <td style="text-decoration: line-through;">#185</td>
+  <td style="text-decoration: line-through;">02/01/2026</td>
+  <td style="text-decoration: line-through;">January Fixed Costs</td>
+  <td class="num" style="text-decoration: line-through;">$16,319.37</td>
+  <td style="color:#2E7D32;">✅ Paid (Check rec'd week of 4/14)</td>
+</tr>
+<tr style="opacity: 0.6;">
+  <td style="text-decoration: line-through;">#189</td>
+  <td style="text-decoration: line-through;">02/28/2026</td>
+  <td style="text-decoration: line-through;">February Variable Costs</td>
+  <td class="num" style="text-decoration: line-through;">$8,161.44</td>
+  <td style="color:#2E7D32;">✅ Paid (Check rec'd week of 4/14)</td>
+</tr>
+<tr style="opacity: 0.6;">
+  <td style="text-decoration: line-through;">#188</td>
+  <td style="text-decoration: line-through;">03/01/2026</td>
+  <td style="text-decoration: line-through;">February Fixed Costs</td>
+  <td class="num" style="text-decoration: line-through;">$14,570.26</td>
+  <td style="color:#2E7D32;">✅ Paid (Check rec'd week of 4/14)</td>
+</tr>
+<tr>
+  <td style="font-weight:600;"><a href="docs/Invoice_191_April_Fixed.pdf" target="_blank" style="color:#b8860b; text-decoration:underline;">#191</a></td>
+  <td style="font-weight:600;">04/01/2026</td>
+  <td style="font-weight:600;">March Fixed Costs</td>
+  <td class="num" style="font-weight:600;">$15,596.66</td>
+  <td style="color:#b8860b; font-weight:600;">Open (Due on Receipt)</td>
+</tr>
+<tr>
+  <td style="font-weight:600;"><a href="docs/Invoice_193_March_Variable.pdf" target="_blank" style="color:#b8860b; text-decoration:underline;">#193</a></td>
+  <td style="font-weight:600;">03/31/2026</td>
+  <td style="font-weight:600;">March Variable + Q1 True-Up</td>
+  <td class="num" style="font-weight:600;">$14,534.17</td>
+  <td style="color:#b8860b; font-weight:600;">Open (Due on Receipt)</td>
+</tr>
+<tr class="total" style="background-color: #fdf4e3;">
+  <td colspan="3"><strong>Total Outstanding Balance</strong></td>
+  <td class="num" style="color:#b8860b;"><strong>$30,130.83</strong></td>
+  <td></td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+<!-- ============================================ -->
+<!-- QUESTIONS -->
+<!-- ============================================ -->
+
+<h2 id="flight-capacity">EMC2 / P3 Flight Pacing</h2>
+<div class="section-rule"></div>
+
+
+<style>
+  .bank-table th, .bank-table td { text-align: center; }
+  .bank-table td:first-child { text-align: left; font-weight: 600; }
+  .bank-positive { color: #C41E3A; font-weight: 600; }
+  .bank-negative { color: #2E7D32; font-weight: 600; }
+  .bank-neutral { color: #888; }
+  .pending-row { opacity: 0.4; }
+
+.hero-aircraft { display:block; width: calc(100% + 120px); margin: 0 0 30px -60px; background:#fff; border:1px solid #e0dcd4; border-radius:8px; overflow:hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.03); }
+.hero-aircraft-image { width:100%; min-height:520px; background-size:cover; background-repeat:no-repeat; background-position:center center; background-color:#f5f0e8; position:relative; }
+.hero-aircraft-image::after { content:""; position:absolute; inset:0; background:transparent; }
+.hero-aircraft-label { position:absolute; left:36px; bottom:34px; z-index:2; color:#fff; text-shadow:0 2px 10px rgba(0,0,0,0.55); }
+.hero-aircraft-label .tail { font-size:34px; font-weight:700; letter-spacing:0.3px; line-height:1; }
+.hero-aircraft-label .model { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:1.2px; margin-top:8px; display:inline-block; padding:6px 10px; border:1px solid rgba(255,255,255,0.75); border-radius:999px; background:rgba(0,0,0,0.18); backdrop-filter: blur(3px); }
+.hero-aircraft-copy { width:48%; padding:28px 28px 24px 0; display:flex; flex-direction:column; justify-content:center; }
+.hero-kicker { font-size:11px; text-transform:uppercase; letter-spacing:1.2px; color:#888; margin-bottom:10px; }
+.hero-title { font-size:28px; line-height:1.2; font-weight:700; color:#1a1a1a; margin-bottom:10px; }
+.hero-sub { font-size:15px; color:#444; margin-bottom:16px; }
+.hero-badges { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px; }
+.hero-badge { display:inline-block; padding:6px 10px; border-radius:999px; font-size:11px; font-weight:700; letter-spacing:.4px; text-transform:uppercase; }
+.hero-badge.gold { background:#fdf4e3; color:#b8860b; }
+.hero-badge.green { background:#edf7ed; color:#2E7D32; }
+.hero-badge.blue { background:#eef6fb; color:#0274B6; }
+.hero-links a { color:#0274B6; text-decoration:underline; font-weight:600; font-size:14px; }
+@media (max-width: 800px) {
+}
+</style>
+
+<h3>Tony's 2026 Flight Bank</h3>
+<p class="narrative">Tracking YTD pacing against the 60-hour annual allocation (5 hours/month).<br><strong style="font-size: 13px;">Pacing Legend:</strong> <span style="color:#C41E3A; font-weight:600; font-size: 13px;">Red (-) = Under-flown (Banking capacity)</span> <span style="color:#888;">|</span> <span style="color:#2E7D32; font-weight:600; font-size: 13px;">Green (+) = Over-flown (Exceeding YTD target)</span></p>
+<table class="bank-table" style="font-size: 14px;">
+<thead>
+<tr>
+  <th style="text-align: left;">Month</th>
+  <th>Flown (Mo)</th>
+  <th>YTD Flown</th>
+  <th>YTD Target</th>
+  <th>Pace (+/- Variance)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>January</td>
+  <td>2.5 hrs / 4 cycles</td>
+  <td>2.5 hrs / 4 cycles</td>
+  <td>5.0 hrs / 5 cycles</td>
+  <td class="bank-positive">- 2.5 hrs / - 1 cycle</td>
+</tr>
+<tr>
+  <td>February</td>
+  <td>0.0 hrs / 0 cycles</td>
+  <td>2.5 hrs / 4 cycles</td>
+  <td>10.0 hrs / 10 cycles</td>
+  <td class="bank-positive">- 7.5 hrs / - 6 cycles</td>
+</tr>
+<tr>
+  <td>March</td>
+  <td>0.0 hrs / 0 cycles</td>
+  <td>2.5 hrs / 4 cycles</td>
+  <td>15.0 hrs / 15 cycles</td>
+  <td class="bank-positive">- 12.5 hrs / - 11 cycles</td>
+</tr>
+<tr class="pending-row">
+  <td>April</td>
+  <td>-</td>
+  <td>-</td>
+  <td>20.0 hrs / 20 cycles</td>
+  <td>-</td>
+</tr>
+<tr class="pending-row">
+  <td>May</td>
+  <td>-</td>
+  <td>-</td>
+  <td>25.0 hrs / 25 cycles</td>
+  <td>-</td>
+</tr>
+<tr class="pending-row">
+  <td>June</td>
+  <td>-</td>
+  <td>-</td>
+  <td>30.0 hrs / 30 cycles</td>
+  <td>-</td>
+</tr>
+<tr class="pending-row">
+  <td>July</td>
+  <td>-</td>
+  <td>-</td>
+  <td>35.0 hrs / 35 cycles</td>
+  <td>-</td>
+</tr>
+<tr class="pending-row">
+  <td>August</td>
+  <td>-</td>
+  <td>-</td>
+  <td>40.0 hrs / 40 cycles</td>
+  <td>-</td>
+</tr>
+<tr class="pending-row">
+  <td>September</td>
+  <td>-</td>
+  <td>-</td>
+  <td>45.0 hrs / 45 cycles</td>
+  <td>-</td>
+</tr>
+<tr class="pending-row">
+  <td>October</td>
+  <td>-</td>
+  <td>-</td>
+  <td>50.0 hrs / 50 cycles</td>
+  <td>-</td>
+</tr>
+<tr class="pending-row">
+  <td>November</td>
+  <td>-</td>
+  <td>-</td>
+  <td>55.0 hrs / 55 cycles</td>
+  <td>-</td>
+</tr>
+<tr class="pending-row">
+  <td>December</td>
+  <td>-</td>
+  <td>-</td>
+  <td>60.0 hrs / 60 cycles</td>
+  <td>-</td>
+</tr>
+<tr style="background-color: #f8f9fa;">
+  <td><strong>Q1 Snapshot</strong></td>
+  <td><strong>2.5 hrs / 4 cycles</strong></td>
+  <td><strong>2.5 hrs / 4 cycles</strong></td>
+  <td><strong>15.0 hrs / 15 cycles</strong></td>
+  <td class="bank-positive">- 12.5 hrs / - 11 cycles</td>
+</tr>
+</tbody>
+</table>
+
+<br>
+
+<h3>Rich's 2026 Flight Bank</h3>
+<p class="narrative" style="margin-top: -10px; margin-bottom: 15px;"><strong style="font-size: 13px;">Pacing Legend:</strong> <span style="color:#C41E3A; font-weight:600; font-size: 13px;">Red (-) = Under-flown (Banking capacity)</span> <span style="color:#888;">|</span> <span style="color:#2E7D32; font-weight:600; font-size: 13px;">Green (+) = Over-flown (Exceeding YTD target)</span></p>
+<table class="bank-table" style="font-size: 14px;">
+<thead>
+<tr>
+  <th style="text-align: left;">Month</th>
+  <th>Flown (Mo)</th>
+  <th>YTD Flown</th>
+  <th>YTD Target</th>
+  <th>Pace (+/- Variance)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>January</td>
+  <td>6.6 hrs / 3 cycles</td>
+  <td>6.6 hrs / 3 cycles</td>
+  <td>5.0 hrs / 5 cycles</td>
+  <td style="font-weight: 600;"><span style="color:#2E7D32;">+ 1.6 hrs</span> <span style="color:#333;">/</span> <span style="color:#C41E3A;">- 2 cycles</span></td>
+</tr>
+<tr>
+  <td>February</td>
+  <td>0.0 hrs / 0 cycles</td>
+  <td>6.6 hrs / 3 cycles</td>
+  <td>10.0 hrs / 10 cycles</td>
+  <td class="bank-positive">- 3.4 hrs / - 7 cycles</td>
+</tr>
+<tr>
+  <td>March</td>
+  <td>0.0 hrs / 0 cycles</td>
+  <td>6.6 hrs / 3 cycles</td>
+  <td>15.0 hrs / 15 cycles</td>
+  <td class="bank-positive">- 8.4 hrs / - 12 cycles</td>
+</tr>
+<tr style="background-color: #f8f9fa;">
+  <td><strong>Q1 Snapshot</strong></td>
+  <td><strong>6.6 hrs / 3 cycles</strong></td>
+  <td><strong>6.6 hrs / 3 cycles</strong></td>
+  <td><strong>15.0 hrs / 15 cycles</strong></td>
+  <td class="bank-positive">- 8.4 hrs / - 12 cycles</td>
+</tr>
+<tr class="pending-row">
+  <td>April</td>
+  <td>-</td>
+  <td>-</td>
+  <td>20.0 hrs / 20 cycles</td>
+  <td>-</td>
+</tr>
+<tr class="pending-row">
+  <td>May</td>
+  <td>-</td>
+  <td>-</td>
+  <td>25.0 hrs / 25 cycles</td>
+  <td>-</td>
+</tr>
+<tr class="pending-row">
+  <td>June</td>
+  <td>-</td>
+  <td>-</td>
+  <td>30.0 hrs / 30 cycles</td>
+  <td>-</td>
+</tr>
+<tr class="pending-row">
+  <td>July</td>
+  <td>-</td>
+  <td>-</td>
+  <td>35.0 hrs / 35 cycles</td>
+  <td>-</td>
+</tr>
+<tr class="pending-row">
+  <td>August</td>
+  <td>-</td>
+  <td>-</td>
+  <td>40.0 hrs / 40 cycles</td>
+  <td>-</td>
+</tr>
+<tr class="pending-row">
+  <td>September</td>
+  <td>-</td>
+  <td>-</td>
+  <td>45.0 hrs / 45 cycles</td>
+  <td>-</td>
+</tr>
+<tr class="pending-row">
+  <td>October</td>
+  <td>-</td>
+  <td>-</td>
+  <td>50.0 hrs / 50 cycles</td>
+  <td>-</td>
+</tr>
+<tr class="pending-row">
+  <td>November</td>
+  <td>-</td>
+  <td>-</td>
+  <td>55.0 hrs / 55 cycles</td>
+  <td>-</td>
+</tr>
+<tr class="pending-row">
+  <td>December</td>
+  <td>-</td>
+  <td>-</td>
+  <td>60.0 hrs / 60 cycles</td>
+  <td>-</td>
+</tr>
+</tbody>
+</table>
+
+
+
+<!-- ============================================ -->
+<!-- 1. NARRATIVE OPENING -->
+<!-- ============================================ -->
+
+
+
+<!-- ============================================ -->
+<!-- HISTORICAL COST CONTEXT -->
+<!-- ============================================ -->
+<h2 id="contract-minimums">Annual Programs Contract Minimums Reference</h2>
+<div class="section-rule"></div>
+
+<p class="narrative">Both the EMC2 engine program and the P3 airframe program carry contractual annual minimums of 120 hours and 120 cycles. These are obligations to Honda Aircraft and GE Honda regardless of actual usage. The partnership allocates 60 hours per partner, billed monthly regardless of usage. If a partner gets ahead of their utilization pacing, the monthly program billing for that partner will suspend until utilization falls back below their monthly YTD targets.</p>
+
+<table>
+<thead>
+<tr>
+  <th>Program</th>
+  <th>Annual Minimum</th>
+  <th style="text-align:right">Current Rate</th>
+  <th style="text-align:right">Tony's Annual Share</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>EMC2 Engines</td>
+  <td>120 hrs/yr per engine</td>
+  <td class="num">$216.19/hr × 2</td>
+  <td class="num">$25,944 <span class="muted">($2,162/mo)</span></td>
+</tr>
+<tr>
+  <td>P3 Airframe - Hourly</td>
+  <td>120 flight hours/yr</td>
+  <td class="num">$332.25/hr</td>
+  <td class="num">$19,932 <span class="muted">($1,661/mo)</span></td>
+</tr>
+<tr>
+  <td>P3 Airframe - Cycles</td>
+  <td>120 cycles/yr</td>
+  <td class="num">$288.87/cycle</td>
+  <td class="num">$17,328 <span class="muted">($1,444/mo)</span></td>
+</tr>
+<tr>
+  <td>P3 Airframe - Calendar</td>
+  <td>Monthly (regardless)</td>
+  <td class="num">$1,568/mo</td>
+  <td class="num">$9,408 <span class="muted">($784/mo)</span></td>
+</tr>
+<tr class="total">
+  <td colspan="2">Total Annual Maintenance Minimums</td>
+  <td class="num"></td>
+  <td class="num">$72,612 <span class="muted" style="color:#C41E3A; font-weight:700;">($6,051/mo)</span></td>
+</tr>
+</tbody>
+</table>
+
+<p class="narrative">If the aircraft flies fewer than 120 hours or 120 cycles in a calendar year, Honda Aircraft and GE Honda issue reconciliation invoices for the shortfall. Monthly billing of these reserves prevents that from becoming a lump-sum surprise at year-end.</p>
+
+<div class="insight">
+  <strong>How the 5-hour monthly minimum works.</strong> Each partner pays for 5 flight hours and 5 cycles every month regardless of whether they fly. Unused hours and cycles carry forward through the year - so if you don't fly in January, that capacity is still available in later months, but the cost is already committed. The only way maintenance costs go <em>beyond</em> the numbers shown above is if a partner exceeds their 60 hours or 60 cycles per year. Beyond that, the only additional costs are fuel and travel expenses for each trip.
+</div>
+<br>
+<h3>Q1 Contract Reserve - Per Partner</h3>
+<p class="narrative">Each partner's Q1 commitment at the 5 hr / 5 cycle monthly variable rate (excludes the P3 calendar fee, which is billed separately on the fixed invoice). Unused capacity carries forward - the hours are available to fly into, but the dollars are committed regardless of usage.</p>
+
+<table>
+<thead>
+<tr>
+  <th></th>
+  <th style="text-align:right">Q1 Commitment</th>
+  <th style="text-align:right">Contract Commitment</th>
+  <th style="text-align:right">Contract Billed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td style="font-weight:600">Tony</td>
+  <td class="num">15 hrs / 15 cycles</td>
+  <td class="num" style="font-weight:700">$15,802</td>
+  <td class="num">$2,689</td>
+</tr>
+<tr>
+  <td style="font-weight:600">Rich</td>
+  <td class="num">15 hrs / 15 cycles</td>
+  <td class="num" style="font-weight:700">$15,802</td>
+  <td class="num">$7,271</td>
+</tr>
+<tr class="total">
+  <td>Total</td>
+  <td class="num">30 hrs / 30 cycles</td>
+  <td class="num">$31,605</td>
+  <td class="num">$9,960</td>
+</tr>
+</tbody>
+</table>
+
+<div class="insight">
+  <strong>Carry forward capacity:</strong> Tony is under-flown by <strong>12.5 hours and 11 cycles</strong> of unused Q1 capacity that carry forward into the rest of 2026 - available to fly into at no additional maintenance cost beyond fuel and travel. These are <em>in addition to</em> the regular 5 hours and 5 cycles allocated each month going forward. Rich is under-flown by <strong>8.4 hours and 12 cycles</strong> capacity on the same basis. The hours carry forward - the contract dollars do not.
+</div>
+
+
+
+
+<!-- ============================================ -->
+<!-- 5. PREPAID FLIGHT CAPACITY + Q1 RESERVE -->
+<!-- ============================================ -->
+
+<h2 id="cost-evolution">Historical Cost Context</h2>
+<div class="section-rule"></div>
+
+<div class="stats" style="grid-template-columns: repeat(4, 1fr);">
+  <div class="stat">
+    <div class="stat-value" style="color:#999">$239K</div>
+    <div class="stat-label">TBM Annual Cost</div>
+    <div class="stat-sub">Years 1–5 (Under Warranty)</div>
+  </div>
+  <div class="stat">
+    <div class="stat-value">$267K</div>
+    <div class="stat-label">TBM Annual Cost</div>
+    <div class="stat-sub">Years 6–10 (Post-Warranty)</div>
+  </div>
+  <div class="stat">
+    <div class="stat-value">$303K</div>
+    <div class="stat-label">HondaJet Annual Cost</div>
+    <div class="stat-sub">Current</div>
+  </div>
+  <div class="stat">
+    <div class="stat-value" style="color:#999">$470K</div>
+    <div class="stat-label">NetJets Phenom 300+</div>
+    <div class="stat-sub">50 hrs † · Card275</div>
+  </div>
+</div>
+
+
+
+
+
+<p class="narrative">Tony's monthly share across the three phases of the partnership:</p>
+
+<table>
+<thead>
+<tr>
+  <th>Category</th>
+  <th style="text-align:right">TBM 940<br><span style="font-weight:400;font-size:11px;color:#888">Yrs 1-5 · Warranty</span></th>
+  <th style="text-align:right">TBM 940<br><span style="font-weight:400;font-size:11px;color:#888">Yrs 6-10 · Post-Warranty</span></th>
+  <th style="text-align:right">HondaJet<br><span style="font-weight:400;font-size:11px;color:#888">Current · 60 hrs</span></th>
+  <th style="text-align:right">NetJets Phenom 300+<br><span style="font-weight:400;font-size:11px;color:#888">Card275 · 50 hrs †</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Loan Payment</td>
+  <td class="num">$10,308</td>
+  <td class="num">$10,308</td>
+  <td class="num">$9,488</td>
+  <td class="num" style="color:#888">-</td>
+</tr>
+<tr>
+  <td>Maintenance</td>
+  <td class="num">$2,708</td>
+  <td class="num accent">$5,000</td>
+  <td class="num">$6,051</td>
+  <td class="num" style="color:#888">-</td>
+</tr>
+<tr>
+  <td class="muted" style="padding-left:28px">Detail</td>
+  <td class="num muted">~$65K/yr ÷ 2</td>
+  <td class="num muted">~$120K/yr ÷ 2</td>
+  <td class="num muted">EMC2 + P3 (5hr/5cyc/1⁄2 cal)</td>
+  <td class="num muted">Included</td>
+</tr>
+<tr>
+  <td>Pilot</td>
+  <td class="num">$3,750</td>
+  <td class="num">$3,750</td>
+  <td class="num">$4,200</td>
+  <td class="num" style="color:#888">-</td>
+</tr>
+<tr>
+  <td>Insurance *</td>
+  <td class="num">$2,075</td>
+  <td class="num">$2,075</td>
+  <td class="num">$2,708</td>
+  <td class="num" style="color:#888">-</td>
+</tr>
+<tr>
+  <td>Amortization Reserve</td>
+  <td class="num">-</td>
+  <td class="num">-</td>
+  <td class="num">$1,267</td>
+  <td class="num" style="color:#888">-</td>
+</tr>
+<tr>
+  <td>Recurrency Training *</td>
+  <td class="num">$417</td>
+  <td class="num">$417</td>
+  <td class="num">$833</td>
+  <td class="num" style="color:#888">-</td>
+</tr>
+<tr>
+  <td>Hangar</td>
+  <td class="num">$595</td>
+  <td class="num">$595</td>
+  <td class="num">$636</td>
+  <td class="num" style="color:#888">-</td>
+</tr>
+<tr>
+  <td>Extras</td>
+  <td class="num">$87</td>
+  <td class="num">$87</td>
+  <td class="num">$88</td>
+  <td class="num" style="color:#888">-</td>
+</tr>
+<tr class="total">
+  <td>Monthly Floor</td>
+  <td class="num">$19,940</td>
+  <td class="num">$22,232</td>
+  <td class="num">$25,271</td>
+  <td class="num">$39,167</td>
+</tr>
+<tr class="total">
+  <td>Annual Floor</td>
+  <td class="num">$239,280</td>
+  <td class="num">$266,784</td>
+  <td class="num">$303,252</td>
+  <td class="num">$470,000</td>
+</tr>
+</tbody>
+</table>
+
+<p class="narrative" style="font-size:12px; color:#999; margin-top:-8px;">* Insurance is typically paid over 5 monthly installments but is annualized here for monthly comparison. Recurrency training is a one-time annual charge, annualized here for illustration purposes.<br>† NetJets Phenom 300 Plus (+) Program, Card275 - 50 hours at $470,000 all-in (fuel, catering, Wi-Fi, deicing, tax, repositioning to 48 states, Caribbean, Mexico, Central America). International flat fees and California landing fees additional. Quote from Kurt Maxwell, NetJets Sales Consultant, January 23, 2026. Partnership allocation is 60 hours/year per partner.</p>
+
+<p class="narrative" style="font-size:13px; color:#555;"><strong>Note:</strong> LOI Jet Management LLC compliance ($1,000/month per partner) was prepaid at aircraft purchase and will be added per partner going forward. Not reflected in the grid above.</p>
+
+
+<!-- FOOTER -->
+<div class="footer">
+  Laminar Holdings LLC · Prepared April 9, 2026<br>
+  Sources: QuickBooks Open Balance Report (04/09/26), Honda Aircraft FlightReady P3 Agreement (HA420_P3_2025-NOV_SN140_R1_AM), GE Honda EMC2 Agreement (H625), 2026 Rate Escalation Letters, Historical TBM 940 Invoices
+</div>
+
+
+</div> <!-- End Main Content Wrapper -->
+
+<script>
+  // Check if already authenticated in this session
+  document.addEventListener("DOMContentLoaded", function() {
+    if(sessionStorage.getItem('auth_laminar') === 'true') {
+      document.getElementById('password-overlay').style.display = 'none';
+      document.getElementById('main-content').style.display = 'block';
+    }
+  });
+
+  function checkPassword() {
+    var pw = document.getElementById('doc-password').value;
+    if(pw.toLowerCase() === 'laminar') {
+      // Save to session storage so refresh doesn't prompt again
+      sessionStorage.setItem('auth_laminar', 'true');
+      document.getElementById('password-overlay').style.display = 'none';
+      document.getElementById('main-content').style.display = 'block';
+    } else {
+      document.getElementById('password-error').style.display = 'block';
+    }
+  }
+  
+  document.getElementById('doc-password').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      checkPassword();
+    }
+  });
+</script>
+
+</body>
+</html>
