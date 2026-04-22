@@ -55,6 +55,20 @@ tr.total td { background: #f5f0e8; border-top: 2px solid #ccc; }
 </style>
 </head>
 <body>
+<!-- Password Overlay -->
+<div id="password-overlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#f4f7f6; z-index:9999; display:flex; align-items:center; justify-content:center; flex-direction:column; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <div style="background:white; padding:40px; border-radius:12px; box-shadow:0 10px 25px rgba(0,0,0,0.1); text-align:center; max-width:400px; width:90%; box-sizing: border-box;">
+    <h2 style="margin-top:0; color:#0274B6;">Protected Document</h2>
+    <p style="color:#666; font-size:14px; margin-bottom:20px;">Please enter the password to view this dashboard.</p>
+    <input type="password" id="doc-password" placeholder="Password" style="width:100%; padding:12px; border:1px solid #ddd; border-radius:6px; font-size:16px; margin-bottom:20px; box-sizing:border-box;">
+    <button onclick="checkPassword()" style="background:#0274B6; color:white; border:none; padding:12px 24px; border-radius:6px; font-size:16px; font-weight:bold; cursor:pointer; width:100%;">Unlock Document</button>
+    <p id="password-error" style="color:#C41E3A; font-size:13px; margin-top:15px; display:none;">Incorrect password. Please try again.</p>
+  </div>
+</div>
+
+<!-- Main Content Wrapper -->
+<div id="main-content" style="display:none;">
+
 
 <!-- HEADER -->
 <div class="header">
@@ -764,6 +778,37 @@ tr.total td { background: #f5f0e8; border-top: 2px solid #ccc; }
   Laminar Holdings LLC · Prepared April 9, 2026<br>
   Sources: QuickBooks Open Balance Report (04/09/26), Honda Aircraft FlightReady P3 Agreement (HA420_P3_2025-NOV_SN140_R1_AM), GE Honda EMC2 Agreement (H625), 2026 Rate Escalation Letters, Historical TBM 940 Invoices
 </div>
+
+
+</div> <!-- End Main Content Wrapper -->
+
+<script>
+  // Check if already authenticated in this session
+  document.addEventListener("DOMContentLoaded", function() {
+    if(sessionStorage.getItem('auth_laminar') === 'true') {
+      document.getElementById('password-overlay').style.display = 'none';
+      document.getElementById('main-content').style.display = 'block';
+    }
+  });
+
+  function checkPassword() {
+    var pw = document.getElementById('doc-password').value;
+    if(pw.toLowerCase() === 'laminar') {
+      // Save to session storage so refresh doesn't prompt again
+      sessionStorage.setItem('auth_laminar', 'true');
+      document.getElementById('password-overlay').style.display = 'none';
+      document.getElementById('main-content').style.display = 'block';
+    } else {
+      document.getElementById('password-error').style.display = 'block';
+    }
+  }
+  
+  document.getElementById('doc-password').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      checkPassword();
+    }
+  });
+</script>
 
 </body>
 </html>
