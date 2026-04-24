@@ -119,5 +119,265 @@
         <img src="jfi-pl-snapshot.jpg" alt="JFI P&L" style="max-width: 100%; height: auto; border: 1px solid #e1e4e8; border-radius: 6px; margin-top: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
     </div>
 
+
+<div class="q1-analysis" style="margin-top: 60px; border-top: 3px solid #1a1a2e; padding-top: 40px;">
+  <style>
+    .q1-analysis {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #1a1a2e;
+      line-height: 1.6;
+    }
+    .q1-analysis h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin: 0 0 0.25rem 0;
+      color: #1a1a2e;
+    }
+    .q1-analysis .section-subtitle {
+      font-size: 0.85rem;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.5rem;
+    }
+    .q1-analysis .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .q1-analysis .kpi-card {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+    }
+    .q1-analysis .kpi-card .kpi-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #6b7280;
+      margin-bottom: 0.25rem;
+    }
+    .q1-analysis .kpi-card .kpi-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    .q1-analysis .kpi-card .kpi-note {
+      font-size: 0.78rem;
+      color: #6b7280;
+      margin-top: 0.2rem;
+    }
+    .q1-analysis .neg { color: #dc2626; }
+    .q1-analysis .pos { color: #16a34a; }
+    .q1-analysis .warn { color: #d97706; }
+
+    .q1-analysis .month-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
+    }
+    .q1-analysis .month-table th {
+      text-align: left;
+      padding: 0.8rem 0.75rem;
+      border-bottom: 2px solid #1a1a2e;
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: #374151;
+      background-color: transparent;
+    }
+    .q1-analysis .month-table td {
+      padding: 0.8rem 0.75rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .q1-analysis .month-table tr:last-child td {
+      border-bottom: 2px solid #1a1a2e;
+      font-weight: 700;
+      background-color: #f9fafb;
+    }
+    .q1-analysis .month-table td.num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      font-family: "SF Mono", "Fira Code", monospace;
+    }
+
+    .q1-analysis .analysis-section {
+      margin-bottom: 2rem;
+    }
+    .q1-analysis .analysis-section h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin: 0 0 0.75rem 0;
+      padding-bottom: 0.4rem;
+      border-bottom: 2px solid #dc2626;
+      display: inline-block;
+    }
+    .q1-analysis .analysis-section h3.pareto {
+      border-bottom-color: #d97706;
+    }
+    .q1-analysis .analysis-section p {
+      margin: 0 0 1rem 0;
+      font-size: 1rem;
+      color: #374151;
+    }
+    .q1-analysis .callout {
+      background: #fef2f2;
+      border-left: 4px solid #dc2626;
+      padding: 1.25rem 1.5rem;
+      border-radius: 0 6px 6px 0;
+      margin: 1.25rem 0;
+      font-size: 0.95rem;
+      color: #991b1b;
+    }
+
+    .q1-analysis .pl-gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    .q1-analysis .pl-gallery a {
+      display: block;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid #e5e7eb;
+      transition: box-shadow 0.2s ease, transform 0.15s ease;
+    }
+    .q1-analysis .pl-gallery a:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+      transform: translateY(-2px);
+    }
+    .q1-analysis .pl-gallery img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .q1-analysis .pl-gallery .gallery-label {
+      font-size: 0.8rem;
+      text-align: center;
+      padding: 0.6rem;
+      color: #4b5563;
+      background: #f9fafb;
+      font-weight: 600;
+    }
+    @media (max-width: 640px) {
+      .q1-analysis .pl-gallery {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+
+  <h2>Q1 2026 Accountability Review</h2>
+  <div class="section-subtitle">Pareto Analysis &middot; Where 80% of the Bleeding Originates</div>
+
+  <!-- KPI Cards -->
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div class="kpi-label">Q1 Revenue Decline</div>
+      <div class="kpi-value neg">&minus;49.1%</div>
+      <div class="kpi-note">$168.8K &rarr; $86.0K, Jan to Mar</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Q1 Ad Spend (Held Flat)</div>
+      <div class="kpi-value warn">$76,570</div>
+      <div class="kpi-note">+6% from Jan&rarr;Mar while sales cratered</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Q1 Discounts Given Away</div>
+      <div class="kpi-value neg">$71,598</div>
+      <div class="kpi-note">18.7% of gross sales surrendered</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Q1 Net Income</div>
+      <div class="kpi-value neg">&minus;$89,230</div>
+      <div class="kpi-note">Only January was profitable (+$5.4K)</div>
+    </div>
+  </div>
+
+  <!-- Monthly Breakdown -->
+  <table class="month-table">
+    <thead>
+      <tr>
+        <th>Month</th>
+        <th style="text-align:right">Gross Sales</th>
+        <th style="text-align:right">Discounts/Returns</th>
+        <th style="text-align:right">Ad Spend</th>
+        <th style="text-align:right">Net Income</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Jan 2026</td>
+        <td class="num">$168,776</td>
+        <td class="num neg">&minus;$29,969</td>
+        <td class="num warn">$23,230</td>
+        <td class="num pos">+$5,373</td>
+      </tr>
+      <tr>
+        <td>Feb 2026</td>
+        <td class="num">$127,010</td>
+        <td class="num neg">&minus;$25,569</td>
+        <td class="num warn">$28,729</td>
+        <td class="num neg">&minus;$41,158</td>
+      </tr>
+      <tr>
+        <td>Mar 2026</td>
+        <td class="num">$86,031</td>
+        <td class="num neg">&minus;$16,060</td>
+        <td class="num warn">$24,611</td>
+        <td class="num neg">&minus;$53,445</td>
+      </tr>
+      <tr>
+        <td><strong>Q1 Total</strong></td>
+        <td class="num"><strong>$381,817</strong></td>
+        <td class="num neg"><strong>&minus;$71,598</strong></td>
+        <td class="num warn"><strong>$76,570</strong></td>
+        <td class="num neg"><strong>&minus;$89,230</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Pareto Analysis -->
+  <div class="analysis-section">
+    <h3 class="pareto">The 80/20: Two Line Items, One Problem</h3>
+    <p>
+      Combined Q1 ad spend and discounts total <strong class="neg">$148,168</strong>. On a revenue base of $381,817, that means <strong>38.8 cents of every dollar</strong> walked out the door before a single technician got paid, before rent, before parts.
+    </p>
+    <p>
+      Apply the Pareto Principle and the picture sharpens: <strong>these two controllable line items account for the overwhelming majority of the cash destruction.</strong> Fixed overhead didn't spike. Payroll didn't balloon. The furnace that's supposed to generate customers is burning cash at the same rate while producing half the output—and the pricing discipline that's supposed to protect margin is giving it away on the front end.
+    </p>
+    <div class="callout">
+      <strong style="color: #7f1d1d;">Ad Spend Accountability:</strong> $76,570 across Q1 while sales fell 49%. The spend held flat at ~$25K/month even as January's $168K in revenue collapsed to March's $86K. No throttle adjustment. No pivot. No kill switch. A marketing engine running on autopilot while the results disappear is not a strategy—it is an unattended furnace burning cash. Management must answer why the exact same spend in March yielded half the revenue it did in January.
+    </div>
+    <div class="callout">
+      <strong style="color: #7f1d1d;">Discount Accountability:</strong> $71,598 surrendered—18.7% of gross revenue over 90 days. January alone gave back nearly $30K. When you are losing money on the bottom line, every unearned "Manager Pricing Exception" is a direct deduction from the survival runway of the company. Management must identify exactly who is authorizing these exceptions and halt them immediately.
+    </div>
+    <p style="margin-top: 20px;"><strong>The Conclusion:</strong> The structural fixed overhead is not what broke the Q1 P&L. A total lack of management accountability on pricing discipline and marketing efficiency drove this collapse. A turnaround plan does not need 40 steps. It needs immediate, aggressive correction on these two lines.</p>
+  </div>
+
+  <!-- P&L Gallery -->
+  <div class="analysis-section">
+    <h3>Q1 2026 Source Documents</h3>
+    <p style="color: #6b7280; font-size: 0.9em;">Click any P&L snapshot to view full size.</p>
+    <div class="pl-gallery">
+      <a href="jfi-pl-jan2026.jpg" target="_blank">
+        <img src="jfi-pl-jan2026.jpg" alt="January 2026 P&L">
+        <div class="gallery-label">January 2026</div>
+      </a>
+      <a href="jfi-pl-feb2026.png" target="_blank">
+        <img src="jfi-pl-feb2026.png" alt="February 2026 P&L">
+        <div class="gallery-label">February 2026</div>
+      </a>
+      <a href="jfi-pl-mar2026.jpg" target="_blank">
+        <img src="jfi-pl-mar2026.jpg" alt="March 2026 P&L">
+        <div class="gallery-label">March 2026</div>
+      </a>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
