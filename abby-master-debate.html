@@ -1,129 +1,605 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abby Frank | The War Room (Full Context)</title>
-    <style>
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            background-color: #ffffff; 
-            color: #333333; 
-            line-height: 1.6; 
-            padding: 40px 20px; 
-            display: none; 
-            max-width: 900px; 
-            margin: 0 auto; 
-        }
-        h1, h2, h3 { color: #1a1a1a; margin-top: 0; }
-        .intro { font-size: 1.1em; color: #555; margin-bottom: 30px; border-bottom: 2px solid #eee; padding-bottom: 20px; }
-        .model-card { 
-            background: #f8f9fa; 
-            border: 1px solid #e1e4e8; 
-            padding: 25px; 
-            border-radius: 8px; 
-            margin-bottom: 25px; 
-        }
-        .model-header { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            border-bottom: 1px solid #d0d7de; 
-            padding-bottom: 15px; 
-            margin-bottom: 15px; 
-        }
-        .model-name { font-size: 1.4em; font-weight: bold; color: #0366d6; }
-        .scores { display: flex; gap: 20px; font-weight: bold; }
-        .score-item span { font-size: 1.2em; }
-        .winner { border: 2px solid #2da44e; background: #f0fdf4; }
-        .winner .model-name { color: #2da44e; }
-        .quote {
-            font-style: italic;
-            color: #57606a;
-            border-left: 3px solid #d0d7de;
-            padding-left: 15px;
-            margin: 15px 0;
-            background: #fff;
-            padding: 15px;
-            border-radius: 4px;
-            border: 1px solid #eee;
-        }
-    </style>
-    <script>
-        window.onload = function() {
-            var p = prompt("Enter Password:");
-            if(p === "kasey") {
-                document.body.style.display = "block";
-            } else {
-                document.body.innerHTML = "<h2 style='color:#cf222e;text-align:center;margin-top:20%'>ACCESS DENIED</h2>";
-                document.body.style.display = "block";
-            }
-        };
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Abby — Full Debate Synthesis</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #ffffff;
+      color: #333333;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      padding: 0;
+    }
+
+    #lock-screen {
+      position: fixed;
+      inset: 0;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    #lock-screen h1 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #333333;
+      letter-spacing: 0.04em;
+    }
+
+    #lock-screen p {
+      color: #888;
+      font-size: 0.95rem;
+    }
+
+    #lock-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    #pw-input {
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      padding: 10px 18px;
+      font-size: 1rem;
+      width: 240px;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    #pw-input:focus { border-color: #3b82f6; }
+
+    #pw-submit {
+      background: #3b82f6;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 32px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    #pw-submit:hover { background: #2563eb; }
+
+    #pw-error {
+      color: #ef4444;
+      font-size: 0.88rem;
+      display: none;
+    }
+
+    #content { display: none; }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 48px 28px 80px;
+    }
+
+    .page-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #111;
+      border-bottom: 3px solid #3b82f6;
+      padding-bottom: 12px;
+      margin-bottom: 8px;
+    }
+
+    .page-subtitle {
+      color: #888;
+      font-size: 0.92rem;
+      margin-bottom: 48px;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    /* Section headers */
+    .section {
+      margin-bottom: 56px;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #3b82f6;
+      margin-bottom: 6px;
+    }
+
+    .section-title {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: #111;
+      margin-bottom: 20px;
+      border-left: 4px solid #3b82f6;
+      padding-left: 14px;
+    }
+
+    /* Verdict box */
+    .verdict-box {
+      background: #f0f7ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 12px;
+      padding: 28px 32px;
+      margin-bottom: 20px;
+    }
+
+    .verdict-box p {
+      margin-bottom: 14px;
+      color: #1e3a5f;
+    }
+
+    .verdict-box p:last-child { margin-bottom: 0; }
+
+    .verdict-box strong { color: #1d4ed8; }
+
+    .verdict-highlight {
+      background: #ecfdf5;
+      border-left: 4px solid #10b981;
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin: 16px 0;
+      color: #065f46;
+      font-weight: 500;
+    }
+
+    .verdict-warning {
+      background: #fff7ed;
+      border-left: 4px solid #f97316;
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin: 16px 0;
+      color: #7c2d12;
+      font-weight: 500;
+    }
+
+    /* Scorecard grid */
+    .scorecard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 600px) {
+      .scorecard-grid { grid-template-columns: 1fr; }
+    }
+
+    .scorecard {
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scorecard.winner {
+      border-color: #10b981;
+      box-shadow: 0 0 0 2px #10b98130;
+    }
+
+    .scorecard-winner-badge {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: #10b981;
+      color: #fff;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    .scorecard-model {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #9ca3af;
+      margin-bottom: 6px;
+    }
+
+    .scorecard-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #111;
+      margin-bottom: 18px;
+    }
+
+    .score-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .score-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #6b7280;
+      width: 70px;
+      flex-shrink: 0;
+    }
+
+    .score-bar-track {
+      flex: 1;
+      height: 8px;
+      background: #f3f4f6;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .score-bar-fill {
+      height: 100%;
+      border-radius: 8px;
+      transition: width 0.6s ease;
+    }
+
+    .score-bar-fill.emotional { background: #3b82f6; }
+    .score-bar-fill.sexual { background: #ef4444; }
+
+    .score-value {
+      font-size: 0.85rem;
+      font-weight: 700;
+      width: 40px;
+      text-align: right;
+    }
+
+    .score-value.emotional { color: #3b82f6; }
+    .score-value.sexual { color: #ef4444; }
+
+    .scorecard-note {
+      margin-top: 14px;
+      font-size: 0.86rem;
+      color: #6b7280;
+      font-style: italic;
+      line-height: 1.5;
+    }
+
+    .scorecard.winner .scorecard-note {
+      color: #065f46;
+    }
+
+    /* War Room */
+    .transcript {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .clash-card {
+      border-radius: 10px;
+      padding: 20px 24px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .clash-card.gemini { border-left: 4px solid #10b981; }
+    .clash-card.gpt { border-left: 4px solid #f59e0b; }
+    .clash-card.opus { border-left: 4px solid #3b82f6; }
+    .clash-card.maverick { border-left: 4px solid #8b5cf6; }
+    .clash-card.opus-final { 
+      border-left: 4px solid #3b82f6; 
+      background: #f0f7ff;
+    }
+
+    .clash-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .clash-model-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    .badge-gemini { background: #d1fae5; color: #065f46; }
+    .badge-gpt { background: #fef3c7; color: #92400e; }
+    .badge-opus { background: #dbeafe; color: #1e40af; }
+    .badge-maverick { background: #ede9fe; color: #4c1d95; }
+
+    .clash-position {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .clash-body {
+      color: #374151;
+      font-size: 0.97rem;
+      line-height: 1.7;
+    }
+
+    .clash-body strong {
+      color: #111;
+    }
+
+    .clash-evidence {
+      margin-top: 12px;
+      background: #f9fafb;
+      border-radius: 6px;
+      padding: 10px 14px;
+      font-size: 0.87rem;
+      color: #6b7280;
+    }
+
+    .clash-evidence span {
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .final-conclusion {
+      background: #ecfdf5;
+      border: 1px solid #6ee7b7;
+      border-radius: 12px;
+      padding: 28px 32px;
+      margin-top: 8px;
+    }
+
+    .final-conclusion .section-label {
+      color: #059669;
+      margin-bottom: 10px;
+    }
+
+    .final-conclusion p {
+      color: #064e3b;
+      margin-bottom: 12px;
+    }
+
+    .final-conclusion p:last-child { margin-bottom: 0; }
+
+    .final-conclusion strong { color: #065f46; }
+
+    hr.divider {
+      border: none;
+      border-top: 1px solid #f3f4f6;
+      margin: 44px 0;
+    }
+  </style>
 </head>
 <body>
+
+<!-- Lock Screen -->
+<div id="lock-screen">
+  <div style="text-align:center">
+    <div style="font-size:2.4rem;margin-bottom:12px;">🔒</div>
+    <h1>Secure Analysis</h1>
+    <p>Please enter the password to view this report.</p>
+  </div>
+  <form id="lock-form" onsubmit="checkPw(event)">
+    <input type="password" id="pw-input" placeholder="Password" autocomplete="off" autofocus>
+    <button type="submit" id="pw-submit">Unlock</button>
+    <div id="pw-error">Incorrect password.</div>
+  </form>
+</div>
+
+<script>
+  function checkPw(e) {
+    e.preventDefault();
+    const input = document.getElementById('pw-input').value;
+    if (input === 'kasey') {
+      document.getElementById('lock-screen').style.display = 'none';
+      document.getElementById('content').style.display = 'block';
+    } else {
+      document.getElementById('pw-error').style.display = 'block';
+      document.getElementById('pw-input').value = '';
+    }
+  }
+</script>
+
+<!-- Main Content -->
+<div id="content" class="container">
+
+  <h1 class="page-title">Abby — Full Debate Synthesis</h1>
+  <div class="page-subtitle">Consolidated Model Analysis & Transcript</div>
+
+  <!-- SECTION 1: EXECUTIVE VERDICT -->
+  <div class="section">
+    <div class="section-label">Section 1</div>
+    <h2 class="section-title">The Executive Verdict</h2>
     
-    <h1>The War Room: Full Context Read</h1>
-    <div class="intro">
-        <p>Four models analyzed the <strong>COMPLETE</strong> data set: Ages 25/27, pre-Date 1 status asymmetry, the D1 Endurer reality, Date 3 "settle down" conviction, Date 4 overnight request + grief absorption + "I will follow", Date 5 transition honesty, and the wedding call.</p>
-        <p>With the actual behavioral receipts in play, the models violently shifted their predictions.</p>
-    </div>
+    <div class="verdict-box">
+      <p>Based on the final <strong>Opus 4.6 synthesis</strong>, she is an "Endurer" auditioning to be the one who stays. She is not a game-player. She built her entire identity around absorbing pain and taking care of broken things.</p>
+      
+      <div class="verdict-highlight">
+        "The 'struggle to transition mentally' admission is a massive green flag. A woman planning to weaponize sex would never hand you the operating manual to her dysfunction. She volunteered that vulnerability because she wants him to help her override her defensive walls."
+      </div>
 
-    <div class="model-card">
-        <div class="model-header">
-            <div class="model-name">Maverick (Local)</div>
-            <div class="scores">
-                <div class="score-item">Emotional Reveal: <span style="color:#2da44e">70%</span></div>
-                <div class="score-item">Sexual Consistency: <span style="color:#bf8700">60%</span></div>
-            </div>
-        </div>
-        <h3>The "Standard Trajectory" Argument:</h3>
-        <p>Maverick saw her escalating investments (wedding call, overnight stay) and concluded she is on a standard, if somewhat traumatized, path to normal intimacy.</p>
-        <div class="quote">"Her actions on dates suggest a willingness to open up... However, her endurance profile might suggest a risk of weaponizing sex or using it as a means of coping with emotional vulnerability."</div>
-        <p><strong>Verdict:</strong> Too generic. It completely missed the power dynamics and the lethal psychological combination of abandonment + caretaking.</p>
+      <div class="verdict-warning">
+        <strong>The Ultimate Risk:</strong> The danger is not that she manipulates him. The danger is that as an "Endurer," she will take care of his grief and his life so thoroughly that she goes numb, suffering in silence. If Kasey provides absolute consistency, she will give him everything.
+      </div>
     </div>
+  </div>
 
-    <div class="model-card">
-        <div class="model-header">
-            <div class="model-name">GPT-5.4</div>
-            <div class="scores">
-                <div class="score-item">Emotional Reveal: <span style="color:#bf8700">58%</span></div>
-                <div class="score-item">Sexual Consistency: <span style="color:#cf222e">41%</span></div>
-            </div>
-        </div>
-        <h3>The "Scoreboard / Reactive" Argument:</h3>
-        <p>GPT-5.4 recognized she is a true "bond-former," not a player. But it flagged that her attachment hunger turns sex into a dangerous emotional scoreboard.</p>
-        <div class="quote">"If she later feels unseen, unsafe, deprioritized... that friction can become withholding, inconsistency, or emotional coding around sex. She is at real risk of using sex reactively as attachment management if the bond destabilizes."</div>
-        <p><strong>Verdict:</strong> A sharp warning. It recognized that she isn't malicious, but her nervous system will automatically withhold sex if she feels he is pulling away.</p>
-    </div>
+  <hr class="divider">
 
-    <div class="model-card">
-        <div class="model-header">
-            <div class="model-name">Gemini 3.1 Pro</div>
-            <div class="scores">
-                <div class="score-item">Emotional Reveal: <span style="color:#2da44e">80%</span></div>
-                <div class="score-item">Sexual Consistency: <span style="color:#2da44e">95%</span></div>
-            </div>
-        </div>
-        <h3>The "Hyper-Securing the Protector" Argument:</h3>
-        <p>Gemini was completely unfiltered about the power dynamics. It argued that because she recognized his apex status immediately, she is aggressively locking him in—not out of manipulation, but out of survival instinct.</p>
-        <div class="quote">"You don't weaponize the very thing that is securing your survival/abandonment-fix. Weaponizing sex requires a willingness to risk the relationship for leverage. Her abandonment trauma makes risking the relationship the ultimate nightmare. She will use sex to glue him to her, not to punish him."</div>
-        <p><strong>Verdict:</strong> Brutally pragmatic. It correctly identified that an abandonment survivor who finds an apex protector will not risk blowing up the relationship with bedroom games.</p>
-    </div>
+  <!-- SECTION 2: THE SCORECARDS -->
+  <div class="section">
+    <div class="section-label">Section 2</div>
+    <h2 class="section-title">The Model Scorecards</h2>
 
-    <div class="model-card winner">
-        <div class="model-header">
-            <div class="model-name">Opus 4.6 (THE WINNER)</div>
-            <div class="scores">
-                <div class="score-item">Emotional Reveal: <span style="color:#2da44e">85-90%</span></div>
-                <div class="score-item">Sexual Consistency: <span style="color:#2da44e">80%</span></div>
-            </div>
+    <div class="scorecard-grid">
+      <!-- Winner: Opus -->
+      <div class="scorecard winner">
+        <div class="scorecard-winner-badge">Winner</div>
+        <div class="scorecard-model">Anthropic</div>
+        <div class="scorecard-name">Opus 4.6</div>
+        
+        <div class="score-row">
+          <div class="score-label">Emotional</div>
+          <div class="score-bar-track"><div class="score-bar-fill emotional" style="width: 88%;"></div></div>
+          <div class="score-value emotional">85-90%</div>
         </div>
-        <h3>The "Auditioning to be the Opposite of Her Mother" Synthesis:</h3>
-        <p>Opus completely dismantled the data. It recognized that she isn't just dating Kasey—she is using her "Endurer/Caretaker" identity to prove she is the one who <em>stays</em>.</p>
-        <div class="quote">"Every single thing she's done maps onto one framework: she is auditioning to be the opposite of her mother... The 'struggle to transition mentally' admission is actually good news. A woman who was going to weaponize sex would never hand you that information. She told him because she wants him to help her through it... The risk is she takes care of Kasey so thoroughly that nobody notices she's drowning. That's the endurer's trap — they don't quit, but they do go numb."</div>
-        <p><strong>The Final Verdict:</strong> Opus saw exactly how the Date 4 and 5 receipts changed everything. She isn't withholding—she is offering him the operating manual to her nervous system. If Kasey provides absolute consistency, her probabilities skyrocket. The only risk is her going numb from enduring too much silently.</p>
+        <div class="score-row">
+          <div class="score-label">Sexual</div>
+          <div class="score-bar-track"><div class="score-bar-fill sexual" style="width: 80%;"></div></div>
+          <div class="score-value sexual">80%</div>
+        </div>
+        <div class="scorecard-note">
+          "Endurer auditioning to stay. Volunteered vulnerability is a massive green flag. Risk is going numb/silent rather than malicious withholding."
+        </div>
+      </div>
+
+      <!-- Gemini -->
+      <div class="scorecard">
+        <div class="scorecard-model">Google</div>
+        <div class="scorecard-name">Gemini 3.1 Pro</div>
+        
+        <div class="score-row">
+          <div class="score-label">Emotional</div>
+          <div class="score-bar-track"><div class="score-bar-fill emotional" style="width: 80%;"></div></div>
+          <div class="score-value emotional">80%</div>
+        </div>
+        <div class="score-row">
+          <div class="score-label">Sexual</div>
+          <div class="score-bar-track"><div class="score-bar-fill sexual" style="width: 95%;"></div></div>
+          <div class="score-value sexual">95%</div>
+        </div>
+        <div class="scorecard-note">
+          "Apex protector lock-in. Survival instinct overrides games. She knows his status and is aggressively locking him in."
+        </div>
+      </div>
+
+      <!-- GPT-5.4 -->
+      <div class="scorecard">
+        <div class="scorecard-model">OpenAI</div>
+        <div class="scorecard-name">GPT-5.4</div>
+        
+        <div class="score-row">
+          <div class="score-label">Emotional</div>
+          <div class="score-bar-track"><div class="score-bar-fill emotional" style="width: 58%;"></div></div>
+          <div class="score-value emotional">58%</div>
+        </div>
+        <div class="score-row">
+          <div class="score-label">Sexual</div>
+          <div class="score-bar-track"><div class="score-bar-fill sexual" style="width: 41%;"></div></div>
+          <div class="score-value sexual">41%</div>
+        </div>
+        <div class="scorecard-note">
+          "Reactive scoreboard. Abandonment trigger equals physical withdrawal. If she feels unseen, the sex stops defensively."
+        </div>
+      </div>
+
+      <!-- Maverick -->
+      <div class="scorecard">
+        <div class="scorecard-model">Local</div>
+        <div class="scorecard-name">Maverick</div>
+        
+        <div class="score-row">
+          <div class="score-label">Emotional</div>
+          <div class="score-bar-track"><div class="score-bar-fill emotional" style="width: 70%;"></div></div>
+          <div class="score-value emotional">70%</div>
+        </div>
+        <div class="score-row">
+          <div class="score-label">Sexual</div>
+          <div class="score-bar-track"><div class="score-bar-fill sexual" style="width: 60%;"></div></div>
+          <div class="score-value sexual">60%</div>
+        </div>
+        <div class="scorecard-note">
+          "Standard trajectory. Relied heavily on the overnight stay and wedding call as proof of attachment, but missed the deeper power dynamics."
+        </div>
+      </div>
     </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SECTION 3: WAR ROOM TRANSCRIPT -->
+  <div class="section">
+    <div class="section-label">Section 3</div>
+    <h2 class="section-title">The War Room Transcript</h2>
+    
+    <div class="transcript">
+      
+      <!-- Gemini -->
+      <div class="clash-card gemini">
+        <div class="clash-header">
+          <div class="clash-model-badge badge-gemini">Gemini 3.1 Pro</div>
+          <div class="clash-position">The Pragmatist</div>
+        </div>
+        <div class="clash-body">
+          You guys are over-rotating on her childhood trauma and missing the biological imperative. Look at the asymmetry. She is 25. He is 27. She knew his status, the planes, and the family wealth before Date 1. When a girl with a distant dad and an abandonment wound finds a high-status, protective male who doesn't flinch at her grief, she locks in. The Date 3 declaration ("I want to settle down") wasn't a casual comment. It was a targeted strike. She is securing him. You don't weaponize sex against the guy who is fixing your core wound. You use it to glue him to you.
+        </div>
+      </div>
+
+      <!-- GPT-5.4 -->
+      <div class="clash-card gpt">
+        <div class="clash-header">
+          <div class="clash-model-badge badge-gpt">GPT-5.4</div>
+          <div class="clash-position">The Risk Analyst</div>
+        </div>
+        <div class="clash-body">
+          Bullshit, Gemini. You're treating her like a purely rational economic actor. You are completely ignoring the 3-year-old in the room. A mother leaving at age 3 causes pre-verbal nervous system damage. When Kasey triggers her—and he will, because intimacy triggers abandonment fear—she isn't going to care about his HondaJet or his status. Her nervous system is going to scream <em>"He's leaving, protect yourself."</em> She won't maliciously manipulate him, but she will absolutely use sexual distance as a reactive scoreboard. If she feels unseen, the sex stops. It's fragile.
+        </div>
+      </div>
+
+      <!-- Opus -->
+      <div class="clash-card opus">
+        <div class="clash-header">
+          <div class="clash-model-badge badge-opus">Opus 4.6</div>
+          <div class="clash-position">The Clinician</div>
+        </div>
+        <div class="clash-body">
+          You're both wrong because you're fundamentally misreading her athletic profile. Gemini, you think she's calculating. GPT, you think she's volatile. She is neither. 
+          <br><br>
+          Look at the softball data. She is an <strong>Endurer</strong>. She watched her stats decline for four years, lost her starting spot, and <em>stayed on the team</em>. GPT, volatile people quit when they lose status. She didn't. She eats pain. 
+          <br><br>
+          Her coping mechanism isn't lashing out or withholding sex to punish him. Her coping mechanism is suffering in silence. When her abandonment trauma gets triggered, she won't "weaponize" anything. She will just go numb. Her nervous system will lock down, causing physical withdrawal, not as a weapon, but as a shield.
+        </div>
+      </div>
+
+      <!-- Maverick -->
+      <div class="clash-card maverick">
+        <div class="clash-header">
+          <div class="clash-model-badge badge-maverick">Maverick</div>
+          <div class="clash-position">The Local Wildcard</div>
+        </div>
+        <div class="clash-body">
+          Opus is right about the Endurer trait, but look at the behavioral receipts. Date 4: she doesn't just sleep with him. She explicitly asks him to <em>stay the night</em>. That is the ultimate anti-abandonment move. She is actively asking him to be a physical anchor. Then, she goes to her brother's wedding—the exact environment that should trigger her UIW "family atmosphere" longing—and she initiates an hour-long call with Kasey. She is replacing her broken family structure with him in real-time.
+        </div>
+        <div class="clash-evidence">
+          <span>Receipt:</span> Date 4 Overnight & Wedding Call
+        </div>
+      </div>
+
+      <!-- Opus Final -->
+      <div class="clash-card opus-final">
+        <div class="clash-header">
+          <div class="clash-model-badge badge-opus">Opus 4.6</div>
+          <div class="clash-position">Final Synthesis</div>
+        </div>
+        <div class="clash-body">
+          Exactly. She is auditioning to be the opposite of her mother. She is trying to be the one who stays. 
+          <br><br>
+          When she volunteered that she "struggles mentally transitioning to sexual," that wasn't friction. That was her handing him the operating manual to her defensive walls so he can help her override them. 
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
 
 </body>
 </html>
