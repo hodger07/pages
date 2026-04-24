@@ -40,8 +40,8 @@
         <div class="model-header">
             <div class="model-name">Grok 3 (The Skeptic)</div>
         </div>
-        <h3>The Data Pipeline: High Difficulty</h3>
-        <p>Grok flagged the email extraction as technically hazardous. You can't just feed raw .pst or .mbox files into an LLM. It requires custom Python scraping (`imaplib`) to strip threads, handle token limits, and prevent the AI from hallucinating duplicate responses. Extracting precise SLAs and ticket numbers across noisy, unstructured email strings is highly prone to error without a human-in-the-loop review layer.</p>
+        <h3>The Data Pipeline: The Shift to Document Synthesis</h3>
+        <p>Grok noted that since you already have the emails extracted into PDFs and text files, the nightmare of IMAP scraping and HTML thread deduplication is bypassed. The difficulty shifts from data engineering to <strong>unstructured document synthesis</strong>. Feeding hundreds of disconnected PDFs into an LLM can still lead to timeline confusion. Grok advises a structured approach: feed the files in chronological batches so the AI accurately maps the dates and promises without scrambling the ticket numbers.</p>
         
         <h3>The Market Reach: Niche but Defended</h3>
         <div class="quote">"Ranking for these terms requires targeting long-tail keywords and building domain authority, which is slow. The real hurdle is content differentiation and link-building in a small ecosystem where ThermaSol controls much of the narrative (via PR, paid placements). Negative content also risks suppression (DMCA takedowns, legal threats)."</div>
@@ -53,8 +53,8 @@
         <div class="model-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #d0d7de; padding-bottom: 15px; margin-bottom: 15px;">
             <div class="model-name" style="font-size: 1.4em; font-weight: bold; color: #10b981;">Gemini 3.1 Pro (The Data Engineer)</div>
         </div>
-        <h3>The Technical Reality: 512GB RAM Makes This Easy</h3>
-        <p>Gemini flagged that your specific hardware (Mac Studio M3 Ultra with 512GB of unified memory) completely changes the math on this. Because you can load the 400B parameter Maverick model locally, you have zero token limits and zero privacy exposure. The AI can process your entire raw inbox in-memory. The only technical hurdle is writing the Python script to strip the HTML and rebuild the broken email threads.</p>
+        <h3>The Technical Reality: 512GB RAM vs. Massive PDF Stacks</h3>
+        <p>Gemini flagged that your specific hardware (Mac Studio M3 Ultra with 512GB of unified memory) makes processing these PDFs and text files trivial. Because you can load the 400B parameter Maverick model locally, you have zero token limits and zero privacy exposure. The AI can ingest the entire folder of PDFs in-memory. You don't need complex data engineering anymore—you just need a basic local script to read the text files/PDFs, hand them to Maverick, and ask it to output a chronological timeline.</p>
         
         <h3>The Market Reach: The Power of "F" Rating Asymmetry</h3>
         <div class="quote" style="font-style: italic; color: #57606a; border-left: 3px solid #d0d7de; padding-left: 15px; margin: 15px 0; background: #fff; padding: 15px; border-radius: 4px; border: 1px solid #eee;">"ThermaSol has an 'F' rating with the BBB, but almost no online visibility for complaints because the content landscape is completely thin. If you target 'ThermaSol Pro Series warranty issues' or 'ThermaSol customer service,' you face near-zero SEO competition."</div>
@@ -68,7 +68,7 @@
         <h3>The Geotargeting Approach</h3>
         <p>Opus completely reframed the SEO approach. Instead of trying to rank nationally against ThermaSol's domain authority, it suggested hyper-local geographic targeting.</p>
         <p>ThermaSol's largest customer bases correlate directly with affluent zip codes where high-end custom home builds and luxury renovations are concentrated (e.g., specific zip codes in California, Texas, Florida, and the Northeast). By deploying geographically targeted search ads (PPC) on queries like "steam shower installation" or "custom bathroom remodel" in those specific zip codes, you bypass the 6-12 month SEO wait time entirely.</p>
-        <p><strong>The Operational Reality:</strong> You have the Mac Studio and the local Maverick/Qwen models to process the email data with absolute privacy. But the bottleneck is not the AI—it is the Python engineering required to clean the .mbox files before the AI ever sees them. And once the data is clean, the fastest route to market impact isn't organic SEO, it's hyper-targeted, zip-code-specific paid search.</p>
+        <p><strong>The Operational Reality:</strong> The hardest technical hurdle—parsing a raw email server—is already done. You have the PDFs, the Mac Studio, and the local Maverick model to process the data with absolute privacy. The bottleneck is gone. Once Maverick synthesizes the timeline from those text files, the fastest route to market impact isn't organic SEO, it's hyper-targeted, zip-code-specific paid search.</p>
     </div>
 
 
@@ -77,8 +77,8 @@
         <div class="model-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #d0d7de; padding-bottom: 15px; margin-bottom: 15px;">
             <div class="model-name" style="font-size: 1.4em; font-weight: bold; color: #d97706;">Maverick (The Local Baseline)</div>
         </div>
-        <h3>The Data Pipeline: Context Fragmentation Risk</h3>
-        <p>Maverick focused heavily on the mechanics of the token window. It pointed out that while we have the hardware, the primary risk of processing a massive email archive is "context fragmentation." If we hit the token limits of the local models, we have to chunk the emails. When you chunk a thread across multiple AI calls, you risk losing the relational context (e.g., the AI might miss that an email in Chunk B is a direct failure of a promise made in Chunk A). It emphasized the need for a highly structured metadata extraction layer (SQLite) before any LLM processing happens.</p>
+        <h3>The Data Pipeline: Local Context and RAG over PDFs</h3>
+        <p>Maverick pointed out that with the raw email scraping problem solved, the pipeline is just straight ingestion. If the stack of PDFs is too large for a single context window, we don't need a complex database—we can use your local <code>nomic-embed-text</code> model to instantly build a local RAG (Retrieval-Augmented Generation) index. Maverick can then query this index to perfectly reconstruct the timeline of failures, promises, and rep names without a single byte of your private documents touching the cloud.</p>
         
         <h3>The Market Reach: Viral Defect Velocity</h3>
         <div class="quote" style="font-style: italic; color: #57606a; border-left: 3px solid #d0d7de; padding-left: 15px; margin: 15px 0; background: #fff; padding: 15px; border-radius: 4px; border: 1px solid #eee;">"The theoretical reach isn't just organic search—it is the potential for viral sharing among dissatisfied customers in high-end trade circles. A single documented failure timeline in a luxury market can have massive impact on brand reputation because the installer/contractor network is tightly connected."</div>
