@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Morning Briefing — Sunday, April 26, 2026</title>
+<title>Morning Briefing — Monday, April 27, 2026</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -12,605 +12,533 @@
     color: #222;
     max-width: 860px;
     margin: 0 auto;
-    padding: 16px;
-    font-size: 15px;
-    line-height: 1.55;
+    padding: 18px 16px 40px;
   }
-  header {
-    border-bottom: 3px solid #C41E3A;
-    padding-bottom: 10px;
+  .masthead {
+    border-top: 3px solid #222;
+    border-bottom: 1px solid #222;
+    text-align: center;
+    padding: 10px 0 8px;
     margin-bottom: 18px;
   }
-  header h1 {
-    font-size: 1.6em;
-    letter-spacing: 0.02em;
-    color: #111;
-  }
-  header .meta {
-    font-size: 0.82em;
-    color: #666;
-    font-family: Arial, sans-serif;
-    margin-top: 3px;
-  }
-  section {
-    border-bottom: 1px solid #ddd;
-    padding: 14px 0;
-    margin-bottom: 2px;
-  }
-  h2 {
-    font-size: 0.72em;
-    font-family: Arial, sans-serif;
-    letter-spacing: 0.12em;
+  .masthead h1 { font-size: 1.9em; letter-spacing: 0.03em; font-weight: 700; }
+  .masthead .dateline { font-size: 0.82em; color: #555; margin-top: 4px; letter-spacing: 0.05em; text-transform: uppercase; }
+  .section { margin-bottom: 22px; border-bottom: 1px solid #ddd; padding-bottom: 18px; }
+  .section:last-child { border-bottom: none; }
+  .section-title {
+    font-size: 0.68em;
     text-transform: uppercase;
-    color: #888;
+    letter-spacing: 0.12em;
+    color: #666;
+    border-top: 2px solid #222;
+    padding-top: 7px;
     margin-bottom: 10px;
+    font-family: 'Arial', sans-serif;
     font-weight: 700;
   }
-  .hit-list {
-    list-style: none;
-    counter-reset: hitctr;
-  }
+  .hit-list { list-style: none; counter-reset: hits; }
   .hit-list li {
-    counter-increment: hitctr;
-    padding: 6px 0 6px 36px;
+    counter-increment: hits;
+    padding: 9px 0 9px 38px;
     position: relative;
-    border-bottom: 1px solid #f0e8e0;
-    font-size: 0.96em;
+    border-bottom: 1px solid #eee;
+    font-size: 0.97em;
+    line-height: 1.55;
   }
   .hit-list li:last-child { border-bottom: none; }
   .hit-list li::before {
-    content: counter(hitctr);
+    content: counter(hits);
     position: absolute;
     left: 0;
-    top: 6px;
+    top: 9px;
+    width: 26px;
+    height: 26px;
     background: #C41E3A;
     color: #fff;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
     font-family: Arial, sans-serif;
-    font-size: 0.78em;
     font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 24px;
+    font-size: 0.85em;
+    border-radius: 50%;
     text-align: center;
+    line-height: 26px;
   }
   .urgent { color: #C41E3A; font-weight: bold; }
   .win { color: #2E7D32; font-weight: bold; }
-  .blue { color: #1565C0; }
-  a { color: #1565C0; text-decoration: none; }
-  a:hover { text-decoration: underline; }
-  .email-row {
-    padding: 5px 0;
-    border-bottom: 1px solid #f0e8e0;
-    font-size: 0.88em;
-  }
+  a.link { color: #1565C0; text-decoration: none; }
+  a.link:hover { text-decoration: underline; }
+  .email-row { padding: 7px 0; border-bottom: 1px solid #eee; font-size: 0.89em; line-height: 1.5; }
   .email-row:last-child { border-bottom: none; }
-  .email-sender { font-weight: bold; color: #333; }
-  .email-subject { color: #555; }
+  .email-from { font-weight: bold; color: #222; }
+  .email-subj { color: #1565C0; }
+  .email-summary { color: #555; font-style: italic; font-size: 0.92em; }
   .email-time { font-size: 0.78em; color: #999; font-family: Arial, sans-serif; }
-  .unread-dot {
-    display: inline-block;
-    width: 8px; height: 8px;
-    background: #C41E3A;
-    border-radius: 50%;
-    margin-right: 5px;
-    vertical-align: middle;
-  }
-  .badge {
-    display: inline-block;
-    padding: 1px 7px;
-    border-radius: 10px;
-    font-size: 0.72em;
-    font-family: Arial, sans-serif;
-    font-weight: 700;
-    vertical-align: middle;
-  }
-  .badge-red { background: #C41E3A; color: #fff; }
-  .badge-green { background: #2E7D32; color: #fff; }
-  .badge-blue { background: #1565C0; color: #fff; }
-  .badge-yellow { background: #E65100; color: #fff; }
+  .action-flag { color: #C41E3A; font-weight: bold; font-family: Arial, sans-serif; font-size: 0.85em; }
   .market-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
     gap: 10px;
-    margin-top: 4px;
+    margin-top: 6px;
   }
   .market-card {
     background: #fff;
     border: 1px solid #ddd;
-    border-radius: 6px;
-    padding: 10px 14px;
-    font-family: Arial, sans-serif;
+    border-radius: 4px;
+    padding: 10px 12px;
   }
-  .market-card .ticker { font-weight: 700; font-size: 1em; color: #111; }
-  .market-card .price { font-size: 1.15em; font-weight: 700; margin: 3px 0; }
-  .market-card .chg-pos { color: #2E7D32; font-size: 0.85em; }
-  .market-card .chg-neg { color: #C41E3A; font-size: 0.85em; }
-  .market-card .chg-neu { color: #666; font-size: 0.85em; }
-  .asana-task {
-    padding: 5px 0;
-    border-bottom: 1px solid #f0e8e0;
-    font-size: 0.88em;
-  }
+  .market-card .ticker { font-family: Arial, sans-serif; font-weight: 700; font-size: 1em; color: #222; }
+  .market-card .price { font-size: 1.2em; font-weight: bold; margin: 2px 0; }
+  .market-card .change { font-family: Arial, sans-serif; font-size: 0.82em; }
+  .up { color: #2E7D32; }
+  .down { color: #C41E3A; }
+  .neutral { color: #888; }
+  .cal-event { padding: 7px 0; border-bottom: 1px solid #eee; font-size: 0.91em; }
+  .cal-event:last-child { border-bottom: none; }
+  .cal-time { font-family: Arial, sans-serif; font-weight: 700; color: #1565C0; display: inline-block; min-width: 70px; }
+  .asana-task { padding: 6px 0; border-bottom: 1px solid #eee; font-size: 0.9em; line-height:1.4; }
   .asana-task:last-child { border-bottom: none; }
-  .task-due { font-family: Arial, sans-serif; font-size: 0.76em; color: #999; margin-right: 6px; }
-  .task-due.overdue { color: #C41E3A; font-weight: bold; }
-  .slack-msg { padding: 5px 0; border-bottom: 1px solid #f0e8e0; font-size: 0.88em; }
+  .due-badge { display: inline-block; font-family: Arial, sans-serif; font-size: 0.75em; padding: 1px 6px; border-radius: 10px; margin-left: 6px; }
+  .due-overdue { background: #FDECEC; color: #C41E3A; border: 1px solid #C41E3A; }
+  .due-none { background: #F5F5F5; color: #757575; border: 1px solid #ccc; }
+  .slack-msg { padding: 6px 0; border-bottom: 1px solid #eee; font-size: 0.88em; line-height: 1.5; }
   .slack-msg:last-child { border-bottom: none; }
-  .slack-user { font-weight: bold; color: #1565C0; font-size: 0.85em; }
-  .slack-chan { font-family: Arial, sans-serif; font-size: 0.72em; color: #888; margin-right: 4px; }
-  .weather-row { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
-  .weather-block { background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 10px 16px; font-family: Arial, sans-serif; }
-  .weather-temp { font-size: 1.4em; font-weight: 700; color: #1565C0; }
-  .weather-desc { color: #555; font-size: 0.88em; }
-  .credit-row { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 4px; }
-  .credit-item { font-family: Arial, sans-serif; font-size: 0.88em; }
-  .credit-label { color: #888; font-size: 0.78em; text-transform: uppercase; letter-spacing: 0.06em; }
-  .credit-val { font-weight: 700; font-size: 1.05em; color: #222; }
-  .news-item { padding: 5px 0; border-bottom: 1px solid #f0e8e0; font-size: 0.88em; }
+  .slack-user { font-weight: bold; color: #1565C0; }
+  .text-msg { padding: 7px 0; border-bottom: 1px solid #eee; font-size: 0.88em; line-height: 1.5; }
+  .text-msg:last-child { border-bottom: none; }
+  .text-from { font-weight: bold; color: #222; }
+  .text-time { font-size: 0.78em; color: #999; font-family: Arial, sans-serif; }
+  .weather-row { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 6px; }
+  .weather-card { flex: 1; min-width: 200px; background: #fff; border: 1px solid #ddd; border-radius: 4px; padding: 12px 14px; }
+  .weather-card .wloc { font-weight: bold; font-size: 1em; margin-bottom: 4px; }
+  .weather-card .wtemp { font-size: 1.5em; font-weight: bold; color: #222; }
+  .weather-card .wdetail { font-family: Arial, sans-serif; font-size: 0.82em; color: #555; margin-top: 4px; line-height:1.5; }
+  .credit-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; margin-top: 6px; }
+  .credit-card { background: #fff; border: 1px solid #ddd; border-radius: 4px; padding: 10px 12px; }
+  .credit-card .c-label { font-family: Arial, sans-serif; font-size: 0.75em; color: #888; text-transform: uppercase; letter-spacing: 0.05em; }
+  .credit-card .c-value { font-size: 1.1em; font-weight: bold; margin-top: 2px; }
+  .ai-item { padding: 7px 0; border-bottom: 1px solid #eee; font-size: 0.89em; line-height: 1.5; }
+  .ai-item:last-child { border-bottom: none; }
+  .news-item { padding: 7px 0; border-bottom: 1px solid #eee; font-size: 0.89em; line-height: 1.5; }
   .news-item:last-child { border-bottom: none; }
-  .sent-row { padding: 5px 0; border-bottom: 1px solid #f0e8e0; font-size: 0.88em; }
+  .flag { display: inline-block; font-family: Arial, sans-serif; font-size: 0.75em; padding: 1px 7px; border-radius: 10px; margin-left: 5px; vertical-align: middle; white-space:nowrap; }
+  .flag-red { background: #FDECEC; color: #C41E3A; border: 1px solid #C41E3A; }
+  .flag-green { background: #E8F5E9; color: #2E7D32; border: 1px solid #2E7D32; }
+  .flag-blue { background: #E3F2FD; color: #1565C0; border: 1px solid #1565C0; }
+  .flag-orange { background: #FFF3E0; color: #E65100; border: 1px solid #E65100; }
+  .sent-row { padding: 7px 0; border-bottom: 1px solid #eee; font-size: 0.89em; line-height: 1.5; }
   .sent-row:last-child { border-bottom: none; }
-  .openclaw-item { padding: 5px 0; border-bottom: 1px solid #f0e8e0; font-size: 0.88em; }
-  .openclaw-item:last-child { border-bottom: none; }
-  .section-note { font-family: Arial, sans-serif; font-size: 0.78em; color: #999; margin-bottom: 6px; }
+  .sub-label { font-family: Arial, sans-serif; font-size: 0.75em; color: #888; text-transform: uppercase; letter-spacing: 0.07em; margin: 10px 0 5px; font-weight: bold; }
   @media (max-width: 600px) {
-    body { padding: 10px; font-size: 14px; }
-    header h1 { font-size: 1.3em; }
-    .market-grid { grid-template-columns: repeat(2, 1fr); }
-    .credit-row { gap: 12px; }
+    body { padding: 12px 10px 30px; }
+    .masthead h1 { font-size: 1.4em; }
+    .market-grid { grid-template-columns: 1fr 1fr; }
+    .credit-grid { grid-template-columns: 1fr 1fr; }
+    .weather-row { flex-direction: column; }
   }
 </style>
 </head>
 <body>
 
-<header>
-  <h1>☀️ Morning Briefing</h1>
-  <div class="meta">Sunday, April 26, 2026 &nbsp;|&nbsp; 7:00 AM CT &nbsp;|&nbsp; Prepared by Dude, your AI Chief of Staff</div>
-</header>
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div class="dateline">Monday, April 27, 2026 &nbsp;·&nbsp; 7:00 AM CT &nbsp;·&nbsp; Good morning, Rich</div>
+  <h1>Morning Briefing</h1>
+</div>
 
 <!-- 1. HIT LIST -->
-<section>
-  <h2>🎯 Hit List — Top 5 Actions Today</h2>
-  <ol class="hit-list">
-    <li><span class="urgent">URGENT:</span> <strong>Offer to Purchase — Mister Sparky Katy</strong> arrived this morning (Jocelyn Carr / Advanced Index Center). Just landed in your inbox unread. Review immediately — this is a franchise sale inquiry.</li>
-    <li><strong>Cigna/Strive decision</strong> — 3 unread threads in Michelle inbox from Michelle Caulder + Mike Alexander. Something is still open. Review and close before Monday's work week.</li>
-    <li><strong>Batch Data Contract - IMPORTANT</strong> — you sent this to Michelle Friday night (9:35 PM). Verify she saw it and has action items queued for Monday.</li>
-    <li><strong>Q1 P&amp;L ready</strong> — Kristie Miller sent the Q1 P&amp;L Friday. Review before Monday; Van Nguyen also sent financial data for 2025. JFI financial discussion ongoing.</li>
-    <li><span class="badge badge-yellow">MON</span> <strong>Asana: Draft Objective + 3–5 Key Results</strong> due April 25 (overdue). Complete and share before team goal review on April 29.</li>
-  </ol>
-</section>
+<div class="section">
+  <h2 class="section-title">🎯 Hit List — Top 5 Actions Today</h2>
+  <ul class="hit-list">
+    <li><span class="urgent">AmEx: 6+ Large Purchase Approvals on Sunday.</span> Multiple charges in a concentrated afternoon window — verify legitimacy, confirm no fraud. One already forwarded to Albert. Review the rest before 9 AM.</li>
+    <li><span class="urgent">Batch Data Contract — IMPORTANT</span> emailed to MCaulder (abrhco) Friday 9:35 PM. Zero reply so far. This is a critical contract — follow up first thing this morning.</li>
+    <li><span class="urgent">Callcap: 3 "Opportunity Lost" alerts</span> over the weekend (Sunday). Revenue leaking from missed calls/scheduling. Pull recordings, flag dispatch &amp; ops for Monday review.</li>
+    <li><span class="urgent">Payroll approval pending</span> — HR posted in #general that payroll is ready. Must be approved today.</li>
+    <li>Client Concerns queue: Nancy Calaway payment dispute ($239.88 uncollected), John Trimble pricing pushback, tech licensing complaint. <strong>Assign to ops lead by EOD.</strong></li>
+  </ul>
+</div>
 
 <!-- 2. CALENDAR -->
-<section>
-  <h2>📅 Calendar — Today, Sunday April 26</h2>
-  <p class="section-note">Exchange Calendar + Jessica's Medical Appointments</p>
-  <div style="color:#888; font-style:italic; font-size:0.9em;">No calendar events found for today. Enjoy the Sunday — but check Hit List above.</div>
-</section>
+<div class="section">
+  <h2 class="section-title">📅 Calendar — Today, April 27</h2>
+  <div class="cal-event">
+    <span class="cal-time">10:30 AM</span>
+    <strong>Jessica — PT Appointment</strong>
+    <span style="font-size:0.8em;color:#999;font-family:Arial,sans-serif;"> · Jessica's Medical Appointments</span>
+  </div>
+  <div class="cal-event">
+    <span class="cal-time">1:00 PM</span>
+    <strong>Jessica — Hair Appt with Jess</strong>
+    <span style="font-size:0.8em;color:#999;font-family:Arial,sans-serif;"> · Jessica's Medical Appointments</span>
+  </div>
+  <div class="cal-event">
+    <span class="cal-time">2:30 PM</span>
+    <strong>Jessica — Facial</strong>
+    <span style="font-size:0.8em;color:#999;font-family:Arial,sans-serif;"> · Jessica's Medical Appointments</span>
+  </div>
+  <p style="font-size:0.82em;color:#888;font-family:Arial,sans-serif;margin-top:8px;">No events found on primary Exchange calendar. Jessica has a packed afternoon — plan around her 1–4 PM window. Text from +17135049552: "Sure, tomorrow works!!" — confirm that meeting is still on.</p>
+</div>
 
 <!-- 3. ASANA TASKS -->
-<section>
-  <h2>✅ Asana — Open Tasks</h2>
-  <p class="section-note">RJH Structured Holdings + Novus Global · Assigned to you</p>
+<div class="section">
+  <h2 class="section-title">✅ Asana Tasks — Assigned to You</h2>
+  <p style="font-size:0.87em;margin-bottom:8px;"><span class="flag flag-red">2 tasks overdue as of yesterday</span> per Slack DM. RJH digest: <strong>4 tasks due soon, 3 assigned</strong>.</p>
 
-  <div style="font-weight:bold; font-family:Arial,sans-serif; font-size:0.8em; color:#C41E3A; margin:6px 0 4px;">⚠️ OVERDUE</div>
-  <div class="asana-task"><span class="task-due overdue">Due Mar 16</span> Ping John for list for bus</div>
-  <div class="asana-task"><span class="task-due overdue">Due Mar 16</span> Share plans to fix concept</div>
-  <div class="asana-task"><span class="task-due overdue">Due Mar 16</span> Caulk gate / Paint gate trim / Follow up on plants</div>
-  <div class="asana-task"><span class="task-due overdue">Due Apr 9</span> Set up Microsoft Graph API with Michelle for email access (OpenClaw)</div>
-  <div class="asana-task"><span class="task-due overdue">Due Apr 13</span> Get back with Prolific</div>
-  <div class="asana-task"><span class="task-due overdue">Due Apr 15</span> Let Michelle know — Donation details for Rodeo Angels</div>
-  <div class="asana-task"><span class="task-due overdue">Due Apr 25</span> <strong>Draft 3–5 Key Results</strong></div>
-  <div class="asana-task"><span class="task-due overdue">Due Apr 25</span> <strong>Draft Objective</strong></div>
+  <div class="sub-label">Novus Global</div>
+  <div class="asana-task">
+    <strong>Daily commitments — System B</strong>: "What system am I running?", noon check-in, write &amp; re-read System B, end-of-day review
+    <span class="due-badge due-none">Ongoing</span>
+  </div>
+  <div class="asana-task">
+    <strong>System B SFD</strong> — Rich is working on it
+    <span class="due-badge due-none">No due date</span>
+  </div>
+  <div class="asana-task">
+    <strong>Identify 2–3 action items for next 7 days</strong> (big or small, System B productivity definition)
+    <span class="due-badge due-overdue">Needs action</span>
+  </div>
+  <div class="asana-task">
+    <strong>Review notes from Session 2, respond where you feel called</strong>
+    <span class="due-badge due-none">No due date</span>
+  </div>
 
-  <div style="font-weight:bold; font-family:Arial,sans-serif; font-size:0.8em; color:#1565C0; margin:10px 0 4px;">UPCOMING</div>
-  <div class="asana-task"><span class="task-due">Due Apr 28</span> Richard &amp; Van to Implement</div>
-  <div class="asana-task"><span class="task-due">Due Apr 29</span> Review draft goals with your team</div>
-  <div class="asana-task"><span class="task-due">Due May 1</span> Approve draft goals [Reassign to approver]</div>
-  <div class="asana-task"><span class="task-due">Due May 3</span> Publish approved goals to Asana Goals</div>
-
-  <div style="font-weight:bold; font-family:Arial,sans-serif; font-size:0.8em; color:#555; margin:10px 0 4px;">NO DUE DATE</div>
-  <div class="asana-task">Today plan — Non-negotiables + defer list</div>
-  <div class="asana-task">Finish Jon task (early this week)</div>
-  <div class="asana-task">Update warranties &nbsp;·&nbsp; Watch winder &nbsp;·&nbsp; Wave runners</div>
-  <div class="asana-task">Technician Material Ordering &amp; Admin Support</div>
-
-  <div style="font-weight:bold; font-family:Arial,sans-serif; font-size:0.8em; color:#2E7D32; margin:10px 0 4px;">🧭 NOVUS GLOBAL (Coaching)</div>
-  <div class="asana-task">Daily commitments: awareness, "what system am I running?", noon check-in, System B re-read, EOD review</div>
-  <div class="asana-task">System B SFD — Rich is working on it</div>
-  <div class="asana-task">Identify 2–3 action items for next 7 days from System B (your definition of productivity)</div>
-  <div class="asana-task">Review notes from Session 2, respond where you feel called</div>
-</section>
+  <div class="sub-label" style="margin-top:10px;">RJH Structured Holdings</div>
+  <p style="font-size:0.87em;color:#555;">Open Asana board has additional tasks — 4 due soon per Monday digest. Check RJH workspace for details.</p>
+</div>
 
 <!-- 4. MARKET DASHBOARD -->
-<section>
-  <h2>📈 Market Dashboard</h2>
-  <p class="section-note">Last close data (markets closed Sunday) · Fri Apr 25 close</p>
+<div class="section">
+  <h2 class="section-title">📈 Market Dashboard</h2>
   <div class="market-grid">
     <div class="market-card">
       <div class="ticker">BTC</div>
-      <div class="price">~$77,000</div>
-      <div class="chg-neu">~+0.4% (Thu close)</div>
-      <div style="font-size:0.72em;color:#aaa;margin-top:3px;">24hr data limited</div>
+      <div class="price">~$78,126</div>
+      <div class="change neutral">+0.41% (Apr 24)</div>
+      <div style="font-size:0.76em;color:#aaa;font-family:Arial,sans-serif;margin-top:3px;">ATH: $126,198 | Range: $68K–$118K conflicting sources</div>
     </div>
     <div class="market-card">
       <div class="ticker">TSLA</div>
       <div class="price">$376.30</div>
-      <div class="chg-pos">▲ +$2.58 (+0.69%)</div>
-      <div style="font-size:0.72em;color:#aaa;margin-top:3px;">Fri Apr 25 close</div>
+      <div class="change up">+0.69% (Fri close)</div>
+      <div style="font-size:0.76em;color:#aaa;font-family:Arial,sans-serif;margin-top:3px;">After-hours: $375.27 (−0.27%)</div>
     </div>
     <div class="market-card">
-      <div class="ticker">NRRSF / NXR.UN</div>
-      <div class="price">C$7.17</div>
-      <div class="chg-neg">▼ -0.14%</div>
-      <div style="font-size:0.72em;color:#aaa;margin-top:3px;">Analyst target C$8.38</div>
+      <div class="ticker">NRRSF</div>
+      <div class="price">$0.10</div>
+      <div class="change down">Prev close $0.11 (−9%)</div>
+      <div style="font-size:0.76em;color:#aaa;font-family:Arial,sans-serif;margin-top:3px;">52-wk: $0.04–$0.22 | OTC</div>
     </div>
     <div class="market-card">
       <div class="ticker">LINK</div>
-      <div class="price">$9.38</div>
-      <div class="chg-neu">~Flat (Apr 24 close)</div>
-      <div style="font-size:0.72em;color:#aaa;margin-top:3px;">Mkt cap ~$6.3B</div>
+      <div class="price">$9.50</div>
+      <div class="change up">+1.67% (24hr)</div>
+      <div style="font-size:0.76em;color:#aaa;font-family:Arial,sans-serif;margin-top:3px;">7-day range: $9.07–$9.50</div>
     </div>
   </div>
-  <div style="font-size:0.78em;color:#999;font-family:Arial,sans-serif;margin-top:8px;">No position >5% move flagged. BTC ATH was $126,198 (Oct 2025). TSLA down from $388 (Apr 16) to $376 range.</div>
-</section>
+  <p style="font-size:0.80em;color:#888;font-family:Arial,sans-serif;margin-top:8px;">No asset showing &gt;5% move. Markets open 8:30 AM CT. NRRSF near bottom of 52-week range — watch.</p>
+</div>
 
 <!-- 5. EMAIL — PRIORITY INBOX -->
-<section>
-  <h2>📬 Email — Priority Inbox</h2>
-  <p class="section-note">Exchange Inbox · Since Friday 7 AM · 144 messages found · Showing key items</p>
+<div class="section">
+  <h2 class="section-title">📧 Email — Priority Inbox <span style="font-weight:normal;">(since Fri 7 AM · 20 most recent)</span></h2>
 
   <div class="email-row">
-    <span class="unread-dot"></span>
-    <span class="email-time">Sun 6:51 AM</span>
-    <span class="badge badge-red">ACTION</span>
-    <span class="email-sender"> Jocelyn Carr / Advanced Index Center</span><br>
-    <span style="margin-left:13px;" class="email-subject"><strong>Re: Offer to Purchase Mister Sparky Electrician Katy</strong></span><br>
-    <span style="margin-left:13px;font-size:0.82em;color:#555;">Franchise acquisition offer just arrived this morning. <strong>Review immediately.</strong></span>
+    <div><span class="email-from">Callcap</span> <span class="email-time">Sun · 3 alerts</span> <span class="flag flag-red">Revenue ×3</span></div>
+    <div class="email-subj">Opportunity Lost — Appointment Not Available (×2) · Lead/Callback Lost</div>
+    <div class="email-summary"><span class="action-flag">⚡ REVIEW:</span> Three missed revenue opportunities over the weekend. Possible scheduling or call-handling breakdown. Pull recordings Monday AM.</div>
   </div>
 
   <div class="email-row">
-    <span class="email-time">Sat 9:22 PM</span>
-    <span class="badge badge-yellow">AMEX</span>
-    <span class="email-sender"> American Express</span><br>
-    <span style="margin-left:13px;" class="email-subject">Large Purchase Approved</span><br>
-    <span style="margin-left:13px;font-size:0.82em;color:#555;">Multiple large purchase alerts Sat (7 total, ~Sat 1:50 PM–9:22 PM). Confirm all authorized.</span>
+    <div><span class="email-from">American Express</span> <span class="email-time">Sun Apr 26 · 8 alerts</span> <span class="flag flag-red">Large Purchases</span></div>
+    <div class="email-subj">Large Purchase Approved (×8 in concentrated window)</div>
+    <div class="email-summary"><span class="action-flag">⚡ VERIFY:</span> Multiple large purchases Sunday afternoon into midnight. Forwarded one to Albert. Confirm all are authorized — possible fraud risk or budget overage.</div>
   </div>
 
   <div class="email-row">
-    <span class="email-time">Sat 5:12 PM</span>
-    <span class="badge badge-blue">AURA</span>
-    <span class="email-sender"> Aura Security</span><br>
-    <span style="margin-left:13px;" class="email-subject">Unusual transaction — Miami-Dade Transit SFRTA TVM · $5.00</span><br>
-    <span style="margin-left:13px;font-size:0.82em;color:#555;">Flagged as unusual. Verify if intentional.</span>
+    <div><span class="email-from">Asana</span> <span class="email-time">Mon 5:34 AM</span></div>
+    <div class="email-subj">Monday — tasks due soon: 4 · tasks assigned: 3 — RJH Structured Holdings</div>
+    <div class="email-summary">Weekly digest. 2 already overdue. Open Asana to review.</div>
   </div>
 
   <div class="email-row">
-    <span class="email-time">Sat various</span>
-    <span class="badge badge-red">CALLCAP</span>
-    <span class="email-sender"> Callcap</span><br>
-    <span style="margin-left:13px;" class="email-subject">8 Opportunity Lost alerts — Price / Not Booked / Call Quality / Lead</span><br>
-    <span style="margin-left:13px;font-size:0.82em;color:#555;"><strong>Pattern alert:</strong> Multiple missed bookings Saturday. Price objections and call quality flagged. Review with Michelle Benson Monday.</span>
+    <div><span class="email-from">Discord (brianshell)</span> <span class="email-time">Sun 9:11 PM</span></div>
+    <div class="email-subj">brianshell mentioned you in SayIntentions.AI</div>
+    <div class="email-summary">Mention in aviation AI Discord server. Check if action item.</div>
   </div>
 
   <div class="email-row">
-    <span class="email-time">Sat 8:01 PM</span>
-    <span class="email-sender"> Google Alerts</span>
-    <span class="email-subject"> — "mister sparky" alert triggered</span>
+    <div><span class="email-from">Amazon.com</span> <span class="email-time">Mon 5:03 AM</span> <span class="flag flag-green">Delivered</span></div>
+    <div class="email-subj">Delivered: Ulanzi SC-02 Heavy-Duty... and 2 more items</div>
+    <div class="email-summary">Package arrived. Ulanzi SC-02 heavy-duty mount + 2 items.</div>
   </div>
 
   <div class="email-row">
-    <span class="email-time">Sat 7:28 PM</span>
-    <span class="email-sender"> Houston Texans</span>
-    <span class="email-subject"> — It's Official: Meet the Newest Texans</span>
+    <div><span class="email-from">myFICO</span> <span class="email-time">Mon 2:41 AM</span></div>
+    <div class="email-subj">Your FICO Free Plan Equifax credit report is here</div>
+    <div class="email-summary">Monthly credit report available. Worth reviewing given AmEx activity volume.</div>
   </div>
 
   <div class="email-row">
-    <span class="email-time">Sat 3:14 PM</span>
-    <span class="email-sender"> Regal</span>
-    <span class="email-subject"> — Tickets: Over Your Dead Body #WSGNGKG</span>
+    <div><span class="email-from">Nextdoor · Tiki Island</span> <span class="email-time">Sun 11:51 PM</span></div>
+    <div class="email-subj">15 free items from your neighbors: Foam Cushions + more</div>
+    <div class="email-summary">Neighborhood free items post. Low priority.</div>
   </div>
-</section>
+
+  <div class="email-row">
+    <div><span class="email-from">Aura</span> <span class="email-time">Sun 11:36 PM</span></div>
+    <div class="email-subj">Your Aura Payment Confirmation</div>
+    <div class="email-summary">Identity protection service payment processed.</div>
+  </div>
+
+  <div class="email-row">
+    <div><span class="email-from">Artnet Morning News</span> <span class="email-time">Mon 6:33 AM</span></div>
+    <div class="email-subj">The Making of the Met's Raphael Blockbuster</div>
+    <div class="email-summary">Arts briefing — Raphael exhibition at the Metropolitan Museum.</div>
+  </div>
+</div>
 
 <!-- 6. EMAIL — MICHELLE INBOX -->
-<section>
-  <h2>📂 Email — Michelle Inbox</h2>
-  <p class="section-note">@Michelle inbox (2) · Since Friday 7 AM · 18 messages</p>
-
-  <div class="email-row">
-    <span class="unread-dot"></span>
-    <span class="email-time">Fri 3:18 PM</span>
-    <span class="badge badge-red">UNREAD</span>
-    <span class="email-sender"> John Whitfield</span><br>
-    <span style="margin-left:13px;" class="email-subject"><strong>Equipment Sold</strong></span><br>
-    <span style="margin-left:13px;font-size:0.82em;color:#555;">Unread. Equipment sale notification — follow up with John on details.</span>
-  </div>
-
-  <div class="email-row">
-    <span class="unread-dot"></span>
-    <span class="email-time">Fri 2:00 PM</span>
-    <span class="badge badge-red">UNREAD</span>
-    <span class="email-sender"> Michelle Caulder</span><br>
-    <span style="margin-left:13px;" class="email-subject"><strong>RE: Cigna / Strive</strong></span><br>
-    <span style="margin-left:13px;font-size:0.82em;color:#555;">Multiple threads on Cigna/Strive (3 messages Fri, 2 still unread). Decision needed.</span>
-  </div>
-
-  <div class="email-row">
-    <span class="unread-dot"></span>
-    <span class="email-time">Fri 1:43 PM</span>
-    <span class="badge badge-red">UNREAD</span>
-    <span class="email-sender"> Michelle Caulder</span>
-    <span class="email-subject"> — RE: &lt;no subject&gt;</span>
-  </div>
-
-  <div class="email-row">
-    <span class="email-time">Sat 11:53 AM</span>
-    <span class="email-sender"> Sam Scheef</span>
-    <span class="email-subject"> — Fwd: N806SW</span><br>
-    <span style="margin-left:0;font-size:0.82em;color:#555;">Aircraft related — HondaJet/aviation. Review if any action needed.</span>
-  </div>
-
-  <div class="email-row">
-    <span class="email-time">Sat 10:08 AM</span>
-    <span class="email-sender"> Albert Bustos</span>
-    <span class="email-subject"> — Re: Large Purchase Approved</span><br>
-    <span style="margin-left:0;font-size:0.82em;color:#555;">AmEx large purchase — Albert responding. Confirm context.</span>
-  </div>
-
-  <div class="email-row">
-    <span class="email-time">Sat 8:55 AM</span>
-    <span class="badge badge-red">ACTION</span>
-    <span class="email-sender"> Third Coast Bank</span><br>
-    <span style="margin-left:13px;" class="email-subject"><strong>Action Required — Christina Cantu requested $200.00 from you</strong></span><br>
-    <span style="margin-left:13px;font-size:0.82em;color:#555;">Approve or deny payment request.</span>
-  </div>
-
-  <div class="email-row">
-    <span class="email-time">Fri 5:57 PM</span>
-    <span class="email-sender"> Van Nguyen</span>
-    <span class="email-subject"> — RE: Financial data for 2025</span>
-  </div>
-
-  <div class="email-row">
-    <span class="email-time">Fri 5:46 PM</span>
-    <span class="email-sender"> Van Nguyen</span>
-    <span class="email-subject"> — JFI Discussion</span>
-  </div>
-
-  <div class="email-row">
-    <span class="email-time">Fri 4:37 PM</span>
-    <span class="email-sender"> George Euler / WSA Aero</span>
-    <span class="email-subject"> — FW: 2614978WSA HA420-140 Laminar Holding LLC</span>
-  </div>
-
-  <div class="email-row">
-    <span class="email-time">Fri 2:52 PM</span>
-    <span class="email-sender"> Kristie Miller</span>
-    <span class="email-subject"> — RE: March Variable Invoice 193 — Laminar ACH Info</span>
-  </div>
-
-  <div class="email-row">
-    <span class="email-time">Fri 2:12 PM</span>
-    <span class="email-sender"> John Whitfield</span>
-    <span class="email-subject"> — Answer to your question</span>
-  </div>
-
-  <div class="email-row">
-    <span class="email-time">Fri 1:05 PM</span>
-    <span class="badge badge-blue">REVIEW</span>
-    <span class="email-sender"> Kristie Miller</span>
-    <span class="email-subject"> — <strong>Q1 P&amp;L</strong></span><br>
-    <span style="margin-left:13px;font-size:0.82em;color:#555;">Q1 financials are in. Review before Monday.</span>
-  </div>
-
-  <div class="email-row">
-    <span class="email-time">Fri 7:53 AM</span>
-    <span class="email-sender"> Van Nguyen</span>
-    <span class="email-subject"> — RE: Updates &nbsp;/&nbsp; Financial data for 2025</span>
-  </div>
-</section>
+<div class="section">
+  <h2 class="section-title">📧 Email — Michelle Inbox (@michelle inbox 2)</h2>
+  <p style="font-size:0.88em;color:#888;font-family:Arial,sans-serif;">No messages retrieved in the 72-hour window. Mailbox returned empty — may require manual verification in Mail.app.</p>
+</div>
 
 <!-- 7. SENT — FOLLOW-UPS DUE -->
-<section>
-  <h2>📤 Sent — Follow-Ups Due</h2>
-  <p class="section-note">Sent since Friday 7 AM · 7 sent emails · What needs a reply?</p>
+<div class="section">
+  <h2 class="section-title">📤 Sent — Follow-ups Needed</h2>
 
   <div class="sent-row">
-    <span class="badge badge-red">CRITICAL</span>
-    <span class="email-time"> Fri 9:35 PM</span>
-    <span class="email-sender"> → Michelle Caulder</span>
-    <span class="email-subject"> — <strong>Batch Data Contract - IMPORTANT</strong></span><br>
-    <span style="font-size:0.82em;color:#555;">Sent Friday night. Confirm Michelle has received and action plan is queued for Monday.</span>
+    <div><strong>→ MCaulder@abrhco.com</strong> <span class="email-time">Fri Apr 24, 9:35 PM</span> <span class="flag flag-red">No Reply</span></div>
+    <div class="email-subj">Batch Data Contract — IMPORTANT</div>
+    <div class="email-summary"><span class="action-flag">⚡ FOLLOW UP NOW</span> — Critical contract email sent Friday night. Weekend has passed. Ping MCaulder first thing today.</div>
   </div>
 
   <div class="sent-row">
-    <span class="email-time">Fri 5:52 PM</span>
-    <span class="email-sender"> → Van Nguyen</span>
-    <span class="email-subject"> — Re: JFI Discussion</span><br>
-    <span style="font-size:0.82em;color:#555;">JFI financial discussion ongoing. Check if Van's next step is clear.</span>
+    <div><strong>→ VNguyen, albert, JWhitfield, KHodge @abrhco.com</strong> <span class="email-time">Fri Apr 24, 5:52 PM</span></div>
+    <div class="email-subj">Re: JFI Discussion</div>
+    <div class="email-summary">Group reply on JFI — confirm team has seen it and is moving forward.</div>
   </div>
 
   <div class="sent-row">
-    <span class="email-time">Fri 5:34 PM</span>
-    <span class="email-sender"> → George Euler / WSA Aero</span>
-    <span class="email-subject"> — Re: HA420-140 Laminar Holding LLC</span><br>
-    <span style="font-size:0.82em;color:#555;">Aircraft/Laminar-related. No reply yet — follow up Monday if needed.</span>
+    <div><strong>→ geuler@wsa.aero</strong> <span class="email-time">Fri Apr 24, 5:28 &amp; 5:34 PM</span></div>
+    <div class="email-subj">Re: FW: 2614978WSA HA420-140 Laminar Holding LLC</div>
+    <div class="email-summary">Aviation deal chain — HA420-140 for Laminar Holding LLC. Confirm WSA response over weekend.</div>
   </div>
 
   <div class="sent-row">
-    <span class="email-time">Fri 4:27 PM</span>
-    <span class="email-sender"> → Trent (Craftsmanship by John)</span>
-    <span class="email-subject"> — 43 Stillforest — Head Unit Issue</span><br>
-    <span style="font-size:0.82em;color:#555;">Property issue. Expect reply or confirmation.</span>
+    <div><strong>→ Trent@craftsmanshipbyjohn.com + Ferguson</strong> <span class="email-time">Fri Apr 24, 4:27 PM</span></div>
+    <div class="email-subj">43 Stillforest — Head Unit Issue</div>
+    <div class="email-summary">Property repair issue flagged Friday. Follow up for resolution ETA from contractor.</div>
   </div>
 
   <div class="sent-row">
-    <span class="email-time">Sat 7:03 AM</span>
-    <span class="email-sender"> → Albert Bustos</span>
-    <span class="email-subject"> — FW: Large Purchase Approved</span><br>
-    <span style="font-size:0.82em;color:#555;">Forwarded AmEx alert for awareness/action.</span>
+    <div><strong>→ MCaulder@abrhco.com</strong> <span class="email-time">Sun Apr 26, 10:41 AM + 11:38 PM</span></div>
+    <div class="email-subj">(blank subjects — ongoing thread)</div>
+    <div class="email-summary">Two weekend exchanges with MCaulder. Part of batch data contract thread. Confirm alignment.</div>
   </div>
-</section>
+</div>
 
 <!-- 8. SLACK INTELLIGENCE -->
-<section>
-  <h2>💬 Slack Intelligence — CEO Lens</h2>
-  <p class="section-note">Channels: cx-team · dispatch · client-concerns · bighitalert · remote-mgt · general · announcements</p>
+<div class="section">
+  <h2 class="section-title">💬 Slack Intelligence — CEO Lens</h2>
 
+  <div class="sub-label">#cx-team</div>
   <div class="slack-msg">
-    <span class="slack-chan">#bighitalert</span>
-    <span class="win">🏆 WIN:</span> <span class="slack-user">John Whitfield</span> — <strong>Christian closed his first system sale: $18,791</strong> going in Monday. Ring the bell!
+    <span class="slack-user">Dispatch</span>: Sat 4/24 shift — Abandoned Calls: 0 · Chats: 0 · Bookings: 0 · Hatch: 0 · Google LSA: 0
+    <span class="flag flag-green">Clean Saturday</span>
   </div>
 
+  <div class="sub-label" style="margin-top:8px;">#dispatchcommunication</div>
   <div class="slack-msg">
-    <span class="slack-chan">#cx-team</span>
-    <span class="slack-user">Dispatch weekend signoff</span> — Sat/Fri: 0 abandoned calls, 0 chats, 0 bookings on hold. Clean weekend close-out.
+    <span class="slack-user">Dispatcher</span>: Rob Lawler — AC not coming on. Friends &amp; family. Can we book after 12 today? <span class="flag flag-orange">Monday booking</span>
+  </div>
+  <div class="slack-msg">
+    <span class="slack-user">Dispatcher</span>: All techs have 1st calls. All MS HOU installers have Monday jobs. <strong>No emergencies. No techs out.</strong>
+    <span class="flag flag-green">Clean Monday start</span>
+  </div>
+  <div class="slack-msg">
+    <span class="slack-user">Dispatcher</span>: Jaret stung by wasp on job Sunday — eye swollen, couldn't see. Triaged &amp; got him rolling. <span class="flag flag-orange">Worker injury</span>
   </div>
 
+  <div class="sub-label" style="margin-top:8px;">#client-concerns <span class="flag flag-red">Escalations</span></div>
   <div class="slack-msg">
-    <span class="slack-chan">#dispatch</span>
-    <span class="slack-user">John Whitfield</span> — "Next time I tell you something will take X hours on HVAC, just double it." Tech managing expectations on job time. 
-    <span class="slack-user">Yesenia</span> closed out: "No more techs out!"
+    <span class="slack-user">CSR</span>: Armando Brand (281-253-1056, zip 77339) — requesting quote. <span class="flag flag-blue">Lead</span>
+  </div>
+  <div class="slack-msg">
+    <span class="slack-user">CSR</span>: Customer says tech pushed unnecessary whole-install — licensing/insurance concern raised. <span class="flag flag-red">Compliance risk</span>
+  </div>
+  <div class="slack-msg">
+    <span class="slack-user">CSR</span>: Andy Vong (346-244-1960) — Happy check: <em>"He did a wonderful job! Very happy."</em> <span class="flag flag-green">Win</span>
+  </div>
+  <div class="slack-msg">
+    <span class="slack-user">CSR</span>: Nancy Calaway — paid $239.88 for JUST-H plan but CC was never authorized/charged. Need resolution. <span class="flag flag-red">Payment dispute</span>
+  </div>
+  <div class="slack-msg">
+    <span class="slack-user">CSR</span>: John Trimble (346-242-3020) — pushing back on pricing in Hatch chat. <span class="flag flag-red">Pricing objection</span>
   </div>
 
+  <div class="sub-label" style="margin-top:8px;">#bighitalert</div>
   <div class="slack-msg">
-    <span class="slack-chan">#client-concerns</span>
-    <span class="urgent">⚠️ Pattern:</span> <span class="slack-user">Lailani</span> flagged tech recommending full system install — customer pushing back. Albert flagged: credit card authorized but possibly not charged (Nancy Calaway, $239.88 JUST plan). <strong>Review payment reconciliation Monday.</strong>
+    <span class="slack-user">ServiceTitan Bot</span>: [Investigating] Core features impacted → [Fix deployed] Operating normally.
+    <span class="flag flag-green">Resolved</span>
   </div>
 
+  <div class="sub-label" style="margin-top:8px;">#general <span class="flag flag-red">Action Required</span></div>
   <div class="slack-msg">
-    <span class="slack-chan">#client-concerns</span>
-    <span class="slack-user">Andy Vong</span> — Happy Check 5★: "He did a wonderful job! Very h..." — positive feedback captured.
+    <span class="slack-user">HR</span>: <!channel> Payroll ready for review and approval. <span class="action-flag">⚡ ACTION TODAY</span>
+  </div>
+  <div class="slack-msg">
+    <span class="slack-user">HR</span>: Q1 Stand Out tie-breaker needed — please vote! Employee recognition in progress. <span class="flag flag-blue">Culture</span>
   </div>
 
+  <div class="sub-label" style="margin-top:8px;">#company-announcements</div>
   <div class="slack-msg">
-    <span class="slack-chan">#remote-mgt</span>
-    <span class="slack-user">Van Nguyen</span> — Payroll ready for review and approval. <span class="badge badge-red">ACTION</span> <strong>Approve payroll before Monday.</strong>
-    Also: Albert + Kasey meeting with installers in Rich's office (flagged for context).
+    <span class="slack-user">Team Member</span>: Running NYC Marathon in November for Project ALS (in honor of Jess). Team support welcome.
+    <span class="flag flag-green">Culture Win</span>
   </div>
-
-  <div class="slack-msg">
-    <span class="slack-chan">#general</span>
-    <span class="slack-user">Michelle Caulder</span> — Q1 Stand Out voting in progress — tie breaker needed! <span class="badge badge-blue">ACTION</span> <strong>Vote to break the tie.</strong>
-  </div>
-
-  <div class="slack-msg">
-    <span class="slack-chan">#remote-mgt</span>
-    <span style="color:#888;font-size:0.85em;">ServiceTitan status issues this week (both monitored and resolved). Systems now normal.</span>
-  </div>
-</section>
+</div>
 
 <!-- 9. SLACK DMs -->
-<section>
-  <h2>💌 Slack DMs — Inbound Activity</h2>
-  <p class="section-note">Rich's token · 121+ DM channels scanned · Last 72 hrs</p>
+<div class="section">
+  <h2 class="section-title">💬 Slack DMs — Inbound (72 hrs)</h2>
   <div class="slack-msg">
-    <span class="slack-user">Asana Bot</span> — 2 task reminders delivered via DM (Asana notifications only). No personal DMs from team members in last 72 hours.
+    <span class="slack-user">Asana Bot</span> <span class="text-time">04/26 9:18 AM</span>: 🗓 2 tasks due <strong>yesterday</strong>
+    <span class="flag flag-red">Overdue</span>
   </div>
-</section>
+  <div class="slack-msg">
+    <span class="slack-user">Asana Bot</span> <span class="text-time">04/25 9:18 AM</span>: 🗓 2 tasks due that day
+    <span class="flag flag-orange">Past due</span>
+  </div>
+  <p style="font-size:0.82em;color:#888;font-family:Arial,sans-serif;margin-top:6px;">121 DM conversations scanned. No other inbound human DMs with content in the 72-hr window.</p>
+</div>
 
 <!-- 10. TEXT MESSAGES -->
-<section>
-  <h2>📱 Text Messages — Incoming (72 hrs)</h2>
-  <p class="section-note">Messages.app · chat.db scan · last 72 hours</p>
-  <div style="color:#888; font-style:italic; font-size:0.9em;">No incoming text messages found in the last 72 hours.</div>
-</section>
+<div class="section">
+  <h2 class="section-title">📱 Text Messages — Inbound (72 hrs)</h2>
+
+  <div class="text-msg">
+    <div><span class="text-from">+19792217038</span> <span class="text-time">Sun ~2:54 PM</span> <span class="flag flag-green">Real Estate Win</span></div>
+    <div>"Just put down earnest money! They knocked off $15K and I got a new fridge, washer and dryer. Realtor trying to get them down another $5K."</div>
+  </div>
+
+  <div class="text-msg">
+    <div><span class="text-from">+18327715106</span> <span class="text-time">Sun ~2:07 PM</span></div>
+    <div>"Fantastic!!! I can't wait to see you guys! I'll be back to you as soon as I finalize a few things… Love you!"</div>
+  </div>
+
+  <div class="text-msg">
+    <div><span class="text-from">+17132595121</span> <span class="text-time">Sun ~7:50 PM</span> <span class="flag flag-orange">Property</span></div>
+    <div>"Did not finish wood. Just need one side of the casita gutters." [Earlier: feeds installed were left unsecured — needs fix]</div>
+  </div>
+
+  <div class="text-msg">
+    <div><span class="text-from">+17135049552</span> <span class="text-time">Sun ~3:17 PM</span></div>
+    <div>"Sure, tomorrow works!!" and "When are you available? You still want to chat today?" — Confirm this meeting for today.</div>
+  </div>
+
+  <div class="text-msg">
+    <div><span class="text-from">+17133018379</span> <span class="text-time">Sun ~7:33 PM</span></div>
+    <div>"I've got a reminder for tomorrow." — Unclear what reminder; may need follow-up.</div>
+  </div>
+
+  <div class="text-msg">
+    <div><span class="text-from">+12817046152</span> <span class="text-time">Sun various</span></div>
+    <div>Multiple messages — family exchange, Abby visit mentioned, casual banter. No urgent action.</div>
+  </div>
+</div>
 
 <!-- 11. CREDIT MARKETS -->
-<section>
-  <h2>💰 Credit Markets</h2>
-  <p class="section-note">As of Apr 23 close (last trading day available)</p>
-  <div class="credit-row">
-    <div class="credit-item">
-      <div class="credit-label">10Y Treasury</div>
-      <div class="credit-val">~3.94%</div>
+<div class="section">
+  <h2 class="section-title">🏦 Credit Markets</h2>
+  <div class="credit-grid">
+    <div class="credit-card">
+      <div class="c-label">10-Year Treasury</div>
+      <div class="c-value">4.31%</div>
+      <div style="font-size:0.8em;color:#555;font-family:Arial,sans-serif;margin-top:3px;">Apr 24 close · ↓ from 4.34%</div>
     </div>
-    <div class="credit-item">
-      <div class="credit-label">IG Spread</div>
-      <div class="credit-val">+0.80%</div>
+    <div class="credit-card">
+      <div class="c-label">Fed Funds Rate</div>
+      <div class="c-value">3.50–3.75%</div>
+      <div style="font-size:0.8em;color:#555;font-family:Arial,sans-serif;margin-top:3px;">Hold · Next decision Jun 3</div>
     </div>
-    <div class="credit-item">
-      <div class="credit-label">HY OAS (Master II)</div>
-      <div class="credit-val">2.86%</div>
+    <div class="credit-card">
+      <div class="c-label">HY OAS (ICE BofA)</div>
+      <div class="c-value win">286 bps</div>
+      <div style="font-size:0.8em;color:#555;font-family:Arial,sans-serif;margin-top:3px;">↓ from 375 bps yr ago · 519 bps LT avg</div>
     </div>
-    <div class="credit-item">
-      <div class="credit-label">IG Corp Yield</div>
-      <div class="credit-val">5.03%</div>
-    </div>
-    <div class="credit-item">
-      <div class="credit-label">HY BB Sub-Index</div>
-      <div class="credit-val">1.74%</div>
+    <div class="credit-card">
+      <div class="c-label">IG Credit Spreads</div>
+      <div class="c-value">~156 bps</div>
+      <div style="font-size:0.8em;color:#555;font-family:Arial,sans-serif;margin-top:3px;">Morningstar Corp Bond · widening on commodities</div>
     </div>
   </div>
-  <div style="font-size:0.8em;color:#555;margin-top:8px;">HY spreads have <span class="win">tightened</span> — 2.86% vs. long-term avg 5.19%. Market pricing low credit risk. Fed funds probability: not updated (weekend).</div>
-</section>
+  <p style="font-size:0.81em;color:#555;font-family:Arial,sans-serif;margin-top:8px;"><span class="win">✓ Credit conditions benign.</span> HY spreads near 2-year tights. Fed on hold. Risk-on environment favorable for deal flow.</p>
+</div>
 
 <!-- 12. AI & OPENCLAW INTEL -->
-<section>
-  <h2>🤖 AI &amp; OpenClaw Intelligence</h2>
-  <p class="section-note">Latest updates relevant to your Mac Studio M3 Ultra 512GB</p>
-
-  <div class="openclaw-item">
-    <strong>OpenClaw 2026.4.24</strong> — <span class="win">Google Meet Integration</span> (participant plugin, personal OAuth, Chrome/Twilio realtime). DeepSeek V4 Flash/Pro added (Flash now default). Real-time voice loops for Talk/Voice Call/Google Meet using OpenAI Realtime &amp; Gemini Live. Browser automation improvements.</div>
-  <div class="openclaw-item">
-    <strong>OpenClaw 2026.4.7</strong> — Webhook ingress, session compaction/branching with UI, automatic provider failover for image gen. Memory dreaming now ingests redacted transcripts with per-day notes.</div>
-  <div class="openclaw-item">
-    <strong>OpenClaw 2026.4.5</strong> — Built-in video &amp; music generation, long-term memory (/dreaming), ClawHub in skills panel, iOS/WhatsApp push, Qwen + Fireworks AI + Cohere + MiniMax TTS providers.</div>
-  <div class="openclaw-item">
-    <span class="badge badge-blue">MAC STUDIO</span> <strong>M3 Ultra (your machine)</strong> — Currently the most powerful AI workstation available. Runs 600B+ parameter models on-device, 800GB/s memory bandwidth. <strong>M5 Ultra expected 2026</strong> — 36-core CPU, 80-core GPU, significant AI performance gains. Watch for WWDC 2026 announcement.</div>
-</section>
+<div class="section">
+  <h2 class="section-title">🤖 AI &amp; OpenClaw Intel</h2>
+  <div class="ai-item">
+    <span class="flag flag-green">New · v2026.4.7</span> <strong>OpenClaw Memory Wiki Stack</strong> — "second brain" with contradiction clustering, staleness dashboard, freshness-weighted search. <strong>Webhook ingress</strong> for external triggers. Session compaction &amp; branching. New providers: <strong>Google Gemini 4</strong>, RC AI Trinity.
+  </div>
+  <div class="ai-item">
+    <span class="flag flag-blue">v2026.4.5</span> Built-in video/music generation · <em>/dreaming</em> long-term memory · Amazon Bedrock auto-auth · ClawHub skills panel · iOS push approvals · 12 new UI languages.
+  </div>
+  <div class="ai-item">
+    <span class="flag flag-blue">Your Machine</span> <strong>Mac Studio M3 Ultra 512GB</strong> — Still the local AI king. 600B+ parameter models in-memory. 800 GB/s bandwidth. M5 Ultra delayed to Q4 2026 — no upgrade pressure yet. Optimal model for complex work: <strong>Claude Opus 4.6</strong>.
+  </div>
+</div>
 
 <!-- 13. LOCAL NEWS -->
-<section>
-  <h2>📰 Local News</h2>
-  <p class="section-note">Houston · Piney Point Village · Galveston / Tiki Island</p>
-
+<div class="section">
+  <h2 class="section-title">📰 Local News — Houston · Piney Point · Galveston</h2>
   <div class="news-item">
-    <span class="urgent">POLICY:</span> <strong>Houston City Council reversed immigration ordinance</strong> limiting police-ICE cooperation, securing $114M in state funding. Gov. Abbott indicated it may not fully resolve the issue.
+    <strong>ICE Ordinance Battle</strong> — Houston City Council vote postponed to next Wednesday. Gov. Abbott threatens <span class="urgent">$110M public safety funding pull</span>. AG Paxton filed suit. City at a political inflection point.
+    <span class="flag flag-red">Watch</span>
   </div>
   <div class="news-item">
-    <span class="urgent">CRIME:</span> <strong>METRORail shooting</strong> at Travis &amp; Preston Downtown Saturday afternoon — 1 hospitalized, suspect fled.
+    <strong>FIFA / World Cup:</strong> Officials in Houston this week for final inspections. City prep in final stages.
+    <span class="flag flag-green">Positive</span>
   </div>
   <div class="news-item">
-    <strong>Piney Point Mayor Aliza Dutt</strong> called for removing Harris County Judge Lina Hidalgo, citing "common sense and integrity."
+    <strong>Texans NFL Draft:</strong> Trade-up in Round 1 for OG Keylan Rutledge to protect QB C.J. Stroud.
   </div>
   <div class="news-item">
-    <strong>Galveston:</strong> Hurricane preparedness town hall coming. 2026 ELISSA Daysail Series wrapped Apr 3–17. Tiki Island fishing reports active.
+    <strong>Carnival Tropicale → Galveston:</strong> 5th Excel-class ship homeporting in Galveston starting 2028. Good for Tiki Island area property/economy.
+    <span class="flag flag-green">Tiki Island</span>
   </div>
   <div class="news-item">
-    <span style="color:#888;">Flooding hit I-45, I-10, Harrisburg Blvd on Apr 18. Warm weather through this week, then stormy cool front next week.</span>
+    <strong>Piney Point Village:</strong> Quiet week. Trash collection shifted to <strong>Wednesday April 29</strong> (early voting). Two recent sales: 14 Woods Edge Ln ($3.17M), 11305 Green Vale Dr ($2.20M).
   </div>
-</section>
+</div>
 
 <!-- 14. WEATHER -->
-<section>
-  <h2>⛅ Weather</h2>
+<div class="section">
+  <h2 class="section-title">🌤 Weather — Monday, April 27</h2>
   <div class="weather-row">
-    <div class="weather-block">
-      <div style="font-weight:bold;font-family:Arial;font-size:0.8em;color:#888;">PINEY POINT / 77024</div>
-      <div class="weather-temp">76°F</div>
-      <div class="weather-desc">🌫 Mist · 100% humidity · S wind 7 mph</div>
-      <div style="font-size:0.82em;margin-top:4px;">High <strong>83°F</strong> · Low <strong>67°F</strong></div>
-      <div style="font-size:0.78em;color:#999;">Sunrise 6:44 AM · Sunset 7:56 PM</div>
+    <div class="weather-card">
+      <div class="wloc">📍 Houston (77024)</div>
+      <div class="wtemp">77°F → High 90°F</div>
+      <div class="wdetail">
+        🌫 Mist · Feels like 83°F<br>
+        Humidity: <strong>94%</strong> · Wind: 6 mph SSE<br>
+        Low: 75°F · Hot &amp; muggy afternoon
+      </div>
     </div>
-    <div class="weather-block">
-      <div style="font-weight:bold;font-family:Arial;font-size:0.8em;color:#888;">TIKI ISLAND / 77554</div>
-      <div class="weather-temp">~78°F</div>
-      <div class="weather-desc">Warm · Humid · Similar coastal pattern</div>
-      <div style="font-size:0.82em;margin-top:4px;">High <strong>~84°F</strong> · Low <strong>~72°F</strong></div>
-      <div style="font-size:0.78em;color:#999;">Hurricane prep season begins</div>
+    <div class="weather-card">
+      <div class="wloc">🏝 Tiki Island (77554)</div>
+      <div class="wtemp">77°F → High 79°F</div>
+      <div class="wdetail">
+        🌫 Mist · Feels like 83°F<br>
+        Low: 75°F<br>
+        <span class="urgent">⚠️ Rain likely 6–9 AM: 73–79%</span>
+      </div>
     </div>
   </div>
-  <div style="font-size:0.78em;color:#888;margin-top:8px;">Stormy cool front expected next week. No rain today. Pressure 1008 hPa. Visibility 4 mi.</div>
-</section>
+</div>
 
-<footer style="text-align:center;font-family:Arial,sans-serif;font-size:0.72em;color:#bbb;padding:20px 0 10px;border-top:1px solid #ddd;margin-top:10px;">
-  Generated by Dude · AI Chief of Staff · Sunday April 26, 2026 7:00 AM CT<br>
-  <a href="https://hodger07.github.io/pages/morning-briefing.html">hodger07.github.io/pages/morning-briefing.html</a>
-</footer>
+<!-- FOOTER -->
+<div style="text-align:center;margin-top:24px;padding-top:14px;border-top:1px solid #ddd;font-family:Arial,sans-serif;font-size:0.75em;color:#aaa;">
+  Dude — AI Chief of Staff · OpenClaw · Monday, April 27, 2026 · 7:00 AM CT
+</div>
 
 </body>
 </html>
