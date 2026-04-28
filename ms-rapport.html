@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phase 4: Rapport Building — Mister Sparky Script V4</title>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0f0f1a;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    padding: 0 16px 60px;
+  }
+  .page-wrapper { max-width: 900px; margin: 0 auto; }
+
+  /* NAV */
+  .nav-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0 10px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .nav-bar a {
+    color: #F2A900;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    transition: color 0.2s;
+  }
+  .nav-bar a:hover { color: #ffc933; }
+
+  /* HEADER */
+  .phase-header {
+    background: #1a1a2e;
+    border-top: 4px solid #C8102E;
+    border-radius: 10px;
+    padding: 32px 36px;
+    margin: 20px 0 30px;
+  }
+  .phase-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #F2A900;
+    margin-bottom: 8px;
+  }
+  .phase-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+  }
+  .phase-subtitle {
+    font-size: 1rem;
+    color: #aaa;
+    margin-top: 8px;
+  }
+
+  /* SECTION */
+  .section {
+    background: #1a1a2e;
+    border-radius: 10px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+  }
+  .section-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #F2A900;
+    margin-bottom: 18px;
+    border-bottom: 1px solid #2a2a45;
+    padding-bottom: 10px;
+  }
+
+  /* TECHNICIAN DIALOGUE */
+  .tech-line {
+    position: relative;
+    background: rgba(200, 16, 46, 0.08);
+    border-left: 4px solid #C8102E;
+    border-radius: 0 6px 6px 0;
+    padding: 14px 16px 14px 18px;
+    margin: 18px 0;
+  }
+  .tech-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #F2A900;
+    margin-bottom: 6px;
+  }
+  .tech-line p {
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: #f0d0d5;
+    line-height: 1.6;
+  }
+
+  /* CUSTOMER DIALOGUE */
+  .customer-line {
+    border-left: 3px solid #555;
+    padding: 10px 14px 10px 16px;
+    margin: 12px 0;
+    color: #999;
+    font-style: italic;
+    font-size: 0.95rem;
+  }
+  .customer-label {
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #666;
+    margin-bottom: 4px;
+  }
+
+  /* CALLOUT BOXES */
+  .box {
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 18px 0;
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+  .box-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .box.important {
+    background: rgba(200, 16, 46, 0.12);
+    border-left: 4px solid #C8102E;
+  }
+  .box.important .box-label { color: #C8102E; }
+  .box.note {
+    background: rgba(242, 169, 0, 0.1);
+    border-left: 4px solid #F2A900;
+  }
+  .box.note .box-label { color: #F2A900; }
+  .box.takeaway {
+    background: rgba(34, 197, 94, 0.08);
+    border-left: 4px solid #22c55e;
+  }
+  .box.takeaway .box-label { color: #22c55e; }
+
+  /* FORM GRID */
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .form-card {
+    background: #0f0f1a;
+    border: 1px solid #2a2a45;
+    border-radius: 8px;
+    padding: 18px 20px;
+  }
+  .form-card-letter {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #C8102E;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .form-card-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #F2A900;
+    margin-bottom: 6px;
+  }
+  .form-card p { font-size: 0.88rem; color: #aaa; }
+
+  /* SCORECARD */
+  .scorecard {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 18px 0;
+  }
+  .score-item {
+    background: #0f0f1a;
+    border: 1px solid #2a2a45;
+    border-radius: 8px;
+    padding: 14px 16px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .score-grade {
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .score-a { color: #22c55e; }
+  .score-b { color: #F2A900; }
+  .score-c { color: #f97316; }
+  .score-d { color: #C8102E; }
+  .score-desc { font-size: 0.85rem; color: #bbb; }
+
+  /* QUESTIONS LIST */
+  .q-list { list-style: none; margin: 12px 0; }
+  .q-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+  }
+  .q-list li::before {
+    content: "?";
+    background: #C8102E;
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.7rem;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* WHEN TO MOVE ON */
+  .move-on-list { list-style: none; margin: 12px 0; }
+  .move-on-list li {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 0.93rem;
+    color: #ccc;
+  }
+  .move-on-list li::before {
+    content: "✓";
+    color: #22c55e;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* BOTTOM NAV */
+  .bottom-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid #2a2a45;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .btn {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: 0.03em;
+    transition: all 0.2s;
+  }
+  .btn-outline {
+    border: 2px solid #F2A900;
+    color: #F2A900;
+  }
+  .btn-outline:hover { background: #F2A900; color: #0f0f1a; }
+  .btn-primary {
+    background: #C8102E;
+    color: #fff;
+    border: 2px solid #C8102E;
+  }
+  .btn-primary:hover { background: #a00d25; border-color: #a00d25; }
+
+  @media (max-width: 600px) {
+    .phase-header { padding: 22px 20px; }
+    .section { padding: 20px 18px; }
+    .form-grid { grid-template-columns: 1fr; }
+    .scorecard { grid-template-columns: 1fr; }
+    .phase-title { font-size: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+
+  <nav class="nav-bar">
+    <a href="mister-sparky-technician-script.html">← Back to Script Overview</a>
+    <span style="color:#555; font-size:0.8rem;">Phase 4 of 12</span>
+  </nav>
+
+  <div class="phase-header">
+    <div class="phase-label">Phase 4</div>
+    <div class="phase-title">Rapport Building</div>
+    <div class="phase-subtitle">F.O.R.M. — Family · Occupation · Recreation · Material Possession</div>
+  </div>
+
+  <!-- OPENING -->
+  <div class="section">
+    <div class="section-title">Opening the Conversation</div>
+
+    <div class="tech-line">
+      <div class="tech-label">Technician</div>
+      <p>"Bob, since this is the first time we have worked together — would it be okay if we sat down for a few minutes to review everything where you are most comfortable in the house before I get started?"</p>
+    </div>
+
+    <div class="box important">
+      <div class="box-label">⚠ Important</div>
+      This should not be pre-scripted. It needs to flow from you naturally. If it sounds rehearsed, it won't work. Make it genuine — you're asking because you actually want to understand them.
+    </div>
+  </div>
+
+  <!-- F.O.R.M. FRAMEWORK -->
+  <div class="section">
+    <div class="section-title">The F.O.R.M. Framework</div>
+    <p style="color:#aaa; margin-bottom:18px; font-size:0.92rem;">These four areas are your roadmap for building real connection. Work through them naturally — you don't have to hit them all in order.</p>
+
+    <div class="form-grid">
+      <div class="form-card">
+        <div class="form-card-letter">F</div>
+        <div class="form-card-title">Family</div>
+        <p>Who are they? Spouse, kids, pets? What does their home life look like? What matters most to them at home?</p>
+      </div>
+      <div class="form-card">
+        <div class="form-card-letter">O</div>
+        <div class="form-card-title">Occupation</div>
+        <p>What do they do for a living? Are they proud of it? Does it explain their priorities, their schedule, their financial mindset?</p>
+      </div>
+      <div class="form-card">
+        <div class="form-card-letter">R</div>
+        <div class="form-card-title">Recreation</div>
+        <p>What do they love doing? Hobbies, passions, weekend activities? This is often where emotional drivers live.</p>
+      </div>
+      <div class="form-card">
+        <div class="form-card-letter">M</div>
+        <div class="form-card-title">Material Possession</div>
+        <p>What do they love about their home? Recent upgrades? Things they're proud of? This tells you how they value their space.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRANSITION QUESTIONS -->
+  <div class="section">
+    <div class="section-title">Transition Into F.O.R.M.</div>
+
+    <div class="tech-line">
+      <div class="tech-label">Technician</div>
+      <p>"Before we get started, can I ask you a few questions just to help me better serve you as a client?"</p>
+    </div>
+
+    <ul class="q-list">
+      <li>"If you don't mind, tell me about yourself and your family?"</li>
+      <li>"What do you enjoy doing the most in your life?"</li>
+      <li>"What drives you and makes you tick?"</li>
+      <li>"What do you enjoy the most and least of home ownership?"</li>
+    </ul>
+
+    <div class="box note">
+      <div class="box-label">📝 Note</div>
+      These are conversation starters, not an interrogation. Listen actively. Follow threads. Let them talk. The goal is to find what <em>activates</em> them — what truly drives them.
+    </div>
+  </div>
+
+  <!-- WHEN TO MOVE ON -->
+  <div class="section">
+    <div class="section-title">When to Move On</div>
+    <ul class="move-on-list">
+      <li>They're providing good information beyond yes/no answers</li>
+      <li>You feel a genuine connection forming</li>
+      <li>They seem comfortable, open, and ready to engage</li>
+      <li>You've identified at least one emotional driver</li>
+    </ul>
+
+    <div class="box takeaway">
+      <div class="box-label">🔑 Key Takeaway</div>
+      <strong>"Activate"</strong> means you've connected with what truly drives them in life — not just surface-level small talk. Until you hit that, keep going. An activated customer is a customer who trusts you.
+    </div>
+  </div>
+
+  <!-- RAPPORT SCORECARD -->
+  <div class="section">
+    <div class="section-title">Rapport Scorecard</div>
+    <p style="color:#aaa; margin-bottom:16px; font-size:0.9rem;">After every visit, grade yourself honestly. This is how you get better.</p>
+
+    <div class="scorecard">
+      <div class="score-item">
+        <div class="score-grade score-a">A</div>
+        <div class="score-desc"><strong style="color:#22c55e;">Activated &amp; Connected</strong> — Connected with what drives them AND personally/professionally. Full rapport. The gold standard.</div>
+      </div>
+      <div class="score-item">
+        <div class="score-grade score-b">B</div>
+        <div class="score-desc"><strong style="color:#F2A900;">Activated Only</strong> — Found their emotional driver but didn't build the personal/professional connection. Still strong, but incomplete.</div>
+      </div>
+      <div class="score-item">
+        <div class="score-grade score-c">C</div>
+        <div class="score-desc"><strong style="color:#f97316;">Asked F.O.R.M.</strong> — Went through the motions. Asked the questions but didn't activate or truly connect. Mechanical, not human.</div>
+      </div>
+      <div class="score-item">
+        <div class="score-grade score-d">D</div>
+        <div class="score-desc"><strong style="color:#C8102E;">No Rapport Built</strong> — Acted as a tool, not a human. Showed up, diagnosed, quoted. Zero connection. This is a problem.</div>
+      </div>
+    </div>
+
+    <div class="box important">
+      <div class="box-label">⚠ Important</div>
+      Grade B or below means you're leaving money on the table — and more importantly, leaving a person feeling unheard. Aim for A every single visit.
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <a href="mister-sparky-technician-script.html" class="btn btn-outline">← Back to Overview</a>
+    <a href="ms-anchors.html" class="btn btn-primary">Next Phase: Setting Anchors →</a>
+  </div>
+
+</div>
+</body>
+</html>

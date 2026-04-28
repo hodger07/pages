@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mister Sparky — Technician Script V4</title>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
 <style>
   :root {
     --spark-red: #C8102E;
     --spark-dark: #1a1a2e;
     --spark-gold: #F2A900;
-    --spark-blue: #003DA5;
     --bg: #0f0f1a;
     --card: #1a1a2e;
     --card-hover: #222240;
@@ -17,286 +17,123 @@
     --text-muted: #9999b0;
     --border: #2a2a45;
     --success: #22c55e;
-    --warning: #f59e0b;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.7;
-    padding: 0;
-  }
-  .header {
-    background: linear-gradient(135deg, var(--spark-red) 0%, #8B0000 100%);
-    padding: 3rem 2rem;
-    text-align: center;
-    border-bottom: 4px solid var(--spark-gold);
-  }
-  .header h1 {
-    font-size: 2.2rem;
-    font-weight: 800;
-    color: #fff;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 0.3rem;
-  }
-  .header .subtitle {
-    font-size: 1rem;
-    color: rgba(255,255,255,0.8);
-    font-weight: 400;
-    letter-spacing: 1px;
-  }
-  .nav {
-    background: var(--card);
-    border-bottom: 1px solid var(--border);
-    padding: 1rem 2rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    justify-content: center;
-    position: sticky;
-    top: 0;
-    z-index: 99;
-  }
-  .nav a {
-    color: var(--spark-gold);
-    text-decoration: none;
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    padding: 0.4rem 0.8rem;
-    border-radius: 4px;
-    transition: all 0.2s;
-    white-space: nowrap;
-  }
-  .nav a:hover { background: rgba(242,169,0,0.15); }
-  .container { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
 
-  .phase {
-    margin-bottom: 2rem;
+  .header { background: linear-gradient(135deg, var(--spark-red) 0%, #8B0000 100%); padding: 3rem 2rem; text-align: center; border-bottom: 4px solid var(--spark-gold); }
+  .header h1 { font-size: 2.2rem; font-weight: 800; color: #fff; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.3rem; }
+  .header .subtitle { font-size: 1rem; color: rgba(255,255,255,0.8); letter-spacing: 1px; }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  .roadmap-intro { text-align: center; margin-bottom: 2.5rem; color: var(--text-muted); font-size: 1rem; line-height: 1.8; }
+  .roadmap-intro strong { color: var(--spark-gold); }
+
+  /* Phase cards on main page */
+  .phase-card {
+    background: var(--card);
     border: 1px solid var(--border);
     border-radius: 12px;
+    margin-bottom: 1.5rem;
     overflow: hidden;
-    background: var(--card);
+    transition: border-color 0.2s;
   }
-  .phase-header {
-    background: linear-gradient(90deg, var(--spark-dark) 0%, #22224a 100%);
+  .phase-card:hover { border-color: var(--spark-gold); }
+  .phase-card-header {
+    display: flex; align-items: center; gap: 1rem;
     padding: 1.2rem 1.5rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    user-select: none;
     border-bottom: 2px solid var(--spark-red);
-    transition: background 0.2s;
   }
-  .phase-header:hover { background: var(--card-hover); }
-  .phase-number {
-    background: var(--spark-red);
-    color: #fff;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 800;
-    font-size: 0.95rem;
-    flex-shrink: 0;
+  .phase-num {
+    background: var(--spark-red); color: #fff;
+    width: 38px; height: 38px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 0.95rem; flex-shrink: 0;
   }
-  .phase-title {
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: #fff;
-    flex: 1;
-  }
-  .phase-toggle {
-    color: var(--spark-gold);
-    font-size: 1.3rem;
-    transition: transform 0.3s;
-  }
-  .phase.collapsed .phase-toggle { transform: rotate(-90deg); }
-  .phase.collapsed .phase-body { display: none; }
-  .phase-body { padding: 1.5rem; }
+  .phase-name { font-size: 1.15rem; font-weight: 700; color: #fff; flex: 1; }
+  .phase-link { color: var(--spark-gold); text-decoration: none; font-size: 0.85rem; font-weight: 600; white-space: nowrap; }
+  .phase-link:hover { text-decoration: underline; }
+  .phase-card-body { padding: 1.2rem 1.5rem; }
 
-  .script-line {
-    margin-bottom: 1.2rem;
-    padding-left: 0;
+  /* Inline short phases */
+  .key-points { list-style: none; padding: 0; }
+  .key-points li { padding: 0.3rem 0 0.3rem 1.5rem; position: relative; font-size: 0.92rem; }
+  .key-points li::before { content: "⚡"; position: absolute; left: 0; }
+
+  .tech-line {
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 1.08rem;
+    font-style: italic;
+    color: #d8d0f0;
+    padding: 0.6rem 1rem;
+    border-left: 3px solid var(--spark-red);
+    background: rgba(200,16,46,0.06);
+    border-radius: 0 6px 6px 0;
+    margin: 0.6rem 0;
+    line-height: 1.6;
   }
-  .speaker {
+  .tech-label {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-style: normal;
     font-weight: 700;
     color: var(--spark-gold);
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    margin-bottom: 0.2rem;
+    display: block;
+    margin-bottom: 0.15rem;
   }
-  .speaker.customer { color: var(--text-muted); }
-  .dialogue {
+  .cust-line {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    padding: 0.4rem 1rem;
+    border-left: 3px solid #444;
+    margin: 0.5rem 0;
     font-style: italic;
-    color: #d0d0e8;
-    padding-left: 1rem;
-    border-left: 3px solid var(--spark-red);
-    margin-left: 0.2rem;
-  }
-  .dialogue.customer-line {
-    border-left-color: #555;
   }
 
   .important-box {
-    background: rgba(200,16,46,0.12);
-    border: 1px solid rgba(200,16,46,0.35);
+    background: rgba(200,16,46,0.1);
+    border: 1px solid rgba(200,16,46,0.3);
     border-radius: 8px;
-    padding: 1rem 1.2rem;
-    margin: 1rem 0;
-    font-size: 0.92rem;
-  }
-  .important-box::before {
-    content: "⚡ IMPORTANT";
-    display: block;
-    font-weight: 800;
-    color: var(--spark-red);
-    font-size: 0.78rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 0.4rem;
-  }
-  .note-box {
-    background: rgba(242,169,0,0.08);
-    border: 1px solid rgba(242,169,0,0.25);
-    border-radius: 8px;
-    padding: 0.8rem 1.2rem;
+    padding: 0.8rem 1rem;
     margin: 0.8rem 0;
     font-size: 0.9rem;
+  }
+  .important-box::before { content: "⚡ IMPORTANT"; display: block; font-weight: 800; color: var(--spark-red); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.3rem; }
+
+  .note-box {
+    background: rgba(242,169,0,0.08);
+    border: 1px solid rgba(242,169,0,0.2);
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
+    margin: 0.6rem 0;
+    font-size: 0.88rem;
     color: var(--spark-gold);
   }
-  .note-box::before {
-    content: "📝 NOTE";
-    display: block;
-    font-weight: 700;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 0.3rem;
-    opacity: 0.8;
-  }
 
-  .grade-box {
+  .takeaway {
     background: rgba(34,197,94,0.08);
-    border: 1px solid rgba(34,197,94,0.25);
-    border-radius: 8px;
-    padding: 1rem 1.2rem;
-    margin: 1rem 0;
-  }
-  .grade-box h4 { color: var(--success); margin-bottom: 0.5rem; font-size: 0.9rem; }
-  .grade-box .grade { margin-bottom: 0.3rem; font-size: 0.9rem; }
-  .grade-box .grade strong { color: var(--success); }
-
-  .math-box {
-    background: rgba(0,61,165,0.12);
-    border: 1px solid rgba(0,61,165,0.35);
-    border-radius: 8px;
-    padding: 1.2rem;
-    margin: 1rem 0;
-    font-family: 'SF Mono', 'Fira Code', monospace;
-    font-size: 0.95rem;
-    line-height: 2;
-  }
-  .math-box .result {
-    font-size: 1.3rem;
-    font-weight: 800;
-    color: var(--spark-gold);
-  }
-
-  .form-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.8rem;
-    margin: 1rem 0;
-  }
-  .form-item {
-    background: rgba(242,169,0,0.06);
-    border: 1px solid rgba(242,169,0,0.2);
+    border: 1px solid rgba(34,197,94,0.2);
     border-radius: 8px;
     padding: 0.8rem 1rem;
-    text-align: center;
-    font-weight: 700;
-    font-size: 1rem;
+    margin: 0.8rem 0;
+    font-size: 0.9rem;
   }
-  .form-item span { display: block; font-size: 0.75rem; color: var(--text-muted); font-weight: 400; margin-top: 0.2rem; }
+  .takeaway::before { content: "🎯 KEY TAKEAWAY"; display: block; font-weight: 800; color: var(--success); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.3rem; }
 
-  .options-grid {
-    display: grid;
-    gap: 1rem;
-    margin: 1rem 0;
-  }
-  .option-card {
-    border: 2px solid var(--border);
-    border-radius: 10px;
-    padding: 1.2rem;
-    transition: all 0.2s;
-  }
-  .option-card.best { border-color: var(--spark-gold); background: rgba(242,169,0,0.06); }
-  .option-card.better { border-color: var(--spark-red); background: rgba(200,16,46,0.05); }
-  .option-card.essentials { border-color: var(--border); }
-  .option-card h4 { font-size: 1.05rem; margin-bottom: 0.5rem; }
-  .option-card.best h4 { color: var(--spark-gold); }
-  .option-card.better h4 { color: var(--spark-red); }
+  h3 { color: var(--spark-gold); margin: 1.2rem 0 0.5rem; font-size: 1rem; }
+  p { margin-bottom: 0.7rem; }
 
-  .checklist { list-style: none; padding: 0; }
-  .checklist li { padding: 0.3rem 0; padding-left: 1.5rem; position: relative; font-size: 0.92rem; }
-  .checklist li::before { content: "•"; position: absolute; left: 0; color: var(--spark-gold); font-weight: 700; }
-
-  .close-techniques {
-    display: grid;
-    gap: 0.8rem;
-    margin: 1rem 0;
-  }
-  .close-tech {
-    background: rgba(242,169,0,0.06);
-    border: 1px solid rgba(242,169,0,0.2);
-    border-radius: 8px;
-    padding: 0.8rem 1rem;
-  }
-  .close-tech strong { color: var(--spark-gold); }
-
-  .personality-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.8rem;
-    margin: 1rem 0;
-  }
-  .personality-card {
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 0.8rem 1rem;
-    text-align: center;
-  }
-  .personality-card h5 { color: var(--spark-gold); margin-bottom: 0.3rem; }
-  .personality-card p { font-size: 0.85rem; color: var(--text-muted); }
-
-  p { margin-bottom: 0.8rem; }
-  h3 { color: var(--spark-gold); margin: 1.2rem 0 0.6rem; font-size: 1rem; }
-
-  .footer {
-    text-align: center;
-    padding: 2rem;
-    color: var(--text-muted);
-    font-size: 0.8rem;
-    border-top: 1px solid var(--border);
-    margin-top: 2rem;
-  }
+  .footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--border); margin-top: 2rem; }
 
   @media (max-width: 600px) {
     .header { padding: 2rem 1rem; }
     .header h1 { font-size: 1.5rem; }
-    .nav { padding: 0.8rem 1rem; }
-    .nav a { font-size: 0.7rem; padding: 0.3rem 0.5rem; }
     .container { padding: 1rem; }
-    .form-grid, .personality-grid { grid-template-columns: 1fr; }
-    .phase-body { padding: 1rem; }
+    .phase-card-body { padding: 1rem; }
   }
 </style>
 </head>
@@ -307,884 +144,239 @@
   <div class="subtitle">Technician Call Script — V4</div>
 </div>
 
-<nav class="nav" id="nav">
-  <a href="#phase-1">Pre-Arrival</a>
-  <a href="#phase-2">Approach</a>
-  <a href="#phase-3">Introduction</a>
-  <a href="#phase-4">Rapport</a>
-  <a href="#phase-5">Anchors</a>
-  <a href="#phase-6">Decision Maker</a>
-  <a href="#phase-7">Discovery</a>
-  <a href="#phase-8">Diagnostic</a>
-  <a href="#phase-9">Circuit Tee-Up</a>
-  <a href="#phase-10">Options</a>
-  <a href="#phase-11">Objections</a>
-  <a href="#phase-12">Closes</a>
-</nav>
-
 <div class="container">
 
-  <!-- PHASE 1 -->
-  <div class="phase" id="phase-1">
-    <div class="phase-header" onclick="togglePhase(this)">
-      <div class="phase-number">1</div>
-      <div class="phase-title">Pre-Arrival</div>
-      <div class="phase-toggle">▼</div>
+  <div class="roadmap-intro">
+    <strong>12 phases. One call. One shot.</strong><br>
+    Short phases are below. Longer phases link to their own page — tap the link to go deep.<br>
+    All <span style="font-family:'Crimson Pro',Georgia,serif; font-style:italic; color:#d8d0f0;">technician dialogue is in this font</span> so you always know what to say.
+  </div>
+
+  <!-- ============ PHASE 1 — INLINE ============ -->
+  <div class="phase-card" id="phase-1">
+    <div class="phase-card-header">
+      <div class="phase-num">1</div>
+      <div class="phase-name">Pre-Arrival</div>
     </div>
-    <div class="phase-body">
-      <h3>Mental End Zone Preparation</h3>
-      <ul class="checklist">
-        <li>Mental End Zone Preparation</li>
-        <li>Observation</li>
-        <li>Positive Vehicle Placement</li>
-        <li>Approach</li>
-        <li>Provide an "I Came to Work" Image</li>
-        <li>Notification of Arrival and Greeting</li>
-        <li>Relationship Building Opportunity</li>
+    <div class="phase-card-body">
+      <ul class="key-points">
+        <li>Mental End Zone Preparation — get your head right</li>
+        <li>Vehicle clean, shiny tires, organized, presentable</li>
+        <li>Phone and iPad on vibrate</li>
+        <li>Leave all problems in the van</li>
+        <li>You must look and act the part</li>
       </ul>
-      <div class="important-box">
-        Make sure the vehicle is clean, with shiny tires, organized, presentable. You must look and act the part too. Leave all problems in the van. Make sure to put your phone and iPad on vibrate.
-      </div>
+      <div class="takeaway">You are not a fixer. You are a professional. The call starts before you touch the door.</div>
     </div>
   </div>
 
-  <!-- PHASE 2 -->
-  <div class="phase" id="phase-2">
-    <div class="phase-header" onclick="togglePhase(this)">
-      <div class="phase-number">2</div>
-      <div class="phase-title">Approaching the Home</div>
-      <div class="phase-toggle">▼</div>
+  <!-- ============ PHASE 2 — INLINE ============ -->
+  <div class="phase-card" id="phase-2">
+    <div class="phase-card-header">
+      <div class="phase-num">2</div>
+      <div class="phase-name">Approaching the Home</div>
     </div>
-    <div class="phase-body">
-      <div class="important-box">
-        Walk with confidence, good posture, SMILE — this builds esteem. Have a fast brisk pace from your van to the customer's door. Clean approach to the door. Do not walk through grass or flower beds.
-      </div>
-      <p>Minimum required tools only — you don't want them to think you are just a "fixer." You are a professional — just like a doctor doesn't walk in with all his tools, neither do you.</p>
+    <div class="phase-card-body">
+      <ul class="key-points">
+        <li>Walk with confidence, good posture, SMILE</li>
+        <li>Fast brisk pace from van to door</li>
+        <li>Do NOT walk through grass or flower beds</li>
+        <li>Minimum required tools only — a doctor doesn't carry all his tools</li>
+      </ul>
       <h3>At the Door</h3>
-      <ul class="checklist">
+      <ul class="key-points">
         <li>Knock on the door frame</li>
-        <li>Step back, stand at a 45-degree angle to the door</li>
+        <li>Step back, 45-degree angle to the door</li>
         <li>Tool bag on the ground</li>
         <li>SMILE</li>
       </ul>
     </div>
   </div>
 
-  <!-- PHASE 3 -->
-  <div class="phase" id="phase-3">
-    <div class="phase-header" onclick="togglePhase(this)">
-      <div class="phase-number">3</div>
-      <div class="phase-title">Introduction & Entry</div>
-      <div class="phase-toggle">▼</div>
+  <!-- ============ PHASE 3 — INLINE ============ -->
+  <div class="phase-card" id="phase-3">
+    <div class="phase-card-header">
+      <div class="phase-num">3</div>
+      <div class="phase-name">Introduction & Entry</div>
     </div>
-    <div class="phase-body">
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Hi, my name is _______, I am with Mister Sparky! I'm here to see Mr/Mrs/Ms. Doe."</div>
-      </div>
-      <div class="note-box">Proper sir name only at this point.</div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Good to meet you, Mr. [Sir name]. I'm going to be your electrician today!"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Do you mind if I call you Bob?"</div>
-      </div>
+    <div class="phase-card-body">
+      <div class="tech-line"><span class="tech-label">Technician</span>"Hi, my name is _______, I am with Mister Sparky! I'm here to see Mr/Mrs/Ms. Doe."</div>
+      <div class="tech-line"><span class="tech-label">Technician</span>"Good to meet you, Mr. [Sir name]. I'm going to be your electrician today!"</div>
+      <div class="tech-line"><span class="tech-label">Technician</span>"Do you mind if I call you Bob?"</div>
 
       <h3>Van Placement</h3>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Is my van parked okay, Bob?"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Great, I just want to make sure I am not going to block any parking for family, friends, yard crews, or deliveries."</div>
-      </div>
+      <div class="tech-line"><span class="tech-label">Technician</span>"Is my van parked okay, Bob?"</div>
+      <div class="tech-line"><span class="tech-label">Technician</span>"Great, I just want to make sure I am not going to block any parking for family, friends, yard crews, or deliveries."</div>
 
       <h3>Entry & Floor Savers</h3>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Do you mind if I come in?"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Let me put on my floor savers."</div>
-      </div>
-
-      <div class="important-box">
-        Typical customers want to treat you like an object rather than a professional or an equal. They will have the tendency to treat you as a tool such as a hammer. Buy the cheapest hammer, whack the problem and then dismiss you when done.
-      </div>
+      <div class="tech-line"><span class="tech-label">Technician</span>"Do you mind if I come in?"</div>
+      <div class="tech-line"><span class="tech-label">Technician</span>"Let me put on my floor savers."</div>
 
       <h3>Why You're There</h3>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"I understand that you have a few outlets not working."</div>
-      </div>
-      <div class="important-box">
-        I wouldn't lead with this right now unless the customer forces the issue. If so, roll with it and circle back to relationship building.
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"No problem at all, you don't need to worry Bob — we will get that problem fixed up for you and get you back to normal."</div>
-      </div>
+      <div class="tech-line"><span class="tech-label">Technician</span>"I understand that you have a few outlets not working."</div>
+      <div class="important-box">Don't lead with the problem unless the customer forces the issue. Roll with it if they do, then circle back to rapport.</div>
+      <div class="tech-line"><span class="tech-label">Technician</span>"No problem at all, you don't need to worry Bob — we will get that problem fixed up for you and get you back to normal."</div>
     </div>
   </div>
 
-  <!-- PHASE 4 -->
-  <div class="phase" id="phase-4">
-    <div class="phase-header" onclick="togglePhase(this)">
-      <div class="phase-number">4</div>
-      <div class="phase-title">Rapport Building (F.O.R.M.)</div>
-      <div class="phase-toggle">▼</div>
+  <!-- ============ PHASE 4 — LINKED ============ -->
+  <div class="phase-card" id="phase-4">
+    <div class="phase-card-header">
+      <div class="phase-num">4</div>
+      <div class="phase-name">Rapport Building (F.O.R.M.)</div>
+      <a href="ms-rapport.html" class="phase-link">Full Script →</a>
     </div>
-    <div class="phase-body">
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Bob, since this is the first time we have worked together — would it be okay if we sat down for a few minutes to review everything where you are most comfortable in the house before I get started?"</div>
-      </div>
-
-      <div class="important-box">
-        This should not be pre-scripted. It needs to flow from you naturally. Build relationships based on F.O.R.M. Rapport will always follow this format!
-      </div>
-
-      <div class="form-grid">
-        <div class="form-item">F <span>Family</span></div>
-        <div class="form-item">O <span>Occupation</span></div>
-        <div class="form-item">R <span>Recreation</span></div>
-        <div class="form-item">M <span>Material Possession</span></div>
-      </div>
-
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Before we get started, can I ask you a few questions just to help me better serve you as a client?"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"If you don't mind, tell me about yourself and your family?"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"What do you enjoy doing the most in your life?"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"What drives you and makes you tick?"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"What do you enjoy the most and least of home ownership?"</div>
-      </div>
-
-      <h3>When to Move On</h3>
-      <ul class="checklist">
-        <li>They are providing good information beyond "yes / no"</li>
-        <li>You can feel they are connecting with you</li>
-        <li>You can tell they want and are ready to move forward</li>
+    <div class="phase-card-body">
+      <div class="takeaway">This is the most important phase. If you skip this, the rest of the script won't work. Build a REAL connection — not a checkbox.</div>
+      <ul class="key-points">
+        <li><strong>F</strong>amily — <strong>O</strong>ccupation — <strong>R</strong>ecreation — <strong>M</strong>aterial Possession</li>
+        <li>This should NOT be pre-scripted — it needs to flow naturally</li>
+        <li>Move on when they're giving real answers, not just "yes/no"</li>
+        <li>Grade yourself: A (activated + connected) through D (acted like a hammer)</li>
       </ul>
-
-      <div class="grade-box">
-        <h4>Rapport Building Scorecard</h4>
-        <div class="grade"><strong>A</strong> = Activated and connected — you connected with what drives them AND connected personally or professionally</div>
-        <div class="grade"><strong>B</strong> = Activated only — found their driver but didn't personally connect</div>
-        <div class="grade"><strong>C</strong> = Asked about F.O.R.M. but didn't activate or connect</div>
-        <div class="grade"><strong>D</strong> = No rapport built — you acted as a tool (hammer), not a human</div>
-      </div>
     </div>
   </div>
 
-  <!-- PHASE 5 -->
-  <div class="phase" id="phase-5">
-    <div class="phase-header" onclick="togglePhase(this)">
-      <div class="phase-number">5</div>
-      <div class="phase-title">Setting Critical Anchors & Buyer Qualification</div>
-      <div class="phase-toggle">▼</div>
+  <!-- ============ PHASE 5 — LINKED ============ -->
+  <div class="phase-card" id="phase-5">
+    <div class="phase-card-header">
+      <div class="phase-num">5</div>
+      <div class="phase-name">Setting Critical Anchors</div>
+      <a href="ms-anchors.html" class="phase-link">Full Script →</a>
     </div>
-    <div class="phase-body">
-      <p>You want to set <strong>two critical anchors</strong> here:</p>
-      <ul class="checklist">
-        <li>They must agree to the <strong>4% rule</strong></li>
-        <li>They must agree to <strong>20-30%</strong> of the final amount as deferred electrical maintenance</li>
+    <div class="phase-card-body">
+      <div class="takeaway">Two anchors. Both must be locked verbally before you move on. The math does the selling — you just hold the calculator.</div>
+      <ul class="key-points">
+        <li><strong>Anchor 1:</strong> They agree to the 4% home maintenance rule</li>
+        <li><strong>Anchor 2:</strong> They agree to 20-30% of deferred maintenance = electrical</li>
+        <li>Use a real calculator — NOT your phone</li>
+        <li>Goal: "We both agree you don't want to touch that number today"</li>
       </ul>
-
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Quick question Bob, what is your strategy for maintaining your home and keeping it in tip-top shape?"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker customer">Bob</div>
-        <div class="dialogue customer-line">"I don't know that we really have any strategy to speak of. We just sort of fix what breaks, when it breaks."</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"No problem, most of my customers answer the same way, this is completely normal."</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"The experts say you should plan on 4% of the home value for all-in maintenance cost per year, would you agree with this?"</div>
-      </div>
-
-      <div class="note-box">You do NOT move on until they agree with the percentage — no dollars at this point. When they do agree you MUST lock it in.</div>
-
-      <div class="script-line">
-        <div class="speaker customer">Bob</div>
-        <div class="dialogue customer-line">"I think that is what I've always been told…"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Great, so you agree the right number is 4%?"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker customer">Bob</div>
-        <div class="dialogue customer-line">"Yes."</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Yes?! Ok, Great!"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"So Bob, what is the current value of your home?"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker customer">Bob</div>
-        <div class="dialogue customer-line">"Around $500,000 I think."</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Okay, and how old is your home?"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker customer">Bob</div>
-        <div class="dialogue customer-line">"10 years old as of last week."</div>
-      </div>
-
-      <div class="note-box">Pull out a calculator — NOT your phone. You should carry a proper calculator. You're a professional and professionals have professional tools.</div>
-
-      <h3>The Math</h3>
-      <div class="math-box">
-        $500,000 × 4% = <strong>$20,000</strong>/year<br>
-        $20,000 × 10 years = <span class="result">$200,000</span> total deferred maintenance
-      </div>
-
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Let me do some quick math Bob… So if we do the math based on the experts it pencils out to this number."</div>
-      </div>
-      <div class="note-box">Show the customer the figure on the calculator.</div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Now I don't need to ask you. I am sure you hate this number."</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker customer">Bob</div>
-        <div class="dialogue customer-line">"Uh, yea… That's crazy."</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"I do too, so let's just… for good measure cut the number in half."</div>
-      </div>
-
-      <div class="note-box">This is the 2nd important anchor you MUST lock them on verbally. The number will vary between 20-30% based on value of house (lower = more, higher = less).</div>
-
-      <div class="math-box">
-        $200,000 ÷ 2 = $100,000<br>
-        $100,000 × 25% (electrical) = <span class="result">$25,000</span> electrical deferred maintenance
-      </div>
-
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Of the 4% Bob, the experts say that 20-30% depending on value of house is allocated to electrical. So, if I do the math here on the number we cut in half, it comes out to $25K."</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Bob, based on experts, do you agree this is the right number for electrical deferred maintenance on a home with this value and age?"</div>
-      </div>
-
-      <div class="note-box">They must say yes, then you repeat it back to them and lock it. Only when they submit and agree do you then re-align.</div>
-
-      <div class="script-line">
-        <div class="speaker customer">Bob</div>
-        <div class="dialogue customer-line">"Yes sir. I do believe that pans out. I have never seen the math on my house, but that seems right."</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Okay great, and we can both agree that you do not want to touch that number today, right Bob?"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker customer">Bob</div>
-        <div class="dialogue customer-line">"Hell no I don't!"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Yes, I agree Bob, my goal is to de-risk you from all this deferred maintenance and not touch that number."</div>
-      </div>
     </div>
   </div>
 
-  <!-- PHASE 6 -->
-  <div class="phase" id="phase-6">
-    <div class="phase-header" onclick="togglePhase(this)">
-      <div class="phase-number">6</div>
-      <div class="phase-title">Lock In the Decision Maker</div>
-      <div class="phase-toggle">▼</div>
+  <!-- ============ PHASE 6 — INLINE ============ -->
+  <div class="phase-card" id="phase-6">
+    <div class="phase-card-header">
+      <div class="phase-num">6</div>
+      <div class="phase-name">Lock In the Decision Maker</div>
     </div>
-    <div class="phase-body">
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Bob, based on the fact that you said you and your wife really don't have a strategy for managing your home's maintenance, I don't want to assume who takes the lead on making these type of decisions or if both of you are involved once it reaches a certain dollar amount — but I need to make sure that all parties are available for time and efficiency purposes during the call today."</div>
-      </div>
+    <div class="phase-card-body">
+      <div class="tech-line"><span class="tech-label">Technician</span>"Bob, based on the fact that you said you and your wife really don't have a strategy for managing your home's maintenance, I don't want to assume who takes the lead on making these type of decisions or if both of you are involved once it reaches a certain dollar amount — but I need to make sure that all parties are available for time and efficiency purposes during the call today."</div>
       <div class="note-box">Pause — wait for them to name spouse, themselves, or both.</div>
-      <div class="script-line">
-        <div class="speaker customer">Bob</div>
-        <div class="dialogue customer-line">"I make the decisions for the most part. But I do like to run things by my wife."</div>
-      </div>
-
-      <h3>Set Expectation for Joint Discussion</h3>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Got it — I like to have everyone who's part of the decision in the loop, so no one feels out of the loop or surprised later. If we do find something worth addressing today, would it be possible for both of you to be available for that part of the conversation?"</div>
-      </div>
-      <div class="note-box">Pause — wait for agreement.</div>
+      <div class="tech-line"><span class="tech-label">Technician</span>"Got it — I like to have everyone who's part of the decision in the loop, so no one feels out of the loop or surprised later. If we do find something worth addressing today, would it be possible for both of you to be available for that part of the conversation?"</div>
+      <div class="takeaway">Get this commitment NOW. If you skip this, you'll hear "I need to talk to my spouse" at the close and it's 10x harder.</div>
     </div>
   </div>
 
-  <!-- PHASE 7 -->
-  <div class="phase" id="phase-7">
-    <div class="phase-header" onclick="togglePhase(this)">
-      <div class="phase-number">7</div>
-      <div class="phase-title">Problem Discovery & Pre-Inspection</div>
-      <div class="phase-toggle">▼</div>
+  <!-- ============ PHASE 7 — LINKED ============ -->
+  <div class="phase-card" id="phase-7">
+    <div class="phase-card-header">
+      <div class="phase-num">7</div>
+      <div class="phase-name">Problem Discovery & Pre-Inspection</div>
+      <a href="ms-discovery.html" class="phase-link">Full Script →</a>
     </div>
-    <div class="phase-body">
-      <p><em>(Customer walks you over to the issue)</em></p>
-
-      <h3>Follow-up Questions</h3>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"When did you first start noticing this?"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Did anything unusual happen when it started — like a breaker trip, burning smell, flickering?"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Has this happened before or is this the first time?"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Any other areas in the house doing something similar?"</div>
-      </div>
-
-      <h3>Show Compassion</h3>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Thanks for walking me through that. I know this kind of thing can be frustrating, especially when it interrupts your day or creates worry."</div>
-      </div>
-
-      <h3>Deliver Credibility</h3>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"I've been doing electrical work for [X] years now and I've seen issues like this plenty of times. You're in good hands — I'll definitely be able to get this figured out and taken care of for you."</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"My goal today is to earn the right to be your electrician for as long as you own the home — everything I do today will be centered around that chief goal."</div>
-      </div>
-
-      <h3>Activate Against Emotional Drivers</h3>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"What do you do when you can't use the outlet in the kitchen?"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker customer">Bob</div>
-        <div class="dialogue customer-line">"Well, I can't make toast for my youngest kid on the weekends."</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker customer">Bob</div>
-        <div class="dialogue customer-line">"I can't bake and that's my hobby."</div>
-      </div>
-
-      <div class="important-box">
-        Circle back to aligning your repair to that goal/activation — this is critical. YOU MUST ACTIVATE AGAINST THEIR EMOTIONAL DRIVERS and personal GOALS.
-      </div>
-
-      <h3>Personal Credibility Statement</h3>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"I've been with Mister Sparky for [X] years. The reason I've stayed is because we put a lot of pride into doing things right — safely, professionally, and with integrity. That's important to me."</div>
-      </div>
-
-      <h3>Transition to Inspection</h3>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Bob, thanks for taking the time to allow me to get to know you since we haven't met before. I'm going to start with a quick inspection and gather some information about your home's electrical system — you're more than welcome to come along with me if you'd like to see what I'm doing, or you can hang out here, whatever you prefer."</div>
-      </div>
-      <div class="note-box">Pause and wait for a response.</div>
-      <div class="script-line">
-        <div class="speaker customer">Bob</div>
-        <div class="dialogue customer-line">"I think I will just continue working in my office."</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Perfect — I'll circle back once I'm finished, then we'll go over next steps together."</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- PHASE 8 -->
-  <div class="phase" id="phase-8">
-    <div class="phase-header" onclick="togglePhase(this)">
-      <div class="phase-number">8</div>
-      <div class="phase-title">Presenting the Diagnostic</div>
-      <div class="phase-toggle">▼</div>
-    </div>
-    <div class="phase-body">
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Bob, is there a good place we can sit for a couple of minutes to go over what I found?"</div>
-      </div>
-      <div class="note-box">Pause while walking with them. Sit if they offer.</div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Good news — I checked your breaker panel, and everything looks solid. I saw a couple of things worth noting, but nothing urgent. For now, I want to focus on the issue you actually called us for."</div>
-      </div>
-      <div class="note-box">Pause. Let them respond before continuing.</div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Now — I want to be fully upfront with you — I wasn't able to isolate the exact root cause of what you're experiencing just yet… and that's okay. That's, actually, pretty normal in systems like this."</div>
-      </div>
-      <div class="note-box">Pause and reassure with body language — nod confidently, maintain a calm, reassuring tone.</div>
-      <div class="script-line">
-        <div class="speaker customer">Bob</div>
-        <div class="dialogue customer-line">"Oh, ok… What do we do?"</div>
-      </div>
-
-      <h3>Circuit-Level Education</h3>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Before we talk about next steps — can I ask: are you familiar at all with how your electrical system is laid out?"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker customer">Bob</div>
-        <div class="dialogue customer-line">"Not really, no."</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Okay — your home's electrical system is one big system — but it's made up of smaller systems called circuits. That's where I dive in and troubleshoot — at the circuit level."</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"I do it this way for two reasons. First — so I can look you in the eye and tell you I've actually found and fixed the issue. And second — so I can help ensure it doesn't happen again."</div>
-      </div>
-      <div class="note-box">Eye contact here is essential — connect personally.</div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Does that make sense so far?"</div>
-      </div>
-
-      <h3>Gain Buy-In</h3>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"If we want to move forward, all I need from you is a signature right here and I can get started right away for you."</div>
-      </div>
-      <div class="note-box">Pause. Hand them the iPad or device.</div>
-    </div>
-  </div>
-
-  <!-- PHASE 9 -->
-  <div class="phase" id="phase-9">
-    <div class="phase-header" onclick="togglePhase(this)">
-      <div class="phase-number">9</div>
-      <div class="phase-title">Teeing Up the Circuit Restoration</div>
-      <div class="phase-toggle">▼</div>
-    </div>
-    <div class="phase-body">
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Bob, you got a minute?"</div>
-      </div>
-      <div class="note-box">Pause — wait for them to say yes.</div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Okay, great. Can we step into the room where the issue was? I'll show you what I found."</div>
-      </div>
-
-      <h3>The Finding</h3>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Great news. I found the problem with the circuit. It has to do with the devices — they're all quick wired. You don't need to worry about the technical side of that — basically, it's an easy wiring method that works fast upfront, but it's not very durable long-term."</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"You are following me so far?"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Either way — I got you fixed up today. You'll be back to normal, everything's working. So, I'm sure that's a relief."</div>
-      </div>
-      <div class="note-box">Pause — SMILE and wait for them to respond.</div>
-      <div class="script-line">
-        <div class="speaker customer">Bob</div>
-        <div class="dialogue customer-line">"YES! That is great! So, I can start baking my cookies again! Fantastic! Thank you!"</div>
-      </div>
-
-      <h3>Future Risk Education</h3>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Remember at the beginning when I said the only way I could confidently tell you I found the problem, fixed the problem, and help make sure it never happens again — was by doing this diagnostic?"</div>
-      </div>
-      <div class="note-box">Wait for them to acknowledge before speaking.</div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Well, here we are. We found it. But here's what's important — all the devices we pulled out are wired the same way. So let me ask you — what do you think the chances are that this same issue might happen on another device in the same circuit?"</div>
-      </div>
-      <div class="note-box">Pause — let them answer. Guide if needed while nodding head up and down.</div>
-      <div class="script-line">
-        <div class="speaker customer">Bob</div>
-        <div class="dialogue customer-line">"Yes, I imagine it is likely, they are all the same age."</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"So when it fails again, you know how we operate — we troubleshoot at the circuit level. What do you think we'd have to do again?"</div>
-      </div>
-      <div class="note-box">Let them answer. DO NOT answer for them.</div>
-      <div class="script-line">
-        <div class="speaker customer">Bob</div>
-        <div class="dialogue customer-line">"Diagnose it again."</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Right. And there's a fee for that — more than you'd like to pay again, I'm sure."</div>
-      </div>
-
-      <h3>The Soft Pitch</h3>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"What if I told you we could credit back your diagnostic fee toward a full solution — to make sure this doesn't happen again — while everything's already open and exposed?"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Is that something you'd be interested in looking at today?"</div>
-      </div>
-      <div class="important-box">Pause. Don't rush this moment. Don't speak until they answer you.</div>
-      <div class="script-line">
-        <div class="speaker customer">Bob</div>
-        <div class="dialogue customer-line">"I would like to see how much that would cost. Might as well."</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Great. Give me just a few minutes — I'll pull everything together and come sit down with you to go over the options."</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- PHASE 10 -->
-  <div class="phase" id="phase-10">
-    <div class="phase-header" onclick="togglePhase(this)">
-      <div class="phase-number">10</div>
-      <div class="phase-title">Presenting the Options</div>
-      <div class="phase-toggle">▼</div>
-    </div>
-    <div class="phase-body">
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Hey Bob, thanks for taking a few minutes with me today. My goal is simple — remember when I said earlier that I wanted to earn the right to be your electrician for as long as you own your home. You've shared your approach with me: you've focused your resources on investments, your kids' activities, and enjoying your home, which is great. You've got a beautiful place — you just haven't really had to put much into the 'bones' of the home yet. That's perfectly normal, and that's where today's conversation comes in."</div>
-      </div>
-
-      <h3>Framing Home Maintenance</h3>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"The industry standard is to allocate roughly 4% of your home's value annually toward overall maintenance. That doesn't mean you're spending that amount with me today — it's just a ballpark for all upkeep, whether that's roofing, plumbing, electrical, HVAC, foundation work, fencing, or painting. Some years it's one big thing; some years it's smaller things. Today we're focusing on the electrical side."</div>
-      </div>
-
-      <h3>Setting the Tone</h3>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Before we dive in, I want to make sure you're comfortable stopping me at any point if I get too technical or start rambling. I'm not here to 'sell' you — I'm here to give you clear, straightforward options so you can make the best decision for your home. Fair enough?"</div>
-      </div>
-
-      <h3>The Three Options</h3>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"I've put together three investment options for you: Best, Better, and Essentials. Think of them as different levels of scope — from the most comprehensive solution to just the essentials. Let's start at the top and work our way down."</div>
-      </div>
-
-      <div class="options-grid">
-        <div class="option-card best">
-          <h4>⭐ Option 1 — BEST (Most Comprehensive)</h4>
-          <p>"This covers the most work in one visit, maximizing efficiency and future-proofing your home. For example, we'd restore two circuits today. That means more reach and reliability — I've already got outlets and switches pulled, and since we know all the outlets are wired similarly, doing both now saves you the cost and hassle of a future call."</p>
-          <p><em>"It's like shopping at Costco — you may get more than you immediately need, but it's more efficient and cost-effective in the long run because you'll use it, and you get it at a better price per unit."</em></p>
-        </div>
-        <div class="option-card better">
-          <h4>Option 2 — BETTER (Single Circuit + Safety)</h4>
-          <p>"This is the same quality of work, just a smaller scope. We'd restore one circuit today and roll your $600 diagnostic fee into the repair cost — effectively cutting that fee in half for you."</p>
-          <p>Includes: grounding, surge protection, updated smoke detectors, GFCI bubble covers, and tested GFCIs in the bathrooms.</p>
-        </div>
-        <div class="option-card essentials">
-          <h4>Option 3 — ESSENTIALS (Baseline Safety Only)</h4>
-          <p>"This is the minimum I'd recommend — taking care of those critical safety measures I just mentioned, without any circuit restoration work. It addresses immediate safety needs but leaves the functional upgrades for another time."</p>
-        </div>
-      </div>
-
-      <h3>The Close</h3>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"So that's the overview: Best for maximum efficiency and long-term coverage, Better for solid safety plus one circuit restoration, and Essentials for safety only. Which option feels right for you today?"</div>
-      </div>
-      <div class="important-box">When you ask "which option feels right for you today" — you must not speak until the answer. Expect a long pause. This is normal. Let them process and think. They MUST talk first.</div>
-    </div>
-  </div>
-
-  <!-- PHASE 11 -->
-  <div class="phase" id="phase-11">
-    <div class="phase-header" onclick="togglePhase(this)">
-      <div class="phase-number">11</div>
-      <div class="phase-title">Objection Handling</div>
-      <div class="phase-toggle">▼</div>
-    </div>
-    <div class="phase-body">
-      <h3>The Four Personality Types</h3>
-      <div class="personality-grid">
-        <div class="personality-card">
-          <h5>Driver</h5>
-          <p>Direct and straight-forward objections</p>
-        </div>
-        <div class="personality-card">
-          <h5>Influencer</h5>
-          <p>Sarcastic objections</p>
-        </div>
-        <div class="personality-card">
-          <h5>Stable</h5>
-          <p>Avoids conflict — uses smokescreens</p>
-        </div>
-        <div class="personality-card">
-          <h5>Compliant</h5>
-          <p>Asks detailed questions</p>
-        </div>
-      </div>
-
-      <div class="important-box">
-        45%+ of the population falls into a High Stability personality. The "I need to talk to my spouse" objection often comes from this type — it's frequently a smokescreen, not a real condition. You must master handling this objection.
-      </div>
-
-      <h3>"I Need to Talk to My Spouse"</h3>
-      <p><strong>When to address it:</strong> Before it occurs! If you observe the client is a High S personality and constantly bringing up their spouse, that means:</p>
-      <ul class="checklist">
-        <li>She has not reached a comfort level with you — work on the relationship!</li>
-        <li>You are probably going to hear the spouse objection</li>
+    <div class="phase-card-body">
+      <div class="takeaway">Find the EMOTIONAL driver — not just the technical problem. "I can't bake and that's my hobby" is worth 10x more than "outlet doesn't work."</div>
+      <ul class="key-points">
+        <li>Ask when it started, what happened, has it happened before</li>
+        <li>Show compassion — acknowledge it's frustrating</li>
+        <li>Deliver credibility: "[X] years experience, you're in good hands"</li>
+        <li>"My goal today is to earn the right to be your electrician for as long as you own the home"</li>
+        <li>ACTIVATE against their emotional drivers and personal goals</li>
       </ul>
-      <p><strong>Rule:</strong> When repairs exceed single-spouse approval, you need the involvement of the other spouse.</p>
-
-      <h3>Discover If It's a Smokescreen</h3>
-      <div class="script-line">
-        <div class="speaker customer">Bob</div>
-        <div class="dialogue customer-line">"I need to talk to my spouse."</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"That makes a lot of sense Bob. Do you think she will have some questions about what we covered today?"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker customer">Bob</div>
-        <div class="dialogue customer-line">"Yes I do."</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"What type of questions do you think she will ask?"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker customer">Bob</div>
-        <div class="dialogue customer-line">"She'll probably ask about the price."</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Well, that's an easy one to answer. Do you think she will ask about the technical side of the installation process?"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker customer">Bob</div>
-        <div class="dialogue customer-line">"I don't think so. Probably not, she is more concerned about price."</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Oh. Well what do you think she will say about that price?"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker customer">Bob</div>
-        <div class="dialogue customer-line">"It's too high."</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"I bet that is exactly what she'll say. Bob, what do you say about the price?"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker customer">Bob</div>
-        <div class="dialogue customer-line">"Well, uhm. This is a little awkward. Uh, I think the price is a little high."</div>
-      </div>
-      <div class="note-box">You have just discovered that the spouse is probably not the issue. It's the client's perception of your value and price. Continue to address the price objection.</div>
-
-      <h3>If It's a Real Condition (Not a Smokescreen)</h3>
-      <p>You have 2 choices:</p>
-      <ul class="checklist">
-        <li><strong>Option A:</strong> Get the spouse involved over the phone — they keep the diagnostic credit</li>
-        <li><strong>Option B:</strong> Set an appointment to come back and visit together</li>
-      </ul>
-      <div class="important-box">
-        You can only roll the diagnostic into the circuit restoration if you do it now. If you must come back, you lose the efficiency, and they lose the savings. Doing it now is a win-win.
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Absolutely — I'd want to do the same thing. This is an investment in your home, and it's worth making together. Just so we don't lose momentum and so your spouse has the same info you do, would it be possible to give them a quick call or put them on speaker? Sometimes it helps if I'm here to answer any questions in real time instead of you having to re-explain later."</div>
-      </div>
-
-      <h3>"I Want to Think About It"</h3>
-
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"That's fine, Bob, I understand. This is an important choice for you. You wouldn't take your time thinking it over unless you were seriously interested, would you?"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker customer">Bob</div>
-        <div class="dialogue customer-line">"That's right. I'm interested; I just need some time to think it over."</div>
-      </div>
-
-      <h3>Clarify the Truth</h3>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Just so that I have it clear in my mind, you do feel that your home needs the options I have shown you, don't you?"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker customer">Bob</div>
-        <div class="dialogue customer-line">"Yes I do. You have proven that very clearly."</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Oh good, because I was worried that I offended you, and you were trying to kindly get rid of me. That's not the case, is it?"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker customer">Bob</div>
-        <div class="dialogue customer-line">"No, No, No. I like you!"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Oh good, because the last thing I would want to do is offend you!"</div>
-      </div>
-
-      <h3>Check Off the List</h3>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Since it is my job to answer all of your concerns, will you tell me what it is you were wanting to think over?"</div>
-      </div>
-      <p>Then systematically eliminate:</p>
-      <ul class="checklist">
-        <li>"Was it the options I recommended?"</li>
-        <li>"Is the quality of my work a concern?"</li>
-        <li>"What about the reputation of our company?"</li>
-        <li>"What about the guarantees and warranties?"</li>
-        <li>Reconfirm other value points…</li>
-      </ul>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Ok Bob. Level with me — is it the investment that is causing your concerns?"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker customer">Bob</div>
-        <div class="dialogue customer-line">"That's a big part of it of course. It's just a lot of money."</div>
-      </div>
     </div>
   </div>
 
-  <!-- PHASE 12 -->
-  <div class="phase" id="phase-12">
-    <div class="phase-header" onclick="togglePhase(this)">
-      <div class="phase-number">12</div>
-      <div class="phase-title">Closing Techniques</div>
-      <div class="phase-toggle">▼</div>
+  <!-- ============ PHASE 8 — LINKED ============ -->
+  <div class="phase-card" id="phase-8">
+    <div class="phase-card-header">
+      <div class="phase-num">8</div>
+      <div class="phase-name">Presenting the Diagnostic</div>
+      <a href="ms-diagnostic.html" class="phase-link">Full Script →</a>
     </div>
-    <div class="phase-body">
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"You probably have a number in your head that you were thinking this was going to be. Right?"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker customer">Bob</div>
-        <div class="dialogue customer-line">"Well, sorta."</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Most people do. And I bet, if that number you are thinking about is the same one on the page, you would be doing the paperwork right now, is that true?"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker customer">Bob</div>
-        <div class="dialogue customer-line">"Yes."</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"OK Bob. Then, can you tell me how much, too much, you feel it is?"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker customer">Bob</div>
-        <div class="dialogue customer-line">"It's about $800 more than what I was expecting."</div>
-      </div>
+    <div class="phase-card-body">
+      <div class="takeaway">You're not "selling a diagnostic" — you're explaining WHY circuit-level troubleshooting is the only way to actually solve the problem and prevent it from returning.</div>
+      <ul class="key-points">
+        <li>Sit down with them — ask for a comfortable spot</li>
+        <li>Lead with good news: panel looks solid</li>
+        <li>Be upfront: "I wasn't able to isolate the root cause yet — that's normal"</li>
+        <li>Educate: home = one big system made of smaller circuits</li>
+        <li>Two reasons: "So I can look you in the eye" + "help ensure it doesn't happen again"</li>
+      </ul>
+    </div>
+  </div>
 
-      <h3>Available Closes</h3>
-      <div class="close-techniques">
-        <div class="close-tech"><strong>The Options Close</strong> — show an item of lesser price</div>
-        <div class="close-tech"><strong>The Service Agreement Close</strong> — give a discount with Just Fix It App Download and Fix More Save More</div>
-        <div class="close-tech"><strong>The Reduction Close</strong> — break it down to the ridiculous</div>
-      </div>
+  <!-- ============ PHASE 9 — LINKED ============ -->
+  <div class="phase-card" id="phase-9">
+    <div class="phase-card-header">
+      <div class="phase-num">9</div>
+      <div class="phase-name">Teeing Up the Circuit Restoration</div>
+      <a href="ms-circuit-teeup.html" class="phase-link">Full Script →</a>
+    </div>
+    <div class="phase-card-body">
+      <div class="takeaway">The customer should talk themselves into the restoration. You ask the questions — they arrive at the conclusion. Never answer your own question.</div>
+      <ul class="key-points">
+        <li>Show them the fix — reconnect to their emotional driver</li>
+        <li>"All the devices are wired the same way" — let THEM say it'll happen again</li>
+        <li>"What do you think we'd have to do again?" — let THEM say "diagnose it again"</li>
+        <li>Soft pitch: credit diagnostic fee toward full solution</li>
+        <li>DON'T SPEAK until they answer</li>
+      </ul>
+    </div>
+  </div>
 
-      <h3>The Reduction Close (Example)</h3>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"So, really, we are talking about $800, aren't we?"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"All right. I think we should look closely at the total over the life of your electrical system. Here."</div>
-      </div>
-      <div class="note-box">Hand Bob the calculator.</div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"You said you plan on living in the home for at least the next 7 years, right?"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Our Circuit Restoration has a minimum of 7 years of worry-free service with no repairs, that's guaranteed here in writing."</div>
-      </div>
+  <!-- ============ PHASE 10 — LINKED ============ -->
+  <div class="phase-card" id="phase-10">
+    <div class="phase-card-header">
+      <div class="phase-num">10</div>
+      <div class="phase-name">Presenting the Options</div>
+      <a href="ms-options.html" class="phase-link">Full Script →</a>
+    </div>
+    <div class="phase-card-body">
+      <div class="takeaway">Three options. Start from the top. Let the silence do the work at the close. The Costco analogy makes "Best" feel logical, not expensive.</div>
+      <ul class="key-points">
+        <li><strong>Best</strong> = most comprehensive, two circuits, future-proofed (Costco analogy)</li>
+        <li><strong>Better</strong> = one circuit + safety, diagnostic fee rolled in</li>
+        <li><strong>Essentials</strong> = baseline safety only, no restoration</li>
+        <li>"Which option feels right for you today?" — then DO NOT SPEAK</li>
+      </ul>
+    </div>
+  </div>
 
-      <div class="math-box">
-        $800 ÷ 7 years = <strong>$114</strong>/year<br>
-        $114 ÷ 365 days = <span class="result">$0.31/day</span>
-      </div>
+  <!-- ============ PHASE 11 — LINKED ============ -->
+  <div class="phase-card" id="phase-11">
+    <div class="phase-card-header">
+      <div class="phase-num">11</div>
+      <div class="phase-name">Objection Handling</div>
+      <a href="ms-objections.html" class="phase-link">Full Script →</a>
+    </div>
+    <div class="phase-card-body">
+      <div class="takeaway">45%+ of people are High Stability. "I need to talk to my spouse" is usually a smokescreen for "I think the price is too high." Your job is to discover which one it is.</div>
+      <ul class="key-points">
+        <li><strong>Spouse objection:</strong> Discover if it's real or a smokescreen</li>
+        <li><strong>"Think about it":</strong> Systematically eliminate concerns until you find the real one</li>
+        <li>Know the 4 personality types: Driver, Influencer, Stable, Compliant</li>
+        <li>If real condition: get spouse on phone or set callback appointment</li>
+      </ul>
+    </div>
+  </div>
 
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"The peace of mind alone will pay for that minor daily difference. Let me ask you one last thing."</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Won't this Circuit Restoration, with: the peace of mind, low maintenance, zero repairs for 7 years, our great company to stand behind the installation, and all of our in-writing assurance guarantees be worth more than $0.31 a day of your time?"</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker customer">Bob</div>
-        <div class="dialogue customer-line">"Yes, I think it will."</div>
-      </div>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"Great! Then we are on the same page, aren't we?"</div>
-      </div>
-
-      <h3>The Easy Choice Close</h3>
-      <div class="script-line">
-        <div class="speaker">Technician</div>
-        <div class="dialogue">"By the way, did you want to put this on a credit card you get points on or did you prefer to use our money?"</div>
-      </div>
-      <div class="important-box">
-        This is the Easy Choice Close. It is a whole lot easier to decide on a simple thing like "Card or my money" than deciding on the grand total of the install.
-      </div>
+  <!-- ============ PHASE 12 — LINKED ============ -->
+  <div class="phase-card" id="phase-12">
+    <div class="phase-card-header">
+      <div class="phase-num">12</div>
+      <div class="phase-name">Closing Techniques</div>
+      <a href="ms-closes.html" class="phase-link">Full Script →</a>
+    </div>
+    <div class="phase-card-body">
+      <div class="takeaway">Break it down to the ridiculous. $800 over 7 years = $0.31/day. Then give them an easy choice: "Credit card or our money?" Not "do you want to buy this?"</div>
+      <ul class="key-points">
+        <li><strong>Reduction Close:</strong> Break the gap down to cents per day</li>
+        <li><strong>Options Close:</strong> Show a lesser-priced item</li>
+        <li><strong>Service Agreement Close:</strong> Discount via Just Fix It App</li>
+        <li><strong>Easy Choice Close:</strong> "Card or our money?" — not a yes/no on the total</li>
+      </ul>
     </div>
   </div>
 
@@ -1193,26 +385,6 @@
 <div class="footer">
   Mister Sparky — Technician Script V4 &bull; Internal Training Document &bull; Confidential
 </div>
-
-<script>
-function togglePhase(header) {
-  header.parentElement.classList.toggle('collapsed');
-}
-
-// Smooth scroll for nav
-document.querySelectorAll('.nav a').forEach(a => {
-  a.addEventListener('click', e => {
-    e.preventDefault();
-    const target = document.querySelector(a.getAttribute('href'));
-    if (target) {
-      if (target.classList.contains('collapsed')) {
-        target.classList.remove('collapsed');
-      }
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  });
-});
-</script>
 
 </body>
 </html>
