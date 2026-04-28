@@ -6,391 +6,240 @@
 <title>Phase 8: Presenting the Diagnostic — Mister Sparky Script V4</title>
 <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
 <style>
+  :root {
+    --red: #C8102E; --gold: #F2A900; --gold-text: #A86F00;
+    --bg: #FAFAF8; --card: #FFFFFF; --border: #E2DDD8;
+    --text: #1A1A2E; --muted: #6B6880; --success: #15803d;
+    --shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    background: #0f0f1a;
-    color: #e0e0e0;
-    font-family: 'Segoe UI', Arial, sans-serif;
-    font-size: 16px;
-    line-height: 1.7;
-    padding: 0 16px 60px;
-  }
-  .page-wrapper { max-width: 900px; margin: 0 auto; }
-  .nav-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 0 10px;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .nav-bar a {
-    color: #F2A900;
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 600;
-    transition: color 0.2s;
-  }
-  .nav-bar a:hover { color: #ffc933; }
-  .phase-header {
-    background: #1a1a2e;
-    border-top: 4px solid #C8102E;
-    border-radius: 10px;
-    padding: 32px 36px;
-    margin: 20px 0 30px;
-  }
-  .phase-label {
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: #F2A900;
-    margin-bottom: 8px;
-  }
-  .phase-title { font-size: 2rem; font-weight: 700; color: #fff; line-height: 1.2; }
-  .phase-subtitle { font-size: 1rem; color: #aaa; margin-top: 8px; }
-  .section {
-    background: #1a1a2e;
-    border-radius: 10px;
-    padding: 28px 32px;
-    margin-bottom: 24px;
-  }
-  .section-title {
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: #F2A900;
-    margin-bottom: 18px;
-    border-bottom: 1px solid #2a2a45;
-    padding-bottom: 10px;
-  }
-  .tech-line {
-    background: rgba(200, 16, 46, 0.08);
-    border-left: 4px solid #C8102E;
-    border-radius: 0 6px 6px 0;
-    padding: 14px 16px 14px 18px;
-    margin: 16px 0;
-  }
-  .tech-label {
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: #F2A900;
-    margin-bottom: 6px;
-  }
-  .tech-line p {
-    font-family: 'Crimson Pro', Georgia, serif;
-    font-style: italic;
-    font-size: 1.15rem;
-    color: #f0d0d5;
-    line-height: 1.6;
-  }
-  .customer-line {
-    border-left: 3px solid #555;
-    padding: 10px 14px 10px 16px;
-    margin: 10px 0;
-    color: #999;
-    font-style: italic;
-    font-size: 0.95rem;
-  }
-  .customer-label {
-    font-size: 0.62rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #666;
-    margin-bottom: 4px;
-  }
-  .box {
-    border-radius: 8px;
-    padding: 16px 20px;
-    margin: 16px 0;
-    font-size: 0.92rem;
-    line-height: 1.6;
-  }
-  .box-label {
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    margin-bottom: 6px;
-  }
-  .box.important { background: rgba(200,16,46,0.12); border-left: 4px solid #C8102E; }
-  .box.important .box-label { color: #C8102E; }
-  .box.note { background: rgba(242,169,0,0.1); border-left: 4px solid #F2A900; }
-  .box.note .box-label { color: #F2A900; }
-  .box.takeaway { background: rgba(34,197,94,0.08); border-left: 4px solid #22c55e; }
-  .box.takeaway .box-label { color: #22c55e; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; font-size: 16px; padding-bottom: 60px; }
+
+  .top-nav { background: var(--card); border-bottom: 1px solid var(--border); padding: 0.75rem 1.2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; position: sticky; top: 0; z-index: 99; box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
+  .top-nav a { color: var(--red); text-decoration: none; font-size: 0.85rem; font-weight: 600; }
+  .top-nav a:hover { text-decoration: underline; }
+  .top-nav .phase-badge { font-size: 0.75rem; color: var(--muted); font-weight: 600; }
+
+  .page-header { background: var(--red); border-bottom: 5px solid var(--gold); padding: 2rem 1.5rem; }
+  .page-header .phase-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.75); margin-bottom: 0.3rem; }
+  .page-header h1 { font-size: 1.8rem; font-weight: 800; color: #fff; line-height: 1.2; }
+  .page-header .subtitle { font-size: 0.92rem; color: rgba(255,255,255,0.8); margin-top: 0.4rem; }
+
+  .container { max-width: 860px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+
+  .section-details { background: var(--card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 1rem; box-shadow: var(--shadow); overflow: hidden; }
+  .section-details[open] { border-color: #D4B8A0; }
+  .section-summary { padding: 1rem 1.2rem; cursor: pointer; user-select: none; list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; font-weight: 700; font-size: 0.95rem; color: var(--text); transition: background 0.15s; }
+  .section-summary:hover { background: #FFF8F0; }
+  .section-summary::-webkit-details-marker { display: none; }
+  .section-summary .section-hint { font-size: 0.78rem; font-weight: 400; color: var(--muted); margin-left: 0.5rem; }
+  .section-summary::after { content: "▸"; color: var(--red); font-size: 0.8rem; flex-shrink: 0; transition: transform 0.2s; }
+  .section-details[open] .section-summary::after { transform: rotate(90deg); }
+  .section-details[open] .section-summary { border-bottom: 1px solid var(--border); background: #FFF8F0; }
+  .section-body { padding: 1.2rem 1.2rem 1.4rem; }
+
+  .sub-details { border: 1px solid var(--border); border-radius: 8px; margin: 0.6rem 0; overflow: hidden; background: var(--bg); }
+  .sub-summary { padding: 0.65rem 1rem; cursor: pointer; user-select: none; list-style: none; font-size: 0.88rem; font-weight: 600; color: var(--text); display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+  .sub-summary::-webkit-details-marker { display: none; }
+  .sub-summary::after { content: "▸"; color: var(--red); font-size: 0.72rem; flex-shrink: 0; transition: transform 0.2s; }
+  .sub-details[open] .sub-summary::after { transform: rotate(90deg); }
+  .sub-details[open] .sub-summary { border-bottom: 1px solid var(--border); background: #fff; }
+  .sub-body { padding: 0.9rem 1rem 1rem; }
+
+  .tech-line { background: rgba(200,16,46,0.05); border-left: 4px solid var(--red); border-radius: 0 6px 6px 0; padding: 0.75rem 1rem; margin: 0.7rem 0; }
+  .tech-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-text); margin-bottom: 5px; display: block; }
+  .tech-line p { font-family: 'Crimson Pro', Georgia, serif; font-style: italic; font-size: 1.1rem; color: #3D1A1A; line-height: 1.6; }
+
+  .customer-line { border-left: 3px solid #CCC; padding: 0.5rem 1rem; margin: 0.5rem 0; color: var(--muted); font-style: italic; font-size: 0.92rem; background: #f7f5f2; border-radius: 0 6px 6px 0; }
+  .customer-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #999; margin-bottom: 3px; display: block; font-style: normal; }
+
+  .box { border-radius: 8px; padding: 0.75rem 1rem; margin: 0.7rem 0; font-size: 0.88rem; line-height: 1.6; }
+  .box-label { font-size: 0.63rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 4px; display: block; }
+  .box.important { background: rgba(200,16,46,0.06); border-left: 4px solid var(--red); }
+  .box.important .box-label { color: var(--red); }
+  .box.note { background: rgba(242,169,0,0.08); border-left: 4px solid var(--gold); }
+  .box.note .box-label { color: var(--gold-text); }
+  .box.takeaway { background: rgba(21,128,61,0.07); border-left: 4px solid var(--success); }
+  .box.takeaway .box-label { color: var(--success); }
 
   /* TWO REASONS */
-  .two-reasons {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin: 18px 0;
-  }
-  .reason-card {
-    background: #0f0f1a;
-    border: 1px solid #2a2a45;
-    border-radius: 8px;
-    padding: 20px;
-  }
-  .reason-num {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #C8102E;
-    line-height: 1;
-    margin-bottom: 8px;
-  }
-  .reason-card p { font-size: 0.9rem; color: #ccc; }
+  .two-reasons { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 1rem 0; }
+  .reason-card { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; }
+  .reason-num { font-size: 2rem; font-weight: 700; color: var(--red); line-height: 1; margin-bottom: 6px; }
+  .reason-card p { font-size: 0.87rem; color: var(--muted); }
 
-  /* PHASE FLOW */
-  .phase-flow {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    margin: 18px 0;
-  }
-  .flow-item {
-    display: flex;
-    gap: 16px;
-    position: relative;
-    padding-bottom: 20px;
-  }
-  .flow-item:last-child { padding-bottom: 0; }
-  .flow-connector {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex-shrink: 0;
-  }
-  .flow-dot {
-    width: 14px;
-    height: 14px;
-    background: #C8102E;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-  .flow-line {
-    width: 2px;
-    flex: 1;
-    background: #2a2a45;
-    min-height: 20px;
-  }
-  .flow-item:last-child .flow-line { display: none; }
-  .flow-text {
-    padding-top: 0;
-    flex: 1;
-  }
-  .flow-text-label {
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #888;
-    margin-bottom: 4px;
-  }
+  /* BUY-IN */
+  .buyin-block { background: rgba(242,169,0,0.06); border: 1px solid rgba(242,169,0,0.25); border-radius: 10px; padding: 1.2rem; margin: 1rem 0; text-align: center; }
+  .buyin-block .quote { font-family: 'Crimson Pro', Georgia, serif; font-style: italic; font-size: 1.2rem; color: #3D1A1A; margin-bottom: 0.6rem; line-height: 1.6; }
+  .buyin-block .cta-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-text); }
 
-  /* BUY-IN BLOCK */
-  .buyin-block {
-    background: rgba(242,169,0,0.06);
-    border: 1px solid rgba(242,169,0,0.2);
-    border-radius: 10px;
-    padding: 24px 26px;
-    margin: 16px 0;
-    text-align: center;
-  }
-  .buyin-block p {
-    font-family: 'Crimson Pro', Georgia, serif;
-    font-style: italic;
-    font-size: 1.25rem;
-    color: #f0d0d5;
-    margin-bottom: 12px;
-  }
-  .buyin-block .cta-label {
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #F2A900;
-  }
-
-  .bottom-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 40px;
-    padding-top: 24px;
-    border-top: 1px solid #2a2a45;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-  .btn {
-    display: inline-block;
-    padding: 12px 24px;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    font-weight: 700;
-    text-decoration: none;
-    transition: all 0.2s;
-  }
-  .btn-outline { border: 2px solid #F2A900; color: #F2A900; }
-  .btn-outline:hover { background: #F2A900; color: #0f0f1a; }
-  .btn-primary { background: #C8102E; color: #fff; border: 2px solid #C8102E; }
+  .bottom-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); flex-wrap: wrap; gap: 10px; }
+  .btn { display: inline-block; padding: 0.65rem 1.2rem; border-radius: 6px; font-size: 0.88rem; font-weight: 700; text-decoration: none; transition: all 0.15s; }
+  .btn-outline { border: 2px solid var(--red); color: var(--red); }
+  .btn-outline:hover { background: var(--red); color: #fff; }
+  .btn-primary { background: var(--red); color: #fff; border: 2px solid var(--red); }
   .btn-primary:hover { background: #a00d25; border-color: #a00d25; }
 
   @media (max-width: 600px) {
-    .phase-header { padding: 22px 20px; }
-    .section { padding: 20px 18px; }
+    .page-header h1 { font-size: 1.4rem; }
     .two-reasons { grid-template-columns: 1fr; }
-    .phase-title { font-size: 1.5rem; }
+    .section-body { padding: 1rem; }
   }
 </style>
 </head>
 <body>
-<div class="page-wrapper">
 
-  <nav class="nav-bar">
-    <a href="mister-sparky-technician-script.html">← Back to Script Overview</a>
-    <span style="color:#555; font-size:0.8rem;">Phase 8 of 12</span>
-  </nav>
+<nav class="top-nav">
+  <a href="mister-sparky-technician-script.html">← Script Overview</a>
+  <span class="phase-badge">Phase 8 of 12</span>
+  <a href="ms-circuit-teeup.html">Circuit Tee-Up →</a>
+</nav>
 
-  <div class="phase-header">
-    <div class="phase-label">Phase 8</div>
-    <div class="phase-title">Presenting the Diagnostic</div>
-    <div class="phase-subtitle">Educating the customer — building trust through transparency</div>
+<div class="page-header">
+  <div class="phase-label">Phase 8</div>
+  <h1>Presenting the Diagnostic</h1>
+  <div class="subtitle">Educating the customer — building trust through transparency</div>
+</div>
+
+<div class="container">
+
+  <div class="box takeaway" style="margin-bottom:1.2rem;">
+    <span class="box-label">🎯 Phase Goal</span>
+    You're not "selling a diagnostic" — you're explaining WHY circuit-level troubleshooting is the only way to actually solve the problem and prevent it from returning.
   </div>
 
-  <!-- SETTING UP THE CONVERSATION -->
-  <div class="section">
-    <div class="section-title">Find the Right Setting</div>
-
-    <div class="tech-line">
-      <div class="tech-label">Technician</div>
-      <p>"Bob, is there a good place we can sit for a couple of minutes to go over what I found?"</p>
+  <!-- FIND A SEAT -->
+  <details class="section-details" open>
+    <summary class="section-summary">
+      <span style="flex:1">Find the Right Setting</span>
+      <span class="section-hint">Sit down — slow everything down</span>
+    </summary>
+    <div class="section-body">
+      <details class="sub-details" open>
+        <summary class="sub-summary">Seating Script ▸</summary>
+        <div class="sub-body">
+          <div class="tech-line">
+            <span class="tech-label">Technician</span>
+            <p>"Bob, is there a good place we can sit for a couple of minutes to go over what I found?"</p>
+          </div>
+          <div class="box note"><span class="box-label">📝 Note</span>Pause while walking. Let them lead you somewhere comfortable. Sitting down signals this is a real conversation, not a quick handoff. It slows everything down in the best way.</div>
+        </div>
+      </details>
     </div>
-
-    <div class="box note">
-      <div class="box-label">📝 Note</div>
-      Pause while walking. Let them lead you somewhere comfortable. If they offer a seat — take it. Sitting down signals that this is a real conversation, not a quick handoff. It slows everything down in the best way.
-    </div>
-  </div>
+  </details>
 
   <!-- PANEL FINDINGS -->
-  <div class="section">
-    <div class="section-title">Reporting the Panel Findings</div>
-
-    <div class="tech-line">
-      <div class="tech-label">Technician</div>
-      <p>"Good news — I checked your breaker panel, and everything looks solid. A couple things worth noting, but nothing urgent. For now, I want to focus on the issue you called us for."</p>
+  <details class="section-details">
+    <summary class="section-summary">
+      <span style="flex:1">Reporting the Panel Findings</span>
+      <span class="section-hint">Lead with good news</span>
+    </summary>
+    <div class="section-body">
+      <details class="sub-details" open>
+        <summary class="sub-summary">Panel Report Script ▸</summary>
+        <div class="sub-body">
+          <div class="tech-line">
+            <span class="tech-label">Technician</span>
+            <p>"Good news — I checked your breaker panel, and everything looks solid. A couple things worth noting, but nothing urgent. For now, I want to focus on the issue you called us for."</p>
+          </div>
+          <div class="box note"><span class="box-label">📝 Note</span>Pause here. Let them respond. This moment of "good news" builds confidence and goodwill. Let it breathe.</div>
+        </div>
+      </details>
     </div>
-
-    <div class="box note">
-      <div class="box-label">📝 Note</div>
-      Pause here. Let them respond. Don't rush to the next thing. This moment of "good news" builds confidence and goodwill. Let it breathe.
-    </div>
-  </div>
+  </details>
 
   <!-- ROOT CAUSE -->
-  <div class="section">
-    <div class="section-title">Addressing the Root Cause — Radical Transparency</div>
-
-    <div class="tech-line">
-      <div class="tech-label">Technician</div>
-      <p>"Now — I want to be fully upfront with you — I wasn't able to isolate the exact root cause just yet… and that's okay. That's pretty normal in systems like this."</p>
+  <details class="section-details">
+    <summary class="section-summary">
+      <span style="flex:1">Radical Transparency — Root Cause</span>
+      <span class="section-hint">Honesty builds more trust than false certainty</span>
+    </summary>
+    <div class="section-body">
+      <details class="sub-details" open>
+        <summary class="sub-summary">Transparency Script ▸</summary>
+        <div class="sub-body">
+          <div class="tech-line">
+            <span class="tech-label">Technician</span>
+            <p>"Now — I want to be fully upfront with you — I wasn't able to isolate the exact root cause just yet… and that's okay. That's pretty normal in systems like this."</p>
+          </div>
+          <div class="box note"><span class="box-label">📝 Note</span>Reassure with body language. Nod confidently. Keep a calm, steady tone. You're not uncertain — you're being honest about the nature of electrical systems. There's a difference.</div>
+          <div class="customer-line"><span class="customer-label">Bob</span>"What do we do?"</div>
+        </div>
+      </details>
     </div>
-
-    <div class="box note">
-      <div class="box-label">📝 Note</div>
-      Reassure with body language. Nod confidently. Keep a calm, steady tone. You're not uncertain — you're being honest about the nature of electrical systems. There's a difference. Confidence in the process, not false certainty about the outcome.
-    </div>
-
-    <div class="customer-line">
-      <div class="customer-label">Bob</div>
-      "What do we do?"
-    </div>
-  </div>
+  </details>
 
   <!-- CIRCUIT EDUCATION -->
-  <div class="section">
-    <div class="section-title">Circuit-Level Education</div>
-    <p style="color:#aaa; font-size:0.92rem; margin-bottom:16px;">This is where you bring Bob into your world in a way that makes sense to him. Don't talk over him. Make it simple, make it real.</p>
+  <details class="section-details">
+    <summary class="section-summary">
+      <span style="flex:1">Circuit-Level Education</span>
+      <span class="section-hint">Bring Bob into your world simply</span>
+    </summary>
+    <div class="section-body">
+      <details class="sub-details" open>
+        <summary class="sub-summary">System Explanation Script ▸</summary>
+        <div class="sub-body">
+          <div class="tech-line">
+            <span class="tech-label">Technician</span>
+            <p>"Are you familiar at all with how your electrical system is laid out?"</p>
+          </div>
+          <div class="customer-line"><span class="customer-label">Bob</span>"Not really."</div>
+          <div class="tech-line">
+            <span class="tech-label">Technician</span>
+            <p>"Your home's electrical system is one big system — but it's made up of smaller systems called circuits. That's where I dive in and troubleshoot — at the circuit level."</p>
+          </div>
+        </div>
+      </details>
 
-    <div class="tech-line">
-      <div class="tech-label">Technician</div>
-      <p>"Are you familiar at all with how your electrical system is laid out?"</p>
+      <details class="sub-details">
+        <summary class="sub-summary">The Two Reasons Script ▸</summary>
+        <div class="sub-body">
+          <div class="tech-line">
+            <span class="tech-label">Technician — The Two Reasons</span>
+            <p>"I do it this way for two reasons. First — so I can look you in the eye and tell you I've actually found and fixed the issue. And second — so I can help ensure it doesn't happen again."</p>
+          </div>
+          <div class="two-reasons">
+            <div class="reason-card">
+              <div class="reason-num">1</div>
+              <p>So I can look you in the eye and tell you I've <strong>actually found and fixed</strong> the issue — not guessed at it.</p>
+            </div>
+            <div class="reason-card">
+              <div class="reason-num">2</div>
+              <p>So I can <strong>help ensure it doesn't happen again</strong> — because one fix isn't enough if the system's at risk.</p>
+            </div>
+          </div>
+          <div class="box important"><span class="box-label">⚠ Important — Eye Contact</span>Eye contact is essential when delivering the two reasons. You're making a personal commitment to this person. Look them in the eye. This isn't a script — this is a promise.</div>
+          <div class="tech-line">
+            <span class="tech-label">Technician</span>
+            <p>"Does that make sense so far?"</p>
+          </div>
+          <div class="box note"><span class="box-label">📝 Note</span>This check-in keeps them engaged. It's not rhetorical — genuinely pause and let them confirm before moving forward.</div>
+        </div>
+      </details>
     </div>
-
-    <div class="customer-line">
-      <div class="customer-label">Bob</div>
-      "Not really."
-    </div>
-
-    <div class="tech-line">
-      <div class="tech-label">Technician</div>
-      <p>"Your home's electrical system is one big system — but it's made up of smaller systems called circuits. That's where I dive in and troubleshoot — at the circuit level."</p>
-    </div>
-
-    <div class="tech-line">
-      <div class="tech-label">Technician — The Two Reasons</div>
-      <p>"I do it this way for two reasons. First — so I can look you in the eye and tell you I've actually found and fixed the issue. And second — so I can help ensure it doesn't happen again."</p>
-    </div>
-
-    <div class="two-reasons">
-      <div class="reason-card">
-        <div class="reason-num">1</div>
-        <p>So I can look you in the eye and tell you I've <strong>actually found and fixed</strong> the issue — not guessed at it.</p>
-      </div>
-      <div class="reason-card">
-        <div class="reason-num">2</div>
-        <p>So I can <strong>help ensure it doesn't happen again</strong> — because one fix isn't enough if the system's at risk.</p>
-      </div>
-    </div>
-
-    <div class="box important">
-      <div class="box-label">⚠ Important — Eye Contact</div>
-      Eye contact is essential when delivering the two reasons. You're making a personal commitment to this person. Look them in the eye. This isn't a script — this is a promise.
-    </div>
-
-    <div class="tech-line">
-      <div class="tech-label">Technician</div>
-      <p>"Does that make sense so far?"</p>
-    </div>
-
-    <div class="box note">
-      <div class="box-label">📝 Note</div>
-      This check-in keeps them engaged. It's not rhetorical — genuinely pause and let them confirm before moving forward.
-    </div>
-  </div>
+  </details>
 
   <!-- GAIN BUY-IN -->
-  <div class="section">
-    <div class="section-title">Gaining Buy-In — The Signature Moment</div>
-
-    <div class="buyin-block">
-      <div class="tech-label" style="margin-bottom:12px; text-align:left;">Technician</div>
-      <p>"If we want to move forward, all I need from you is a signature right here and I can get started right away for you."</p>
-      <div class="cta-label">— The Moment of Commitment —</div>
+  <details class="section-details">
+    <summary class="section-summary">
+      <span style="flex:1">Gaining Buy-In — The Signature Moment</span>
+      <span class="section-hint">Stop talking. Let them sign.</span>
+    </summary>
+    <div class="section-body">
+      <div class="buyin-block">
+        <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-text);margin-bottom:8px;text-align:left;">Technician</div>
+        <div class="quote">"If we want to move forward, all I need from you is a signature right here and I can get started right away for you."</div>
+        <div class="cta-label">— The Moment of Commitment —</div>
+      </div>
+      <div class="box note"><span class="box-label">📝 Note</span>Pause. Hand them the iPad or device. Do not rush this moment. Do not fill the silence with more words. The customer has everything they need to decide. Your job right now is to <strong>stop talking</strong>.</div>
+      <div class="box takeaway"><span class="box-label">🔑 Key Takeaway</span>The diagnostic presentation is about <strong>building trust through honesty</strong> — not about having all the answers. Admitting you need to dig deeper at the circuit level is exactly what makes you credible.</div>
     </div>
-
-    <div class="box note">
-      <div class="box-label">📝 Note</div>
-      Pause. Hand them the iPad or device. Do not rush this moment. Do not fill the silence with more words. The customer has everything they need to decide. Your job right now is to <strong>stop talking</strong>.
-    </div>
-
-    <div class="box takeaway">
-      <div class="box-label">🔑 Key Takeaway</div>
-      The diagnostic presentation is about <strong>building trust through honesty</strong> — not about having all the answers. Admitting you need to dig deeper at the circuit level is exactly what makes you credible. Customers trust honest professionals over confident guessers.
-    </div>
-  </div>
+  </details>
 
   <div class="bottom-nav">
     <a href="ms-discovery.html" class="btn btn-outline">← Problem Discovery</a>
     <a href="ms-circuit-teeup.html" class="btn btn-primary">Next: Circuit Tee-Up →</a>
   </div>
-
 </div>
 </body>
 </html>

@@ -6,106 +6,240 @@
 <title>Phase 9: Teeing Up the Circuit Restoration — Mister Sparky</title>
 <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
 <style>
-  :root { --spark-red:#C8102E; --spark-gold:#F2A900; --bg:#0f0f1a; --card:#1a1a2e; --text:#e8e8f0; --text-muted:#9999b0; --border:#2a2a45; --success:#22c55e; }
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
-  .top-nav{background:var(--card);padding:0.8rem 1.5rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:99}
-  .top-nav a{color:var(--spark-gold);text-decoration:none;font-size:0.85rem;font-weight:600}
-  .top-nav a:hover{text-decoration:underline}
-  .header{background:linear-gradient(135deg,var(--spark-red) 0%,#8B0000 100%);padding:2.5rem 2rem;text-align:center;border-bottom:4px solid var(--spark-gold)}
-  .header .phase-num{font-size:0.85rem;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:2px;margin-bottom:0.3rem}
-  .header h1{font-size:1.8rem;font-weight:800;color:#fff}
-  .container{max-width:800px;margin:0 auto;padding:2rem 1.5rem 4rem}
-  .tech-line{font-family:'Crimson Pro',Georgia,serif;font-size:1.08rem;font-style:italic;color:#d8d0f0;padding:0.7rem 1.2rem;border-left:3px solid var(--spark-red);background:rgba(200,16,46,0.06);border-radius:0 6px 6px 0;margin:0.8rem 0;line-height:1.6}
-  .tech-label{font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-style:normal;font-weight:700;color:var(--spark-gold);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:0.15rem}
-  .cust-line{font-size:0.95rem;color:var(--text-muted);padding:0.5rem 1.2rem;border-left:3px solid #444;margin:0.6rem 0;font-style:italic}
-  .cust-label{font-weight:700;color:#777;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:0.1rem;font-style:normal}
-  .important-box{background:rgba(200,16,46,0.1);border:1px solid rgba(200,16,46,0.3);border-radius:8px;padding:0.8rem 1.2rem;margin:1rem 0;font-size:0.9rem}
-  .important-box::before{content:"⚡ IMPORTANT";display:block;font-weight:800;color:var(--spark-red);font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:0.3rem}
-  .note-box{background:rgba(242,169,0,0.08);border:1px solid rgba(242,169,0,0.2);border-radius:8px;padding:0.6rem 1.2rem;margin:0.8rem 0;font-size:0.88rem;color:var(--spark-gold)}
-  .note-box::before{content:"📝 NOTE";display:block;font-weight:700;font-size:0.72rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:0.2rem;opacity:0.8}
-  .takeaway{background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:8px;padding:0.8rem 1.2rem;margin:1rem 0;font-size:0.9rem}
-  .takeaway::before{content:"🎯 KEY TAKEAWAY";display:block;font-weight:800;color:var(--success);font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:0.3rem}
-  h2{color:var(--spark-gold);margin:2rem 0 0.8rem;font-size:1.15rem;border-bottom:1px solid var(--border);padding-bottom:0.4rem}
-  p{margin-bottom:0.8rem}
-  .nav-bottom{display:flex;justify-content:space-between;margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--border)}
-  .nav-bottom a{color:var(--spark-gold);text-decoration:none;font-weight:600;font-size:0.9rem}
-  .nav-bottom a:hover{text-decoration:underline}
-  @media(max-width:600px){.header{padding:1.5rem 1rem}.header h1{font-size:1.4rem}.container{padding:1rem}}
+  :root {
+    --red: #C8102E; --gold: #F2A900; --gold-text: #A86F00;
+    --bg: #FAFAF8; --card: #FFFFFF; --border: #E2DDD8;
+    --text: #1A1A2E; --muted: #6B6880; --success: #15803d;
+    --shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; font-size: 16px; padding-bottom: 60px; }
+
+  .top-nav { background: var(--card); border-bottom: 1px solid var(--border); padding: 0.75rem 1.2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; position: sticky; top: 0; z-index: 99; box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
+  .top-nav a { color: var(--red); text-decoration: none; font-size: 0.85rem; font-weight: 600; }
+  .top-nav a:hover { text-decoration: underline; }
+  .top-nav .phase-badge { font-size: 0.75rem; color: var(--muted); font-weight: 600; }
+
+  .page-header { background: var(--red); border-bottom: 5px solid var(--gold); padding: 2rem 1.5rem; }
+  .page-header .phase-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.75); margin-bottom: 0.3rem; }
+  .page-header h1 { font-size: 1.8rem; font-weight: 800; color: #fff; line-height: 1.2; }
+  .page-header .subtitle { font-size: 0.92rem; color: rgba(255,255,255,0.8); margin-top: 0.4rem; }
+
+  .container { max-width: 860px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+
+  .section-details { background: var(--card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 1rem; box-shadow: var(--shadow); overflow: hidden; }
+  .section-details[open] { border-color: #D4B8A0; }
+  .section-summary { padding: 1rem 1.2rem; cursor: pointer; user-select: none; list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; font-weight: 700; font-size: 0.95rem; color: var(--text); transition: background 0.15s; }
+  .section-summary:hover { background: #FFF8F0; }
+  .section-summary::-webkit-details-marker { display: none; }
+  .section-summary .section-hint { font-size: 0.78rem; font-weight: 400; color: var(--muted); margin-left: 0.5rem; }
+  .section-summary::after { content: "▸"; color: var(--red); font-size: 0.8rem; flex-shrink: 0; transition: transform 0.2s; }
+  .section-details[open] .section-summary::after { transform: rotate(90deg); }
+  .section-details[open] .section-summary { border-bottom: 1px solid var(--border); background: #FFF8F0; }
+  .section-body { padding: 1.2rem 1.2rem 1.4rem; }
+
+  .sub-details { border: 1px solid var(--border); border-radius: 8px; margin: 0.6rem 0; overflow: hidden; background: var(--bg); }
+  .sub-summary { padding: 0.65rem 1rem; cursor: pointer; user-select: none; list-style: none; font-size: 0.88rem; font-weight: 600; color: var(--text); display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+  .sub-summary::-webkit-details-marker { display: none; }
+  .sub-summary::after { content: "▸"; color: var(--red); font-size: 0.72rem; flex-shrink: 0; transition: transform 0.2s; }
+  .sub-details[open] .sub-summary::after { transform: rotate(90deg); }
+  .sub-details[open] .sub-summary { border-bottom: 1px solid var(--border); background: #fff; }
+  .sub-body { padding: 0.9rem 1rem 1rem; }
+
+  .tech-line { background: rgba(200,16,46,0.05); border-left: 4px solid var(--red); border-radius: 0 6px 6px 0; padding: 0.75rem 1rem; margin: 0.7rem 0; }
+  .tech-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-text); margin-bottom: 5px; display: block; }
+  .tech-line p { font-family: 'Crimson Pro', Georgia, serif; font-style: italic; font-size: 1.1rem; color: #3D1A1A; line-height: 1.6; }
+
+  .customer-line { border-left: 3px solid #CCC; padding: 0.5rem 1rem; margin: 0.5rem 0; color: var(--muted); font-style: italic; font-size: 0.92rem; background: #f7f5f2; border-radius: 0 6px 6px 0; }
+  .customer-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #999; margin-bottom: 3px; display: block; font-style: normal; }
+
+  .box { border-radius: 8px; padding: 0.75rem 1rem; margin: 0.7rem 0; font-size: 0.88rem; line-height: 1.6; }
+  .box-label { font-size: 0.63rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 4px; display: block; }
+  .box.important { background: rgba(200,16,46,0.06); border-left: 4px solid var(--red); }
+  .box.important .box-label { color: var(--red); }
+  .box.note { background: rgba(242,169,0,0.08); border-left: 4px solid var(--gold); }
+  .box.note .box-label { color: var(--gold-text); }
+  .box.takeaway { background: rgba(21,128,61,0.07); border-left: 4px solid var(--success); }
+  .box.takeaway .box-label { color: var(--success); }
+
+  /* SILENCE INDICATOR */
+  .silence-bar { background: rgba(200,16,46,0.08); border: 1px dashed rgba(200,16,46,0.3); border-radius: 8px; padding: 0.6rem 1rem; margin: 0.6rem 0; display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; font-weight: 700; color: var(--red); text-transform: uppercase; letter-spacing: 0.05em; }
+
+  .bottom-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); flex-wrap: wrap; gap: 10px; }
+  .btn { display: inline-block; padding: 0.65rem 1.2rem; border-radius: 6px; font-size: 0.88rem; font-weight: 700; text-decoration: none; transition: all 0.15s; }
+  .btn-outline { border: 2px solid var(--red); color: var(--red); }
+  .btn-outline:hover { background: var(--red); color: #fff; }
+  .btn-primary { background: var(--red); color: #fff; border: 2px solid var(--red); }
+  .btn-primary:hover { background: #a00d25; border-color: #a00d25; }
+
+  @media (max-width: 600px) {
+    .page-header h1 { font-size: 1.4rem; }
+    .section-body { padding: 1rem; }
+  }
 </style>
 </head>
 <body>
 
 <nav class="top-nav">
-  <a href="mister-sparky-technician-script.html">← Back to Script Overview</a>
-  <a href="ms-options.html">Next: Options →</a>
+  <a href="mister-sparky-technician-script.html">← Script Overview</a>
+  <span class="phase-badge">Phase 9 of 12</span>
+  <a href="ms-options.html">Options →</a>
 </nav>
 
-<div class="header">
-  <div class="phase-num">Phase 9</div>
+<div class="page-header">
+  <div class="phase-label">Phase 9</div>
   <h1>Teeing Up the Circuit Restoration</h1>
+  <div class="subtitle">Let them talk themselves into it — you just ask questions</div>
 </div>
 
 <div class="container">
 
-  <div class="takeaway">The customer should talk themselves into the restoration. You ask the questions — they arrive at the conclusion. NEVER answer your own question.</div>
-
-  <div class="tech-line"><span class="tech-label">Technician</span>"Bob, you got a minute?"</div>
-  <div class="note-box">Pause — wait for them to say yes.</div>
-
-  <div class="tech-line"><span class="tech-label">Technician</span>"Okay, great. Can we step into the room where the issue was? I'll show you what I found."</div>
-
-  <h2>The Finding</h2>
-
-  <div class="tech-line"><span class="tech-label">Technician</span>"Great news. I found the problem with the circuit. It has to do with the devices — they're all quick wired. You don't need to worry about the technical side of that — basically, it's an easy wiring method that works fast upfront, but it's not very durable long-term."</div>
-
-  <div class="tech-line"><span class="tech-label">Technician</span>"You are following me so far?"</div>
-
-  <div class="tech-line"><span class="tech-label">Technician</span>"Either way — I got you fixed up today. You'll be back to normal, everything's working. So, I'm sure that's a relief."</div>
-
-  <div class="note-box">Pause — SMILE and wait for them to respond. Reconnect to their emotional driver.</div>
-
-  <div class="cust-line"><span class="cust-label">Bob</span>"YES! That is great! So, I can start baking my cookies again! Fantastic! Thank you!"</div>
-
-  <h2>Future Risk Education</h2>
-
-  <div class="tech-line"><span class="tech-label">Technician</span>"Remember at the beginning when I said the only way I could confidently tell you I found the problem, fixed the problem, and help make sure it never happens again — was by doing this diagnostic?"</div>
-
-  <div class="note-box">Wait for them to acknowledge before speaking.</div>
-
-  <div class="tech-line"><span class="tech-label">Technician</span>"Well, here we are. We found it. But here's what's important — all the devices we pulled out are wired the same way. So let me ask you — what do you think the chances are that this same issue might happen on another device in the same circuit?"</div>
-
-  <div class="note-box">Pause — let them answer. Guide if needed while nodding head up and down.</div>
-
-  <div class="cust-line"><span class="cust-label">Bob</span>"Yes, I imagine it is likely, they are all the same age."</div>
-
-  <div class="tech-line"><span class="tech-label">Technician</span>"So when it fails again, you know how we operate — we troubleshoot at the circuit level. What do you think we'd have to do again?"</div>
-
-  <div class="important-box">Let them answer. DO NOT answer for them. Silence is your most powerful tool here.</div>
-
-  <div class="cust-line"><span class="cust-label">Bob</span>"Diagnose it again."</div>
-
-  <div class="tech-line"><span class="tech-label">Technician</span>"Right. And there's a fee for that — more than you'd like to pay again, I'm sure."</div>
-
-  <h2>The Soft Pitch</h2>
-
-  <div class="tech-line"><span class="tech-label">Technician</span>"What if I told you we could credit back your diagnostic fee toward a full solution — to make sure this doesn't happen again — while everything's already open and exposed?"</div>
-
-  <div class="tech-line"><span class="tech-label">Technician</span>"Is that something you'd be interested in looking at today?"</div>
-
-  <div class="important-box">Don't rush this moment. Don't speak until they answer you. The silence after this question is doing the selling.</div>
-
-  <div class="cust-line"><span class="cust-label">Bob</span>"I would like to see how much that would cost. Might as well."</div>
-
-  <div class="tech-line"><span class="tech-label">Technician</span>"Great. Give me just a few minutes — I'll pull everything together and come sit down with you to go over the options."</div>
-
-  <div class="takeaway">They just asked YOU to sell them. That's the whole play — the customer arrived at the conclusion themselves. You never "pitched" anything. You asked questions and they connected the dots.</div>
-
-  <div class="nav-bottom">
-    <a href="ms-diagnostic.html">← Phase 8: Diagnostic</a>
-    <a href="ms-options.html">Phase 10: Options →</a>
+  <div class="box takeaway" style="margin-bottom:1.2rem;">
+    <span class="box-label">🎯 Phase Goal</span>
+    The customer should talk themselves into the restoration. You ask the questions — they arrive at the conclusion. NEVER answer your own question.
   </div>
 
+  <!-- STEP BACK IN -->
+  <details class="section-details" open>
+    <summary class="section-summary">
+      <span style="flex:1">Getting Their Attention</span>
+      <span class="section-hint">Pull them back in</span>
+    </summary>
+    <div class="section-body">
+      <details class="sub-details" open>
+        <summary class="sub-summary">Attention Script ▸</summary>
+        <div class="sub-body">
+          <div class="tech-line">
+            <span class="tech-label">Technician</span>
+            <p>"Bob, you got a minute?"</p>
+          </div>
+          <div class="silence-bar">⏸ Pause — wait for them to say yes.</div>
+          <div class="tech-line">
+            <span class="tech-label">Technician</span>
+            <p>"Okay, great. Can we step into the room where the issue was? I'll show you what I found."</p>
+          </div>
+        </div>
+      </details>
+    </div>
+  </details>
+
+  <!-- THE FINDING -->
+  <details class="section-details">
+    <summary class="section-summary">
+      <span style="flex:1">Reporting the Finding</span>
+      <span class="section-hint">Great news — then reconnect emotionally</span>
+    </summary>
+    <div class="section-body">
+      <details class="sub-details" open>
+        <summary class="sub-summary">Finding Report Script ▸</summary>
+        <div class="sub-body">
+          <div class="tech-line">
+            <span class="tech-label">Technician</span>
+            <p>"Great news. I found the problem with the circuit. It has to do with the devices — they're all quick wired. You don't need to worry about the technical side of that — basically, it's an easy wiring method that works fast upfront, but it's not very durable long-term."</p>
+          </div>
+          <div class="tech-line">
+            <span class="tech-label">Technician</span>
+            <p>"You are following me so far?"</p>
+          </div>
+          <div class="tech-line">
+            <span class="tech-label">Technician</span>
+            <p>"Either way — I got you fixed up today. You'll be back to normal, everything's working. So, I'm sure that's a relief."</p>
+          </div>
+          <div class="silence-bar">😊 Pause — SMILE and wait for them to respond. Reconnect to their emotional driver.</div>
+          <div class="customer-line">
+            <span class="customer-label">Bob</span>
+            "YES! That is great! So, I can start baking my cookies again! Fantastic! Thank you!"
+          </div>
+        </div>
+      </details>
+    </div>
+  </details>
+
+  <!-- FUTURE RISK EDUCATION -->
+  <details class="section-details">
+    <summary class="section-summary">
+      <span style="flex:1">Future Risk Education</span>
+      <span class="section-hint">Let them connect the dots themselves</span>
+    </summary>
+    <div class="section-body">
+      <details class="sub-details" open>
+        <summary class="sub-summary">Risk Education Script ▸</summary>
+        <div class="sub-body">
+          <div class="tech-line">
+            <span class="tech-label">Technician</span>
+            <p>"Remember at the beginning when I said the only way I could confidently tell you I found the problem, fixed the problem, and help make sure it never happens again — was by doing this diagnostic?"</p>
+          </div>
+          <div class="silence-bar">⏸ Wait for them to acknowledge before speaking.</div>
+          <div class="tech-line">
+            <span class="tech-label">Technician</span>
+            <p>"Well, here we are. We found it. But here's what's important — all the devices we pulled out are wired the same way. So let me ask you — what do you think the chances are that this same issue might happen on another device in the same circuit?"</p>
+          </div>
+          <div class="silence-bar">⏸ Pause — let them answer. Guide if needed while nodding head up and down.</div>
+          <div class="customer-line">
+            <span class="customer-label">Bob</span>
+            "Yes, I imagine it is likely, they are all the same age."
+          </div>
+        </div>
+      </details>
+
+      <details class="sub-details">
+        <summary class="sub-summary">The Critical Question ▸</summary>
+        <div class="sub-body">
+          <div class="tech-line">
+            <span class="tech-label">Technician</span>
+            <p>"So when it fails again, you know how we operate — we troubleshoot at the circuit level. What do you think we'd have to do again?"</p>
+          </div>
+          <div class="box important"><span class="box-label">⚠ Important</span>Let them answer. DO NOT answer for them. Silence is your most powerful tool here.</div>
+          <div class="customer-line">
+            <span class="customer-label">Bob</span>
+            "Diagnose it again."
+          </div>
+          <div class="tech-line">
+            <span class="tech-label">Technician</span>
+            <p>"Right. And there's a fee for that — more than you'd like to pay again, I'm sure."</p>
+          </div>
+        </div>
+      </details>
+    </div>
+  </details>
+
+  <!-- THE SOFT PITCH -->
+  <details class="section-details">
+    <summary class="section-summary">
+      <span style="flex:1">The Soft Pitch</span>
+      <span class="section-hint">Credit the diagnostic fee — make it a no-brainer</span>
+    </summary>
+    <div class="section-body">
+      <details class="sub-details" open>
+        <summary class="sub-summary">Soft Pitch Script ▸</summary>
+        <div class="sub-body">
+          <div class="tech-line">
+            <span class="tech-label">Technician</span>
+            <p>"What if I told you we could credit back your diagnostic fee toward a full solution — to make sure this doesn't happen again — while everything's already open and exposed?"</p>
+          </div>
+          <div class="tech-line">
+            <span class="tech-label">Technician</span>
+            <p>"Is that something you'd be interested in looking at today?"</p>
+          </div>
+          <div class="box important"><span class="box-label">⚠ Important</span>Don't rush this moment. Don't speak until they answer you. The silence after this question is doing the selling.</div>
+          <div class="customer-line">
+            <span class="customer-label">Bob</span>
+            "I would like to see how much that would cost. Might as well."
+          </div>
+          <div class="tech-line">
+            <span class="tech-label">Technician</span>
+            <p>"Great. Give me just a few minutes — I'll pull everything together and come sit down with you to go over the options."</p>
+          </div>
+        </div>
+      </details>
+      <div class="box takeaway"><span class="box-label">🔑 Key Takeaway</span>They just asked YOU to sell them. That's the whole play — the customer arrived at the conclusion themselves. You never "pitched" anything. You asked questions and they connected the dots.</div>
+    </div>
+  </details>
+
+  <div class="bottom-nav">
+    <a href="ms-diagnostic.html" class="btn btn-outline">← Presenting the Diagnostic</a>
+    <a href="ms-options.html" class="btn btn-primary">Next: Presenting the Options →</a>
+  </div>
 </div>
 </body>
 </html>

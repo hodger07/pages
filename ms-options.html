@@ -6,103 +6,256 @@
 <title>Phase 10: Presenting the Options — Mister Sparky</title>
 <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
 <style>
-  :root { --spark-red:#C8102E; --spark-gold:#F2A900; --bg:#0f0f1a; --card:#1a1a2e; --text:#e8e8f0; --text-muted:#9999b0; --border:#2a2a45; --success:#22c55e; }
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
-  .top-nav{background:var(--card);padding:0.8rem 1.5rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:99}
-  .top-nav a{color:var(--spark-gold);text-decoration:none;font-size:0.85rem;font-weight:600}
-  .top-nav a:hover{text-decoration:underline}
-  .header{background:linear-gradient(135deg,var(--spark-red) 0%,#8B0000 100%);padding:2.5rem 2rem;text-align:center;border-bottom:4px solid var(--spark-gold)}
-  .header .phase-num{font-size:0.85rem;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:2px;margin-bottom:0.3rem}
-  .header h1{font-size:1.8rem;font-weight:800;color:#fff}
-  .container{max-width:800px;margin:0 auto;padding:2rem 1.5rem 4rem}
-  .tech-line{font-family:'Crimson Pro',Georgia,serif;font-size:1.08rem;font-style:italic;color:#d8d0f0;padding:0.7rem 1.2rem;border-left:3px solid var(--spark-red);background:rgba(200,16,46,0.06);border-radius:0 6px 6px 0;margin:0.8rem 0;line-height:1.6}
-  .tech-label{font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-style:normal;font-weight:700;color:var(--spark-gold);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:0.15rem}
-  .cust-line{font-size:0.95rem;color:var(--text-muted);padding:0.5rem 1.2rem;border-left:3px solid #444;margin:0.6rem 0;font-style:italic}
-  .cust-label{font-weight:700;color:#777;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:0.1rem;font-style:normal}
-  .important-box{background:rgba(200,16,46,0.1);border:1px solid rgba(200,16,46,0.3);border-radius:8px;padding:0.8rem 1.2rem;margin:1rem 0;font-size:0.9rem}
-  .important-box::before{content:"⚡ IMPORTANT";display:block;font-weight:800;color:var(--spark-red);font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:0.3rem}
-  .note-box{background:rgba(242,169,0,0.08);border:1px solid rgba(242,169,0,0.2);border-radius:8px;padding:0.6rem 1.2rem;margin:0.8rem 0;font-size:0.88rem;color:var(--spark-gold)}
-  .note-box::before{content:"📝 NOTE";display:block;font-weight:700;font-size:0.72rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:0.2rem;opacity:0.8}
-  .takeaway{background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:8px;padding:0.8rem 1.2rem;margin:1rem 0;font-size:0.9rem}
-  .takeaway::before{content:"🎯 KEY TAKEAWAY";display:block;font-weight:800;color:var(--success);font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:0.3rem}
-  h2{color:var(--spark-gold);margin:2rem 0 0.8rem;font-size:1.15rem;border-bottom:1px solid var(--border);padding-bottom:0.4rem}
-  p{margin-bottom:0.8rem}
-  .option-card{border:2px solid var(--border);border-radius:10px;padding:1.2rem;margin:1rem 0}
-  .option-card.best{border-color:var(--spark-gold);background:rgba(242,169,0,0.06)}
-  .option-card.better{border-color:var(--spark-red);background:rgba(200,16,46,0.04)}
-  .option-card.essentials{border-color:var(--border)}
-  .option-card h3{margin:0 0 0.6rem;font-size:1.05rem}
-  .option-card.best h3{color:var(--spark-gold)}
-  .option-card.better h3{color:var(--spark-red)}
-  .option-card.essentials h3{color:var(--text-muted)}
-  .option-card p{font-size:0.92rem;margin-bottom:0.5rem}
-  .nav-bottom{display:flex;justify-content:space-between;margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--border)}
-  .nav-bottom a{color:var(--spark-gold);text-decoration:none;font-weight:600;font-size:0.9rem}
-  .nav-bottom a:hover{text-decoration:underline}
-  @media(max-width:600px){.header{padding:1.5rem 1rem}.header h1{font-size:1.4rem}.container{padding:1rem}}
+  :root {
+    --red: #C8102E; --gold: #F2A900; --gold-text: #A86F00;
+    --bg: #FAFAF8; --card: #FFFFFF; --border: #E2DDD8;
+    --text: #1A1A2E; --muted: #6B6880; --success: #15803d;
+    --shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; font-size: 16px; padding-bottom: 60px; }
+
+  .top-nav { background: var(--card); border-bottom: 1px solid var(--border); padding: 0.75rem 1.2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; position: sticky; top: 0; z-index: 99; box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
+  .top-nav a { color: var(--red); text-decoration: none; font-size: 0.85rem; font-weight: 600; }
+  .top-nav a:hover { text-decoration: underline; }
+  .top-nav .phase-badge { font-size: 0.75rem; color: var(--muted); font-weight: 600; }
+
+  .page-header { background: var(--red); border-bottom: 5px solid var(--gold); padding: 2rem 1.5rem; }
+  .page-header .phase-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.75); margin-bottom: 0.3rem; }
+  .page-header h1 { font-size: 1.8rem; font-weight: 800; color: #fff; line-height: 1.2; }
+  .page-header .subtitle { font-size: 0.92rem; color: rgba(255,255,255,0.8); margin-top: 0.4rem; }
+
+  .container { max-width: 860px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+
+  .section-details { background: var(--card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 1rem; box-shadow: var(--shadow); overflow: hidden; }
+  .section-details[open] { border-color: #D4B8A0; }
+  .section-summary { padding: 1rem 1.2rem; cursor: pointer; user-select: none; list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; font-weight: 700; font-size: 0.95rem; color: var(--text); transition: background 0.15s; }
+  .section-summary:hover { background: #FFF8F0; }
+  .section-summary::-webkit-details-marker { display: none; }
+  .section-summary .section-hint { font-size: 0.78rem; font-weight: 400; color: var(--muted); margin-left: 0.5rem; }
+  .section-summary::after { content: "▸"; color: var(--red); font-size: 0.8rem; flex-shrink: 0; transition: transform 0.2s; }
+  .section-details[open] .section-summary::after { transform: rotate(90deg); }
+  .section-details[open] .section-summary { border-bottom: 1px solid var(--border); background: #FFF8F0; }
+  .section-body { padding: 1.2rem 1.2rem 1.4rem; }
+
+  .sub-details { border: 1px solid var(--border); border-radius: 8px; margin: 0.6rem 0; overflow: hidden; background: var(--bg); }
+  .sub-summary { padding: 0.65rem 1rem; cursor: pointer; user-select: none; list-style: none; font-size: 0.88rem; font-weight: 600; color: var(--text); display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+  .sub-summary::-webkit-details-marker { display: none; }
+  .sub-summary::after { content: "▸"; color: var(--red); font-size: 0.72rem; flex-shrink: 0; transition: transform 0.2s; }
+  .sub-details[open] .sub-summary::after { transform: rotate(90deg); }
+  .sub-details[open] .sub-summary { border-bottom: 1px solid var(--border); background: #fff; }
+  .sub-body { padding: 0.9rem 1rem 1rem; }
+
+  .tech-line { background: rgba(200,16,46,0.05); border-left: 4px solid var(--red); border-radius: 0 6px 6px 0; padding: 0.75rem 1rem; margin: 0.7rem 0; }
+  .tech-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-text); margin-bottom: 5px; display: block; }
+  .tech-line p { font-family: 'Crimson Pro', Georgia, serif; font-style: italic; font-size: 1.1rem; color: #3D1A1A; line-height: 1.6; }
+
+  .box { border-radius: 8px; padding: 0.75rem 1rem; margin: 0.7rem 0; font-size: 0.88rem; line-height: 1.6; }
+  .box-label { font-size: 0.63rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 4px; display: block; }
+  .box.important { background: rgba(200,16,46,0.06); border-left: 4px solid var(--red); }
+  .box.important .box-label { color: var(--red); }
+  .box.note { background: rgba(242,169,0,0.08); border-left: 4px solid var(--gold); }
+  .box.note .box-label { color: var(--gold-text); }
+  .box.takeaway { background: rgba(21,128,61,0.07); border-left: 4px solid var(--success); }
+  .box.takeaway .box-label { color: var(--success); }
+
+  /* OPTION CARDS */
+  .option-card { border: 2px solid var(--border); border-radius: 12px; padding: 1.2rem; margin: 0.8rem 0; }
+  .option-card.best { border-color: var(--gold); background: rgba(242,169,0,0.04); }
+  .option-card.better { border-color: var(--red); background: rgba(200,16,46,0.03); }
+  .option-card.essentials { border-color: #CCC; background: var(--bg); }
+  .option-badge { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.25rem 0.7rem; border-radius: 20px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.8rem; }
+  .badge-best { background: var(--gold); color: #1A1A2E; }
+  .badge-better { background: var(--red); color: #fff; }
+  .badge-essentials { background: #CCC; color: #555; }
+  .option-card p { font-size: 0.87rem; color: var(--muted); margin-bottom: 0.5rem; }
+
+  .silence-bar { background: rgba(200,16,46,0.08); border: 1px dashed rgba(200,16,46,0.3); border-radius: 8px; padding: 0.6rem 1rem; margin: 0.6rem 0; display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; font-weight: 700; color: var(--red); text-transform: uppercase; letter-spacing: 0.05em; }
+
+  .bottom-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); flex-wrap: wrap; gap: 10px; }
+  .btn { display: inline-block; padding: 0.65rem 1.2rem; border-radius: 6px; font-size: 0.88rem; font-weight: 700; text-decoration: none; transition: all 0.15s; }
+  .btn-outline { border: 2px solid var(--red); color: var(--red); }
+  .btn-outline:hover { background: var(--red); color: #fff; }
+  .btn-primary { background: var(--red); color: #fff; border: 2px solid var(--red); }
+  .btn-primary:hover { background: #a00d25; border-color: #a00d25; }
+
+  @media (max-width: 600px) {
+    .page-header h1 { font-size: 1.4rem; }
+    .section-body { padding: 1rem; }
+  }
 </style>
 </head>
 <body>
 
 <nav class="top-nav">
-  <a href="mister-sparky-technician-script.html">← Back to Script Overview</a>
-  <a href="ms-objections.html">Next: Objections & Closes →</a>
+  <a href="mister-sparky-technician-script.html">← Script Overview</a>
+  <span class="phase-badge">Phase 10 of 12</span>
+  <a href="ms-objections.html">Objections →</a>
 </nav>
 
-<div class="header">
-  <div class="phase-num">Phase 10</div>
+<div class="page-header">
+  <div class="phase-label">Phase 10</div>
   <h1>Presenting the Options</h1>
+  <div class="subtitle">Three options. Start from the top. Let silence close.</div>
 </div>
 
 <div class="container">
 
-  <div class="takeaway">Three options. Start from the top. The Costco analogy makes "Best" feel logical, not expensive. The silence after "which option" does the closing.</div>
-
-  <div class="tech-line"><span class="tech-label">Technician</span>"Hey Bob, thanks for taking a few minutes with me today. My goal is simple — remember when I said earlier that I wanted to earn the right to be your electrician for as long as you own your home. You've shared your approach with me: you've focused your resources on investments, your kids' activities, and enjoying your home, which is great. You've got a beautiful place — you just haven't really had to put much into the 'bones' of the home yet. That's perfectly normal, and that's where today's conversation comes in."</div>
-
-  <h2>Framing Home Maintenance</h2>
-
-  <div class="tech-line"><span class="tech-label">Technician</span>"The industry standard is to allocate roughly 4% of your home's value annually toward overall maintenance. That doesn't mean you're spending that amount with me today — it's just a ballpark for all upkeep, whether that's roofing, plumbing, electrical, HVAC, foundation work, fencing, or painting. Some years it's one big thing; some years it's smaller things. Today we're focusing on the electrical side."</div>
-
-  <h2>Setting the Tone</h2>
-
-  <div class="tech-line"><span class="tech-label">Technician</span>"Before we dive in, I want to make sure you're comfortable stopping me at any point if I get too technical or start rambling. I'm not here to 'sell' you — I'm here to give you clear, straightforward options so you can make the best decision for your home. Fair enough?"</div>
-
-  <h2>The Three Options</h2>
-
-  <div class="tech-line"><span class="tech-label">Technician</span>"I've put together three investment options for you: Best, Better, and Essentials. Think of them as different levels of scope — from the most comprehensive solution to just the essentials. Let's start at the top and work our way down."</div>
-
-  <div class="option-card best">
-    <h3>⭐ Option 1 — BEST (Most Comprehensive)</h3>
-    <div class="tech-line"><span class="tech-label">Technician</span>"This covers the most work in one visit, maximizing efficiency and future-proofing your home. For example, we'd restore two circuits today. That means more reach and reliability — I've already got outlets and switches pulled, and since we know all the outlets are wired similarly, doing both now saves you the cost and hassle of a future call."</div>
-    <div class="tech-line"><span class="tech-label">Technician</span>"It's like shopping at Costco — you may get more than you immediately need, but it's more efficient and cost-effective in the long run because you'll use it, and you get it at a better price per unit."</div>
+  <div class="box takeaway" style="margin-bottom:1.2rem;">
+    <span class="box-label">🎯 Phase Goal</span>
+    The Costco analogy makes "Best" feel logical, not expensive. The silence after "which option" does the closing.
   </div>
 
-  <div class="option-card better">
-    <h3>Option 2 — BETTER (Single Circuit + Safety)</h3>
-    <div class="tech-line"><span class="tech-label">Technician</span>"This is the same quality of work, just a smaller scope. We'd restore one circuit today and roll your $600 diagnostic fee into the repair cost — effectively cutting that fee in half for you."</div>
-    <p>Includes: grounding, surge protection, updated smoke detectors, GFCI bubble covers, and tested GFCIs in the bathrooms.</p>
+  <!-- SETUP -->
+  <details class="section-details" open>
+    <summary class="section-summary">
+      <span style="flex:1">Setting the Stage</span>
+      <span class="section-hint">Reconnect to rapport before presenting</span>
+    </summary>
+    <div class="section-body">
+      <details class="sub-details" open>
+        <summary class="sub-summary">Opening Script ▸</summary>
+        <div class="sub-body">
+          <div class="tech-line">
+            <span class="tech-label">Technician</span>
+            <p>"Hey Bob, thanks for taking a few minutes with me today. My goal is simple — remember when I said earlier that I wanted to earn the right to be your electrician for as long as you own your home. You've shared your approach with me: you've focused your resources on investments, your kids' activities, and enjoying your home, which is great. You've got a beautiful place — you just haven't really had to put much into the 'bones' of the home yet. That's perfectly normal, and that's where today's conversation comes in."</p>
+          </div>
+        </div>
+      </details>
+
+      <details class="sub-details">
+        <summary class="sub-summary">Maintenance Framing Script ▸</summary>
+        <div class="sub-body">
+          <div class="tech-line">
+            <span class="tech-label">Technician</span>
+            <p>"The industry standard is to allocate roughly 4% of your home's value annually toward overall maintenance. That doesn't mean you're spending that amount with me today — it's just a ballpark for all upkeep, whether that's roofing, plumbing, electrical, HVAC, foundation work, fencing, or painting. Some years it's one big thing; some years it's smaller things. Today we're focusing on the electrical side."</p>
+          </div>
+        </div>
+      </details>
+
+      <details class="sub-details">
+        <summary class="sub-summary">Tone-Setting Script ▸</summary>
+        <div class="sub-body">
+          <div class="tech-line">
+            <span class="tech-label">Technician</span>
+            <p>"Before we dive in, I want to make sure you're comfortable stopping me at any point if I get too technical or start rambling. I'm not here to 'sell' you — I'm here to give you clear, straightforward options so you can make the best decision for your home. Fair enough?"</p>
+          </div>
+        </div>
+      </details>
+    </div>
+  </details>
+
+  <!-- THREE OPTIONS -->
+  <details class="section-details">
+    <summary class="section-summary">
+      <span style="flex:1">Introducing the Three Options</span>
+      <span class="section-hint">Frame before you present</span>
+    </summary>
+    <div class="section-body">
+      <div class="tech-line">
+        <span class="tech-label">Technician</span>
+        <p>"I've put together three investment options for you: Best, Better, and Essentials. Think of them as different levels of scope — from the most comprehensive solution to just the essentials. Let's start at the top and work our way down."</p>
+      </div>
+    </div>
+  </details>
+
+  <!-- OPTION: BEST -->
+  <details class="section-details">
+    <summary class="section-summary">
+      <span style="flex:1">⭐ Option 1 — BEST</span>
+      <span class="section-hint">Most comprehensive — the Costco approach</span>
+    </summary>
+    <div class="section-body">
+      <div class="option-card best">
+        <div class="option-badge badge-best">⭐ Best — Most Comprehensive</div>
+        <details class="sub-details" open>
+          <summary class="sub-summary">Best Option Script ▸</summary>
+          <div class="sub-body">
+            <div class="tech-line">
+              <span class="tech-label">Technician</span>
+              <p>"This covers the most work in one visit, maximizing efficiency and future-proofing your home. For example, we'd restore two circuits today. That means more reach and reliability — I've already got outlets and switches pulled, and since we know all the outlets are wired similarly, doing both now saves you the cost and hassle of a future call."</p>
+            </div>
+            <div class="tech-line">
+              <span class="tech-label">Technician — Costco Analogy</span>
+              <p>"It's like shopping at Costco — you may get more than you immediately need, but it's more efficient and cost-effective in the long run because you'll use it, and you get it at a better price per unit."</p>
+            </div>
+          </div>
+        </details>
+      </div>
+    </div>
+  </details>
+
+  <!-- OPTION: BETTER -->
+  <details class="section-details">
+    <summary class="section-summary">
+      <span style="flex:1">Option 2 — BETTER</span>
+      <span class="section-hint">Single circuit + safety — diagnostic fee rolled in</span>
+    </summary>
+    <div class="section-body">
+      <div class="option-card better">
+        <div class="option-badge badge-better">Better — Single Circuit</div>
+        <details class="sub-details" open>
+          <summary class="sub-summary">Better Option Script ▸</summary>
+          <div class="sub-body">
+            <div class="tech-line">
+              <span class="tech-label">Technician</span>
+              <p>"This is the same quality of work, just a smaller scope. We'd restore one circuit today and roll your $600 diagnostic fee into the repair cost — effectively cutting that fee in half for you."</p>
+            </div>
+            <p style="font-size:0.87rem; color:var(--muted); margin-top:0.5rem;">Includes: grounding, surge protection, updated smoke detectors, GFCI bubble covers, and tested GFCIs in the bathrooms.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </details>
+
+  <!-- OPTION: ESSENTIALS -->
+  <details class="section-details">
+    <summary class="section-summary">
+      <span style="flex:1">Option 3 — ESSENTIALS</span>
+      <span class="section-hint">Baseline safety only — no restoration</span>
+    </summary>
+    <div class="section-body">
+      <div class="option-card essentials">
+        <div class="option-badge badge-essentials">Essentials — Safety Only</div>
+        <details class="sub-details" open>
+          <summary class="sub-summary">Essentials Option Script ▸</summary>
+          <div class="sub-body">
+            <div class="tech-line">
+              <span class="tech-label">Technician</span>
+              <p>"This is the minimum I'd recommend — taking care of those critical safety measures I just mentioned, without any circuit restoration work. It addresses immediate safety needs but leaves the functional upgrades for another time."</p>
+            </div>
+          </div>
+        </details>
+      </div>
+    </div>
+  </details>
+
+  <!-- THE CLOSE -->
+  <details class="section-details">
+    <summary class="section-summary">
+      <span style="flex:1">The Close</span>
+      <span class="section-hint" style="color:var(--red);font-weight:600;">⚡ Ask. Then stop talking.</span>
+    </summary>
+    <div class="section-body">
+      <details class="sub-details" open>
+        <summary class="sub-summary">Close Script ▸</summary>
+        <div class="sub-body">
+          <div class="tech-line">
+            <span class="tech-label">Technician</span>
+            <p>"So that's the overview: Best for maximum efficiency and long-term coverage, Better for solid safety plus one circuit restoration, and Essentials for safety only. Which option feels right for you today?"</p>
+          </div>
+          <div class="silence-bar">🤐 STOP TALKING. Wait until they speak first. The silence is doing the selling.</div>
+        </div>
+      </details>
+      <div class="box important"><span class="box-label">⚠ Important</span>When you ask "which option feels right for you today" — you must not speak until they answer. Expect a long pause. This is normal. Let them process and think. They MUST talk first.</div>
+      <div class="box takeaway"><span class="box-label">🔑 Key Takeaway</span>The Costco analogy reframes "Best" from expensive to <em>efficient</em>. Present all three in descending order and let the contrast do the work.</div>
+    </div>
+  </details>
+
+  <div class="bottom-nav">
+    <a href="ms-circuit-teeup.html" class="btn btn-outline">← Circuit Tee-Up</a>
+    <a href="ms-objections.html" class="btn btn-primary">Next: Objections &amp; Closing →</a>
   </div>
-
-  <div class="option-card essentials">
-    <h3>Option 3 — ESSENTIALS (Baseline Safety Only)</h3>
-    <div class="tech-line"><span class="tech-label">Technician</span>"This is the minimum I'd recommend — taking care of those critical safety measures I just mentioned, without any circuit restoration work. It addresses immediate safety needs but leaves the functional upgrades for another time."</div>
-  </div>
-
-  <h2>The Close</h2>
-
-  <div class="tech-line"><span class="tech-label">Technician</span>"So that's the overview: Best for maximum efficiency and long-term coverage, Better for solid safety plus one circuit restoration, and Essentials for safety only. Which option feels right for you today?"</div>
-
-  <div class="important-box">
-    When you ask "which option feels right for you today" — you must not speak until they answer. Expect a long pause. This is normal. Let them process and think. They MUST talk first. The silence is doing the work.
-  </div>
-
-  <div class="nav-bottom">
-    <a href="ms-circuit-teeup.html">← Phase 9: Circuit Tee-Up</a>
-    <a href="ms-objections.html">Phase 11-12: Objections & Closes →</a>
-  </div>
-
 </div>
 </body>
 </html>

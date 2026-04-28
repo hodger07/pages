@@ -7,227 +7,339 @@
 <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --spark-red: #C8102E;
-    --spark-dark: #1a1a2e;
-    --spark-gold: #F2A900;
-    --bg: #0f0f1a;
-    --card: #1a1a2e;
-    --card-hover: #222240;
-    --text: #e8e8f0;
-    --text-muted: #9999b0;
-    --border: #2a2a45;
-    --success: #22c55e;
+    --red: #C8102E;
+    --gold: #F2A900;
+    --gold-text: #A86F00;
+    --bg: #FAFAF8;
+    --card: #FFFFFF;
+    --border: #E2DDD8;
+    --text: #1A1A2E;
+    --muted: #6B6880;
+    --success: #15803d;
+    --shadow: 0 1px 4px rgba(0,0,0,0.08);
   }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; font-size: 16px; }
 
-  .header { background: linear-gradient(135deg, var(--spark-red) 0%, #8B0000 100%); padding: 3rem 2rem; text-align: center; border-bottom: 4px solid var(--spark-gold); }
-  .header h1 { font-size: 2.2rem; font-weight: 800; color: #fff; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.3rem; }
-  .header .subtitle { font-size: 1rem; color: rgba(255,255,255,0.8); letter-spacing: 1px; }
+  /* HEADER */
+  .site-header {
+    background: var(--red);
+    padding: 2.5rem 1.5rem 2rem;
+    text-align: center;
+    border-bottom: 5px solid var(--gold);
+  }
+  .site-header h1 { font-size: 2rem; font-weight: 800; color: #fff; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.3rem; }
+  .site-header .sub { font-size: 0.9rem; color: rgba(255,255,255,0.85); letter-spacing: 1px; }
 
-  .container { max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+  .container { max-width: 900px; margin: 0 auto; padding: 2rem 1rem 4rem; }
 
-  .roadmap-intro { text-align: center; margin-bottom: 2.5rem; color: var(--text-muted); font-size: 1rem; line-height: 1.8; }
-  .roadmap-intro strong { color: var(--spark-gold); }
+  .intro {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 1.2rem 1.5rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    font-size: 0.95rem;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+  .intro strong { color: var(--text); }
+  .intro .sample-dialogue { font-family: 'Crimson Pro', Georgia, serif; font-style: italic; color: var(--muted); }
 
-  /* Phase cards on main page */
-  .phase-card {
+  /* PHASE CARD — collapsible */
+  .phase-details {
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 12px;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow);
     overflow: hidden;
-    transition: border-color 0.2s;
   }
-  .phase-card:hover { border-color: var(--spark-gold); }
-  .phase-card-header {
-    display: flex; align-items: center; gap: 1rem;
-    padding: 1.2rem 1.5rem;
-    border-bottom: 2px solid var(--spark-red);
+  .phase-details[open] { border-color: var(--red); }
+
+  .phase-summary {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 1rem 1.2rem;
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+    border-bottom: 2px solid transparent;
+    transition: background 0.15s;
   }
+  .phase-details[open] .phase-summary { border-bottom-color: var(--border); background: #FFF8F0; }
+  .phase-summary:hover { background: #FFF8F0; }
+  .phase-summary::-webkit-details-marker { display: none; }
+
   .phase-num {
-    background: var(--spark-red); color: #fff;
-    width: 38px; height: 38px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 800; font-size: 0.95rem; flex-shrink: 0;
+    background: var(--red);
+    color: #fff;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.9rem;
+    flex-shrink: 0;
   }
-  .phase-name { font-size: 1.15rem; font-weight: 700; color: #fff; flex: 1; }
-  .phase-link { color: var(--spark-gold); text-decoration: none; font-size: 0.85rem; font-weight: 600; white-space: nowrap; }
-  .phase-link:hover { text-decoration: underline; }
-  .phase-card-body { padding: 1.2rem 1.5rem; }
+  .phase-info { flex: 1; min-width: 0; }
+  .phase-name { font-size: 1rem; font-weight: 700; color: var(--text); line-height: 1.2; }
+  .phase-tagline { font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
+  .phase-chevron { color: var(--red); font-size: 0.8rem; flex-shrink: 0; transition: transform 0.2s; }
+  .phase-details[open] .phase-chevron { transform: rotate(90deg); }
 
-  /* Inline short phases */
-  .key-points { list-style: none; padding: 0; }
-  .key-points li { padding: 0.3rem 0 0.3rem 1.5rem; position: relative; font-size: 0.92rem; }
-  .key-points li::before { content: "⚡"; position: absolute; left: 0; }
+  .phase-body { padding: 1.2rem 1.2rem 1.4rem; }
 
+  /* LINKED PHASE */
+  .phase-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--red);
+    color: #fff;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    transition: background 0.15s;
+  }
+  .phase-link-btn:hover { background: #a00d25; }
+
+  /* KEY POINTS */
+  .key-points { list-style: none; }
+  .key-points li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.3rem 0;
+    font-size: 0.9rem;
+    color: var(--text);
+  }
+  .key-points li::before { content: "⚡"; flex-shrink: 0; font-size: 0.75rem; margin-top: 4px; }
+
+  /* TECH LINES */
   .tech-line {
     font-family: 'Crimson Pro', Georgia, serif;
-    font-size: 1.08rem;
     font-style: italic;
-    color: #d8d0f0;
-    padding: 0.6rem 1rem;
-    border-left: 3px solid var(--spark-red);
-    background: rgba(200,16,46,0.06);
+    font-size: 1.05rem;
+    color: #3D1A1A;
+    padding: 0.65rem 1rem 0.65rem 1rem;
+    border-left: 4px solid var(--red);
+    background: rgba(200,16,46,0.05);
     border-radius: 0 6px 6px 0;
     margin: 0.6rem 0;
     line-height: 1.6;
   }
   .tech-label {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: -apple-system, sans-serif;
     font-style: normal;
     font-weight: 700;
-    color: var(--spark-gold);
-    font-size: 0.75rem;
+    color: var(--gold-text);
+    font-size: 0.68rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     display: block;
     margin-bottom: 0.15rem;
   }
-  .cust-line {
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: 0.95rem;
-    color: var(--text-muted);
-    padding: 0.4rem 1rem;
-    border-left: 3px solid #444;
-    margin: 0.5rem 0;
-    font-style: italic;
-  }
 
-  .important-box {
-    background: rgba(200,16,46,0.1);
-    border: 1px solid rgba(200,16,46,0.3);
+  /* BOXES */
+  .box {
     border-radius: 8px;
-    padding: 0.8rem 1rem;
-    margin: 0.8rem 0;
-    font-size: 0.9rem;
-  }
-  .important-box::before { content: "⚡ IMPORTANT"; display: block; font-weight: 800; color: var(--spark-red); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.3rem; }
-
-  .note-box {
-    background: rgba(242,169,0,0.08);
-    border: 1px solid rgba(242,169,0,0.2);
-    border-radius: 8px;
-    padding: 0.6rem 1rem;
+    padding: 0.75rem 1rem;
     margin: 0.6rem 0;
     font-size: 0.88rem;
-    color: var(--spark-gold);
+    line-height: 1.6;
   }
+  .box-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    display: block;
+  }
+  .box.takeaway { background: rgba(21,128,61,0.07); border-left: 4px solid var(--success); }
+  .box.takeaway .box-label { color: var(--success); }
+  .box.important { background: rgba(200,16,46,0.07); border-left: 4px solid var(--red); }
+  .box.important .box-label { color: var(--red); }
+  .box.note { background: rgba(242,169,0,0.08); border-left: 4px solid var(--gold); }
+  .box.note .box-label { color: var(--gold-text); }
 
-  .takeaway {
-    background: rgba(34,197,94,0.08);
-    border: 1px solid rgba(34,197,94,0.2);
+  /* SUB-DETAILS within phase body */
+  .sub-details {
+    border: 1px solid var(--border);
     border-radius: 8px;
-    padding: 0.8rem 1rem;
-    margin: 0.8rem 0;
-    font-size: 0.9rem;
+    margin: 0.5rem 0;
+    background: var(--bg);
+    overflow: hidden;
   }
-  .takeaway::before { content: "🎯 KEY TAKEAWAY"; display: block; font-weight: 800; color: var(--success); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.3rem; }
+  .sub-summary {
+    padding: 0.7rem 1rem;
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  .sub-summary::-webkit-details-marker { display: none; }
+  .sub-summary::after { content: "▸"; color: var(--red); font-size: 0.75rem; flex-shrink: 0; transition: transform 0.2s; }
+  .sub-details[open] .sub-summary::after { transform: rotate(90deg); }
+  .sub-details[open] .sub-summary { border-bottom: 1px solid var(--border); background: #fff; }
+  .sub-body { padding: 0.8rem 1rem 1rem; }
 
-  h3 { color: var(--spark-gold); margin: 1.2rem 0 0.5rem; font-size: 1rem; }
-  p { margin-bottom: 0.7rem; }
+  h3 { color: var(--gold-text); margin: 1rem 0 0.4rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; }
 
-  .footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--border); margin-top: 2rem; }
+  .footer { text-align: center; padding: 2rem 1rem; color: var(--muted); font-size: 0.78rem; border-top: 1px solid var(--border); margin-top: 2rem; }
 
   @media (max-width: 600px) {
-    .header { padding: 2rem 1rem; }
-    .header h1 { font-size: 1.5rem; }
-    .container { padding: 1rem; }
-    .phase-card-body { padding: 1rem; }
+    .site-header h1 { font-size: 1.5rem; }
+    .container { padding: 1rem 0.75rem 3rem; }
+    .phase-body { padding: 1rem; }
   }
 </style>
 </head>
 <body>
 
-<div class="header">
+<div class="site-header">
   <h1>⚡ Mister Sparky</h1>
-  <div class="subtitle">Technician Call Script — V4</div>
+  <div class="sub">Technician Call Script — V4</div>
 </div>
 
 <div class="container">
 
-  <div class="roadmap-intro">
+  <div class="intro">
     <strong>12 phases. One call. One shot.</strong><br>
-    Short phases are below. Longer phases link to their own page — tap the link to go deep.<br>
-    All <span style="font-family:'Crimson Pro',Georgia,serif; font-style:italic; color:#d8d0f0;">technician dialogue is in this font</span> so you always know what to say.
+    Tap any phase to expand it. Longer phases open their own dedicated page.<br>
+    All <span class="sample-dialogue">technician dialogue is in this font</span> — so you always know what to say.
   </div>
 
-  <!-- ============ PHASE 1 — INLINE ============ -->
-  <div class="phase-card" id="phase-1">
-    <div class="phase-card-header">
+  <!-- PHASE 1 -->
+  <details class="phase-details">
+    <summary class="phase-summary">
       <div class="phase-num">1</div>
-      <div class="phase-name">Pre-Arrival</div>
+      <div class="phase-info">
+        <div class="phase-name">Pre-Arrival</div>
+        <div class="phase-tagline">Get your head right before you touch the door</div>
+      </div>
+      <span class="phase-chevron">▸</span>
+    </summary>
+    <div class="phase-body">
+      <details class="sub-details">
+        <summary class="sub-summary">Mental & Physical Preparation</summary>
+        <div class="sub-body">
+          <ul class="key-points">
+            <li>Mental End Zone Preparation — get your head right</li>
+            <li>Vehicle clean, shiny tires, organized, presentable</li>
+            <li>Phone and iPad on vibrate</li>
+            <li>Leave all problems in the van</li>
+            <li>You must look and act the part</li>
+          </ul>
+        </div>
+      </details>
+      <div class="box takeaway"><span class="box-label">🎯 Key Takeaway</span>You are not a fixer. You are a professional. The call starts before you touch the door.</div>
     </div>
-    <div class="phase-card-body">
-      <ul class="key-points">
-        <li>Mental End Zone Preparation — get your head right</li>
-        <li>Vehicle clean, shiny tires, organized, presentable</li>
-        <li>Phone and iPad on vibrate</li>
-        <li>Leave all problems in the van</li>
-        <li>You must look and act the part</li>
-      </ul>
-      <div class="takeaway">You are not a fixer. You are a professional. The call starts before you touch the door.</div>
-    </div>
-  </div>
+  </details>
 
-  <!-- ============ PHASE 2 — INLINE ============ -->
-  <div class="phase-card" id="phase-2">
-    <div class="phase-card-header">
+  <!-- PHASE 2 -->
+  <details class="phase-details">
+    <summary class="phase-summary">
       <div class="phase-num">2</div>
-      <div class="phase-name">Approaching the Home</div>
+      <div class="phase-info">
+        <div class="phase-name">Approaching the Home</div>
+        <div class="phase-tagline">Walk with confidence — first impressions are everything</div>
+      </div>
+      <span class="phase-chevron">▸</span>
+    </summary>
+    <div class="phase-body">
+      <details class="sub-details">
+        <summary class="sub-summary">Walking from Van to Door</summary>
+        <div class="sub-body">
+          <ul class="key-points">
+            <li>Walk with confidence, good posture, SMILE</li>
+            <li>Fast brisk pace from van to door</li>
+            <li>Do NOT walk through grass or flower beds</li>
+            <li>Minimum required tools only — a doctor doesn't carry all his tools</li>
+          </ul>
+        </div>
+      </details>
+      <details class="sub-details">
+        <summary class="sub-summary">At the Door</summary>
+        <div class="sub-body">
+          <ul class="key-points">
+            <li>Knock on the door frame</li>
+            <li>Step back, 45-degree angle to the door</li>
+            <li>Tool bag on the ground</li>
+            <li>SMILE</li>
+          </ul>
+        </div>
+      </details>
     </div>
-    <div class="phase-card-body">
-      <ul class="key-points">
-        <li>Walk with confidence, good posture, SMILE</li>
-        <li>Fast brisk pace from van to door</li>
-        <li>Do NOT walk through grass or flower beds</li>
-        <li>Minimum required tools only — a doctor doesn't carry all his tools</li>
-      </ul>
-      <h3>At the Door</h3>
-      <ul class="key-points">
-        <li>Knock on the door frame</li>
-        <li>Step back, 45-degree angle to the door</li>
-        <li>Tool bag on the ground</li>
-        <li>SMILE</li>
-      </ul>
-    </div>
-  </div>
+  </details>
 
-  <!-- ============ PHASE 3 — INLINE ============ -->
-  <div class="phase-card" id="phase-3">
-    <div class="phase-card-header">
+  <!-- PHASE 3 -->
+  <details class="phase-details">
+    <summary class="phase-summary">
       <div class="phase-num">3</div>
-      <div class="phase-name">Introduction & Entry</div>
+      <div class="phase-info">
+        <div class="phase-name">Introduction &amp; Entry</div>
+        <div class="phase-tagline">Set the tone the moment the door opens</div>
+      </div>
+      <span class="phase-chevron">▸</span>
+    </summary>
+    <div class="phase-body">
+      <details class="sub-details">
+        <summary class="sub-summary">The Introduction Script ▸</summary>
+        <div class="sub-body">
+          <div class="tech-line"><span class="tech-label">Technician</span>"Hi, my name is _______, I am with Mister Sparky! I'm here to see Mr/Mrs/Ms. Doe."</div>
+          <div class="tech-line"><span class="tech-label">Technician</span>"Good to meet you, Mr. [Sir name]. I'm going to be your electrician today!"</div>
+          <div class="tech-line"><span class="tech-label">Technician</span>"Do you mind if I call you Bob?"</div>
+        </div>
+      </details>
+      <details class="sub-details">
+        <summary class="sub-summary">Van Placement Script ▸</summary>
+        <div class="sub-body">
+          <div class="tech-line"><span class="tech-label">Technician</span>"Is my van parked okay, Bob?"</div>
+          <div class="tech-line"><span class="tech-label">Technician</span>"Great, I just want to make sure I am not going to block any parking for family, friends, yard crews, or deliveries."</div>
+        </div>
+      </details>
+      <details class="sub-details">
+        <summary class="sub-summary">Entry &amp; Floor Savers Script ▸</summary>
+        <div class="sub-body">
+          <div class="tech-line"><span class="tech-label">Technician</span>"Do you mind if I come in?"</div>
+          <div class="tech-line"><span class="tech-label">Technician</span>"Let me put on my floor savers."</div>
+          <div class="tech-line"><span class="tech-label">Technician</span>"I understand that you have a few outlets not working."</div>
+          <div class="box important"><span class="box-label">⚠ Important</span>Don't lead with the problem unless the customer forces the issue. Roll with it if they do, then circle back to rapport.</div>
+          <div class="tech-line"><span class="tech-label">Technician</span>"No problem at all, you don't need to worry Bob — we will get that problem fixed up for you and get you back to normal."</div>
+        </div>
+      </details>
     </div>
-    <div class="phase-card-body">
-      <div class="tech-line"><span class="tech-label">Technician</span>"Hi, my name is _______, I am with Mister Sparky! I'm here to see Mr/Mrs/Ms. Doe."</div>
-      <div class="tech-line"><span class="tech-label">Technician</span>"Good to meet you, Mr. [Sir name]. I'm going to be your electrician today!"</div>
-      <div class="tech-line"><span class="tech-label">Technician</span>"Do you mind if I call you Bob?"</div>
+  </details>
 
-      <h3>Van Placement</h3>
-      <div class="tech-line"><span class="tech-label">Technician</span>"Is my van parked okay, Bob?"</div>
-      <div class="tech-line"><span class="tech-label">Technician</span>"Great, I just want to make sure I am not going to block any parking for family, friends, yard crews, or deliveries."</div>
-
-      <h3>Entry & Floor Savers</h3>
-      <div class="tech-line"><span class="tech-label">Technician</span>"Do you mind if I come in?"</div>
-      <div class="tech-line"><span class="tech-label">Technician</span>"Let me put on my floor savers."</div>
-
-      <h3>Why You're There</h3>
-      <div class="tech-line"><span class="tech-label">Technician</span>"I understand that you have a few outlets not working."</div>
-      <div class="important-box">Don't lead with the problem unless the customer forces the issue. Roll with it if they do, then circle back to rapport.</div>
-      <div class="tech-line"><span class="tech-label">Technician</span>"No problem at all, you don't need to worry Bob — we will get that problem fixed up for you and get you back to normal."</div>
-    </div>
-  </div>
-
-  <!-- ============ PHASE 4 — LINKED ============ -->
-  <div class="phase-card" id="phase-4">
-    <div class="phase-card-header">
+  <!-- PHASE 4 — linked -->
+  <details class="phase-details">
+    <summary class="phase-summary">
       <div class="phase-num">4</div>
-      <div class="phase-name">Rapport Building (F.O.R.M.)</div>
-      <a href="ms-rapport.html" class="phase-link">Full Script →</a>
-    </div>
-    <div class="phase-card-body">
-      <div class="takeaway">This is the most important phase. If you skip this, the rest of the script won't work. Build a REAL connection — not a checkbox.</div>
+      <div class="phase-info">
+        <div class="phase-name">Rapport Building (F.O.R.M.)</div>
+        <div class="phase-tagline">Most important phase — if you skip this, nothing else works</div>
+      </div>
+      <span class="phase-chevron">▸</span>
+    </summary>
+    <div class="phase-body">
+      <a href="ms-rapport.html" class="phase-link-btn">Open Full Script →</a>
+      <div class="box takeaway"><span class="box-label">🎯 Key Takeaway</span>Build a REAL connection — not a checkbox. This is the most important phase.</div>
       <ul class="key-points">
         <li><strong>F</strong>amily — <strong>O</strong>ccupation — <strong>R</strong>ecreation — <strong>M</strong>aterial Possession</li>
         <li>This should NOT be pre-scripted — it needs to flow naturally</li>
@@ -235,49 +347,66 @@
         <li>Grade yourself: A (activated + connected) through D (acted like a hammer)</li>
       </ul>
     </div>
-  </div>
+  </details>
 
-  <!-- ============ PHASE 5 — LINKED ============ -->
-  <div class="phase-card" id="phase-5">
-    <div class="phase-card-header">
+  <!-- PHASE 5 — linked -->
+  <details class="phase-details">
+    <summary class="phase-summary">
       <div class="phase-num">5</div>
-      <div class="phase-name">Setting Critical Anchors</div>
-      <a href="ms-anchors.html" class="phase-link">Full Script →</a>
-    </div>
-    <div class="phase-card-body">
-      <div class="takeaway">Two anchors. Both must be locked verbally before you move on. The math does the selling — you just hold the calculator.</div>
+      <div class="phase-info">
+        <div class="phase-name">Setting Critical Anchors</div>
+        <div class="phase-tagline">Two verbal agreements that frame every price conversation</div>
+      </div>
+      <span class="phase-chevron">▸</span>
+    </summary>
+    <div class="phase-body">
+      <a href="ms-anchors.html" class="phase-link-btn">Open Full Script →</a>
+      <div class="box takeaway"><span class="box-label">🎯 Key Takeaway</span>The math does the selling — you just hold the calculator.</div>
       <ul class="key-points">
         <li><strong>Anchor 1:</strong> They agree to the 4% home maintenance rule</li>
-        <li><strong>Anchor 2:</strong> They agree to 20-30% of deferred maintenance = electrical</li>
+        <li><strong>Anchor 2:</strong> They agree 20–30% of deferred maintenance = electrical</li>
         <li>Use a real calculator — NOT your phone</li>
         <li>Goal: "We both agree you don't want to touch that number today"</li>
       </ul>
     </div>
-  </div>
+  </details>
 
-  <!-- ============ PHASE 6 — INLINE ============ -->
-  <div class="phase-card" id="phase-6">
-    <div class="phase-card-header">
+  <!-- PHASE 6 — inline -->
+  <details class="phase-details">
+    <summary class="phase-summary">
       <div class="phase-num">6</div>
-      <div class="phase-name">Lock In the Decision Maker</div>
+      <div class="phase-info">
+        <div class="phase-name">Lock In the Decision Maker</div>
+        <div class="phase-tagline">Get all parties in the room before you move forward</div>
+      </div>
+      <span class="phase-chevron">▸</span>
+    </summary>
+    <div class="phase-body">
+      <details class="sub-details">
+        <summary class="sub-summary">Decision Maker Script ▸</summary>
+        <div class="sub-body">
+          <div class="tech-line"><span class="tech-label">Technician</span>"Bob, based on the fact that you said you and your wife really don't have a strategy for managing your home's maintenance, I don't want to assume who takes the lead on making these type of decisions or if both of you are involved once it reaches a certain dollar amount — but I need to make sure that all parties are available for time and efficiency purposes during the call today."</div>
+          <div class="box note"><span class="box-label">📝 Note</span>Pause — wait for them to name spouse, themselves, or both.</div>
+          <div class="tech-line"><span class="tech-label">Technician</span>"Got it — I like to have everyone who's part of the decision in the loop, so no one feels out of the loop or surprised later. If we do find something worth addressing today, would it be possible for both of you to be available for that part of the conversation?"</div>
+        </div>
+      </details>
+      <div class="box takeaway"><span class="box-label">🎯 Key Takeaway</span>Get this commitment NOW. If you skip this, you'll hear "I need to talk to my spouse" at the close and it's 10x harder.</div>
     </div>
-    <div class="phase-card-body">
-      <div class="tech-line"><span class="tech-label">Technician</span>"Bob, based on the fact that you said you and your wife really don't have a strategy for managing your home's maintenance, I don't want to assume who takes the lead on making these type of decisions or if both of you are involved once it reaches a certain dollar amount — but I need to make sure that all parties are available for time and efficiency purposes during the call today."</div>
-      <div class="note-box">Pause — wait for them to name spouse, themselves, or both.</div>
-      <div class="tech-line"><span class="tech-label">Technician</span>"Got it — I like to have everyone who's part of the decision in the loop, so no one feels out of the loop or surprised later. If we do find something worth addressing today, would it be possible for both of you to be available for that part of the conversation?"</div>
-      <div class="takeaway">Get this commitment NOW. If you skip this, you'll hear "I need to talk to my spouse" at the close and it's 10x harder.</div>
-    </div>
-  </div>
+  </details>
 
-  <!-- ============ PHASE 7 — LINKED ============ -->
-  <div class="phase-card" id="phase-7">
-    <div class="phase-card-header">
+  <!-- PHASE 7 — linked -->
+  <details class="phase-details">
+    <summary class="phase-summary">
       <div class="phase-num">7</div>
-      <div class="phase-name">Problem Discovery & Pre-Inspection</div>
-      <a href="ms-discovery.html" class="phase-link">Full Script →</a>
-    </div>
-    <div class="phase-card-body">
-      <div class="takeaway">Find the EMOTIONAL driver — not just the technical problem. "I can't bake and that's my hobby" is worth 10x more than "outlet doesn't work."</div>
+      <div class="phase-info">
+        <div class="phase-name">Problem Discovery &amp; Pre-Inspection</div>
+        <div class="phase-tagline">Find the emotional driver — not just the technical problem</div>
+      </div>
+      <span class="phase-chevron">▸</span>
+    </summary>
+    <div class="phase-body">
+      <a href="ms-discovery.html" class="phase-link-btn">Open Full Script →</a>
+      <div class="box takeaway"><span class="box-label">🎯 Key Takeaway</span>"I can't bake and that's my hobby" is worth 10x more than "outlet doesn't work."</div>
       <ul class="key-points">
         <li>Ask when it started, what happened, has it happened before</li>
         <li>Show compassion — acknowledge it's frustrating</li>
@@ -286,17 +415,21 @@
         <li>ACTIVATE against their emotional drivers and personal goals</li>
       </ul>
     </div>
-  </div>
+  </details>
 
-  <!-- ============ PHASE 8 — LINKED ============ -->
-  <div class="phase-card" id="phase-8">
-    <div class="phase-card-header">
+  <!-- PHASE 8 — linked -->
+  <details class="phase-details">
+    <summary class="phase-summary">
       <div class="phase-num">8</div>
-      <div class="phase-name">Presenting the Diagnostic</div>
-      <a href="ms-diagnostic.html" class="phase-link">Full Script →</a>
-    </div>
-    <div class="phase-card-body">
-      <div class="takeaway">You're not "selling a diagnostic" — you're explaining WHY circuit-level troubleshooting is the only way to actually solve the problem and prevent it from returning.</div>
+      <div class="phase-info">
+        <div class="phase-name">Presenting the Diagnostic</div>
+        <div class="phase-tagline">Build trust through transparency — not false certainty</div>
+      </div>
+      <span class="phase-chevron">▸</span>
+    </summary>
+    <div class="phase-body">
+      <a href="ms-diagnostic.html" class="phase-link-btn">Open Full Script →</a>
+      <div class="box takeaway"><span class="box-label">🎯 Key Takeaway</span>Customers trust honest professionals over confident guessers.</div>
       <ul class="key-points">
         <li>Sit down with them — ask for a comfortable spot</li>
         <li>Lead with good news: panel looks solid</li>
@@ -305,17 +438,21 @@
         <li>Two reasons: "So I can look you in the eye" + "help ensure it doesn't happen again"</li>
       </ul>
     </div>
-  </div>
+  </details>
 
-  <!-- ============ PHASE 9 — LINKED ============ -->
-  <div class="phase-card" id="phase-9">
-    <div class="phase-card-header">
+  <!-- PHASE 9 — linked -->
+  <details class="phase-details">
+    <summary class="phase-summary">
       <div class="phase-num">9</div>
-      <div class="phase-name">Teeing Up the Circuit Restoration</div>
-      <a href="ms-circuit-teeup.html" class="phase-link">Full Script →</a>
-    </div>
-    <div class="phase-card-body">
-      <div class="takeaway">The customer should talk themselves into the restoration. You ask the questions — they arrive at the conclusion. Never answer your own question.</div>
+      <div class="phase-info">
+        <div class="phase-name">Teeing Up the Circuit Restoration</div>
+        <div class="phase-tagline">Ask questions until they sell themselves</div>
+      </div>
+      <span class="phase-chevron">▸</span>
+    </summary>
+    <div class="phase-body">
+      <a href="ms-circuit-teeup.html" class="phase-link-btn">Open Full Script →</a>
+      <div class="box takeaway"><span class="box-label">🎯 Key Takeaway</span>The customer should talk themselves into the restoration. Never answer your own question.</div>
       <ul class="key-points">
         <li>Show them the fix — reconnect to their emotional driver</li>
         <li>"All the devices are wired the same way" — let THEM say it'll happen again</li>
@@ -324,17 +461,21 @@
         <li>DON'T SPEAK until they answer</li>
       </ul>
     </div>
-  </div>
+  </details>
 
-  <!-- ============ PHASE 10 — LINKED ============ -->
-  <div class="phase-card" id="phase-10">
-    <div class="phase-card-header">
+  <!-- PHASE 10 — linked -->
+  <details class="phase-details">
+    <summary class="phase-summary">
       <div class="phase-num">10</div>
-      <div class="phase-name">Presenting the Options</div>
-      <a href="ms-options.html" class="phase-link">Full Script →</a>
-    </div>
-    <div class="phase-card-body">
-      <div class="takeaway">Three options. Start from the top. Let the silence do the work at the close. The Costco analogy makes "Best" feel logical, not expensive.</div>
+      <div class="phase-info">
+        <div class="phase-name">Presenting the Options</div>
+        <div class="phase-tagline">Three options — start from the top, let silence close</div>
+      </div>
+      <span class="phase-chevron">▸</span>
+    </summary>
+    <div class="phase-body">
+      <a href="ms-options.html" class="phase-link-btn">Open Full Script →</a>
+      <div class="box takeaway"><span class="box-label">🎯 Key Takeaway</span>The Costco analogy makes "Best" feel logical, not expensive.</div>
       <ul class="key-points">
         <li><strong>Best</strong> = most comprehensive, two circuits, future-proofed (Costco analogy)</li>
         <li><strong>Better</strong> = one circuit + safety, diagnostic fee rolled in</li>
@@ -342,17 +483,21 @@
         <li>"Which option feels right for you today?" — then DO NOT SPEAK</li>
       </ul>
     </div>
-  </div>
+  </details>
 
-  <!-- ============ PHASE 11 — LINKED ============ -->
-  <div class="phase-card" id="phase-11">
-    <div class="phase-card-header">
+  <!-- PHASE 11 — linked -->
+  <details class="phase-details">
+    <summary class="phase-summary">
       <div class="phase-num">11</div>
-      <div class="phase-name">Objection Handling</div>
-      <a href="ms-objections.html" class="phase-link">Full Script →</a>
-    </div>
-    <div class="phase-card-body">
-      <div class="takeaway">45%+ of people are High Stability. "I need to talk to my spouse" is usually a smokescreen for "I think the price is too high." Your job is to discover which one it is.</div>
+      <div class="phase-info">
+        <div class="phase-name">Objection Handling</div>
+        <div class="phase-tagline">"I need to talk to my spouse" is usually a smokescreen</div>
+      </div>
+      <span class="phase-chevron">▸</span>
+    </summary>
+    <div class="phase-body">
+      <a href="ms-objections.html" class="phase-link-btn">Open Full Script →</a>
+      <div class="box takeaway"><span class="box-label">🎯 Key Takeaway</span>45%+ of people are High Stability. Discover whether it's a real condition or a price objection in disguise.</div>
       <ul class="key-points">
         <li><strong>Spouse objection:</strong> Discover if it's real or a smokescreen</li>
         <li><strong>"Think about it":</strong> Systematically eliminate concerns until you find the real one</li>
@@ -360,17 +505,21 @@
         <li>If real condition: get spouse on phone or set callback appointment</li>
       </ul>
     </div>
-  </div>
+  </details>
 
-  <!-- ============ PHASE 12 — LINKED ============ -->
-  <div class="phase-card" id="phase-12">
-    <div class="phase-card-header">
+  <!-- PHASE 12 — linked (same page as objections) -->
+  <details class="phase-details">
+    <summary class="phase-summary">
       <div class="phase-num">12</div>
-      <div class="phase-name">Closing Techniques</div>
-      <a href="ms-closes.html" class="phase-link">Full Script →</a>
-    </div>
-    <div class="phase-card-body">
-      <div class="takeaway">Break it down to the ridiculous. $800 over 7 years = $0.31/day. Then give them an easy choice: "Credit card or our money?" Not "do you want to buy this?"</div>
+      <div class="phase-info">
+        <div class="phase-name">Closing Techniques</div>
+        <div class="phase-tagline">Break it to the ridiculous — then give an easy choice</div>
+      </div>
+      <span class="phase-chevron">▸</span>
+    </summary>
+    <div class="phase-body">
+      <a href="ms-objections.html#phase12" class="phase-link-btn">Open Full Script →</a>
+      <div class="box takeaway"><span class="box-label">🎯 Key Takeaway</span>$800 over 7 years = $0.31/day. "Card or our money?" — not "do you want to buy this?"</div>
       <ul class="key-points">
         <li><strong>Reduction Close:</strong> Break the gap down to cents per day</li>
         <li><strong>Options Close:</strong> Show a lesser-priced item</li>
@@ -378,7 +527,7 @@
         <li><strong>Easy Choice Close:</strong> "Card or our money?" — not a yes/no on the total</li>
       </ul>
     </div>
-  </div>
+  </details>
 
 </div>
 
