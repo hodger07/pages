@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Should You Meg Test After a Lightning Strike? — Mister Sparky</title>
+  <style>
+    :root {
+      --red: #c0392b;
+      --gold: #f39c12;
+      --dark: #1a1a2e;
+      --card-bg: #fff;
+      --text: #222;
+      --sub: #555;
+      --border: #e0e0e0;
+      --for: #27ae60;
+      --against: #c0392b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: var(--text); }
+
+    /* HEADER */
+    .site-header {
+      background: var(--red);
+      padding: 2rem 1.5rem 1.8rem;
+      text-align: center;
+      border-bottom: 5px solid var(--gold);
+    }
+    .site-header .logo-img { max-height: 80px; width: auto; display: block; margin: 0 auto 0.8rem; }
+    .site-header h1 { font-size: 1.5rem; font-weight: 800; color: #fff; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.3rem; }
+    .site-header .sub { font-size: 0.85rem; color: rgba(255,255,255,0.8); letter-spacing: 1px; }
+
+    /* QUESTION BANNER */
+    .question-banner {
+      background: #fff;
+      border-left: 6px solid var(--gold);
+      margin: 2rem auto;
+      max-width: 900px;
+      padding: 1.2rem 1.5rem;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .question-banner .label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--sub); margin-bottom: 0.4rem; }
+    .question-banner p { font-size: 1.05rem; font-weight: 600; color: var(--text); line-height: 1.5; }
+    .question-banner .context { margin-top: 0.8rem; font-size: 0.88rem; color: var(--sub); line-height: 1.5; }
+
+    /* CONTAINER */
+    .container { max-width: 900px; margin: 0 auto; padding: 0 1rem 3rem; }
+
+    /* SECTION LABELS */
+    .section-label {
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.15em; color: var(--sub); margin: 2rem 0 1rem;
+    }
+
+    /* MODEL CARDS */
+    .model-card {
+      background: var(--card-bg);
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+      padding: 1.5rem;
+      margin-bottom: 1.2rem;
+      border-top: 4px solid var(--gold);
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    .model-badge {
+      font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; background: var(--dark); color: #fff;
+      padding: 0.3rem 0.7rem; border-radius: 20px;
+    }
+    .verdict-chip {
+      font-size: 0.7rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 0.1em; padding: 0.25rem 0.65rem; border-radius: 20px;
+    }
+    .verdict-chip.for { background: #d4edda; color: var(--for); }
+    .verdict-chip.against { background: #f8d7da; color: var(--against); }
+    .card-body { font-size: 0.92rem; line-height: 1.7; color: #333; }
+    .card-body p { margin-bottom: 0.8rem; }
+    .card-body p:last-child { margin-bottom: 0; }
+    .truncated-note {
+      font-size: 0.78rem; color: #999; font-style: italic; margin-top: 0.5rem;
+      padding-top: 0.5rem; border-top: 1px solid var(--border);
+    }
+
+    /* MAVERICK SECTION */
+    .maverick-section {
+      background: var(--dark);
+      border-radius: 12px;
+      padding: 2rem 1.8rem;
+      margin-top: 2.5rem;
+      border-top: 5px solid var(--gold);
+      color: #fff;
+    }
+    .maverick-header {
+      display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap;
+    }
+    .maverick-badge {
+      font-size: 0.78rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 0.12em; background: var(--gold); color: #000;
+      padding: 0.3rem 0.8rem; border-radius: 20px;
+    }
+    .maverick-title { font-size: 1rem; font-weight: 700; color: #fff; }
+    .maverick-meta { font-size: 0.78rem; color: rgba(255,255,255,0.5); }
+    .maverick-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+    .maverick-pick {
+      background: rgba(255,255,255,0.07);
+      border-radius: 8px;
+      padding: 1rem 1.1rem;
+      border-left: 3px solid var(--gold);
+    }
+    .pick-label {
+      font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.12em; color: var(--gold); margin-bottom: 0.4rem;
+    }
+    .pick-model { font-size: 0.9rem; font-weight: 700; color: #fff; margin-bottom: 0.3rem; }
+    .pick-reason { font-size: 0.82rem; color: rgba(255,255,255,0.7); line-height: 1.5; }
+    .maverick-verdict {
+      background: rgba(243,156,18,0.12);
+      border: 1px solid rgba(243,156,18,0.3);
+      border-radius: 8px;
+      padding: 1.2rem 1.4rem;
+    }
+    .verdict-label {
+      font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.12em; color: var(--gold); margin-bottom: 0.6rem;
+    }
+    .verdict-text { font-size: 0.95rem; line-height: 1.6; color: rgba(255,255,255,0.9); }
+
+    /* FOOTER */
+    .page-footer {
+      text-align: center; padding: 2rem 1rem;
+      font-size: 0.78rem; color: #999;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 600px) {
+      .site-header h1 { font-size: 1.15rem; }
+      .maverick-grid { grid-template-columns: 1fr; }
+      .maverick-section { padding: 1.5rem 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="site-header">
+  <img src="ms-logo.png" alt="Mister Sparky" class="logo-img">
+  <h1>Should You Meg Test After a Lightning Strike?</h1>
+  <div class="sub">4 AI Models Debate — Maverick Decides</div>
+</div>
+
+<div class="container">
+
+  <div class="question-banner">
+    <div class="label">The Question</div>
+    <p>After a lightning strike, should an electrician recommend and perform a megohmmeter (meg) test on the home's wiring?</p>
+    <div class="context">
+      <strong>Arguments against:</strong> (1) Homeowner says it's unnecessary and expensive. (2) Insurance company doesn't want it done post-strike — findings could complicate the claim.
+    </div>
+  </div>
+
+  <div class="section-label">The Arguments — 4 Models Weigh In</div>
+
+  <!-- GPT-5.4 -->
+  <div class="model-card">
+    <div class="card-header">
+      <span class="model-badge">GPT-5.4</span>
+      <span class="verdict-chip for">FOR the Meg Test</span>
+    </div>
+    <div class="card-body">
+      <p>After a nearby or direct lightning event, a megohmmeter test is technically sound to check whether conductor insulation has been weakened, carbon-tracked, punctured, or contaminated in ways that ordinary continuity or breaker testing won't reveal. A circuit can appear to work fine and still have insulation damage creating leakage, nuisance tripping, overheating, or a future fault-to-ground/arc event. Lightning stresses branch-circuit insulation especially where wiring is long, bundled, damp, or connected to damaged equipment.</p>
+      <p>From a safety and liability standpoint, the electrician should absolutely recommend the test and document that recommendation. If the homeowner refuses, the electrician should not force the work — but should clearly note in writing that post-lightning insulation-resistance testing was advised and declined. That protects everyone.</p>
+      <p>The objections don't hold up technically. The homeowner's cost concern is a cost/benefit preference, not evidence the test is unnecessary. The insurance company's reluctance is weaker still — claim complexity is not a safety criterion. Refusing insulation testing because it may uncover damage is backwards. Recommend it; perform it if authorized; document refusal if not.</p>
+    </div>
+  </div>
+
+  <!-- Opus 4.6 -->
+  <div class="model-card">
+    <div class="card-header">
+      <span class="model-badge">Claude Opus 4.6</span>
+      <span class="verdict-chip for">FOR the Meg Test</span>
+    </div>
+    <div class="card-body">
+      <p>A megohmmeter applies a high DC voltage (typically 500–1000V) across wire insulation and measures resistance in megohms. Healthy residential wiring should show well above 1 MΩ. A lightning surge can partially carbonize or crack insulation without tripping a breaker, without visibly damaging a device, and without immediately causing a fault. The damage is latent. The wiring continues to function normally right up until it doesn't — usually under load, at the worst possible time, and often as a house fire. The meg test is specifically designed to find this failure mode. A visual inspection misses it. A standard continuity test misses it. This is the right tool for this exact problem.</p>
+      <p>The safety implication is not abstract. Degraded insulation resistance creates conditions for arc faults and ground faults in walls, attics, and crawl spaces — places where fire can establish itself before any smoke detector triggers. The homeowner's cost objection inverts the actual risk calculus. The insurance company's objection is an economic one dressed up as a technical one — if findings complicate a claim, that means the test might reveal damage the insurer would be obligated to cover. Name it for what it is.</p>
+      <p>The liability piece is the electrician's actual exposure. "Homeowner declined post-strike insulation resistance testing" is defensible. "Electrician did not recommend it" is not. The professional standard of care after a lightning strike includes insulation testing. Document the recommendation. Get the refusal in writing if they decline. Quietly agreeing it's probably fine is not an option.</p>
+    </div>
+  </div>
+
+  <!-- Grok-3 -->
+  <div class="model-card">
+    <div class="card-header">
+      <span class="model-badge">Grok-3</span>
+      <span class="verdict-chip for">FOR the Meg Test</span>
+    </div>
+    <div class="card-body">
+      <p>A lightning strike can cause significant, hidden damage to electrical insulation through the intense voltage surge, potentially leading to short circuits, electrical fires, or electrocution risks. The meg test measures insulation resistance, revealing whether the protective coating has been compromised — information visual inspections alone cannot provide. Detecting such damage early can prevent catastrophic failures, making the test a critical diagnostic tool.</p>
+      <p>From a liability standpoint, the electrician has a duty to advise the homeowner of potential risks and recommend necessary testing. If damage goes undetected and later causes harm, the electrician could be held liable for failing due diligence on a known high-risk event. Documenting the recommendation — and any refusal — protects the electrician legally.</p>
+      <p>Neither objection holds up technically. The homeowner's cost concern overlooks the invisible nature of insulation damage — without testing there is no way to confirm system integrity. The insurance company's resistance is rooted in financial strategy, not technical merit. Their position does not negate that lightning-induced damage is real and measurable. Safety must trump both objections. If the homeowner still refuses after a clear explanation, document it — but the push is non-negotiable given the stakes.</p>
+    </div>
+  </div>
+
+  <!-- Gemini 3.1 Pro -->
+  <div class="model-card">
+    <div class="card-header">
+      <span class="model-badge">Gemini 3.1 Pro</span>
+      <span class="verdict-chip for">FOR the Meg Test</span>
+    </div>
+    <div class="card-body">
+      <p>Standard residential wiring is insulated to withstand a maximum of 600 volts. A lightning surge introduces tens of thousands of volts into the electrical system. This extreme voltage causes invisible damage deep inside walls — microscopic pinholes, carbon tracking, and burnt insulation that visual inspections and standard multimeter checks cannot detect. A megger test reveals these silent hazards before they cause catastrophic failure.</p>
+      <p>A lightning strike induces massive transient overvoltages that vastly exceed the dielectric strength of standard residential NM-B cable insulation. While the copper conductors may remain intact, the insulation undergoes irreversible thermal and electrical breakdown that can lead to arc faults or electrical fires weeks or months later. The test is not optional — it's the only field method that actually evaluates insulation integrity after this kind of event.</p>
+      <div class="truncated-note">⚠ Response truncated by provider at token limit. Position clearly FOR based on full available content.</div>
+    </div>
+  </div>
+
+  <!-- Maverick Section -->
+  <div class="maverick-section">
+    <div class="maverick-header">
+      <span class="maverick-badge">⚡ Maverick</span>
+      <div>
+        <div class="maverick-title">Final Verdict</div>
+        <div class="maverick-meta">Local model — Llama 4 Maverick (401B) running on-device</div>
+      </div>
+    </div>
+
+    <div class="maverick-grid">
+      <div class="maverick-pick">
+        <div class="pick-label">🏆 Strongest Argument</div>
+        <div class="pick-model">Claude Opus 4.6</div>
+        <div class="pick-reason">Not only explains the purpose and methodology of the megohmmeter test, but clearly articulates the specific failure modes it detects — latent insulation damage leading to arc faults. Concise, directly tied to safety implications, and named the insurance objection for what it actually is: economic, not technical.</div>
+      </div>
+      <div class="maverick-pick">
+        <div class="pick-label">📉 Weakest Argument</div>
+        <div class="pick-model">Gemini 3.1 Pro</div>
+        <div class="pick-reason">Response was truncated by the provider, making it difficult to fully assess. Available content focused more on explaining lightning damage than directly addressing the homeowner/insurance objections or the liability implications for the electrician.</div>
+      </div>
+    </div>
+
+    <div class="maverick-verdict">
+      <div class="verdict-label">Maverick's Call</div>
+      <div class="verdict-text">The electrician should recommend the meg test. A lightning strike can cause hidden damage to electrical insulation, and the meg test is specifically designed to detect it — damage that can lead to serious safety risks if left undetected. Recommending the test is a prudent measure that aligns with professional standard of care and mitigates potential liability. The homeowner and insurance objections are financial, not technical. Safety wins.</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="page-footer">
+  Mister Sparky — Internal Training &bull; Confidential &bull; AI Debate Series
+</div>
+
+</body>
+</html>
