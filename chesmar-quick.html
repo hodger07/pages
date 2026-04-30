@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kelsey — Chesmar Contract Decision</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f1117; color: #e1e4e8; min-height: 100vh; display: flex; flex-direction: column; }
+.header { background: #1a0d0d; border-bottom: 3px solid #f85149; padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.header h1 { font-size: 1.3rem; font-weight: 800; color: #ffa198; }
+.header .deadline { background: #f85149; color: #fff; font-weight: 800; font-size: 1rem; padding: 8px 20px; border-radius: 8px; letter-spacing: 0.5px; }
+.main { flex: 1; padding: 24px 30px; max-width: 900px; margin: 0 auto; width: 100%; }
+
+.verdict { background: linear-gradient(135deg, #1a0d0d, #12090a); border: 2px solid #f85149; border-radius: 12px; padding: 20px 24px; margin-bottom: 20px; display: flex; align-items: center; gap: 20px; }
+.verdict .score { font-size: 3.5rem; font-weight: 900; color: #f85149; line-height: 1; flex-shrink: 0; }
+.verdict-text h2 { font-size: 1.1rem; color: #ffa198; margin-bottom: 6px; }
+.verdict-text p { font-size: 0.88rem; color: #9aa8b2; line-height: 1.6; }
+
+.grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+
+.card { border-radius: 10px; padding: 18px; }
+.card h3 { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+.card ul { padding-left: 18px; }
+.card li { font-size: 0.88rem; color: #c9d1d9; margin-bottom: 8px; line-height: 1.5; }
+.card li strong { color: #e1e4e8; }
+
+.card-red { background: #1a0d0d; border: 1px solid #6e1a1a; }
+.card-red h3 { color: #f85149; }
+.card-green { background: #0a1a0c; border: 1px solid #1a5a1e; }
+.card-green h3 { color: #3fb950; }
+.card-yellow { background: #12100a; border: 1px solid #5a420e; }
+.card-yellow h3 { color: #e3b341; }
+
+.section { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 18px 22px; margin-bottom: 16px; }
+.section h2 { font-size: 1rem; font-weight: 700; color: #79c0ff; margin-bottom: 14px; }
+
+.risk-row { display: flex; align-items: flex-start; gap: 14px; padding: 10px 0; border-bottom: 1px solid #21262d; }
+.risk-row:last-child { border-bottom: none; }
+.risk-num { font-size: 1.6rem; font-weight: 900; color: #f85149; opacity: 0.5; line-height: 1; flex-shrink: 0; width: 28px; }
+.risk-body h4 { font-size: 0.9rem; color: #ffa198; margin-bottom: 4px; }
+.risk-body p { font-size: 0.83rem; color: #8b949e; line-height: 1.5; }
+
+.tax-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #21262d; font-size: 0.85rem; }
+.tax-row:last-child { font-weight: 700; color: #e3b341; border-top: 1px solid #30363d; border-bottom: none; padding-top: 12px; }
+.tax-row .label { color: #8b949e; }
+.tax-row .value { color: #c9d1d9; }
+
+.lender-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 4px; }
+.lender-box { border-radius: 8px; padding: 14px; }
+.lender-yes { background: #0a1a0c; border: 1px solid #1a5a1e; }
+.lender-yes h4 { color: #3fb950; font-size: 0.88rem; margin-bottom: 8px; }
+.lender-maybe { background: #12100a; border: 1px solid #5a420e; }
+.lender-maybe h4 { color: #e3b341; font-size: 0.88rem; margin-bottom: 8px; }
+.lender-box p { font-size: 0.82rem; color: #8b949e; line-height: 1.6; }
+
+.cta { background: linear-gradient(135deg, #1a1505, #12100a); border: 2px solid #e3b341; border-radius: 10px; padding: 18px 22px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; margin-bottom: 16px; }
+.cta p { font-size: 0.88rem; color: #c9d1d9; }
+.cta p strong { color: #e3b341; }
+.cta a { color: #79c0ff; font-size: 0.82rem; text-decoration: none; background: #12161e; border: 1px solid #30363d; padding: 8px 16px; border-radius: 8px; white-space: nowrap; }
+.cta a:hover { background: #21262d; }
+
+footer { background: #0d1117; border-top: 1px solid #21262d; padding: 14px 30px; text-align: center; font-size: 0.75rem; color: #484f58; }
+
+@media (max-width: 700px) {
+  .grid { grid-template-columns: 1fr; }
+  .lender-grid { grid-template-columns: 1fr; }
+  .verdict { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>🏠 Kelsey — Chesmar Contract Decision</h1>
+    <div style="color:#8b949e; font-size:0.82rem; margin-top:4px;">12751 Grayson County Dr · Cypress TX · $340,000 · 3/2.5 · 1,901 sqft</div>
+  </div>
+  <div class="deadline">⏰ 3:00 PM Deadline Today</div>
+</div>
+
+<div class="main">
+
+  <div class="verdict">
+    <div class="score">8.5</div>
+    <div class="verdict-text">
+      <h2>Buyer-Hostile Contract — Standard for Texas New Construction</h2>
+      <p>"Standard" doesn't mean great. Every risk of the build — material costs, delays, force majeure — flows to Kelsey. Chesmar's downside is capped at giving back $2,500. But if she wants this house: <strong style="color:#ffa198;">sign it, and push for the 3 things below.</strong></p>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card card-red">
+      <h3>⚠️ Know Before Signing</h3>
+      <ul>
+        <li>If <strong>Chesmar walks</strong> — she gets $3,000 max. No more. No specific performance.</li>
+        <li>Mandatory <strong>arbitration</strong> — no jury trial — runs with the deed forever</li>
+        <li>They can <strong>substitute materials</strong> silently ("comparable quality")</li>
+        <li>They can <strong>terminate the contract</strong> if material costs rise — refund only, no damages</li>
+      </ul>
+    </div>
+    <div class="card card-green">
+      <h3>✅ Request Before Signing</h3>
+      <ul>
+        <li><strong>7 business days</strong> closing notice — not 3. Call Chesmar now.</li>
+        <li><strong>Private inspector right</strong> in writing before closing</li>
+        <li><strong>Written repair timeline</strong> for walk-through deficiency items (30 days post-close)</li>
+      </ul>
+      <p style="font-size:0.78rem; color:#5a8a5e; margin-top:10px; padding-top:8px; border-top:1px solid #1a5a1e;">Chesmar will likely say yes to all three. Stage 5 = they want to close.</p>
+    </div>
+    <div class="card card-yellow">
+      <h3>📋 After Signing</h3>
+      <ul>
+        <li>Get <strong>Loan Estimate from HomeAmerican AND one outside lender</strong> — compare APR, not just rate, before committing to $15K incentive</li>
+        <li>Pull <strong>FEMA flood map</strong> for the specific lot (msc.fema.gov)</li>
+        <li>Hire <strong>independent inspector</strong> — bring them to the walk-through</li>
+        <li>Request <strong>deed restrictions + HOA docs</strong> from Chesmar</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- TOP 3 DANGERS -->
+  <div class="section">
+    <h2>🚨 3 Real Dangers in This Contract</h2>
+    <div class="risk-row">
+      <div class="risk-num">1</div>
+      <div class="risk-body">
+        <h4>§8a — Chesmar Can Walk for $3,000</h4>
+        <p>If Chesmar cancels — for any reason — her maximum recovery is $3,000 total. No specific performance. No recovery for lost time, rate lock costs, moving plans, or other homes she passed on. This is the single biggest structural flaw.</p>
+      </div>
+    </div>
+    <div class="risk-row">
+      <div class="risk-num">2</div>
+      <div class="risk-body">
+        <h4>§12 — Arbitration That Runs Forever (Even After Resale)</h4>
+        <p>All disputes → binding arbitration, no jury. This clause transfers with the deed and binds heirs and future buyers. When Kelsey sells, her buyer's lender may flag this. Foundation issues, defects, anything — all in arbitration, her expense, no courtroom.</p>
+      </div>
+    </div>
+    <div class="risk-row">
+      <div class="risk-num">3</div>
+      <div class="risk-body">
+        <h4>§16 + §14c — Cost Escape Valve + Silent Substitutions</h4>
+        <p>If material prices spike, Chesmar can terminate and refund — "unavailability of materials at current prices" is a listed force majeure trigger. Or they can quietly swap finishes/materials without notice under §14c. Both clauses together = builder's profit protection at buyer's expense.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAX REALITY + LENDER -->
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
+    <div class="section" style="margin-bottom:0;">
+      <h2>💸 Real Tax Burden (Unincorp. Harris County)</h2>
+      <div class="tax-row"><span class="label">MUD #490</span><span class="value">$1.00/$100 → ~$3,400/yr</span></div>
+      <div class="tax-row"><span class="label">WCID #158</span><span class="value">$0.50/$100 → ~$1,700/yr</span></div>
+      <div class="tax-row"><span class="label">Harris County base</span><span class="value">~$1,302/yr</span></div>
+      <div class="tax-row"><span class="label">CFISD schools</span><span class="value">~$3,431/yr</span></div>
+      <div class="tax-row"><span class="label">TOTAL estimated</span><span class="value">~$9,833/yr ≈ $820/mo</span></div>
+      <p style="font-size:0.78rem; color:#6e7681; margin-top:10px;">MUD/WCID bonds ($995M approved) — rates may increase as bonds are issued over time.</p>
+    </div>
+    <div class="section" style="margin-bottom:0;">
+      <h2>🏦 The $15K Lender Incentive</h2>
+      <div class="lender-grid">
+        <div class="lender-box lender-yes">
+          <h4>✅ Take it if…</h4>
+          <p>HomeAmerican's rate is within ~0.5% of market. $15K at closing is real money. Math favors them at small rate spreads.</p>
+        </div>
+        <div class="lender-box lender-maybe">
+          <h4>⚠️ Walk away if…</h4>
+          <p>Rate is 0.75%+ above market. Long-term payment cost exceeds the $15K incentive within ~8 years.</p>
+        </div>
+      </div>
+      <p style="font-size:0.8rem; color:#6e7681; margin-top:12px;">Decision does NOT need to be made today. She can sign the purchase contract and still shop lenders. Require Affiliated Business Disclosure.</p>
+    </div>
+  </div>
+
+  <!-- WALK-THROUGH WARNING -->
+  <div class="section" style="border-color:#e3b341; background:#12100a;">
+    <h2>🔍 Walk-Through is THE Critical Moment</h2>
+    <p style="font-size:0.87rem; color:#c9d1d9; line-height:1.7;">The contract says: <em>"Broken glass, chips, nicks, scratches will ONLY be repaired if noted on the walk-through list."</em> This is the one and only opportunity to document visible defects. <strong style="color:#e3b341;">Bring a professional inspector. Blue-tape everything. Photograph with timestamps. Do not occupy before the walk-through or she accepts the home as-is.</strong></p>
+  </div>
+
+  <div class="cta">
+    <p><strong>Full analysis</strong> — all 14 clauses, modification language, flood risk, complete lender math</p>
+    <a href="chesmar-contract-analysis.html">View Full Analysis →</a>
+  </div>
+
+</div>
+
+<footer>
+  Kelsey Marie Hodge · Chesmar Homes LLC · Bridgeland Creekland Village Section 12 · Harris County (Unincorporated) · April 30, 2026<br>
+  AI-assisted analysis (Qwen3 · GPT-5.4 · Opus 4.6) — not a substitute for licensed Texas real estate attorney review.
+</footer>
+
+</body>
+</html>
