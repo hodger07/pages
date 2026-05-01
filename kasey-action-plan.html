@@ -1,0 +1,657 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kasey Action Plan</title>
+  <style>
+    :root {
+      --ink: #201b16;
+      --muted: #6d6257;
+      --paper: #fffaf0;
+      --sheet: #fffdf8;
+      --line: #d8cfc1;
+      --rule: #b9aa98;
+      --accent: #7a2f22;
+      --accent-soft: #f5e6df;
+      --gold: #a87932;
+      --green: #3f5f4d;
+      --shadow: 0 18px 50px rgba(60, 43, 28, 0.12);
+      --serif: Georgia, "Times New Roman", Times, serif;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background:
+        linear-gradient(180deg, rgba(255,250,240,0.96), rgba(247,241,230,0.96)),
+        radial-gradient(circle at 20% 0%, rgba(168,121,50,0.12), transparent 34rem);
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.62;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    p { margin: 0 0 1rem; }
+    strong { color: #15110d; }
+
+    .gate {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 2rem;
+    }
+
+    .gate-card {
+      width: min(100%, 520px);
+      background: var(--sheet);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      padding: clamp(1.5rem, 4vw, 2.5rem);
+    }
+
+    .eyebrow {
+      margin: 0 0 0.75rem;
+      color: var(--accent);
+      font: 700 0.74rem/1 var(--sans);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .gate h1, .hero h1 {
+      margin: 0;
+      font-family: var(--serif);
+      font-weight: 500;
+      letter-spacing: -0.045em;
+      line-height: 0.95;
+    }
+
+    .gate h1 { font-size: clamp(2.6rem, 9vw, 5rem); }
+    .hero h1 { font-size: clamp(3rem, 9vw, 6.4rem); max-width: 9ch; }
+
+    .dek {
+      margin-top: 1rem;
+      color: var(--muted);
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      line-height: 1.45;
+    }
+
+    .password-row {
+      display: flex;
+      gap: 0.65rem;
+      margin-top: 1.5rem;
+    }
+
+    input[type="password"] {
+      width: 100%;
+      border: 1px solid var(--rule);
+      background: #fff;
+      color: var(--ink);
+      padding: 0.9rem 1rem;
+      font: 1rem var(--sans);
+      outline: none;
+    }
+
+    input[type="password"]:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(122,47,34,0.12); }
+
+    button {
+      border: 1px solid var(--ink);
+      background: var(--ink);
+      color: #fffaf0;
+      padding: 0.88rem 1.05rem;
+      font: 700 0.82rem/1 var(--sans);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    button.secondary {
+      background: transparent;
+      color: var(--ink);
+      border-color: var(--rule);
+    }
+
+    button:hover { filter: brightness(1.08); }
+    .error { min-height: 1.4rem; margin-top: 0.8rem; color: var(--accent); font-weight: 700; }
+
+    .app { display: none; }
+    .app.unlocked { display: block; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(255,250,240,0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .topbar-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0.65rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .brand {
+      font: 700 0.78rem/1 var(--sans);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    nav::-webkit-scrollbar { display: none; }
+    nav a {
+      color: var(--ink);
+      font-size: 0.82rem;
+      text-decoration: none;
+      white-space: nowrap;
+      border-bottom: 1px solid transparent;
+    }
+    nav a:hover { border-bottom-color: var(--accent); color: var(--accent); }
+
+    .print-btn { padding: 0.62rem 0.78rem; font-size: 0.72rem; }
+
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: clamp(1rem, 3vw, 2rem);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+      gap: clamp(1.5rem, 5vw, 4rem);
+      padding: clamp(2.5rem, 7vw, 6rem) 0 clamp(1.5rem, 5vw, 3.5rem);
+      border-bottom: 2px solid var(--ink);
+    }
+
+    .hero-copy { align-self: end; }
+    .hero-copy .dek { max-width: 34rem; }
+
+    .confidential {
+      align-self: start;
+      background: var(--sheet);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      padding: 1.25rem;
+    }
+
+    .confidential h2, .callout h3, .section h2, .card h3 {
+      font-family: var(--serif);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      line-height: 1.08;
+      margin: 0;
+    }
+
+    .confidential h2 { font-size: 1.55rem; }
+    .confidential p { margin-top: 0.7rem; color: var(--muted); }
+
+    .alert-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+      margin: 2rem 0 0;
+    }
+
+    .alert {
+      background: var(--sheet);
+      padding: 1rem;
+      min-height: 8rem;
+    }
+
+    .alert strong {
+      display: block;
+      color: var(--accent);
+      font: 800 0.72rem/1.2 var(--sans);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.45rem;
+    }
+
+    .alert span { display: block; font-family: var(--serif); font-size: 1.05rem; line-height: 1.35; }
+
+    .section {
+      display: grid;
+      grid-template-columns: minmax(190px, 0.36fr) minmax(0, 1fr);
+      gap: clamp(1.25rem, 4vw, 3.5rem);
+      padding: clamp(2.25rem, 6vw, 4.8rem) 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-title {
+      position: sticky;
+      top: 4.25rem;
+      align-self: start;
+    }
+
+    .section h2 { font-size: clamp(1.8rem, 4vw, 3rem); }
+    .section-kicker {
+      margin-top: 0.65rem;
+      color: var(--muted);
+      font: 700 0.72rem/1.35 var(--sans);
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .lead {
+      color: #342a22;
+      font-family: var(--serif);
+      font-size: clamp(1.18rem, 2vw, 1.5rem);
+      line-height: 1.55;
+      max-width: 46rem;
+    }
+
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+    .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .card {
+      background: var(--sheet);
+      border: 1px solid var(--line);
+      padding: 1.1rem;
+    }
+
+    .card h3 { font-size: 1.35rem; margin-bottom: 0.5rem; }
+    .card p, .card li { color: #463d34; }
+    .card ul, .rules, .plain-list { margin: 0; padding-left: 1.2rem; }
+    .card li + li, .rules li + li, .plain-list li + li { margin-top: 0.55rem; }
+
+    .contact {
+      display: grid;
+      grid-template-columns: minmax(140px, 0.34fr) 1fr;
+      gap: 1rem;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .contact:last-child { border-bottom: 0; }
+    .contact b { font-family: var(--serif); font-size: 1.12rem; }
+    .contact span { color: var(--muted); }
+
+    .callout {
+      border-left: 4px solid var(--accent);
+      background: var(--accent-soft);
+      padding: 1rem 1.1rem;
+      margin: 1rem 0;
+    }
+    .callout h3 { font-size: 1.35rem; color: var(--accent); margin-bottom: 0.35rem; }
+    .callout p { margin-bottom: 0; }
+
+    .metric-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+      margin: 1.4rem 0;
+    }
+    .metric { background: #fffdf8; padding: 1rem; }
+    .metric b { display: block; font-family: var(--serif); font-size: 1.7rem; line-height: 1; }
+    .metric span { display: block; margin-top: 0.35rem; color: var(--muted); font-size: 0.86rem; }
+
+    .asset-list { display: grid; gap: 0.75rem; }
+    .asset {
+      display: grid;
+      grid-template-columns: minmax(160px, 0.32fr) 1fr;
+      gap: 1rem;
+      padding: 0.95rem;
+      border: 1px solid var(--line);
+      background: rgba(255,253,248,0.72);
+    }
+    .asset b { font-family: var(--serif); font-size: 1.15rem; }
+    .asset p { margin: 0; color: #463d34; }
+
+    .footer-note {
+      padding: 3rem 0 4rem;
+      color: var(--muted);
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      max-width: 48rem;
+    }
+
+    @media (max-width: 920px) {
+      .hero, .section { grid-template-columns: 1fr; }
+      .section-title { position: static; }
+      .alert-grid, .metric-strip, .grid.three { grid-template-columns: repeat(2, 1fr); }
+      .grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 620px) {
+      .topbar-inner { align-items: stretch; flex-direction: column; gap: 0.55rem; }
+      .brand-row { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
+      nav { padding-bottom: 0.1rem; }
+      .password-row { flex-direction: column; }
+      .alert-grid, .metric-strip { grid-template-columns: 1fr; }
+      .contact, .asset { grid-template-columns: 1fr; gap: 0.35rem; }
+      .hero h1 { max-width: 100%; }
+    }
+
+    @media print {
+      body { background: #fff; }
+      .gate, .topbar, .print-btn { display: none !important; }
+      .app { display: block !important; }
+      .wrap { max-width: none; padding: 0; }
+      .hero, .section { page-break-inside: avoid; }
+      .section-title { position: static; }
+      .card, .confidential, .asset, .alert { box-shadow: none; }
+      a { color: inherit; text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <main id="gate" class="gate" aria-labelledby="gate-title">
+    <section class="gate-card">
+      <p class="eyebrow">Private family document</p>
+      <h1 id="gate-title">Kasey Action Plan</h1>
+      <p class="dek">A protected operating note from Dad for what to do if something happens to him.</p>
+      <form id="password-form" class="password-row">
+        <label for="password" class="sr-only" style="position:absolute;left:-9999px;">Password</label>
+        <input id="password" type="password" autocomplete="current-password" placeholder="Password" aria-describedby="password-error">
+        <button type="submit">Enter</button>
+      </form>
+      <div id="password-error" class="error" role="alert"></div>
+    </section>
+  </main>
+
+  <div id="app" class="app" aria-hidden="true">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand-row">
+          <div class="brand">Kasey Action Plan</div>
+          <button class="secondary print-btn" type="button" onclick="window.print()">Print</button>
+        </div>
+        <nav aria-label="Page navigation">
+          <a href="#start">Start</a>
+          <a href="#contacts">Contacts</a>
+          <a href="#support">Support vs. Influence</a>
+          <a href="#actions">Immediate</a>
+          <a href="#rules">Rules</a>
+          <a href="#assets">Assets</a>
+          <a href="#strategy">Control</a>
+          <a href="#inheritance">Inheritance</a>
+          <a href="#reminders">Final</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="wrap">
+      <section id="start" class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">If something happens to Dad</p>
+          <h1>Read this before anyone gets in your ear.</h1>
+          <p class="dek">This is a practical action plan: who to call, who to trust for support, what to control immediately, and the operating rules that keep the companies alive.</p>
+        </div>
+        <aside class="confidential" aria-label="Confidentiality note">
+          <h2>Confidentiality note</h2>
+          <p>This document is private family and business guidance for Kasey. Do not forward it, quote it broadly, or let people use pieces of it to steer you. Use it as a decision anchor, then verify details with the estate documents, bank records, Michelle, Van, and the appropriate advisors.</p>
+        </aside>
+      </section>
+
+      <section class="alert-grid" aria-label="Urgent callouts">
+        <div class="alert"><strong>Money controls</strong><span>Van supports the money, but only you approve transfers and checks.</span></div>
+        <div class="alert"><strong>No equity</strong><span>Never give equity. Use profit-share agreements only.</span></div>
+        <div class="alert"><strong>Payroll discipline</strong><span>Combined field and office payroll must stay under 30% all-in.</span></div>
+        <div class="alert"><strong>Be present</strong><span>For 5–10 years, be first in and last out.</span></div>
+        <div class="alert"><strong>Master license</strong><span>Get your master license so nobody can use dependency as leverage.</span></div>
+        <div class="alert"><strong>Marketing/jingle</strong><span>Never cut marketing. Use branded TV and always use the jingle.</span></div>
+        <div class="alert"><strong>Aaron direct</strong><span>Rebuild Aaron Hagon directly. Do not let Albert lead it.</span></div>
+        <div class="alert"><strong>DFW focus</strong><span>If DFW is not cooking, consider icing it and focus on Katy and Just Fix It.</span></div>
+      </section>
+
+      <section class="section" id="opening">
+        <div class="section-title">
+          <h2>Opening note</h2>
+          <div class="section-kicker">How to use this</div>
+        </div>
+        <div>
+          <p class="lead">Your job is not to make everybody comfortable. Your job is to protect the companies, protect the cash, and make decisions from the instincts Dad built into you over years.</p>
+          <div class="callout">
+            <h3>The center of gravity</h3>
+            <p>Do not let people rush you into their version of the plan. Some will support you. Some will try to influence you. Know the difference.</p>
+          </div>
+          <p>Start with control of money, legal authority, and daily numbers. Then cut unnecessary expenses, stabilize leadership, and get the companies profitable immediately.</p>
+        </div>
+      </section>
+
+      <section class="section" id="contacts">
+        <div class="section-title">
+          <h2>Key contacts</h2>
+          <div class="section-kicker">Call these people early</div>
+        </div>
+        <div class="card">
+          <div class="contact"><b>Michelle Caulder</b><span>She should begin supporting you the way she supported Dad. Both of you will need to grow into the new operating rhythm.</span></div>
+          <div class="contact"><b>Van Nguyen</b><span>Controller. Critical on money, receivables, records, and cash discipline. Do not let anyone else control the money.</span></div>
+          <div class="contact"><b>Ross Harrison</b><span>Third Coast Bank. Use the legal documents from Lauren Parker to get control of money flows.</span></div>
+          <div class="contact"><b>Lauren Parker</b><span>Estate attorney. She has the legal documents you will need.</span></div>
+          <div class="contact"><b>Jon Roberts</b><span>Dad’s coach. Engage him to coach you. You will need help and a clear outside voice.</span></div>
+          <div class="contact"><b>Brandon Gray</b><span>Crabtree. Engage him to coach you and help watch your back on money.</span></div>
+          <div class="contact"><b>Julie Gray</b><span>CPA. Use her for tax, accounting, and financial clarity.</span></div>
+          <div class="contact"><b>Carson Lee</b><span>Manages all aspects of the jet. He works with David; Dad worked with Carson directly.</span></div>
+          <div class="contact"><b>Tony Bradfield</b><span>He will help you.</span></div>
+          <div class="contact"><b>Sam Scheef</b><span>He will help you.</span></div>
+          <div class="contact"><b>Michael Gibson</b><span>If you decide to sell the HondaJet, he is the guy.</span></div>
+          <div class="contact"><b>Christian Limas</b><span>Use him for anything and everything tied to both houses and miscellaneous property needs.</span></div>
+          <div class="contact"><b>Jay Davis</b><span>Medical contact.</span></div>
+          <div class="contact"><b>Andrew Shepherd</b><span>Capital Springs. They offered to buy the company at 7x earnings. He is connected to Aaron Hagon. If you pursue a sale, get Brandon Gray involved for consulting help and have Michelle pull Dad’s email and Otter transcript about Brandon’s group.</span></div>
+        </div>
+      </section>
+
+      <section class="section" id="support">
+        <div class="section-title">
+          <h2>Support vs. influence</h2>
+          <div class="section-kicker">Do not confuse the two</div>
+        </div>
+        <div>
+          <p class="lead">Tony Durr, Albert Bustos, and John Whitfield may be support. They are not the people to depend on to move you forward and up.</p>
+          <div class="grid">
+            <article class="card">
+              <h3>Tony Durr</h3>
+              <p>Friend only. He is employed; that is the relationship. Do not carry him unless he is producing more than he is paid.</p>
+            </article>
+            <article class="card">
+              <h3>Albert Bustos</h3>
+              <p>Friend only. Legally, Dad owns 95% of Albert’s companies. Those become yours. The current understanding is 50% of Springs profits with Albert and roughly 20–25% in DFW after the shop merger.</p>
+            </article>
+            <article class="card">
+              <h3>John Whitfield</h3>
+              <p>Friend only. He can grow an HVAC department from a sales perspective if he is in the seat every day. Depend on him for revenue production only.</p>
+            </article>
+            <article class="card">
+              <h3>The warning</h3>
+              <p>Any or all of these people may try heavily to influence you. Do not let their input replace your own judgment. Look for Dad’s influence over the years. It will come from inside you, not from them.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="actions">
+        <div class="section-title">
+          <h2>Immediate actions</h2>
+          <div class="section-kicker">First weeks and months</div>
+        </div>
+        <div>
+          <ol class="rules">
+            <li><strong>Lock down cash authority.</strong> Van can support the money, but only you should approve transfers out of accounts or sign checks. Use Lauren Parker’s documents and Ross Harrison at Third Coast Bank to establish control of money flows.</li>
+            <li><strong>Be first in, last out.</strong> For the next 5–10 years, operate as the first one at the company and the last one to leave.</li>
+            <li><strong>Start your master license.</strong> Without it you are dependent on Tony and Albert, and they could use that dependency as leverage in the future.</li>
+            <li><strong>Eliminate Dad-tied expenses immediately.</strong> There are many. Shut them down fast so they do not bleed cash. Michelle, Kristie, and Van can help identify them.</li>
+            <li><strong>Cut overhead hard.</strong> The biggest immediate threat is overhead, especially nonproductive non-field labor. It is better to overcut than undercut.</li>
+            <li><strong>Clean up vans.</strong> Get rid of vans that are not productive, except for the spare vehicles needed when trucks go down.</li>
+            <li><strong>Rebuild Aaron Hagon directly.</strong> Do not let Albert lead this. Tell Aaron that Dad told you to call him. Aaron and Darrell owe Dad and should help directly if something happens.</li>
+            <li><strong>Make the companies profitable immediately.</strong> Watch the numbers every day. Work only with people who are growing the company. Pay only people who are productive.</li>
+          </ol>
+          <div class="callout">
+            <h3>Most important operating sentence</h3>
+            <p>Do not carry people on payroll until you are rich enough to afford it. Carrying people you should not carry can kill the companies.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="rules">
+        <div class="section-title">
+          <h2>Operating rules</h2>
+          <div class="section-kicker">Numbers and non-negotiables</div>
+        </div>
+        <div>
+          <div class="metric-strip">
+            <div class="metric"><b>&lt;30%</b><span>Combined field and office payroll, all-in: vacation, bonuses, training.</span></div>
+            <div class="metric"><b>15%</b><span>Marketing target when companies are growing double digits.</span></div>
+            <div class="metric"><b>&lt;10%</b><span>Marketing range when companies are growing single digits.</span></div>
+            <div class="metric"><b>&lt;45%</b><span>Operating expense target; 50% is the max.</span></div>
+          </div>
+          <div class="grid">
+            <article class="card">
+              <h3>Never give equity</h3>
+              <p>Never give equity. Ever. Use profit-sharing agreements only. Ask Michelle for samples; Dad has done them before. Profit sharing can still create windfalls if the company sells.</p>
+            </article>
+            <article class="card">
+              <h3>Marketing stays on</h3>
+              <p>Never cut marketing. Spend at least 30% of total marketing on branded TV in owned zip codes only. Use Deb at BXB. Always use the jingle. Start using yourself in the creative and gradually work Jessica out of it. Be consistent. Consider working your Eagle Scout story into the mix to offset age.</p>
+            </article>
+            <article class="card">
+              <h3>Payroll is oxygen</h3>
+              <p>If payroll exceeds 30% all-in, kill whatever you have to kill to get it under the line. Always take care of Michelle Caulder and Van. Do not extend loyalty to anyone else unless they are productive.</p>
+            </article>
+            <article class="card">
+              <h3>Profit recipe</h3>
+              <p>In electrical, the target recipe is roughly 45% operating expenses plus 30% COGS, leaving 25% net profit. HVAC is similar, with some COGS differences for labor, materials, and job cost.</p>
+            </article>
+          </div>
+          <div class="callout">
+            <h3>Your biggest trap</h3>
+            <p>You will want to bring patience and acceptance into the company. You cannot do that when you are responsible and in charge. You can practice that outside of running the company, but inside the company you must protect the numbers and the team.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="assets">
+        <div class="section-title">
+          <h2>Assets</h2>
+          <div class="section-kicker">Keep, sell, or manage deliberately</div>
+        </div>
+        <div class="asset-list">
+          <div class="asset"><b>43 Stillforest</b><p>Keep or sell; your call. Payment is about $12k/month, insurance about $30k/year, taxes about $50k/year, plus maintenance. Loan is about $2.5M. Value is likely $4.5M–$5M after the remodel. You could afford to stay there with company cash flow if you manage the company correctly.</p></div>
+          <div class="asset"><b>Bay house</b><p>If you will not use it, sell it. Balance is about $300k; value about $1M. Think hard before selling: there is family history around those canals and connected lots will be hard to replace. It may feel overwhelming now, but you may regret selling when you have kids and want a weekend place. Dad was in the process of refinancing it with Ross Harrison.</p></div>
+          <div class="asset"><b>Brabus 500</b><p>Sell it through a broker. Likely break even.</p></div>
+          <div class="asset"><b>Montauk 17</b><p>Keep only if keeping the bay house. It is paid for.</p></div>
+          <div class="asset"><b>Wave runner</b><p>Same decision as the Montauk: keep only if keeping the bay house.</p></div>
+          <div class="asset"><b>Nautique</b><p>Probably keep for lake boat weekends. You need to have fun too.</p></div>
+          <div class="asset"><b>HondaJet</b><p>Costs about $300k/year to operate with 60 hours built in; fuel is extra above that. Tony’s portion is the same. The company handles accounting, reporting, and monthly billing to Tony. If the companies are not pointed in the right direction, sell it. If you keep it, learn to manage it with Carson Lee; Tony Bradfield does not deal with it. A sale may create roughly a $1M recapture tax bill, with $750k–$1M of equity, so it may be close to a wash. Brokerage fee may be about $100k through Michael Gibson. Plan on roughly 90 days. Tony does not own the jet; he splits cost and could walk at any time, though Dad does not expect him to.</p></div>
+          <div class="asset"><b>Cirrus SR-22</b><p>Tony owns it. The company pays half. It likely costs about $60k/year plus usage expenses. There is no obligation to it.</p></div>
+          <div class="asset"><b>Dad’s truck</b><p>Paid for. Keep or sell depending on whether you keep the boats.</p></div>
+          <div class="asset"><b>Porsche Turbo S</b><p>Paid for. Keep or sell; your call. Dad would probably keep it if you can garage it for sentimental reasons. It is a car you could maintain for the rest of your life, but service visits will be expensive.</p></div>
+        </div>
+      </section>
+
+      <section class="section" id="strategy">
+        <div class="section-title">
+          <h2>Company and control strategy</h2>
+          <div class="section-kicker">Control first, sale optional</div>
+        </div>
+        <div>
+          <p class="lead">After the document signing Dad referenced, you have control of the company and the assets inside it if something happens to him.</p>
+          <p>Many assets are held in the company name for asset-protection purposes: bay house, boats, cars, trucks, airplanes, vans, company cash, company cash production, and the company’s market sale value.</p>
+          <div class="grid">
+            <article class="card">
+              <h3>Sale math</h3>
+              <p>Company sale value is generally a multiple of 7–9x annual earnings, adjusted for expenses a buyer would not carry forward, such as airplanes and beach houses. If the airplane expense is about $350k/year, removing it could increase valuation by roughly $2.8M at an 8x multiple.</p>
+            </article>
+            <article class="card">
+              <h3>Capital Springs</h3>
+              <p>Andrew Shepherd with Capital Springs offered 7x earnings as a first offer, with no counters. Dad estimated that, after backing out expenses, this could be about $25M as of the note. Remember: taxes on a sale may be around 30%.</p>
+            </article>
+            <article class="card">
+              <h3>DFW decision</h3>
+              <p>Consider icing DFW unless it is cooking and has a key person you can depend on. Focus matters if Dad is no longer here. If needed, walk away from DFW and concentrate on Katy Mister Sparky plus Just Fix It HVAC/electrical.</p>
+            </article>
+            <article class="card">
+              <h3>Broker warning</h3>
+              <p>If you pursue a sale, do not let broker services grind you down on the multiple. Have Michelle refer back to Dad’s email and Otter transcript about the Brandon Gray group.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="inheritance">
+        <div class="section-title">
+          <h2>Inheritance and equity notes</h2>
+          <div class="section-kicker">Verify with legal documents</div>
+        </div>
+        <div>
+          <p class="lead">Everything outside the LLCs is to be split equally between the four kids, subject to the details in the estate documents.</p>
+          <div class="grid three">
+            <article class="card"><h3>Accounts and assets</h3><ul><li>Schwab</li><li>Stocks</li><li>Retirement accounts</li><li>Jessica’s retirement, also Schwab</li><li>Bitcoin</li><li>Cash bank accounts</li></ul></article>
+            <article class="card"><h3>Insurance and royalties</h3><ul><li>When Jessica passes, there is a $2M payout to Dad / the estate.</li><li>When Dad passes, there is an additional $4M payout to the estate.</li><li>Noble Royalties: approximately $150k in oil royalties paid out monthly.</li></ul></article>
+            <article class="card"><h3>Other items</h3><ul><li>Gemini account: about $250k in LINK.</li><li>Note receivables from Albert’s companies paid monthly.</li><li>Just Fix It: Van handles this; do not let it fall through the cracks.</li></ul></article>
+          </div>
+          <div class="callout">
+            <h3>43 Stillforest settlement</h3>
+            <p>If you keep the house, the equity in the house must be settled between the four kids. Dad notes that this is easy to do, but it still needs to be handled cleanly.</p>
+          </div>
+          <p>Keep in mind: your sister will get her mom’s company as well, and Dad believes her mom likely will not divert any part of that company in your direction because you have not been involved and because she may believe you will have plenty from Dad’s company.</p>
+          <p>Also, Olivia and Christian are each getting $200k when their mom dies from a life insurance policy Dad redirected to them at his discretion. If you negotiate with the Durrs on money later, factor that in because you and Kelsey are not getting anything upon Jessica’s passing. The same principle applies if funds flow from Jessica and Dad’s estate in a different order; future-dollar adjustments should be inflation-adjusted. Dad referenced the BLS inflation calculator: <a href="https://www.bls.gov/data/inflation_calculator.htm">bls.gov/data/inflation_calculator.htm</a>.</p>
+        </div>
+      </section>
+
+      <section class="section" id="reminders">
+        <div class="section-title">
+          <h2>Final reminders</h2>
+          <div class="section-kicker">What keeps you safe</div>
+        </div>
+        <div>
+          <ul class="plain-list lead">
+            <li>Trust your judgment before you trust pressure from people around you.</li>
+            <li>Protect the money. Protect the operating numbers. Protect marketing.</li>
+            <li>Do not confuse being kind with carrying unproductive payroll.</li>
+            <li>Never give equity. Profit-share only.</li>
+            <li>The techs trust and respect you. They will follow if you lead from the same place Dad did.</li>
+            <li>Get help from the right advisors early, then make the decision yourself.</li>
+          </ul>
+          <p class="footer-note">This plan is not about fear. It is about taking control fast enough that grief, noise, and other people’s agendas do not get to run the room.</p>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var form = document.getElementById('password-form');
+      var input = document.getElementById('password');
+      var error = document.getElementById('password-error');
+      var gate = document.getElementById('gate');
+      var app = document.getElementById('app');
+
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        if (input.value === 'kasey') {
+          gate.style.display = 'none';
+          app.classList.add('unlocked');
+          app.setAttribute('aria-hidden', 'false');
+          window.location.hash = '#start';
+        } else {
+          error.textContent = 'Wrong password.';
+          input.select();
+        }
+      });
+    }());
+  </script>
+</body>
+</html>
