@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mister Sparky Technician Call Script V1.3</title>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #C8102E;
+    --gold: #F2A900;
+    --gold-text: #A86F00;
+    --bg: #FAFAF8;
+    --card: #FFFFFF;
+    --border: #E2DDD8;
+    --text: #1A1A2E;
+    --muted: #6B6880;
+    --success: #15803d;
+    --shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; font-size: 16px; }
+
+  /* HEADER */
+  .site-header {
+    background: var(--red);
+    padding: 2.5rem 1.5rem 2rem;
+    text-align: center;
+    border-bottom: 5px solid var(--gold);
+  }
+  .site-header h1 { font-size: 2rem; font-weight: 800; color: #fff; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.3rem; }
+  .site-header .logo-img { max-height: 80px; width: auto; display: block; margin: 0 auto 0.3rem; }
+  .site-header .sub { font-size: 0.9rem; color: rgba(255,255,255,0.85); letter-spacing: 1px; }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 2rem 1rem 4rem; }
+
+  .intro {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 1.2rem 1.5rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    font-size: 0.95rem;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+  .intro strong { color: var(--text); }
+  .intro .sample-dialogue { font-family: 'Crimson Pro', Georgia, serif; font-style: italic; color: var(--muted); }
+
+  /* PHASE CARD — collapsible */
+  .phase-details {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .phase-details[open] { border-color: var(--red); }
+
+  .phase-summary {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 1rem 1.2rem;
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+    border-bottom: 2px solid transparent;
+    transition: background 0.15s;
+  }
+  .phase-details[open] .phase-summary { border-bottom-color: var(--border); background: #FFF8F0; }
+  .phase-summary:hover { background: #FFF8F0; }
+  .phase-summary::-webkit-details-marker { display: none; }
+
+  .phase-num {
+    background: var(--red);
+    color: #fff;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+  .phase-info { flex: 1; min-width: 0; }
+  .phase-name { font-size: 1rem; font-weight: 700; color: var(--text); line-height: 1.2; }
+  .phase-tagline { font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
+  .phase-chevron { color: var(--red); font-size: 0.8rem; flex-shrink: 0; transition: transform 0.2s; }
+  .phase-details[open] .phase-chevron { transform: rotate(90deg); }
+
+  .phase-body { padding: 1.2rem 1.2rem 1.4rem; }
+
+  /* LINKED PHASE */
+  .phase-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--red);
+    color: #fff;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    transition: background 0.15s;
+  }
+  .phase-link-btn:hover { background: #a00d25; }
+
+  /* KEY POINTS */
+  .key-points { list-style: none; }
+  .key-points li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.3rem 0;
+    font-size: 0.9rem;
+    color: var(--text);
+  }
+  .key-points li::before { content: "⚡"; flex-shrink: 0; font-size: 0.75rem; margin-top: 4px; }
+
+  /* TECH LINES */
+  .tech-line {
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: #3D1A1A;
+    padding: 0.65rem 1rem 0.65rem 1rem;
+    border-left: 4px solid var(--red);
+    background: rgba(200,16,46,0.05);
+    border-radius: 0 6px 6px 0;
+    margin: 0.6rem 0;
+    line-height: 1.6;
+  }
+  .tech-label {
+    font-family: -apple-system, sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    color: var(--gold-text);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: block;
+    margin-bottom: 0.15rem;
+  }
+
+  /* BOXES */
+  .box {
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    margin: 0.6rem 0;
+    font-size: 0.88rem;
+    line-height: 1.6;
+  }
+  .box-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    display: block;
+  }
+  .box.takeaway { background: rgba(21,128,61,0.07); border-left: 4px solid var(--success); }
+  .box.takeaway .box-label { color: var(--success); }
+  .box.important { background: rgba(200,16,46,0.07); border-left: 4px solid var(--red); }
+  .box.important .box-label { color: var(--red); }
+  .box.note { background: rgba(242,169,0,0.08); border-left: 4px solid var(--gold); }
+  .box.note .box-label { color: var(--gold-text); }
+
+  /* SUB-DETAILS within phase body */
+  .sub-details {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin: 0.5rem 0;
+    background: var(--bg);
+    overflow: hidden;
+  }
+  .sub-summary {
+    padding: 0.7rem 1rem;
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  .sub-summary::-webkit-details-marker { display: none; }
+  .sub-summary::after { content: "▸"; color: var(--red); font-size: 0.75rem; flex-shrink: 0; transition: transform 0.2s; }
+  .sub-details[open] .sub-summary::after { transform: rotate(90deg); }
+  .sub-details[open] .sub-summary { border-bottom: 1px solid var(--border); background: #fff; }
+  .sub-body { padding: 0.8rem 1rem 1rem; }
+
+  h3 { color: var(--gold-text); margin: 1rem 0 0.4rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  .footer { text-align: center; padding: 2rem 1rem; color: var(--muted); font-size: 0.78rem; border-top: 1px solid var(--border); margin-top: 2rem; }
+
+  @media (max-width: 600px) {
+    .site-header h1 { font-size: 1.5rem; }
+    .container { padding: 1rem 0.75rem 3rem; }
+    .phase-body { padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="site-header">
+  <img src="ms-logo.png" alt="Mister Sparky" class="logo-img">
+  <h1>Technician Call Script</h1>
+  <div class="sub">Mister Sparky Texas — V1.3</div>
+</div>
+
+<div class="container">
+
+  <div class="intro">
+    <strong>12 phases. One call. One shot.</strong><br>
+    Tap any phase to expand it. Longer phases open their own dedicated page.<br>
+    All <span class="sample-dialogue">technician dialogue is in this font</span> — so you always know what to say.
+  </div>
+
+  <!-- PHASE 1 -->
+  <details class="phase-details">
+    <summary class="phase-summary"><div class="phase-num">1</div><div class="phase-info"><div class="phase-name">Pre-Arrival</div><div class="phase-tagline">Get your head right before you touch the door</div></div><span class="phase-chevron">▸</span></summary>
+    <div class="phase-body"><details class="sub-details"><summary class="sub-summary">Mental &amp; Physical Preparation</summary><div class="sub-body"><ul class="key-points"><li>Mental End Zone Preparation — get your head right before you touch the door</li><li>Mindset: I am a trusted advisor protecting this customer’s home</li><li>Dial in your personal image: pressed shirt and pants, well-groomed, shined black boots, black belt</li><li>Vehicle clean, shiny tires, organized, presentable</li><li>Review customer history before arrival: prior calls, memberships, previous recommendations, known concerns, and notes</li><li>Phone and iPad on vibrate</li><li>Leave all problems in the van</li><li>Plan on being recorded visually and audibly by cameras everywhere on the property</li><li>Observe before you approach: neighborhood, cars, house, landscaping, pride-of-ownership signals, and anything that helps you understand what the customer values</li></ul></div></details><details class="sub-details"><summary class="sub-summary">Positive Vehicle Placement</summary><div class="sub-body"><ul class="key-points"><li>Park in the street whenever possible with the van visible from the front door</li><li>Never park in the driveway</li><li>Do not block the mailbox, driveway, or fire hydrant</li><li>Position the van like a professional presence, not an inconvenience</li><li>Exit the vehicle quickly and move with purpose — park to front door in 30 seconds or less whenever possible</li></ul></div></details><div class="box takeaway"><span class="box-label">🎯 Key Takeaway</span>You are not a fixer. You are a trusted advisor. The call starts before you touch the door.</div></div>
+  </details>
+
+  <!-- PHASE 2 -->
+  <details class="phase-details">
+    <summary class="phase-summary"><div class="phase-num">2</div><div class="phase-info"><div class="phase-name">Approaching the Home</div><div class="phase-tagline">Walk with confidence — first impressions are everything</div></div><span class="phase-chevron">▸</span></summary>
+    <div class="phase-body"><details class="sub-details"><summary class="sub-summary">Walking from Van to Door</summary><div class="sub-body"><ul class="key-points"><li>Walk with confidence, good posture, SMILE</li><li>Fast brisk pace from van to door</li><li>Do NOT walk through grass or flower beds</li><li>Minimum required tools only — a doctor doesn't carry all his tools</li></ul></div></details><details class="sub-details"><summary class="sub-summary">At the Door</summary><div class="sub-body"><ul class="key-points"><li>Knock on the door frame</li><li>Step back, 45-degree angle to the door</li><li>Tool bag on the ground</li><li>SMILE</li></ul></div></details></div>
+  </details>
+
+  <!-- PHASE 3 -->
+  <details class="phase-details">
+    <summary class="phase-summary"><div class="phase-num">3</div><div class="phase-info"><div class="phase-name">Introduction &amp; Entry</div><div class="phase-tagline">Set authority and warmth at the door</div></div><span class="phase-chevron">▸</span></summary>
+    <div class="phase-body"><details class="sub-details"><summary class="sub-summary">The Introduction Script</summary><div class="sub-body"><div class="tech-line"><span class="tech-label">Technician</span>"Hi, my name is _______, I am with Mister Sparky! I'm here to see Mr/Mrs/Ms. Doe."</div><div class="tech-line"><span class="tech-label">Technician</span>"Good to meet you, Mr. [Surname]. I'm going to be your electrician today."</div><div class="tech-line"><span class="tech-label">Technician</span>"Thanks for having me out today. Do you mind if I call you Bob?"</div></div></details><details class="sub-details"><summary class="sub-summary">Control the Entry</summary><div class="sub-body"><div class="tech-line"><span class="tech-label">Technician</span>"Before I start touching anything, I’m going to ask a few questions, inspect the issue, show you what I find, and then give you clear options. Fair enough?"</div><div class="box important"><span class="box-label">⚠ Important</span>This is the first control point. You are polite, but you are setting the agenda.</div></div></details></div>
+  </details>
+
+  <!-- PHASE 4 -->
+  <details class="phase-details">
+    <summary class="phase-summary"><div class="phase-num">4</div><div class="phase-info"><div class="phase-name">Structured Relationship &amp; Control</div><div class="phase-tagline">Four questions. Four anchors. No freewheeling.</div></div><span class="phase-chevron">▸</span></summary>
+    <div class="phase-body"><a href="ms-rapport.html" class="phase-link-btn">Open Full Script →</a><div class="box takeaway"><span class="box-label">🎯 Key Takeaway</span>Relationship building is not small talk. These questions create anchors you will use later.</div><ul class="key-points"><li>Ask the four questions one at a time</li><li>Write down the exact words they use</li><li>Do not interrogate or wander</li><li>Every later objection ties back to these anchors</li></ul></div>
+  </details>
+
+  <!-- PHASE 5 -->
+  <details class="phase-details">
+    <summary class="phase-summary"><div class="phase-num">5</div><div class="phase-info"><div class="phase-name">Problem Discovery &amp; Pre-Inspection</div><div class="phase-tagline">Find the problem, impact, risk, and desired outcome</div></div><span class="phase-chevron">▸</span></summary>
+    <div class="phase-body"><a href="ms-discovery.html" class="phase-link-btn">Open Full Script →</a><div class="box takeaway"><span class="box-label">🎯 Key Takeaway</span>Their words become your close. Problem → duration → impact → desired outcome.</div><ul class="key-points"><li>What happened?</li><li>How long has it been happening?</li><li>What has it interrupted or made harder?</li><li>What does fixed look like?</li></ul></div>
+  </details>
+
+  <!-- PHASE 6 -->
+  <details class="phase-details">
+    <summary class="phase-summary"><div class="phase-num">6</div><div class="phase-info"><div class="phase-name">Diagnostic Mini-Anchor</div><div class="phase-tagline">Protect the diagnostic before the customer minimizes it</div></div><span class="phase-chevron">▸</span></summary>
+    <div class="phase-body"><a href="ms-diagnostic.html" class="phase-link-btn">Open Full Script →</a><div class="box takeaway"><span class="box-label">🎯 Key Takeaway</span>Electrical problems can be simple at the device or part of a larger circuit condition. The diagnostic keeps us from guessing.</div><ul class="key-points"><li>Explain circuit-level troubleshooting before price resistance starts</li><li>Use “condition,” “unsafe,” and “not recommended to defer” only when tied to observed facts</li><li>Everything short of “fire” unless there is a specific observed fire hazard</li></ul></div>
+  </details>
+
+  <!-- PHASE 7 -->
+  <details class="phase-details">
+    <summary class="phase-summary"><div class="phase-num">7</div><div class="phase-info"><div class="phase-name">Full Value Anchors</div><div class="phase-tagline">Maintenance math after credibility, before options</div></div><span class="phase-chevron">▸</span></summary>
+    <div class="phase-body"><a href="ms-anchors.html" class="phase-link-btn">Open Full Script →</a><div class="box takeaway"><span class="box-label">🎯 Key Takeaway</span>The anchors frame every objection. Do not debate from scratch later — callback to what they already agreed to.</div><ul class="key-points"><li>Maintenance strategy anchor</li><li>4% planning benchmark</li><li>Electrical exposure anchor</li><li>“We don’t want to touch that number today” anchor</li></ul></div>
+  </details>
+
+  <!-- PHASE 8 -->
+  <details class="phase-details">
+    <summary class="phase-summary"><div class="phase-num">8</div><div class="phase-info"><div class="phase-name">Decision Maker Alignment</div><div class="phase-tagline">Two touches: early agenda, then before options</div></div><span class="phase-chevron">▸</span></summary>
+    <div class="phase-body"><a href="ms-decision-maker.html" class="phase-link-btn">Open Full Script →</a><div class="box takeaway"><span class="box-label">🎯 Key Takeaway</span>Do not let “I need to talk to my spouse” appear for the first time at the close.</div><ul class="key-points"><li>Early: who else needs to be part of the conversation?</li><li>Before options: is that person available now?</li><li>If not, set a specific callback with both parties</li></ul></div>
+  </details>
+
+  <!-- PHASE 9 -->
+  <details class="phase-details">
+    <summary class="phase-summary"><div class="phase-num">9</div><div class="phase-info"><div class="phase-name">Teeing Up the Circuit Restoration</div><div class="phase-tagline">Use findings + recurrence + diagnostic credit</div></div><span class="phase-chevron">▸</span></summary>
+    <div class="phase-body"><a href="ms-circuit-teeup.html" class="phase-link-btn">Open Full Script →</a><div class="box takeaway"><span class="box-label">🎯 Key Takeaway</span>Let them connect the dots: same condition, same circuit, same diagnostic if it happens again.</div><ul class="key-points"><li>Reconnect to their emotional driver</li><li>Show observed facts</li><li>Ask recurrence questions</li><li>Credit diagnostic fee toward same-day solution</li></ul></div>
+  </details>
+
+  <!-- PHASE 10 -->
+  <details class="phase-details">
+    <summary class="phase-summary"><div class="phase-num">10</div><div class="phase-info"><div class="phase-name">Presenting the Options</div><div class="phase-tagline">Best / Better / Essentials — never yes/no</div></div><span class="phase-chevron">▸</span></summary>
+    <div class="phase-body"><a href="ms-options.html" class="phase-link-btn">Open Full Script →</a><div class="box takeaway"><span class="box-label">🎯 Key Takeaway</span>Essentials is the minimum safe option. If they reject full scope, you still leave them safer than you found them.</div><ul class="key-points"><li>Best = most comprehensive</li><li>Better = solid single-circuit solution</li><li>Essentials = minimum safe option</li><li>Ask which option, then stop talking</li></ul></div>
+  </details>
+
+  <!-- PHASE 11 -->
+  <details class="phase-details">
+    <summary class="phase-summary"><div class="phase-num">11</div><div class="phase-info"><div class="phase-name">Objection Handling</div><div class="phase-tagline">Tie back to anchors. Always.</div></div><span class="phase-chevron">▸</span></summary>
+    <div class="phase-body"><a href="ms-objections.html" class="phase-link-btn">Open Full Script →</a><div class="box takeaway"><span class="box-label">🎯 Key Takeaway</span>No freelancing. Every objection response starts with: “Earlier you told me…” / “We agreed…” / “Based on what I found…”</div><ul class="key-points"><li>Too much money → value, gap, financing, minimum safe option</li><li>Spouse → callback to decision-maker anchor</li><li>Three bids → separate cosmetic shopping from active electrical condition</li><li>Think about it → isolate the real objection</li></ul></div>
+  </details>
+
+  <!-- PHASE 12 -->
+  <details class="phase-details">
+    <summary class="phase-summary"><div class="phase-num">12</div><div class="phase-info"><div class="phase-name">Closing Techniques</div><div class="phase-tagline">Reduction close, payment path, clear next step</div></div><span class="phase-chevron">▸</span></summary>
+    <div class="phase-body"><a href="ms-objections.html#phase12" class="phase-link-btn">Open Full Script →</a><div class="box takeaway"><span class="box-label">🎯 Key Takeaway</span>Close from anchors, not pressure. The customer’s prior words do the heavy lifting.</div><ul class="key-points"><li>Find the gap</li><li>Reduce over useful life</li><li>Offer card or financing</li><li>If they will not buy full scope, downshift to minimum safe option</li></ul></div>
+  </details>
+
+</div>
+
+<div class="footer">
+  Mister Sparky — Technician Script V1.3 &bull; Internal Training Document
+</div>
+
+</body>
+</html>
