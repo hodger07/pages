@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cancellation Analysis — 3-Year Review</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f4f5f7; color: #1a1a2e; line-height: 1.5; }
+  
+  /* Header */
+  .header { background: #1a1a2e; color: white; padding: 36px 48px 28px; }
+  .header h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 6px; }
+  .header .subtitle { font-size: 15px; color: #8892a4; font-weight: 400; }
+  .header .meta { margin-top: 12px; font-size: 12px; color: #5a6378; text-transform: uppercase; letter-spacing: 0.08em; }
+
+  /* Container */
+  .container { max-width: 1200px; margin: 0 auto; padding: 32px 24px; }
+
+  /* Section titles */
+  .section-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #5a6378; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #e2e5ea; }
+
+  /* KPI Cards */
+  .kpi-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; margin-bottom: 36px; }
+  .kpi-card { background: white; border-radius: 10px; padding: 20px 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); border-top: 3px solid #e2e5ea; }
+  .kpi-card.green { border-top-color: #22c55e; }
+  .kpi-card.yellow { border-top-color: #f59e0b; }
+  .kpi-card.orange { border-top-color: #f97316; }
+  .kpi-card.red { border-top-color: #ef4444; }
+  .kpi-card.blue { border-top-color: #3b82f6; }
+  .kpi-card.purple { border-top-color: #8b5cf6; }
+  .kpi-label { font-size: 11px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; margin-bottom: 8px; }
+  .kpi-value { font-size: 28px; font-weight: 800; color: #1a1a2e; line-height: 1; }
+  .kpi-delta { font-size: 13px; margin-top: 6px; font-weight: 600; }
+  .delta-up { color: #ef4444; }
+  .delta-down { color: #22c55e; }
+  .delta-neutral { color: #6b7280; }
+
+  /* Territory Grid */
+  .territory-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 36px; }
+  .territory-card { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+  .territory-name { font-size: 16px; font-weight: 700; margin-bottom: 14px; color: #1a1a2e; display: flex; align-items: center; gap: 8px; }
+  .territory-badge { font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 700; text-transform: uppercase; }
+  .badge-warning { background: #fef3c7; color: #92400e; }
+  .badge-danger { background: #fee2e2; color: #991b1b; }
+  .badge-improving { background: #dcfce7; color: #166534; }
+
+  /* Comparison Table */
+  .table-wrap { background: white; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); overflow: hidden; margin-bottom: 36px; }
+  table { width: 100%; border-collapse: collapse; }
+  th { background: #1a1a2e; color: white; padding: 12px 14px; font-size: 12px; font-weight: 600; text-align: left; text-transform: uppercase; letter-spacing: 0.05em; }
+  th.center { text-align: center; }
+  td { padding: 11px 14px; font-size: 13px; border-bottom: 1px solid #f0f1f3; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #fafafa; }
+  td.center { text-align: center; }
+  td.bold { font-weight: 700; }
+  .cr-green { background: #dcfce7; color: #166534; font-weight: 700; border-radius: 4px; padding: 3px 8px; display: inline-block; }
+  .cr-yellow { background: #fef9c3; color: #854d0e; font-weight: 700; border-radius: 4px; padding: 3px 8px; display: inline-block; }
+  .cr-orange { background: #ffedd5; color: #9a3412; font-weight: 700; border-radius: 4px; padding: 3px 8px; display: inline-block; }
+  .cr-red { background: #fee2e2; color: #991b1b; font-weight: 700; border-radius: 4px; padding: 3px 8px; display: inline-block; }
+  .delta-cell-up { color: #ef4444; font-weight: 700; }
+  .delta-cell-down { color: #22c55e; font-weight: 700; }
+
+  /* Narrative sections */
+  .narrative { background: white; border-radius: 10px; padding: 28px 32px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); margin-bottom: 24px; }
+  .narrative h3 { font-size: 18px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+  .narrative-icon { font-size: 22px; }
+  .insight { margin-bottom: 14px; line-height: 1.65; font-size: 14px; color: #374151; }
+  .insight-label { font-weight: 800; color: #1a1a2e; }
+  .reason-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 16px; }
+  .reason-col h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #6b7280; margin-bottom: 10px; }
+  .reason-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid #f3f4f6; font-size: 13px; }
+  .reason-name { color: #374151; }
+  .reason-count { font-weight: 700; color: #1a1a2e; background: #f3f4f6; padding: 2px 8px; border-radius: 20px; font-size: 12px; }
+
+  /* Monthly bar charts */
+  .chart-section { background: white; border-radius: 10px; padding: 28px 32px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); margin-bottom: 24px; }
+  .chart-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .chart-title { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+  .bar-chart { display: flex; align-items: flex-end; gap: 3px; height: 100px; }
+  .bar-group { display: flex; flex-direction: column; align-items: center; flex: 1; }
+  .bar-stack { display: flex; align-items: flex-end; gap: 1px; height: 80px; width: 100%; justify-content: center; }
+  .bar { width: 6px; border-radius: 2px 2px 0 0; min-height: 2px; }
+  .bar-2023 { background: #93c5fd; }
+  .bar-2024 { background: #f87171; }
+  .bar-2025 { background: #4ade80; }
+  .bar-label { font-size: 8px; color: #9ca3af; margin-top: 4px; text-align: center; }
+  .chart-legend { display: flex; gap: 16px; margin-bottom: 12px; font-size: 11px; }
+  .legend-item { display: flex; align-items: center; gap: 5px; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+
+  /* ZIP table */
+  .zip-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 36px; }
+  .zip-card { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+  .zip-card h4 { font-size: 13px; font-weight: 700; color: #1a1a2e; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .zip-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid #f3f4f6; font-size: 12px; }
+  .zip-row:last-child { border-bottom: none; }
+  .zip-code { font-weight: 600; color: #374151; font-family: monospace; }
+  .zip-meta { display: flex; align-items: center; gap: 8px; }
+  .zip-vol { color: #6b7280; font-size: 11px; }
+  .zip-rate { font-weight: 700; font-size: 12px; padding: 1px 6px; border-radius: 3px; }
+  .zip-arrow { font-size: 11px; }
+  .zip-arrow.up { color: #ef4444; }
+  .zip-arrow.down { color: #22c55e; }
+  .zip-arrow.same { color: #6b7280; }
+
+  /* Recommendations */
+  .recs { background: #1a1a2e; border-radius: 10px; padding: 32px; margin-bottom: 36px; }
+  .recs h3 { color: white; font-size: 18px; font-weight: 700; margin-bottom: 24px; }
+  .rec-item { display: flex; gap: 18px; margin-bottom: 22px; }
+  .rec-num { background: #3b82f6; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; flex-shrink: 0; }
+  .rec-body { flex: 1; }
+  .rec-label { font-size: 14px; font-weight: 800; color: #60a5fa; margin-bottom: 6px; }
+  .rec-text { font-size: 13px; color: #9ca3af; line-height: 1.65; }
+
+  /* Divider */
+  .section-gap { height: 12px; }
+
+  /* Warning callout */
+  .callout { border-left: 4px solid #ef4444; background: #fff5f5; border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 16px 0; }
+  .callout-warning { border-left-color: #f59e0b; background: #fffbeb; }
+  .callout-success { border-left-color: #22c55e; background: #f0fdf4; }
+  .callout p { font-size: 13px; color: #374151; margin: 0; }
+  .callout strong { color: #1a1a2e; }
+
+  /* Footer */
+  .footer { text-align: center; font-size: 11px; color: #9ca3af; padding: 24px; border-top: 1px solid #e5e7eb; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📊 Cancellation Analysis — 3-Year Review: 2023 · 2024 · 2025</h1>
+  <div class="subtitle">Katy &nbsp;·&nbsp; Spring &nbsp;·&nbsp; DFW</div>
+  <div class="meta">Multi-Territory Executive Dashboard &nbsp;|&nbsp; Generated May 2026</div>
+</div>
+
+<div class="container">
+
+  <!-- ─── EXECUTIVE SUMMARY KPIs ─── -->
+  <div class="section-title">Executive Summary — Combined All Territories</div>
+  <div class="kpi-grid">
+    <div class="kpi-card green">
+      <div class="kpi-label">2023 Cancel Rate</div>
+      <div class="kpi-value">14.5%</div>
+      <div class="kpi-delta delta-neutral">Baseline year</div>
+    </div>
+    <div class="kpi-card red">
+      <div class="kpi-label">2024 Cancel Rate</div>
+      <div class="kpi-value">22.0%</div>
+      <div class="kpi-delta delta-up">▲ +7.5pp vs 2023</div>
+    </div>
+    <div class="kpi-card orange">
+      <div class="kpi-label">2025 Cancel Rate</div>
+      <div class="kpi-value">20.8%</div>
+      <div class="kpi-delta delta-down">▼ -1.2pp vs 2024</div>
+    </div>
+    <div class="kpi-card blue">
+      <div class="kpi-label">2025 Total Jobs</div>
+      <div class="kpi-value">10,261</div>
+      <div class="kpi-delta delta-down">▲ +30.9% vs 2023</div>
+    </div>
+    <div class="kpi-card purple">
+      <div class="kpi-label">2025 Cancels</div>
+      <div class="kpi-value">2,136</div>
+      <div class="kpi-delta delta-up">▲ +88.5% vs 2023</div>
+    </div>
+    <div class="kpi-card yellow">
+      <div class="kpi-label">YoY Cancel Delta</div>
+      <div class="kpi-value">-93</div>
+      <div class="kpi-delta delta-down">▼ -4.2% fewer cancels</div>
+    </div>
+  </div>
+
+  <!-- ─── TERRITORY COMPARISON TABLE ─── -->
+  <div class="section-title">Territory Performance Comparison — All Years</div>
+  <div class="table-wrap" style="margin-bottom:36px;">
+    <table>
+      <thead>
+        <tr>
+          <th>Territory</th>
+          <th class="center">2023 Jobs</th>
+          <th class="center">2023 Cancel%</th>
+          <th class="center">2024 Jobs</th>
+          <th class="center">2024 Cancel%</th>
+          <th class="center">Δ '23→'24</th>
+          <th class="center">2025 Jobs</th>
+          <th class="center">2025 Cancel%</th>
+          <th class="center">Δ '24→'25</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="bold">Katy</td>
+          <td class="center">4,136</td>
+          <td class="center"><span class="cr-green">12.4%</span></td>
+          <td class="center">5,471</td>
+          <td class="center"><span class="cr-orange">22.3%</span></td>
+          <td class="center delta-cell-up">▲ +9.9pp</td>
+          <td class="center">5,376</td>
+          <td class="center"><span class="cr-orange">20.3%</span></td>
+          <td class="center delta-cell-down">▼ -2.0pp</td>
+        </tr>
+        <tr>
+          <td class="bold">Spring</td>
+          <td class="center">2,063</td>
+          <td class="center"><span class="cr-green">13.5%</span></td>
+          <td class="center">2,722</td>
+          <td class="center"><span class="cr-orange">22.5%</span></td>
+          <td class="center delta-cell-up">▲ +9.0pp</td>
+          <td class="center">2,700</td>
+          <td class="center"><span class="cr-orange">19.9%</span></td>
+          <td class="center delta-cell-down">▼ -2.6pp</td>
+        </tr>
+        <tr>
+          <td class="bold">DFW</td>
+          <td class="center">1,640</td>
+          <td class="center"><span class="cr-orange">20.9%</span></td>
+          <td class="center">1,943</td>
+          <td class="center"><span class="cr-orange">20.3%</span></td>
+          <td class="center delta-cell-down">▼ -0.6pp</td>
+          <td class="center">2,185</td>
+          <td class="center"><span class="cr-red">23.4%</span></td>
+          <td class="center delta-cell-up">▲ +3.1pp ⚠️</td>
+        </tr>
+        <tr style="background:#f8fafc; font-weight:600;">
+          <td class="bold">Combined</td>
+          <td class="center">7,839</td>
+          <td class="center"><span class="cr-green">14.5%</span></td>
+          <td class="center">10,136</td>
+          <td class="center"><span class="cr-orange">22.0%</span></td>
+          <td class="center delta-cell-up">▲ +7.5pp</td>
+          <td class="center">10,261</td>
+          <td class="center"><span class="cr-orange">20.8%</span></td>
+          <td class="center delta-cell-down">▼ -1.2pp</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Color key -->
+  <div style="display:flex; gap:20px; margin-bottom:36px; font-size:12px; align-items:center; flex-wrap:wrap;">
+    <strong style="color:#6b7280; text-transform:uppercase; letter-spacing:0.06em; font-size:11px;">Cancel Rate Key:</strong>
+    <span><span class="cr-green">●</span> ≤15% — Healthy</span>
+    <span><span class="cr-yellow">●</span> 15–20% — Caution</span>
+    <span><span class="cr-orange">●</span> 20–25% — Elevated</span>
+    <span><span class="cr-red">●</span> &gt;25% — Critical</span>
+  </div>
+
+  <!-- ─── THE SPIKE STORY ─── -->
+  <div class="section-title">The Spike Story — What Happened in 2024?</div>
+  <div class="narrative" style="margin-bottom:24px;">
+    <h3><span class="narrative-icon">📈</span> Cancel Rates Nearly Doubled in Katy &amp; Spring</h3>
+
+    <div class="insight">
+      <span class="insight-label">The Magnitude:</span> Between 2023 and 2024, Katy's cancel rate surged from 12.4% to 22.3% (+9.9pp) and Spring jumped from 13.5% to 22.5% (+9.0pp). In absolute terms, Katy added 709 additional cancellations and Spring added 335 — on top of volume growth of ~32%. The system was getting busier and leakier at the same time.
+    </div>
+    <div class="insight">
+      <span class="insight-label">Timing:</span> The spike was not gradual. It concentrated in summer 2024. Katy hit 34.0% in July. Spring hit 33.8% in July. Combined, July 2024 posted a 31.3% cancel rate — nearly 1-in-3 booked jobs walking. Q1 2024 was actually normal (12–17% range), meaning whatever drove this hit hard and fast around May–July.
+    </div>
+    <div class="insight">
+      <span class="insight-label">The Reason Shift:</span> In 2023, the top cancel reasons were diffuse and operational (unlisted/other, customer fixed issue, changed mind). In 2024, "Changed Mind" exploded — becoming the #1 reason with 560 combined instances (up from 206 in 2023). This suggests a demand generation or booking quality problem, not a dispatch or service problem. Customers who weren't ready were being booked.
+    </div>
+
+    <div class="reason-grid">
+      <div class="reason-col">
+        <h4>Katy — 2023 Top Reasons</h4>
+        <div class="reason-row"><span class="reason-name">Other/Not Listed</span><span class="reason-count">138</span></div>
+        <div class="reason-row"><span class="reason-name">Customer Fixed Issue</span><span class="reason-count">91</span></div>
+        <div class="reason-row"><span class="reason-name">Changed Mind</span><span class="reason-count">89</span></div>
+        <div class="reason-row"><span class="reason-name">Found Another Company</span><span class="reason-count">65</span></div>
+        <div class="reason-row"><span class="reason-name">Schedule Conflict</span><span class="reason-count">49</span></div>
+      </div>
+      <div class="reason-col">
+        <h4>Katy — 2024 Top Reasons</h4>
+        <div class="reason-row"><span class="reason-name">Changed Mind ⚡</span><span class="reason-count">308</span></div>
+        <div class="reason-row"><span class="reason-name">Customer Fixed Issue</span><span class="reason-count">234</span></div>
+        <div class="reason-row"><span class="reason-name">Other/Not Listed</span><span class="reason-count">222</span></div>
+        <div class="reason-row"><span class="reason-name">Found Another Company</span><span class="reason-count">183</span></div>
+        <div class="reason-row"><span class="reason-name">Schedule Conflict</span><span class="reason-count">138</span></div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:20px;">
+      <p><strong>"Changed Mind"</strong> grew 246% in Katy (89→308) and 267% in Spring (46→169). This is the loudest signal in the dataset. Customers booking and then backing out suggests urgency-driven or incentive-driven booking that doesn't hold when appointment day arrives.</p>
+    </div>
+  </div>
+
+  <!-- ─── DFW WARNING ─── -->
+  <div class="section-title">⚠️ DFW Warning — The Territory Still Moving the Wrong Direction</div>
+  <div class="narrative" style="margin-bottom:24px; border-left: 4px solid #ef4444;">
+    <h3><span class="narrative-icon">🚨</span> DFW Is the Outlier — Worst Cancel Rate &amp; Still Climbing</h3>
+
+    <div class="insight">
+      <span class="insight-label">The Problem:</span> While Katy and Spring improved in 2025, DFW went the other way. Cancel rate rose from 20.3% (2024) to 23.4% (2025) — a +3.1pp deterioration. DFW is now the highest-cancel territory and has never been below 20% in the 3-year period.
+    </div>
+    <div class="insight">
+      <span class="insight-label">Volume Tells the Story:</span> DFW is the only territory that grew volume in both 2024 (+18.5%) and 2025 (+12.5%). They're adding jobs but not fixing the cancel problem. That's a quality-over-quantity warning: more bookings at a broken close rate means more waste, not more revenue.
+    </div>
+    <div class="insight">
+      <span class="insight-label">November–December 2025 Emergency:</span> DFW posted 32.9% in November and 28.6% in December 2025. That's a Q4 collapse. Combined with July 2025 at 28.7%, there's a pattern of seasonal or structural failure in DFW that isn't resolving on its own.
+    </div>
+
+    <div class="reason-grid">
+      <div class="reason-col">
+        <h4>DFW — 2023 Cancel Reasons</h4>
+        <div class="reason-row"><span class="reason-name">Other/Not Listed</span><span class="reason-count">88</span></div>
+        <div class="reason-row"><span class="reason-name">Changed Mind</span><span class="reason-count">71</span></div>
+        <div class="reason-row"><span class="reason-name">Customer Fixed Issue</span><span class="reason-count">51</span></div>
+        <div class="reason-row"><span class="reason-name">Found Another Company</span><span class="reason-count">49</span></div>
+        <div class="reason-row"><span class="reason-name">Competitor Beat Price</span><span class="reason-count">22</span></div>
+      </div>
+      <div class="reason-col">
+        <h4>DFW — 2025 Cancel Reasons</h4>
+        <div class="reason-row"><span class="reason-name">Customer Fixed Issue</span><span class="reason-count">80</span></div>
+        <div class="reason-row"><span class="reason-name">Schedule Conflict</span><span class="reason-count">58</span></div>
+        <div class="reason-row"><span class="reason-name">Found Another Company ⚡</span><span class="reason-count">54</span></div>
+        <div class="reason-row"><span class="reason-name">Other/Not Listed</span><span class="reason-count">52</span></div>
+        <div class="reason-row"><span class="reason-name">No Confirmation on ETA</span><span class="reason-count">39</span></div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:20px;">
+      <p><strong>DFW's growing "No Confirmation on ETA" (39 in 2025 vs baseline)</strong> and "Found Another Company Sooner" point to a dispatch communication and speed-to-service problem — different root cause than Katy/Spring's booking quality issue. DFW needs faster dispatch confirmation and a win-back process for at-risk jobs.</p>
+    </div>
+  </div>
+
+  <!-- ─── 2025 RECOVERY ─── -->
+  <div class="section-title">2025 Recovery — What Changed in Katy &amp; Spring?</div>
+  <div class="narrative" style="margin-bottom:24px; border-left: 4px solid #22c55e;">
+    <h3><span class="narrative-icon">✅</span> Real Improvement — but Still Well Above 2023 Levels</h3>
+
+    <div class="insight">
+      <span class="insight-label">The Good News:</span> Katy dropped 2.0pp (22.3%→20.3%) and Spring dropped 2.6pp (22.5%→19.9%) in 2025. Both territories also saw absolute cancel counts fall — Katy by 132 fewer cancels, Spring by 77 fewer — while jobs stayed roughly flat. That's genuine operational improvement.
+    </div>
+    <div class="insight">
+      <span class="insight-label">What Changed in the Reasons:</span> The big story is the collapse of "Changed Mind" — Katy fell from 308 to 53, Spring from 169 to 25. Whatever booking or confirmation process tightened in 2025, it worked. In its place, "Service Not Offered" emerged (Katy 96, Spring 36) — suggesting scope clarity issues that need addressing.
+    </div>
+    <div class="insight">
+      <span class="insight-label">What Didn't Change:</span> Summer still spikes. Katy hit 28.5% in July 2025. Spring hit 30.8% in July 2025. The seasonal pattern is persistent. The improvement happened in Q1 and Q4, not summer — which means the intervention hasn't solved the volume surge problem.
+    </div>
+
+    <div class="reason-grid">
+      <div class="reason-col">
+        <h4>Katy — 2024 Top Reasons</h4>
+        <div class="reason-row"><span class="reason-name">Changed Mind</span><span class="reason-count">308</span></div>
+        <div class="reason-row"><span class="reason-name">Customer Fixed Issue</span><span class="reason-count">234</span></div>
+        <div class="reason-row"><span class="reason-name">Found Another Company</span><span class="reason-count">183</span></div>
+        <div class="reason-row"><span class="reason-name">Schedule Conflict</span><span class="reason-count">138</span></div>
+        <div class="reason-row"><span class="reason-name">Other/Not Listed</span><span class="reason-count">222</span></div>
+      </div>
+      <div class="reason-col">
+        <h4>Katy — 2025 Top Reasons</h4>
+        <div class="reason-row"><span class="reason-name">Customer Fixed Issue</span><span class="reason-count">185</span></div>
+        <div class="reason-row"><span class="reason-name">Found Another Company</span><span class="reason-count">156</span></div>
+        <div class="reason-row"><span class="reason-name">Schedule Conflict</span><span class="reason-count">143</span></div>
+        <div class="reason-row"><span class="reason-name">Service Not Offered ⚡</span><span class="reason-count">96</span></div>
+        <div class="reason-row"><span class="reason-name">Changed Mind ▼</span><span class="reason-count">53</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── MONTHLY TREND CHARTS ─── -->
+  <div class="section-title">Monthly Cancel Rate Trends — All Territories (2023 · 2024 · 2025)</div>
+  <div class="chart-section" style="margin-bottom:36px;">
+    <div class="chart-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#93c5fd;"></div> 2023</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#f87171;"></div> 2024</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#4ade80;"></div> 2025</div>
+    </div>
+    <div class="chart-grid">
+      <div>
+        <div class="chart-title">Katy</div>
+        <div class="bar-chart">
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:21px;" title="2023 J: 9.7%"></div>
+              <div class="bar bar-2024" style="height:39px;" title="2024 J: 17.6%"></div>
+              <div class="bar bar-2025" style="height:43px;" title="2025 J: 19.6%"></div>
+            </div>
+            <div class="bar-label">J</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:21px;" title="2023 F: 9.4%"></div>
+              <div class="bar bar-2024" style="height:32px;" title="2024 F: 14.6%"></div>
+              <div class="bar bar-2025" style="height:43px;" title="2025 F: 19.3%"></div>
+            </div>
+            <div class="bar-label">F</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:20px;" title="2023 M: 9.0%"></div>
+              <div class="bar bar-2024" style="height:28px;" title="2024 M: 12.7%"></div>
+              <div class="bar bar-2025" style="height:34px;" title="2025 M: 15.3%"></div>
+            </div>
+            <div class="bar-label">M</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:25px;" title="2023 A: 11.4%"></div>
+              <div class="bar bar-2024" style="height:28px;" title="2024 A: 12.8%"></div>
+              <div class="bar bar-2025" style="height:39px;" title="2025 A: 17.7%"></div>
+            </div>
+            <div class="bar-label">A</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:26px;" title="2023 M: 11.9%"></div>
+              <div class="bar bar-2024" style="height:57px;" title="2024 M: 25.9%"></div>
+              <div class="bar bar-2025" style="height:30px;" title="2025 M: 13.7%"></div>
+            </div>
+            <div class="bar-label">M</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:24px;" title="2023 J: 10.8%"></div>
+              <div class="bar bar-2024" style="height:61px;" title="2024 J: 27.7%"></div>
+              <div class="bar bar-2025" style="height:54px;" title="2025 J: 24.3%"></div>
+            </div>
+            <div class="bar-label">J</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:30px;" title="2023 J: 13.8%"></div>
+              <div class="bar bar-2024" style="height:76px;" title="2024 J: 34.0%"></div>
+              <div class="bar bar-2025" style="height:63px;" title="2025 J: 28.5%"></div>
+            </div>
+            <div class="bar-label">J</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:25px;" title="2023 A: 11.4%"></div>
+              <div class="bar bar-2024" style="height:64px;" title="2024 A: 28.8%"></div>
+              <div class="bar bar-2025" style="height:58px;" title="2025 A: 26.0%"></div>
+            </div>
+            <div class="bar-label">A</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:27px;" title="2023 S: 12.5%"></div>
+              <div class="bar bar-2024" style="height:52px;" title="2024 S: 23.4%"></div>
+              <div class="bar bar-2025" style="height:32px;" title="2025 S: 14.7%"></div>
+            </div>
+            <div class="bar-label">S</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:25px;" title="2023 O: 11.2%"></div>
+              <div class="bar bar-2024" style="height:36px;" title="2024 O: 16.2%"></div>
+              <div class="bar bar-2025" style="height:41px;" title="2025 O: 18.5%"></div>
+            </div>
+            <div class="bar-label">O</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:36px;" title="2023 N: 16.2%"></div>
+              <div class="bar bar-2024" style="height:35px;" title="2024 N: 15.8%"></div>
+              <div class="bar bar-2025" style="height:40px;" title="2025 N: 18.3%"></div>
+            </div>
+            <div class="bar-label">N</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:45px;" title="2023 D: 20.5%"></div>
+              <div class="bar bar-2024" style="height:48px;" title="2024 D: 21.9%"></div>
+              <div class="bar bar-2025" style="height:46px;" title="2025 D: 20.9%"></div>
+            </div>
+            <div class="bar-label">D</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="chart-title">Spring</div>
+        <div class="bar-chart">
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:32px;" title="2023 J: 14.6%"></div>
+              <div class="bar bar-2024" style="height:49px;" title="2024 J: 21.9%"></div>
+              <div class="bar bar-2025" style="height:37px;" title="2025 J: 16.7%"></div>
+            </div>
+            <div class="bar-label">J</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:18px;" title="2023 F: 8.3%"></div>
+              <div class="bar bar-2024" style="height:42px;" title="2024 F: 18.9%"></div>
+              <div class="bar bar-2025" style="height:38px;" title="2025 F: 17.2%"></div>
+            </div>
+            <div class="bar-label">F</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:23px;" title="2023 M: 10.3%"></div>
+              <div class="bar bar-2024" style="height:16px;" title="2024 M: 7.3%"></div>
+              <div class="bar bar-2025" style="height:42px;" title="2025 M: 19.0%"></div>
+            </div>
+            <div class="bar-label">M</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:13px;" title="2023 A: 5.8%"></div>
+              <div class="bar bar-2024" style="height:29px;" title="2024 A: 13.3%"></div>
+              <div class="bar bar-2025" style="height:29px;" title="2025 A: 13.1%"></div>
+            </div>
+            <div class="bar-label">A</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:28px;" title="2023 M: 12.6%"></div>
+              <div class="bar bar-2024" style="height:57px;" title="2024 M: 25.6%"></div>
+              <div class="bar bar-2025" style="height:43px;" title="2025 M: 19.5%"></div>
+            </div>
+            <div class="bar-label">M</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:39px;" title="2023 J: 17.7%"></div>
+              <div class="bar bar-2024" style="height:59px;" title="2024 J: 26.3%"></div>
+              <div class="bar bar-2025" style="height:50px;" title="2025 J: 22.6%"></div>
+            </div>
+            <div class="bar-label">J</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:35px;" title="2023 J: 15.9%"></div>
+              <div class="bar bar-2024" style="height:76px;" title="2024 J: 33.8%"></div>
+              <div class="bar bar-2025" style="height:69px;" title="2025 J: 30.8%"></div>
+            </div>
+            <div class="bar-label">J</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:22px;" title="2023 A: 10.1%"></div>
+              <div class="bar bar-2024" style="height:56px;" title="2024 A: 25.3%"></div>
+              <div class="bar bar-2025" style="height:50px;" title="2025 A: 22.3%"></div>
+            </div>
+            <div class="bar-label">A</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:30px;" title="2023 S: 13.4%"></div>
+              <div class="bar bar-2024" style="height:42px;" title="2024 S: 18.8%"></div>
+              <div class="bar bar-2025" style="height:24px;" title="2025 S: 10.9%"></div>
+            </div>
+            <div class="bar-label">S</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:33px;" title="2023 O: 15.1%"></div>
+              <div class="bar bar-2024" style="height:46px;" title="2024 O: 20.9%"></div>
+              <div class="bar bar-2025" style="height:37px;" title="2025 O: 16.7%"></div>
+            </div>
+            <div class="bar-label">O</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:26px;" title="2023 N: 11.7%"></div>
+              <div class="bar bar-2024" style="height:46px;" title="2024 N: 20.6%"></div>
+              <div class="bar bar-2025" style="height:49px;" title="2025 N: 22.1%"></div>
+            </div>
+            <div class="bar-label">N</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:49px;" title="2023 D: 21.8%"></div>
+              <div class="bar bar-2024" style="height:52px;" title="2024 D: 23.2%"></div>
+              <div class="bar bar-2025" style="height:51px;" title="2025 D: 23.0%"></div>
+            </div>
+            <div class="bar-label">D</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="chart-title">DFW</div>
+        <div class="bar-chart">
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:33px;" title="2023 J: 14.6%"></div>
+              <div class="bar bar-2024" style="height:55px;" title="2024 J: 24.2%"></div>
+              <div class="bar bar-2025" style="height:43px;" title="2025 J: 18.9%"></div>
+            </div>
+            <div class="bar-label">J</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:39px;" title="2023 F: 17.3%"></div>
+              <div class="bar bar-2024" style="height:39px;" title="2024 F: 17.3%"></div>
+              <div class="bar bar-2025" style="height:51px;" title="2025 F: 22.4%"></div>
+            </div>
+            <div class="bar-label">F</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:27px;" title="2023 M: 11.7%"></div>
+              <div class="bar bar-2024" style="height:43px;" title="2024 M: 18.8%"></div>
+              <div class="bar bar-2025" style="height:33px;" title="2025 M: 14.6%"></div>
+            </div>
+            <div class="bar-label">M</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:40px;" title="2023 A: 17.6%"></div>
+              <div class="bar bar-2024" style="height:41px;" title="2024 A: 17.9%"></div>
+              <div class="bar bar-2025" style="height:38px;" title="2025 A: 16.6%"></div>
+            </div>
+            <div class="bar-label">A</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:40px;" title="2023 M: 17.6%"></div>
+              <div class="bar bar-2024" style="height:50px;" title="2024 M: 22.0%"></div>
+              <div class="bar bar-2025" style="height:51px;" title="2025 M: 22.3%"></div>
+            </div>
+            <div class="bar-label">M</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:51px;" title="2023 J: 22.3%"></div>
+              <div class="bar bar-2024" style="height:52px;" title="2024 J: 22.6%"></div>
+              <div class="bar bar-2025" style="height:64px;" title="2025 J: 27.8%"></div>
+            </div>
+            <div class="bar-label">J</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:51px;" title="2023 J: 22.2%"></div>
+              <div class="bar bar-2024" style="height:33px;" title="2024 J: 14.6%"></div>
+              <div class="bar bar-2025" style="height:66px;" title="2025 J: 28.7%"></div>
+            </div>
+            <div class="bar-label">J</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:64px;" title="2023 A: 27.9%"></div>
+              <div class="bar bar-2024" style="height:49px;" title="2024 A: 21.6%"></div>
+              <div class="bar bar-2025" style="height:45px;" title="2025 A: 19.6%"></div>
+            </div>
+            <div class="bar-label">A</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:65px;" title="2023 S: 28.3%"></div>
+              <div class="bar bar-2024" style="height:36px;" title="2024 S: 16.0%"></div>
+              <div class="bar bar-2025" style="height:53px;" title="2025 S: 23.2%"></div>
+            </div>
+            <div class="bar-label">S</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:63px;" title="2023 O: 27.5%"></div>
+              <div class="bar bar-2024" style="height:46px;" title="2024 O: 20.1%"></div>
+              <div class="bar bar-2025" style="height:56px;" title="2025 O: 24.3%"></div>
+            </div>
+            <div class="bar-label">O</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:46px;" title="2023 N: 20.1%"></div>
+              <div class="bar bar-2024" style="height:54px;" title="2024 N: 23.6%"></div>
+              <div class="bar bar-2025" style="height:76px;" title="2025 N: 32.9%"></div>
+            </div>
+            <div class="bar-label">N</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-stack">
+              <div class="bar bar-2023" style="height:48px;" title="2023 D: 21.1%"></div>
+              <div class="bar bar-2024" style="height:51px;" title="2024 D: 22.2%"></div>
+              <div class="bar bar-2025" style="height:66px;" title="2025 D: 28.6%"></div>
+            </div>
+            <div class="bar-label">D</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── TOP ZIPS ─── -->
+  <div class="section-title">Top ZIPs by Volume — Cancel Rate &amp; Year-over-Year Direction</div>
+  <div class="zip-grid" style="margin-bottom:36px;">
+    <div class="zip-card">
+      <h4>Katy — Top ZIPs (2025 Volume)</h4>
+      <div class="zip-row">
+        <span class="zip-code">77494</span>
+        <span class="zip-meta">
+          <span class="zip-vol">9.0% → 19.4% →</span>
+          <span class="zip-rate cr-yellow">18.6%</span>
+          <span class="zip-arrow same">→</span>
+          <span class="zip-vol">(442 jobs)</span>
+        </span>
+      </div>
+      <div class="zip-row">
+        <span class="zip-code">77459</span>
+        <span class="zip-meta">
+          <span class="zip-vol">13.0% → 23.2% →</span>
+          <span class="zip-rate cr-yellow">17.6%</span>
+          <span class="zip-arrow down">▼</span>
+          <span class="zip-vol">(262 jobs)</span>
+        </span>
+      </div>
+      <div class="zip-row">
+        <span class="zip-code">77433</span>
+        <span class="zip-meta">
+          <span class="zip-vol">14.2% → 21.7% →</span>
+          <span class="zip-rate cr-orange">21.5%</span>
+          <span class="zip-arrow same">→</span>
+          <span class="zip-vol">(261 jobs)</span>
+        </span>
+      </div>
+      <div class="zip-row">
+        <span class="zip-code">77479</span>
+        <span class="zip-meta">
+          <span class="zip-vol">13.0% → 22.8% →</span>
+          <span class="zip-rate cr-orange">24.3%</span>
+          <span class="zip-arrow up">▲</span>
+          <span class="zip-vol">(259 jobs)</span>
+        </span>
+      </div>
+      <div class="zip-row">
+        <span class="zip-code">77450</span>
+        <span class="zip-meta">
+          <span class="zip-vol">13.3% → 19.4% →</span>
+          <span class="zip-rate cr-green">13.7%</span>
+          <span class="zip-arrow down">▼</span>
+          <span class="zip-vol">(234 jobs)</span>
+        </span>
+      </div>
+    </div>
+    <div class="zip-card">
+      <h4>Spring — Top ZIPs (2025 Volume)</h4>
+      <div class="zip-row">
+        <span class="zip-code">77379</span>
+        <span class="zip-meta">
+          <span class="zip-vol">7.9% → 24.2% →</span>
+          <span class="zip-rate cr-green">13.4%</span>
+          <span class="zip-arrow down">▼</span>
+          <span class="zip-vol">(217 jobs)</span>
+        </span>
+      </div>
+      <div class="zip-row">
+        <span class="zip-code">77429</span>
+        <span class="zip-meta">
+          <span class="zip-vol">8.9% → 18.3% →</span>
+          <span class="zip-rate cr-yellow">18.8%</span>
+          <span class="zip-arrow same">→</span>
+          <span class="zip-vol">(202 jobs)</span>
+        </span>
+      </div>
+      <div class="zip-row">
+        <span class="zip-code">77386</span>
+        <span class="zip-meta">
+          <span class="zip-vol">16.7% → 19.0% →</span>
+          <span class="zip-rate cr-yellow">16.3%</span>
+          <span class="zip-arrow down">▼</span>
+          <span class="zip-vol">(147 jobs)</span>
+        </span>
+      </div>
+      <div class="zip-row">
+        <span class="zip-code">77346</span>
+        <span class="zip-meta">
+          <span class="zip-vol">19.2% → 24.4% →</span>
+          <span class="zip-rate cr-red">25.6%</span>
+          <span class="zip-arrow up">▲</span>
+          <span class="zip-vol">(125 jobs)</span>
+        </span>
+      </div>
+      <div class="zip-row">
+        <span class="zip-code">77388</span>
+        <span class="zip-meta">
+          <span class="zip-vol">5.2% → 18.0% →</span>
+          <span class="zip-rate cr-yellow">17.0%</span>
+          <span class="zip-arrow same">→</span>
+          <span class="zip-vol">(106 jobs)</span>
+        </span>
+      </div>
+    </div>
+    <div class="zip-card">
+      <h4>DFW — Top ZIPs (2025 Volume)</h4>
+      <div class="zip-row">
+        <span class="zip-code">75063</span>
+        <span class="zip-meta">
+          <span class="zip-vol">20.0% → 28.3% →</span>
+          <span class="zip-rate cr-red">29.4%</span>
+          <span class="zip-arrow up">▲</span>
+          <span class="zip-vol">(68 jobs)</span>
+        </span>
+      </div>
+      <div class="zip-row">
+        <span class="zip-code">75019</span>
+        <span class="zip-meta">
+          <span class="zip-vol">13.2% → 21.0% →</span>
+          <span class="zip-rate cr-red">27.0%</span>
+          <span class="zip-arrow up">▲</span>
+          <span class="zip-vol">(63 jobs)</span>
+        </span>
+      </div>
+      <div class="zip-row">
+        <span class="zip-code">75035</span>
+        <span class="zip-meta">
+          <span class="zip-vol">30.8% → 25.8% →</span>
+          <span class="zip-rate cr-red">35.6%</span>
+          <span class="zip-arrow up">▲</span>
+          <span class="zip-vol">(59 jobs)</span>
+        </span>
+      </div>
+      <div class="zip-row">
+        <span class="zip-code">75062</span>
+        <span class="zip-meta">
+          <span class="zip-vol">20.0% → 19.5% →</span>
+          <span class="zip-rate cr-yellow">18.5%</span>
+          <span class="zip-arrow same">→</span>
+          <span class="zip-vol">(54 jobs)</span>
+        </span>
+      </div>
+      <div class="zip-row">
+        <span class="zip-code">75002</span>
+        <span class="zip-meta">
+          <span class="zip-vol">16.7% → N/A →</span>
+          <span class="zip-rate cr-red">26.4%</span>
+          
+          <span class="zip-vol">(53 jobs)</span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── RECOMMENDATIONS ─── -->
+  <div class="section-title">Action Plan — Data-Grounded Recommendations</div>
+  <div class="recs">
+    <h3>📋 What to Do</h3>
+
+    <div class="rec-item">
+      <div class="rec-num">1</div>
+      <div class="rec-body">
+        <div class="rec-label">Intervene in DFW Immediately — It's a Different Problem Than Katy/Spring</div>
+        <div class="rec-text">DFW's top 2025 cancel drivers are "No Confirmation on ETA" (39), "Found Another Company Sooner" (54), and "Schedule Conflict" (58) — these are dispatch and communication failures, not booking quality failures. Deploy same-day confirmation texts and tighten the technician dispatch window from the moment of booking. DFW's Nov 2025 (32.9%) and Dec 2025 (28.6%) are Q4 emergencies that suggest the problem is accelerating, not stabilizing.</div>
+      </div>
+    </div>
+
+    <div class="rec-item">
+      <div class="rec-num">2</div>
+      <div class="rec-body">
+        <div class="rec-label">Address "Service Not Offered" Before It Becomes the New #1 Reason</div>
+        <div class="rec-text">In 2025, Katy logged 96 "Service Not Offered" cancellations and Spring logged 36 — a reason that barely appeared in prior years. This is a scope mismatch at booking: either CSRs are booking jobs outside the field team's capabilities, or the service catalog changed without updating the booking intake. Audit the booking funnel for service-type mismatches. Every "Service Not Offered" cancel is 100% preventable at the front end.</div>
+      </div>
+    </div>
+
+    <div class="rec-item">
+      <div class="rec-num">3</div>
+      <div class="rec-body">
+        <div class="rec-label">Build a Summer Surge Playbook — The Seasonal Spike Is Structural</div>
+        <div class="rec-text">July is the worst month across all three territories in all three years. 2024 Combined hit 31.3%. 2025 Combined hit 29.0%. This isn't noise — it's a predictable pattern driven by summer demand volume and longer scheduling windows. Solutions: aggressive confirmation outreach in May–August, shorter booking windows (48–72 hrs max) during peak season, and a dedicated "hot weather" cancel-rescue team that makes same-day saves when cancellations come in.</div>
+      </div>
+    </div>
+
+    <div class="rec-item">
+      <div class="rec-num">4</div>
+      <div class="rec-body">
+        <div class="rec-label">Double Down on What Fixed "Changed Mind" in Katy — Then Export It</div>
+        <div class="rec-text">Katy's "Changed Mind" cancels dropped from 308 (2024) to 53 (2025) — an 83% reduction. Something changed in the booking confirmation or pre-appointment process. Identify exactly what that was (appointment reminder protocol, booking script change, confirmation call timing), document it, and apply it in DFW — where "Changed Mind" is still 36 cancels and the behavioral pattern is less controlled.</div>
+      </div>
+    </div>
+
+    <div class="rec-item">
+      <div class="rec-num">5</div>
+      <div class="rec-body">
+        <div class="rec-label">Target High-Cancel ZIPs with Retention-Focused Outreach</div>
+        <div class="rec-text">ZIP 75035 (DFW) ran 35.6% cancels in 2025 on 59 jobs. ZIP 75093 hit 34.2%. ZIP 77346 (Spring) hit 25.6%. These aren't random — they're geographic clusters that likely share competitor density, demographic, or routing factors. Map cancellation heatmaps by ZIP, deploy competitive pricing research in the top 5 cancel ZIPs per territory, and test a "price match or beat" offer specifically in those codes. The volume is concentrated enough to move the needle.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── FOOTER ─── -->
+  <div class="footer">
+    Data covers MS Katy, MS Spring, MS Dallas + MS Fort Worth (combined as DFW) &nbsp;·&nbsp; 3 full years: 2023, 2024, 2025 &nbsp;·&nbsp; Total jobs analyzed: 28,236
+  </div>
+
+</div>
+</body>
+</html>
