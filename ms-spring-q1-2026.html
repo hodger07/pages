@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MS Spring — Q1 Territory Analysis: 2025 vs 2026</title>
+<style>
+  :root {
+    --red: #C8102E; --gold: #F2A900; --gold-t: #7A5800;
+    --bg: #F7F7F5; --card: #FFFFFF; --border: #E0DDD8;
+    --text: #1A1A1A; --muted: #666; --light: #999;
+    --green: #15803d; --orange: #C2410C;
+    --shadow: 0 1px 4px rgba(0,0,0,0.07);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.6; padding-bottom: 80px; }
+
+  /* ── HEADER ── */
+  .header { background: var(--red); border-bottom: 4px solid var(--gold); padding: 1.8rem 1.5rem 1.5rem; }
+  .header-eyebrow { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.65); margin-bottom: 0.4rem; }
+  .header h1 { font-size: 1.7rem; font-weight: 800; color: #fff; line-height: 1.2; margin-bottom: 0.3rem; }
+  .header-sub { font-size: 0.88rem; color: rgba(255,255,255,0.75); }
+
+  .wrap { max-width: 960px; margin: 0 auto; padding: 1.5rem 1rem 2rem; }
+
+  /* ── SECTION LABELS ── */
+  .section-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); margin: 2rem 0 0.9rem; padding-bottom: 0.4rem; border-bottom: 2px solid var(--red); display: flex; align-items: center; gap: 0.5rem; }
+
+  /* ── KPI GRID ── */
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; margin-bottom: 1.5rem; }
+  .kpi { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.1rem; box-shadow: var(--shadow); }
+  .kpi-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.3rem; }
+  .kpi-value { font-size: 2rem; font-weight: 800; color: var(--text); line-height: 1; margin-bottom: 0.25rem; }
+  .kpi-delta { font-size: 0.78rem; font-weight: 600; }
+  .down { color: var(--orange); }
+  .up-good { color: var(--green); }
+  .kpi-compare { font-size: 0.72rem; color: var(--muted); }
+
+  /* ── STORY BOX ── */
+  .story-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
+  .story-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 0.9rem 1rem; box-shadow: var(--shadow); border-top: 3px solid var(--border); }
+  .story-card.red { border-top-color: var(--red); }
+  .story-card.green { border-top-color: var(--green); }
+  .story-card.gold { border-top-color: var(--gold); }
+  .story-tag { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.35rem; }
+  .story-card p { font-size: 0.85rem; color: var(--text); line-height: 1.55; }
+
+  /* ── TABLES ── */
+  .table-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; box-shadow: var(--shadow); margin-bottom: 1rem; overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+  thead { background: #1A1A1A; }
+  thead th { padding: 0.65rem 0.9rem; text-align: left; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #fff; white-space: nowrap; }
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: #FAFAF8; }
+  td { padding: 0.6rem 0.9rem; vertical-align: middle; white-space: nowrap; }
+  .city-name { font-weight: 700; color: var(--text); }
+  .pos { color: var(--green); font-weight: 700; }
+  .neg { color: var(--orange); font-weight: 700; }
+  .neutral { color: var(--muted); }
+  .flag { display: inline-block; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.15rem 0.45rem; border-radius: 3px; margin-left: 0.4rem; vertical-align: middle; }
+  .flag-expand { background: #D1FAE5; color: var(--green); }
+  .flag-watch { background: #FEF3C7; color: #92400E; }
+  .flag-pullback { background: #FEE2E2; color: #991B1B; }
+
+  /* ── RATE TABLES ── */
+  .rate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
+  .rate-section-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.5rem 0.9rem; border-bottom: 1px solid var(--border); }
+  .worsened .rate-section-label { background: #FEE2E2; color: #991B1B; }
+  .improved .rate-section-label { background: #D1FAE5; color: #166534; }
+
+  /* ── CANCEL REASONS ── */
+  .reasons-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
+  .reason-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 0.85rem 1rem; box-shadow: var(--shadow); display: flex; gap: 0.75rem; align-items: flex-start; }
+  .reason-badge { font-size: 0.65rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: 4px; white-space: nowrap; flex-shrink: 0; }
+  .badge-up { background: #FEE2E2; color: #991B1B; }
+  .badge-down { background: #D1FAE5; color: #166534; }
+  .reason-name { font-weight: 700; font-size: 0.88rem; margin-bottom: 0.2rem; }
+  .reason-detail { font-size: 0.78rem; color: var(--muted); line-height: 1.45; }
+
+  /* ── JOB MIX ── */
+  .mix-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
+  .mix-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 0.9rem 1rem; box-shadow: var(--shadow); }
+  .mix-title { font-weight: 700; font-size: 0.88rem; margin-bottom: 0.25rem; }
+  .mix-nums { font-size: 1.25rem; font-weight: 800; color: var(--text); margin-bottom: 0.2rem; }
+  .mix-detail { font-size: 0.78rem; color: var(--muted); line-height: 1.45; }
+  .bar-wrap { height: 5px; background: var(--border); border-radius: 3px; margin: 0.5rem 0; }
+  .bar { height: 5px; border-radius: 3px; }
+
+  /* ── RECOMMENDATIONS ── */
+  .rec-list { display: flex; flex-direction: column; gap: 0.65rem; }
+  .rec { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 0.9rem 1.1rem; box-shadow: var(--shadow); display: flex; gap: 1rem; align-items: flex-start; }
+  .rec-num { font-size: 1.1rem; font-weight: 900; color: var(--red); flex-shrink: 0; min-width: 1.5rem; line-height: 1.5; }
+  .rec-title { font-weight: 700; font-size: 0.92rem; margin-bottom: 0.2rem; }
+  .rec-body { font-size: 0.83rem; color: var(--muted); line-height: 1.55; }
+
+  /* ── BAR CHART ── */
+  .chart-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.2rem 1.2rem 0.5rem; box-shadow: var(--shadow); margin-bottom: 1rem; }
+  .chart-title { font-size: 0.75rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem; }
+  .chart-row { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem; font-size: 0.8rem; }
+  .chart-city { width: 100px; text-align: right; color: var(--text); font-weight: 600; flex-shrink: 0; font-size: 0.77rem; }
+  .chart-bars { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+  .bar-25 { height: 10px; background: #CBD5E1; border-radius: 2px; }
+  .bar-26 { height: 10px; background: var(--red); border-radius: 2px; opacity: 0.85; }
+  .chart-val { font-size: 0.72rem; color: var(--muted); width: 55px; flex-shrink: 0; }
+  .chart-legend { display: flex; gap: 1rem; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border); }
+  .legend-item { display: flex; align-items: center; gap: 0.35rem; font-size: 0.72rem; color: var(--muted); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+
+  .footer { font-size: 0.7rem; color: var(--light); text-align: center; margin-top: 2.5rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .story-grid, .rate-grid, .reasons-grid, .mix-grid { grid-template-columns: 1fr; }
+    .header h1 { font-size: 1.3rem; }
+    .kpi-value { font-size: 1.6rem; }
+    .chart-city { width: 72px; font-size: 0.7rem; }
+  }
+  @media (max-width: 420px) {
+    .kpi-grid { grid-template-columns: 1fr 1fr; }
+    .wrap { padding: 1rem 0.75rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-eyebrow">Mister Sparky · Spring Territory · Q1 Report</div>
+  <h1>Q1 2026 Territory Analysis</h1>
+  <div class="header-sub">Year-over-Year: Q1 2025 vs Q1 2026 &nbsp;·&nbsp; North Houston / Spring TX &nbsp;·&nbsp; Prepared for Rich Hodge &nbsp;·&nbsp; May 2026</div>
+</div>
+
+<div class="wrap">
+
+  <!-- KPIs -->
+  <div class="section-label">Executive Summary</div>
+  <div class="kpi-grid">
+    <div class="kpi">
+      <div class="kpi-label">Total Jobs</div>
+      <div class="kpi-value">501</div>
+      <div class="kpi-delta down">▼ 16.2% YoY</div>
+      <div class="kpi-compare">598 in Q1 2025</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Completed</div>
+      <div class="kpi-value">424</div>
+      <div class="kpi-delta down">▼ 13.6% YoY</div>
+      <div class="kpi-compare">491 in Q1 2025</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Canceled</div>
+      <div class="kpi-value">77</div>
+      <div class="kpi-delta up-good">▼ 26.7% YoY</div>
+      <div class="kpi-compare">105 in Q1 2025</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Cancel Rate</div>
+      <div class="kpi-value">15.4%</div>
+      <div class="kpi-delta up-good">▼ 2.2pp YoY</div>
+      <div class="kpi-compare">17.6% in Q1 2025</div>
+    </div>
+  </div>
+
+  <div class="story-grid">
+    <div class="story-card red">
+      <div class="story-tag">Volume Story</div>
+      <p>Total Q1 demand fell ~16% year-over-year, yet cancellations dropped ~27% — meaning the team converted a higher share of what booked. Quality improved as volume contracted.</p>
+    </div>
+    <div class="story-card green">
+      <div class="story-tag">Geography Story</div>
+      <p>Houston-proper and Humble lost ~28 jobs each YoY. Spring held flat. Conroe emerged from 3 jobs to 13 (+333%). Center of gravity moved north toward Spring–Tomball–The Woodlands.</p>
+    </div>
+    <div class="story-card gold">
+      <div class="story-tag">Warning Sign</div>
+      <p>"Found Another Company Sooner" nearly doubled (6 → 11) and is now the #2 cancellation reason. Speed-to-close is the issue — not service execution.</p>
+    </div>
+  </div>
+
+  <!-- CITY TABLE -->
+  <div class="section-label">City-Level YoY Movement</div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>City</th>
+          <th>Q1 '25 Jobs</th>
+          <th>Q1 '26 Jobs</th>
+          <th>Δ Volume</th>
+          <th>Q1 '25 Cancels</th>
+          <th>Q1 '26 Cancels</th>
+          <th>Δ Cancels</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="city-name">Spring <span class="flag flag-watch">Watch</span></td><td>179</td><td>175</td><td class="neutral">−4</td><td>23</td><td>26</td><td class="neg">+3</td></tr>
+        <tr><td class="city-name">Houston</td><td>161</td><td>133</td><td class="neg">−28</td><td>32</td><td>25</td><td class="pos">−7</td></tr>
+        <tr><td class="city-name">Humble <span class="flag flag-pullback">Pullback</span></td><td>73</td><td>45</td><td class="neg">−28</td><td>12</td><td>5</td><td class="pos">−7</td></tr>
+        <tr><td class="city-name">Cypress</td><td>37</td><td>28</td><td class="neg">−9</td><td>7</td><td>2</td><td class="pos">−5</td></tr>
+        <tr><td class="city-name">Tomball</td><td>36</td><td>27</td><td class="neg">−9</td><td>4</td><td>7</td><td class="neg">+3</td></tr>
+        <tr><td class="city-name">Kingwood</td><td>27</td><td>27</td><td class="neutral">0</td><td>6</td><td>4</td><td class="pos">−2</td></tr>
+        <tr><td class="city-name">Magnolia</td><td>24</td><td>17</td><td class="neg">−7</td><td>3</td><td>3</td><td class="neutral">0</td></tr>
+        <tr><td class="city-name">The Woodlands</td><td>10</td><td>9</td><td class="neg">−1</td><td>4</td><td>1</td><td class="pos">−3</td></tr>
+        <tr><td class="city-name">Atascocita</td><td>6</td><td>4</td><td class="neg">−2</td><td>3</td><td>0</td><td class="pos">−3</td></tr>
+        <tr><td class="city-name">Conroe <span class="flag flag-expand">+333%</span></td><td>3</td><td>13</td><td class="pos">+10</td><td>0</td><td>0</td><td class="neutral">0</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- VOLUME CHART -->
+  <div class="chart-wrap">
+    <div class="chart-title">Volume by City — Q1 2025 vs Q1 2026</div>
+    <div class="chart-row"><div class="chart-city">Spring</div><div class="chart-bars"><div class="bar-25" style="width:calc(179/200*100%)"></div><div class="bar-26" style="width:calc(175/200*100%)"></div></div><div class="chart-val">179 → 175</div></div>
+    <div class="chart-row"><div class="chart-city">Houston</div><div class="chart-bars"><div class="bar-25" style="width:calc(161/200*100%)"></div><div class="bar-26" style="width:calc(133/200*100%)"></div></div><div class="chart-val">161 → 133</div></div>
+    <div class="chart-row"><div class="chart-city">Humble</div><div class="chart-bars"><div class="bar-25" style="width:calc(73/200*100%)"></div><div class="bar-26" style="width:calc(45/200*100%)"></div></div><div class="chart-val">73 → 45</div></div>
+    <div class="chart-row"><div class="chart-city">Cypress</div><div class="chart-bars"><div class="bar-25" style="width:calc(37/200*100%)"></div><div class="bar-26" style="width:calc(28/200*100%)"></div></div><div class="chart-val">37 → 28</div></div>
+    <div class="chart-row"><div class="chart-city">Tomball</div><div class="chart-bars"><div class="bar-25" style="width:calc(36/200*100%)"></div><div class="bar-26" style="width:calc(27/200*100%)"></div></div><div class="chart-val">36 → 27</div></div>
+    <div class="chart-row"><div class="chart-city">Kingwood</div><div class="chart-bars"><div class="bar-25" style="width:calc(27/200*100%)"></div><div class="bar-26" style="width:calc(27/200*100%)"></div></div><div class="chart-val">27 → 27</div></div>
+    <div class="chart-row"><div class="chart-city">Magnolia</div><div class="chart-bars"><div class="bar-25" style="width:calc(24/200*100%)"></div><div class="bar-26" style="width:calc(17/200*100%)"></div></div><div class="chart-val">24 → 17</div></div>
+    <div class="chart-row"><div class="chart-city">Conroe</div><div class="chart-bars"><div class="bar-25" style="width:calc(3/200*100%)"></div><div class="bar-26" style="width:calc(13/200*100%)"></div></div><div class="chart-val">3 → 13 ▲</div></div>
+    <div class="chart-legend"><div class="legend-item"><div class="legend-dot" style="background:#CBD5E1"></div>Q1 2025</div><div class="legend-item"><div class="legend-dot" style="background:var(--red);opacity:0.85"></div>Q1 2026</div></div>
+  </div>
+
+  <!-- ZIP HEAT -->
+  <div class="section-label">ZIP-Level Cancel Rate Shifts</div>
+  <div class="rate-grid">
+    <div class="table-wrap worsened">
+      <div class="rate-section-label">Rate Worsened ↑</div>
+      <table>
+        <thead><tr><th>ZIP</th><th>Area</th><th>Volume</th><th>Cancel Rate</th></tr></thead>
+        <tbody>
+          <tr><td>77386</td><td>Spring (E)</td><td>27→34</td><td class="neg">7.4%→17.6%</td></tr>
+          <tr><td>77018</td><td>Garden Oaks</td><td>17→12</td><td class="neg">5.9%→16.7%</td></tr>
+          <tr><td>77375</td><td>Tomball</td><td>18→12</td><td class="neg">16.7%→33.3%</td></tr>
+          <tr><td>77068</td><td>Champions</td><td>7→5</td><td class="neg">14.3%→40.0%</td></tr>
+          <tr><td>77064</td><td>FM 1960</td><td>13→5</td><td class="neg">23.1%→40.0%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-wrap improved">
+      <div class="rate-section-label">Rate Improved ↓</div>
+      <table>
+        <thead><tr><th>ZIP</th><th>Area</th><th>Volume</th><th>Cancel Rate</th></tr></thead>
+        <tbody>
+          <tr><td>77338</td><td>Humble</td><td>15→11</td><td class="pos">33.3%→0.0%</td></tr>
+          <tr><td>77381</td><td>The Woodlands</td><td>18→23</td><td class="pos">38.9%→8.7%</td></tr>
+          <tr><td>77044</td><td>Lake Houston</td><td>9→12</td><td class="pos">44.4%→8.3%</td></tr>
+          <tr><td>77090</td><td>Greenspoint</td><td>4→5</td><td class="pos">50.0%→0.0%</td></tr>
+          <tr><td>77429</td><td>Cypress</td><td>37→27</td><td class="pos">18.9%→7.4%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <p style="font-size:0.8rem;color:var(--muted);margin-bottom:1rem;line-height:1.55;">Worsened ZIPs cluster in inner-Houston (77018, 77064, 77068) where competitive density is highest, plus Spring-East (77386) which paired rising cancel rate with rising volume. Improved ZIPs cluster in Humble and outer ring where volume also dropped — fewer jobs, better execution on what remained.</p>
+
+  <!-- CANCEL REASONS -->
+  <div class="section-label">Why Customers Canceled</div>
+  <div class="reasons-grid">
+    <div class="reason-card">
+      <div><div class="reason-badge badge-up">↑ 6→11 (+5)</div></div>
+      <div><div class="reason-name">Found Another Company Sooner</div><div class="reason-detail">Now the #2 reason. Speed-to-close is losing to competitors in high-density Houston ZIPs.</div></div>
+    </div>
+    <div class="reason-card">
+      <div><div class="reason-badge badge-up">↑ 0→4 (new)</div></div>
+      <div><div class="reason-name">Centerpoint / Oncor Issue</div><div class="reason-detail">New failure mode — utility coordination is now a measurable cancellation driver.</div></div>
+    </div>
+    <div class="reason-card">
+      <div><div class="reason-badge badge-down">↓ 24→14 (−10)</div></div>
+      <div><div class="reason-name">Customer Fixed Issue</div><div class="reason-detail">Customers self-resolving less — likely a sign of better intake and urgency framing.</div></div>
+    </div>
+    <div class="reason-card">
+      <div><div class="reason-badge badge-down">↓ 11→4 (−7)</div></div>
+      <div><div class="reason-name">Canceled via Text</div><div class="reason-detail">Fewer ghost cancels — better follow-up / confirmation sequences working.</div></div>
+    </div>
+    <div class="reason-card">
+      <div><div class="reason-badge badge-down">↓ 6→1 (−5)</div></div>
+      <div><div class="reason-name">No Confirmation on ETA</div><div class="reason-detail">Dispatch / comms improved sharply — this was a top concern in Q1 2025.</div></div>
+    </div>
+  </div>
+
+  <!-- JOB MIX -->
+  <div class="section-label">Job Mix Evolution</div>
+  <div class="mix-grid">
+    <div class="mix-card">
+      <div class="mix-title">Demand Normal</div>
+      <div class="mix-nums" style="color:var(--orange)">317 → 226 <span style="font-size:0.8rem;font-weight:600">−29%</span></div>
+      <div class="bar-wrap"><div class="bar" style="width:71%;background:var(--orange);opacity:0.7"></div></div>
+      <div class="mix-detail">Bread-and-butter call type. Largest driver of the overall volume decline — demand contraction, not execution.</div>
+    </div>
+    <div class="mix-card">
+      <div class="mix-title">Elective Work</div>
+      <div class="mix-nums" style="color:var(--green)">119 → 140 <span style="font-size:0.8rem;font-weight:600">+18%</span></div>
+      <div class="bar-wrap"><div class="bar" style="width:70%;background:var(--green);opacity:0.7"></div></div>
+      <div class="mix-detail">Fans/Lights 20+ went 18→38. Safety Upgrades 20+ went 7→17. Upsell motion is working in the existing customer base.</div>
+    </div>
+    <div class="mix-card">
+      <div class="mix-title">High-Demand</div>
+      <div class="mix-nums" style="color:var(--muted)">113 → 104 <span style="font-size:0.8rem;font-weight:600">−8%</span></div>
+      <div class="bar-wrap"><div class="bar" style="width:52%;background:var(--gold);opacity:0.7"></div></div>
+      <div class="mix-detail">Mostly stable, but cancel rate rose 12%→18%. Protect the emergency response funnel — don't let competitors capture urgent jobs.</div>
+    </div>
+    <div class="mix-card">
+      <div class="mix-title">Repair Bucket (CP_Repair)</div>
+      <div class="mix-nums" style="color:var(--muted)">13 → 0</div>
+      <div class="bar-wrap"><div class="bar" style="width:0%;background:#ccc"></div></div>
+      <div class="mix-detail">"CP_RepairElectrical" jobs disappeared entirely. Likely a workflow / categorization change — confirm this is intentional, not a data gap.</div>
+    </div>
+  </div>
+
+  <!-- RECOMMENDATIONS -->
+  <div class="section-label">What This Means &amp; What to Do</div>
+  <div class="rec-list">
+    <div class="rec">
+      <div class="rec-num">01</div>
+      <div><div class="rec-title">Demand is contracting but quality is holding — protect the operational discipline.</div><div class="rec-body">Volume −16%, completions −14%, cancels −27%. The team is converting better on a smaller funnel. Don't change what's working operationally while chasing volume recovery.</div></div>
+    </div>
+    <div class="rec">
+      <div class="rec-num">02</div>
+      <div><div class="rec-title">Lean marketing spend north — Conroe is a real opening.</div><div class="rec-body">Houston-proper and Humble each gave back ~28 jobs. Spring/Tomball/Woodlands held. Conroe went 3→13 with zero cancellations (+333%). The territory is telling you where to push.</div></div>
+    </div>
+    <div class="rec">
+      <div class="rec-num">03</div>
+      <div><div class="rec-title">Tighten quote-to-dispatch SLAs in inner-Houston ZIPs — competitive speed-to-close is the new leak.</div><div class="rec-body">"Found Another Company Sooner" doubled and is now #2. Target 77018, 77064, 77068 specifically — all spiked in cancel rate and have the highest competitive density.</div></div>
+    </div>
+    <div class="rec">
+      <div class="rec-num">04</div>
+      <div><div class="rec-title">Audit Spring dispatch and ETA confirmation — the core city is showing a warning sign.</div><div class="rec-body">Volume was essentially flat (179→175) but cancels went 23→26 against improving operations everywhere else. Something specific is happening in Spring. Investigate dispatch / ETA confirmation there.</div></div>
+    </div>
+    <div class="rec">
+      <div class="rec-num">05</div>
+      <div><div class="rec-title">Codify the upsell motion — fans/lights and safety checks are growing while overall volume falls.</div><div class="rec-body">Elective category grew 18% in a down market. Fans/Lights 20+ and Safety Upgrades 20+ both nearly doubled. Find out what the techs are doing in-home and put it in the playbook for the full roster.</div></div>
+    </div>
+  </div>
+
+  <div class="footer">MS Spring &nbsp;·&nbsp; Q1 Territory YoY Analysis &nbsp;·&nbsp; 2025 vs 2026 &nbsp;·&nbsp; Prepared May 2026 &nbsp;·&nbsp; Confidential</div>
+
+</div>
+</body>
+</html>
