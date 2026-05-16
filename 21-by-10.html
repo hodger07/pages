@@ -578,6 +578,31 @@
             margin-bottom: 0;
         }
 
+        .cleared-statement {
+            font-family: 'Georgia', serif;
+            font-size: 1.25rem;
+            font-weight: 400;
+            color: white !important;
+            line-height: 1.4;
+            margin: 18px 0 !important;
+            padding: 16px 0;
+            border-top: 1px solid rgba(200,168,75,0.3);
+            border-bottom: 1px solid rgba(200,168,75,0.3);
+        }
+
+        .firing-line {
+            font-family: 'Helvetica Neue', Arial, sans-serif !important;
+            font-size: 0.88rem !important;
+            font-weight: 700 !important;
+            color: var(--gold) !important;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            margin-top: 14px !important;
+            padding: 10px 14px;
+            background: rgba(200,168,75,0.1);
+            border-left: 3px solid var(--gold);
+        }
+
         .asks-list {
             list-style: none;
             margin: 24px 0;
@@ -612,6 +637,82 @@
             .rule-grid { grid-template-columns: 1fr; }
             .honest-section { padding-left: 24px; padding-right: 24px; }
         }
+
+        /* TARGETS TABLE */
+        .targets-wrap {
+            overflow-x: auto;
+            margin: 0 -4px;
+        }
+
+        .targets-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 0.8rem;
+        }
+
+        .targets-table thead tr {
+            background: #0b121b;
+            color: white;
+        }
+
+        .targets-table th {
+            padding: 12px 14px;
+            text-align: left;
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .targets-table td {
+            padding: 11px 14px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+            vertical-align: middle;
+        }
+
+        .targets-table td:first-child {
+            font-weight: 700;
+            color: #bbb;
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+        }
+
+        .targets-table td:nth-child(2) {
+            font-weight: 600;
+            color: var(--muted);
+            white-space: nowrap;
+        }
+
+        .targets-table .fill {
+            background: #fdfcf9;
+            min-width: 260px;
+        }
+
+        .targets-table .fill-sm {
+            background: #fdfcf9;
+            min-width: 100px;
+        }
+
+        .targets-table .fn-row td {
+            border-top: 2px solid var(--border);
+        }
+
+        .col-num    { width: 40px; }
+        .col-fn     { width: 100px; }
+        .col-metric { width: 200px; }
+        .col-green  { }
+        .col-owner  { width: 110px; }
+
+        @media print {
+            #pw-overlay { display: none !important; }
+            #doc        { display: block !important; }
+            .targets-table .fill,
+            .targets-table .fill-sm { background: white; }
+            .doc-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
     </style>
 </head>
 <body>
@@ -633,7 +734,7 @@
 
     <!-- HEADER -->
     <div class="doc-header">
-        <div class="eyebrow">Internal White Paper &nbsp;·&nbsp; Operations Leadership &nbsp;·&nbsp; Confidential</div>
+        <div class="eyebrow">Operations Leadership &nbsp;·&nbsp; Confidential</div>
         <h1>21 by 10</h1>
         <div class="tagline">Five functions. Twenty-one metrics. Cleared by 10 AM. Every day.</div>
     </div>
@@ -976,7 +1077,10 @@
             </div>
             <div class="rule-box">
                 <div class="rule-label">Rule Two &mdash; Honest by 10 AM</div>
-                <p>Green by 10 AM is not the goal. <em>Honest</em> by 10 AM is the goal.<br><br>The 21 will have reds every single day. That is the point of having 21 items. By 10 AM, every red has a name on it and a same-day game plan. That's what "cleared" means. Cleared does not mean green. Cleared means owned.<br><br>Carrying a red into tomorrow without escalation is not allowed. Calling something green that isn't is grounds for removal.</p>
+                <p>Green by 10 AM is not the goal. <em>Honest</em> by 10 AM is the goal.<br><br>The 21 will have reds every single day. That is the point of having 21 items. By 10 AM, every red has a name on it and a same-day game plan.</p>
+                <p class="cleared-statement">Cleared does not mean green.<br>Cleared means owned.</p>
+                <p>Carrying a red into tomorrow without escalation is not allowed.</p>
+                <p class="firing-line">Calling something green that isn&rsquo;t is grounds for removal.</p>
             </div>
         </div>
 
@@ -1010,6 +1114,51 @@
         <p>A year from now this business runs on the rhythm, on the standard, and on a team that holds the line whether I'm here or not. That's the goal. The work starts Monday.</p>
 
         <p>I'm grateful for each of you for being on this with me. Let's go run the perfect lap.</p>
+    </div>
+
+    <!-- TARGETS TABLE -->
+    <div class="foreword" style="border-top: 1px solid var(--border);">
+        <div class="foreword-label">Homework &nbsp;·&nbsp; Due This Week</div>
+        <h2>Define Your Green</h2>
+        <p style="margin-bottom: 32px;">Each of the 21 gets a number. Without a number, green is a feeling — and we&rsquo;re done managing on feelings. Fill this in before Monday&rsquo;s huddle. One per shop. Be specific: a threshold, a time, a percentage, a count. If you can&rsquo;t put a number on it, you don&rsquo;t own it yet.</p>
+
+        <div class="targets-wrap">
+            <table class="targets-table">
+                <thead>
+                    <tr>
+                        <th class="col-num">#</th>
+                        <th class="col-fn">Function</th>
+                        <th class="col-metric">Metric</th>
+                        <th class="col-green">Green means&hellip; (your number/standard)</th>
+                        <th class="col-owner">Owner</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>01</td><td>Demand</td><td>Marketing Volume</td><td class="fill"></td><td class="fill-sm"></td></tr>
+                    <tr><td>02</td><td>Demand</td><td>Cost Per Lead</td><td class="fill"></td><td class="fill-sm"></td></tr>
+                    <tr><td>03</td><td>Demand</td><td>Repeat Customers</td><td class="fill"></td><td class="fill-sm"></td></tr>
+                    <tr><td>04</td><td>Demand</td><td>Phone Conversion</td><td class="fill"></td><td class="fill-sm"></td></tr>
+                    <tr class="fn-row"><td>05</td><td>Conversion</td><td>Speed to Call</td><td class="fill"></td><td class="fill-sm"></td></tr>
+                    <tr><td>06</td><td>Conversion</td><td>Dispatch for Profit</td><td class="fill"></td><td class="fill-sm"></td></tr>
+                    <tr><td>07</td><td>Conversion</td><td>On-Time Arrival</td><td class="fill"></td><td class="fill-sm"></td></tr>
+                    <tr><td>08</td><td>Conversion</td><td>Close Rate</td><td class="fill"></td><td class="fill-sm"></td></tr>
+                    <tr class="fn-row"><td>09</td><td>Delivery</td><td>Do the Work</td><td class="fill"></td><td class="fill-sm"></td></tr>
+                    <tr><td>10</td><td>Delivery</td><td>Customer Issues</td><td class="fill"></td><td class="fill-sm"></td></tr>
+                    <tr><td>11</td><td>Delivery</td><td>Collect for the Work</td><td class="fill"></td><td class="fill-sm"></td></tr>
+                    <tr class="fn-row"><td>12</td><td>People</td><td>Tech Behavior</td><td class="fill"></td><td class="fill-sm"></td></tr>
+                    <tr><td>13</td><td>People</td><td>Tech Refusals</td><td class="fill"></td><td class="fill-sm"></td></tr>
+                    <tr><td>14</td><td>People</td><td>Tech Control</td><td class="fill"></td><td class="fill-sm"></td></tr>
+                    <tr><td>15</td><td>People</td><td>Dispatcher Line-Holding</td><td class="fill"></td><td class="fill-sm"></td></tr>
+                    <tr><td>16</td><td>People</td><td>Recruiting &amp; Training</td><td class="fill"></td><td class="fill-sm"></td></tr>
+                    <tr class="fn-row"><td>17</td><td>Standard</td><td>Revenue Targets</td><td class="fill"></td><td class="fill-sm"></td></tr>
+                    <tr><td>18</td><td>Standard</td><td>Nights &amp; Weekends Coverage</td><td class="fill"></td><td class="fill-sm"></td></tr>
+                    <tr><td>19</td><td>Standard</td><td>Standards of Care &amp; Image</td><td class="fill"></td><td class="fill-sm"></td></tr>
+                    <tr><td>20</td><td>Standard</td><td>AI &amp; Technology Evolution</td><td class="fill"></td><td class="fill-sm"></td></tr>
+                    <tr><td>21</td><td>Standard</td><td>Core Values Alignment</td><td class="fill"></td><td class="fill-sm"></td></tr>
+                </tbody>
+            </table>
+        </div>
+        <p style="margin-top: 20px; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 0.78rem; color: #999;">Shop / Location: ___________________________ &nbsp;&nbsp; Manager: ___________________________ &nbsp;&nbsp; Date: _______________</p>
     </div>
 
     <!-- SIGNATURE -->
