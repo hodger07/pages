@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>45 Stillforest — Generator &amp; Electrical Pad Screening Issue</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0A0A0A;
+    --rule: #1A1A1A;
+    --text: #1C1C1C;
+    --muted: #555;
+    --light: #888;
+    --bg: #FEFEFE;
+    --cream: #F9F7F3;
+    --border: #CCCCCC;
+    --accent: #B00000;
+    --gold: #8B6914;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.75;
+    font-size: 16px;
+    padding-bottom: 80px;
+  }
+
+  .top-rule { height: 5px; background: var(--rule); }
+  .top-rule-thin { height: 1px; background: var(--rule); margin-top: 3px; }
+
+  .header { max-width: 860px; margin: 0 auto; padding: 1.8rem 1.5rem 1.2rem; }
+  .header-kicker {
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.6rem;
+  }
+  .header h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.1rem;
+    font-weight: 900;
+    line-height: 1.18;
+    color: var(--black);
+    margin-bottom: 0.7rem;
+    max-width: 720px;
+  }
+  .header-deck {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 1.05rem;
+    font-weight: 300;
+    color: var(--muted);
+    max-width: 640px;
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+  }
+  .header-meta {
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: var(--light);
+    text-transform: uppercase;
+    margin-top: 0.9rem;
+  }
+
+  .content { max-width: 860px; margin: 0 auto; padding: 0 1.5rem; }
+
+  .section-rule {
+    border-top: 3px solid var(--black);
+    border-bottom: 1px solid var(--border);
+    padding: 0.55rem 0 0.45rem;
+    margin: 2.2rem 0 1.6rem;
+  }
+  .section-rule h2 {
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--black);
+  }
+
+  /* Plan image */
+  .plan-wrap {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 1.2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  .plan-wrap img {
+    max-width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+  }
+  .plan-caption {
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-top: 0.8rem;
+  }
+  .plan-callout {
+    display: inline-block;
+    background: #fffbe6;
+    border: 1.5px solid #c9a227;
+    border-radius: 3px;
+    padding: 0.4rem 0.9rem;
+    margin-top: 0.6rem;
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #7a5c00;
+  }
+
+  /* Quote blocks */
+  .quote-block {
+    border-left: 3px solid var(--accent);
+    padding: 0.85rem 1.2rem;
+    margin: 1.3rem 0;
+    background: var(--cream);
+  }
+  .quote-block blockquote {
+    font-size: 1.0rem;
+    font-style: italic;
+    color: var(--black);
+    line-height: 1.65;
+    margin-bottom: 0.5rem;
+  }
+  .quote-meta {
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .quote-meta strong { color: var(--black); }
+
+  .tag {
+    display: inline-block;
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: var(--accent);
+    color: #fff;
+    padding: 0.15rem 0.5rem;
+    border-radius: 2px;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+  }
+  .tag.gold { background: var(--gold); }
+  .tag.dark { background: var(--black); }
+
+  /* Findings */
+  .finding {
+    display: flex;
+    gap: 1.2rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .finding:last-child { border-bottom: none; }
+  .finding-num {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.3rem;
+    font-weight: 900;
+    color: var(--accent);
+    min-width: 2rem;
+    padding-top: 0.1rem;
+  }
+  .finding-text {
+    font-size: 0.97rem;
+    line-height: 1.7;
+    color: var(--text);
+  }
+
+  .conclusion {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--black);
+    padding: 1.8rem 2rem;
+    margin: 2rem 0;
+  }
+  .conclusion-label {
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+  .conclusion-head {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--black);
+    line-height: 1.35;
+    margin-bottom: 1.2rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    margin-top: 2rem;
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 1px;
+  }
+  .back-link:hover { opacity: 0.7; }
+
+  .footer {
+    max-width: 860px;
+    margin: 3rem auto 0;
+    padding: 1.2rem 1.5rem;
+    border-top: 1px solid var(--border);
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    color: var(--light);
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<div class="top-rule"></div>
+<div class="top-rule-thin"></div>
+
+<div class="header">
+  <div class="header-kicker">45 Stillforest Street &nbsp;·&nbsp; HOA Building Committee Record</div>
+  <h1>Generator &amp; Electrical Pad Screening Issue</h1>
+  <div class="header-deck">
+    The approved site plans for 45 Stillforest Street expressly call for generator screening per Sec.&nbsp;74-244(a)(4)c. The written record — from the City permit drawings, the HOA committee, the property owner's own architect, and his contractor — establishes the obligation from every angle. The screening has not been installed.
+  </div>
+  <div class="header-meta">45 Stillforest Street &nbsp;·&nbsp; Piney Point Village, TX &nbsp;·&nbsp; Submitted by Richard Hodge, 43 Stillforest Street &nbsp;·&nbsp; May 2026</div>
+</div>
+
+<div class="top-rule-thin" style="margin-bottom:0;"></div>
+
+<div class="content">
+
+  <div class="section-rule"><h2>Approved Site Plan — Generator Screening Notation</h2></div>
+
+  <div class="plan-wrap">
+    <img src="generator-screening-plan.jpg" alt="Approved site plan showing Generator Screening notation per Sec. 74-244(a)(4)c">
+    <div class="plan-caption">Excerpt from approved permit/site drawings — 45 Stillforest Street</div>
+    <div class="plan-callout">
+      "Generator Screening Per Sec. 74-244(a)(4)c — Ref. to approved Landscape plans for additional information"
+    </div>
+  </div>
+
+  <p style="font-size:0.95rem; color:var(--muted); margin-bottom:0.5rem;">
+    The approved drawings also note: <em>"Pool equipment &amp; mechanical pad on permit — Refer additional info."</em> The electrical service and panel locations were separately confirmed on the updated pool plan submitted April 24, 2025 (see contractor statement below).
+  </p>
+
+  <div class="section-rule"><h2>The Written Record</h2></div>
+
+  <!-- 1 -->
+  <div class="quote-block">
+    <blockquote>"I am pretty sure PPV has something in their ordinance regarding what needs to be put around a generator to screen it from view... 24(a) requires A/C and other equipment to be screened from view from the street."</blockquote>
+    <div class="quote-meta"><strong>Jon Finger</strong> &nbsp;·&nbsp; To: Richard Hodge &nbsp;·&nbsp; January 9, 2025 <span class="tag">HOA Committee</span></div>
+  </div>
+
+  <!-- 2 -->
+  <div class="quote-block">
+    <blockquote>"I told him that Piney Point has a rule that the utilities cannot be visible from the street and that various forms of screening are acceptable and should be indicated on the plans."</blockquote>
+    <div class="quote-meta"><strong>Rod Proto</strong> &nbsp;·&nbsp; To: Fred Tavakoli &nbsp;·&nbsp; February 4, 2025 <span class="tag">HOA Committee</span></div>
+  </div>
+
+  <!-- 3 -->
+  <div class="quote-block">
+    <blockquote>"We will need to provide screening for sure. I will make sure we adhere to the HOA and Piney Point requirements/guidelines."</blockquote>
+    <div class="quote-meta"><strong>Craig Stiteler</strong> (Architect of Record, engaged by property owner) &nbsp;·&nbsp; To: Rod Proto &nbsp;·&nbsp; February 4, 2025 <span class="tag gold">Written Commitment</span></div>
+  </div>
+
+  <!-- 4 -->
+  <div class="quote-block">
+    <blockquote>"The plans reference a screen at front (facing west per PPV requirement) but not adjacent."</blockquote>
+    <div class="quote-meta"><strong>Rod Proto</strong> &nbsp;·&nbsp; To: Fred Tavakoli &nbsp;·&nbsp; April 13, 2025 <span class="tag">HOA Committee</span></div>
+  </div>
+
+  <!-- 5 -->
+  <div class="quote-block">
+    <blockquote>"Should a screen also be placed on the southwest side of the equipment pad?"</blockquote>
+    <div class="quote-meta"><strong>Fred Tavakoli</strong> &nbsp;·&nbsp; To: Rod Proto &nbsp;·&nbsp; April 14, 2025 <span class="tag dark">Owner Acknowledgment</span></div>
+  </div>
+
+  <!-- 6 -->
+  <div class="quote-block">
+    <blockquote>"Ask that he screen the generator on the SW corner as well... our approval is limited to only: ... 3. Approval of generator and screen."</blockquote>
+    <div class="quote-meta"><strong>Jon Finger</strong> &nbsp;·&nbsp; To: Rod Proto &nbsp;·&nbsp; April 17, 2025 <span class="tag">HOA Committee</span></div>
+  </div>
+
+  <!-- 7 -->
+  <div class="quote-block">
+    <blockquote>"The Architectural plans were updated to reflect additional landscape screening for the Mechanical pad on the south side of the property."<br><br>
+    In separate all-caps confirmation: "THE ARCHITECTURAL PLANS WERE CHANGED TO REFLECT A 'SHRUB' BASED SCREENING ON THE SOUTH OF THE MECHANICAL PAD AND WILL BE REFLECTED ON THE APPROVED LANDSCAPE PLAN"</blockquote>
+    <div class="quote-meta"><strong>Scott Epps</strong> (Contractor, engaged by property owner) &nbsp;·&nbsp; To: HOA Committee &nbsp;·&nbsp; April 24, 2025 <span class="tag gold">Written Commitment</span></div>
+  </div>
+
+  <!-- 8 -->
+  <div class="quote-block">
+    <blockquote>"THE DIY POOL PLAN HAS BEEN UPDATED TO REFLECT THE PROPOSED LOCATION OF THE ELECTRICAL SERVICE &amp; PANELS &amp; MATCH THE ARCHITECTURAL PLANS"</blockquote>
+    <div class="quote-meta"><strong>Scott Epps</strong> (Contractor, engaged by property owner) &nbsp;·&nbsp; To: HOA Committee &nbsp;·&nbsp; April 24, 2025 <span class="tag gold">Written Commitment</span></div>
+  </div>
+
+  <!-- 9 -->
+  <div class="quote-block">
+    <blockquote>"Regarding the fencing situation on the south side, the committee asks that vegetation consistent with that used for the generator screening be used instead of the bamboo fence covering."</blockquote>
+    <div class="quote-meta"><strong>Rod Proto</strong> &nbsp;·&nbsp; To: Fred Tavakoli &nbsp;·&nbsp; April 28, 2025 <span class="tag">HOA Committee</span></div>
+  </div>
+
+  <!-- 10 -->
+  <div class="quote-block">
+    <blockquote>"This approach aligns with the established standard used to screen generators and utility equipment along both front and side yards throughout Stillforest and Piney Point Village."</blockquote>
+    <div class="quote-meta"><strong>Richard Hodge</strong> &nbsp;·&nbsp; To: Rod Proto, Jonathan Finger, Don Jones &nbsp;·&nbsp; April 26, 2025</div>
+  </div>
+
+  <!-- 11 — contradiction -->
+  <div class="quote-block" style="border-left-color: #555;">
+    <blockquote>"No conclusions or commitments regarding future planting or screening have been made at this time."</blockquote>
+    <div class="quote-meta"><strong>Fred Tavakoli</strong> &nbsp;·&nbsp; To: Richard Hodge &nbsp;·&nbsp; January 1, 2026 &nbsp;·&nbsp; <em style="color:var(--accent);">Directly contradicted by items above</em></div>
+  </div>
+
+  <div class="section-rule"><h2>Findings</h2></div>
+
+  <div class="conclusion">
+    <div class="conclusion-label">Summary</div>
+    <div class="conclusion-head">Generator and electrical pad screening was required by City ordinance, confirmed on the approved permit drawings, committed to by the property owner's own architect and contractor, and made a condition of HOA approval. It has not been installed.</div>
+
+    <div class="finding">
+      <div class="finding-num">I.</div>
+      <div class="finding-text">The approved site plan drawings expressly call out <strong>"Generator Screening Per Sec. 74-244(a)(4)c"</strong> with a reference to the approved Landscape plans. This is a City of Piney Point ordinance requirement — not a suggestion and not a neighborly request.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-num">II.</div>
+      <div class="finding-text">The property owner's own architect — Craig Stiteler — stated in writing on February 4, 2025: <strong>"We will need to provide screening for sure."</strong> The architect of record acknowledged the obligation directly to the HOA Committee.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-num">III.</div>
+      <div class="finding-text">The property owner's own contractor — Scott Epps — confirmed in writing on April 24, 2025 that the architectural plans were updated to reflect shrub-based screening of the mechanical pad, and that this <strong>"will be reflected on the approved landscape plan."</strong> No such landscape plan has been submitted or approved.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-num">IV.</div>
+      <div class="finding-text">The HOA Building Committee, through Jon Finger, made screening of the generator on the SW corner an <strong>explicit condition of approval</strong> on April 17, 2025. The approval was conditioned on it. The condition has not been satisfied.</div>
+    </div>
+    <div class="finding">
+      <div class="finding-num">V.</div>
+      <div class="finding-text">On January 1, 2026 — after all of the above — Fred Tavakoli stated: <em>"No conclusions or commitments regarding future planting or screening have been made at this time."</em> This statement is <strong>directly contradicted</strong> by the City permit drawings, his architect's written commitment, his contractor's written confirmation (twice, including in all-caps), and three separate HOA Committee communications.</div>
+    </div>
+    <div class="finding" style="margin-top:1rem; border-top:1px solid var(--border); border-bottom:none;">
+      <div class="finding-num" style="color:var(--black);">→</div>
+      <div class="finding-text"><strong>Construction at 45 Stillforest is substantially complete. The generator and electrical pad screening called for on the approved permit drawings, committed to in writing by the property owner's team, and conditioned by the HOA Committee remains uninstalled. The landscape plan required to satisfy the condition has never been submitted or approved.</strong></div>
+    </div>
+  </div>
+
+  <a href="stillforest-vegetation-record.html" class="back-link">← Back to Full Vegetation &amp; Screening Record</a>
+
+</div>
+
+<div class="footer">
+  All quotations reproduced verbatim from correspondence held by the Stillforest HOA Building Committee. No language has been added, altered, or paraphrased. Dates, senders, and recipients are as written in the original emails. &nbsp;·&nbsp; Submitted by Richard Hodge, 43 Stillforest Street &nbsp;·&nbsp; May 2026
+</div>
+
+<div class="top-rule" style="margin-top:2rem;"></div>
+
+</body>
+</html>
