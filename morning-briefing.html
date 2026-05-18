@@ -3,513 +3,362 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Morning Briefing — Sunday, May 17, 2026</title>
+<title>Morning Briefing — Monday, May 18, 2026</title>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     background: #FFF8F0;
     font-family: Georgia, 'Times New Roman', serif;
     color: #1a1a1a;
-    font-size: 16px;
-    line-height: 1.6;
     max-width: 860px;
     margin: 0 auto;
-    padding: 20px 16px 60px;
+    padding: 16px;
+    font-size: 15px;
+    line-height: 1.6;
   }
   header {
     border-bottom: 3px solid #1a1a1a;
     padding-bottom: 10px;
-    margin-bottom: 6px;
-  }
-  header .kicker {
-    font-family: Arial, sans-serif;
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: #666;
+    margin-bottom: 18px;
   }
   header h1 {
-    font-size: 28px;
-    font-weight: 700;
-    line-height: 1.2;
-    margin-top: 4px;
+    font-size: 1.05rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: normal;
+    color: #555;
   }
-  header .dateline {
-    font-family: Arial, sans-serif;
-    font-size: 12px;
-    color: #666;
+  header h2 {
+    font-size: 1.7rem;
+    font-weight: bold;
+    color: #1a1a1a;
+    margin-top: 2px;
+  }
+  header .meta {
+    font-size: 0.78rem;
+    color: #888;
     margin-top: 4px;
-    border-top: 1px solid #ddd;
-    padding-top: 6px;
+    font-family: Arial, sans-serif;
   }
   section {
     border-bottom: 1px solid #ddd;
-    padding: 18px 0;
+    padding: 14px 0;
   }
   section:last-child { border-bottom: none; }
-  h2 {
-    font-family: Arial, sans-serif;
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: #888;
-    margin-bottom: 10px;
-    font-weight: 600;
-  }
   h3 {
-    font-size: 17px;
-    font-weight: 700;
-    margin-bottom: 8px;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #888;
+    font-family: Arial, sans-serif;
+    font-weight: 600;
+    margin-bottom: 10px;
   }
-  p { margin-bottom: 8px; }
-  ul { padding-left: 20px; margin-bottom: 8px; }
-  ul li { margin-bottom: 5px; }
-  .urgent { color: #C41E3A; font-weight: 600; }
-  .win { color: #2E7D32; font-weight: 600; }
-  .link { color: #1565C0; }
-  .flag { color: #C41E3A; font-weight: 700; }
-  .note { color: #888; font-size: 13px; font-family: Arial, sans-serif; }
-  .hit-list { list-style: none; padding: 0; }
-  .hit-list li {
+  .hit-list { background: #fff; border: 1px solid #ddd; border-left: 4px solid #1a1a1a; padding: 14px 16px; margin-bottom: 0; }
+  .hit-item {
     display: flex;
     align-items: flex-start;
-    gap: 12px;
-    padding: 10px 0;
-    border-bottom: 1px solid #f0e8dc;
-    font-size: 15px;
+    gap: 10px;
+    padding: 7px 0;
+    border-bottom: 1px solid #f0e8e0;
+    font-size: 0.95rem;
   }
-  .hit-list li:last-child { border-bottom: none; }
+  .hit-item:last-child { border-bottom: none; }
   .hit-num {
-    font-family: Arial, sans-serif;
-    font-weight: 700;
-    font-size: 22px;
-    color: #C41E3A;
-    min-width: 28px;
-    line-height: 1.3;
-  }
-  .hit-text { flex: 1; }
-  .hit-label {
-    font-family: Arial, sans-serif;
-    font-size: 10px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1.15rem;
     color: #888;
-    margin-bottom: 2px;
-  }
-  .market-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 10px;
-    margin-top: 8px;
-  }
-  .market-card {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 10px 12px;
-  }
-  .market-ticker {
+    min-width: 22px;
     font-family: Arial, sans-serif;
-    font-weight: 700;
-    font-size: 13px;
-    color: #333;
   }
-  .market-price {
-    font-size: 18px;
-    font-weight: 700;
-    margin: 2px 0;
-  }
-  .market-change {
-    font-family: Arial, sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-  }
-  .change-up { color: #2E7D32; }
-  .change-down { color: #C41E3A; }
-  .change-flag { color: #C41E3A; font-weight: 700; }
-  .asana-item {
-    padding: 6px 0;
-    border-bottom: 1px solid #f5ede0;
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    font-size: 14px;
-  }
-  .asana-item:last-child { border-bottom: none; }
-  .asana-due {
-    font-family: Arial, sans-serif;
-    font-size: 11px;
-    color: #999;
-    min-width: 80px;
-  }
-  .asana-due.overdue { color: #C41E3A; font-weight: 600; }
-  .workspace-label {
-    font-family: Arial, sans-serif;
-    font-size: 10px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: #aaa;
-    margin-bottom: 6px;
-    margin-top: 14px;
-    font-weight: 600;
-  }
-  .workspace-label:first-child { margin-top: 0; }
-  .text-msg {
-    padding: 8px 0;
-    border-bottom: 1px solid #f5ede0;
-    font-size: 14px;
-  }
-  .text-msg:last-child { border-bottom: none; }
-  .text-meta {
-    font-family: Arial, sans-serif;
-    font-size: 11px;
-    color: #999;
-    margin-bottom: 2px;
-  }
-  .text-body { color: #333; font-style: italic; }
-  .weather-row {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    margin-top: 8px;
-  }
-  .weather-card {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 12px 16px;
-    min-width: 200px;
-    flex: 1;
-  }
-  .weather-location {
-    font-family: Arial, sans-serif;
-    font-size: 11px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: #888;
-    margin-bottom: 4px;
-  }
-  .weather-temp { font-size: 32px; font-weight: 700; line-height: 1; }
-  .weather-desc { font-size: 14px; color: #555; margin-top: 4px; }
-  .weather-detail {
-    font-family: Arial, sans-serif;
-    font-size: 12px;
-    color: #888;
-    margin-top: 6px;
-  }
-  .news-item {
-    padding: 7px 0;
-    border-bottom: 1px solid #f5ede0;
-    font-size: 14px;
-  }
+  .urgent { color: #C41E3A; font-weight: bold; }
+  .win { color: #2E7D32; }
+  .info { color: #1565C0; }
+  a { color: #1565C0; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .flag { background: #C41E3A; color: #fff; font-size: 0.68rem; padding: 1px 5px; border-radius: 2px; font-family: Arial, sans-serif; font-weight: bold; vertical-align: middle; margin-left: 4px; }
+  .badge-up { color: #C41E3A; font-family: Arial, sans-serif; font-size: 0.85rem; }
+  .badge-down { color: #2E7D32; font-family: Arial, sans-serif; font-size: 0.85rem; }
+  .badge-warn { color: #C41E3A; font-weight: bold; font-family: Arial, sans-serif; font-size: 0.85rem; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  th { text-align: left; color: #888; font-family: Arial, sans-serif; font-size: 0.73rem; text-transform: uppercase; letter-spacing: 0.06em; border-bottom: 1px solid #ddd; padding: 4px 8px 6px 0; font-weight: 600; }
+  td { padding: 6px 8px 6px 0; border-bottom: 1px solid #f0e8e0; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  .task-row td:first-child { font-weight: 500; }
+  .due-overdue { color: #C41E3A; font-family: Arial, sans-serif; font-size: 0.8rem; font-weight: bold; }
+  .due-soon { color: #e65100; font-family: Arial, sans-serif; font-size: 0.8rem; }
+  .due-none { color: #aaa; font-family: Arial, sans-serif; font-size: 0.8rem; }
+  .project-tag { background: #f0e8e0; border-radius: 2px; padding: 1px 5px; font-size: 0.73rem; font-family: Arial, sans-serif; color: #555; }
+  .msg-row { padding: 6px 0; border-bottom: 1px solid #f0e8e0; }
+  .msg-row:last-child { border-bottom: none; }
+  .msg-sender { font-weight: bold; font-size: 0.82rem; font-family: Arial, sans-serif; color: #555; }
+  .msg-time { font-size: 0.72rem; font-family: Arial, sans-serif; color: #aaa; margin-left: 6px; }
+  .msg-body { margin-top: 1px; font-size: 0.9rem; }
+  .weather-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 560px) { .weather-grid { grid-template-columns: 1fr; } }
+  .weather-card { background: #fff; border: 1px solid #ddd; border-radius: 3px; padding: 10px 12px; }
+  .weather-loc { font-weight: bold; font-family: Arial, sans-serif; font-size: 0.82rem; color: #555; text-transform: uppercase; letter-spacing: 0.08em; }
+  .weather-temp { font-size: 1.9rem; font-weight: bold; margin: 3px 0; }
+  .weather-desc { font-size: 0.9rem; color: #555; }
+  .weather-detail { font-size: 0.78rem; color: #888; font-family: Arial, sans-serif; margin-top: 3px; }
+  .news-item { padding: 5px 0; border-bottom: 1px solid #f0e8e0; font-size: 0.9rem; }
   .news-item:last-child { border-bottom: none; }
-  .ai-item {
-    padding: 7px 0;
-    border-bottom: 1px solid #f5ede0;
-    font-size: 14px;
-  }
-  .ai-item:last-child { border-bottom: none; }
-  .ai-date {
-    font-family: Arial, sans-serif;
-    font-size: 11px;
-    color: #999;
-    margin-bottom: 2px;
-  }
-  @media (max-width: 600px) {
-    body { font-size: 15px; padding: 12px 10px 40px; }
-    header h1 { font-size: 22px; }
-    .market-grid { grid-template-columns: repeat(2, 1fr); }
-    .weather-row { flex-direction: column; }
-  }
+  .news-source { font-size: 0.73rem; font-family: Arial, sans-serif; color: #aaa; margin-left: 4px; }
+  .market-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  @media (min-width: 580px) { .market-grid { grid-template-columns: repeat(4, 1fr); } }
+  .market-card { background: #fff; border: 1px solid #ddd; border-radius: 3px; padding: 8px 10px; }
+  .market-ticker { font-family: Arial, sans-serif; font-size: 0.72rem; font-weight: bold; color: #888; text-transform: uppercase; letter-spacing: 0.05em; }
+  .market-price { font-size: 1.25rem; font-weight: bold; margin: 2px 0; }
+  .market-chg { font-family: Arial, sans-serif; font-size: 0.82rem; }
+  .chg-neg { color: #C41E3A; }
+  .chg-pos { color: #2E7D32; }
+  .chg-warn { color: #C41E3A; font-weight: bold; }
+  .novus-item { padding: 5px 0; border-bottom: 1px solid #f0e8e0; font-size: 0.9rem; }
+  .novus-item:last-child { border-bottom: none; }
+  .credit-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #f0e8e0; font-size: 0.9rem; }
+  .credit-row:last-child { border-bottom: none; }
+  .credit-label { color: #555; }
+  .credit-val { font-weight: 600; font-family: Arial, sans-serif; }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="kicker">Rich Hodge · Chief of Staff Briefing</div>
-  <h1>Sunday Morning Briefing</h1>
-  <div class="dateline">Sunday, May 17, 2026 &nbsp;·&nbsp; 7:00 AM CT &nbsp;·&nbsp; Piney Point Village, Houston</div>
+  <h1>Dude — Chief of Staff Briefing</h1>
+  <h2>Monday, May 18, 2026</h2>
+  <div class="meta">Generated 7:00 AM CT &nbsp;·&nbsp; Houston, TX &nbsp;·&nbsp; All times Central</div>
 </header>
 
-<!-- ═══════════════════════════ HIT LIST ═══════════════════════════ -->
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 1. HIT LIST -->
+<!-- ═══════════════════════════════════════════════ -->
 <section>
-  <h2>🎯 Hit List — Top 5 Actions</h2>
-  <ul class="hit-list">
-    <li>
-      <div class="hit-num">1</div>
-      <div class="hit-text">
-        <div class="hit-label urgent">⚠ Market Alert</div>
-        <strong class="urgent">NRRSF dropped -5.81% to $0.81</strong> — exceeds 5% threshold. Review position and decide whether to add, hold, or exit. 10Y Treasury also surged to 4.595% (+18.5 bps), pressuring credit.
-      </div>
-    </li>
-    <li>
-      <div class="hit-num">2</div>
-      <div class="hit-text">
-        <div class="hit-label urgent">⚠ Overdue Asana</div>
-        <strong>Approve Landscape Quote</strong> (RJH — overdue since May 15, 2025). Approve or reject via Asana. Also: <strong>Sign tax returns in Lusio</strong> — Michelle is waiting.
-      </div>
-    </li>
-    <li>
-      <div class="hit-num">3</div>
-      <div class="hit-text">
-        <div class="hit-label">Novus Global / System B</div>
-        Daily System B commitments: check in at noon, re-read "System B Rich", end-of-day review. Coach expects 2–3 action items this week — have you defined them?
-      </div>
-    </li>
-    <li>
-      <div class="hit-num">4</div>
-      <div class="hit-text">
-        <div class="hit-label">Business Follow-Up</div>
-        Multiple texts yesterday evening from +12814150148 about growth process, commitment, and "you only an inch from greatness." Someone is bought in — follow up to solidify next steps and get dispatcher/CX escalation policy written.
-      </div>
-    </li>
-    <li>
-      <div class="hit-num">5</div>
-      <div class="hit-text">
-        <div class="hit-label">Ops / Tech</div>
-        Confirm with Zack on rising Azure bills + ensure no-zero-dollar-ticket policy is enforced + all customers downloading app. Review Call Center scripting before the week starts.
-      </div>
-    </li>
-  </ul>
-</section>
+  <h3>🎯 Hit List — Top 5 Actions Today</h3>
+  <div class="hit-list">
 
-<!-- ═══════════════════════════ ASANA ═══════════════════════════ -->
-<section>
-  <h2>✅ Asana — Open Tasks</h2>
+    <div class="hit-item">
+      <span class="hit-num">1</span>
+      <div><span class="urgent">Call/text Jon — Fred email decision TODAY.</span> Jon is holding the email to Fred until you two talk. Don't let this drift.</div>
+    </div>
 
-  <div class="workspace-label">RJH Structured Holdings</div>
-  <div class="asana-item">
-    <div class="asana-due overdue">Overdue</div>
-    <div>Approve Landscape Quote (see comments)</div>
-  </div>
-  <div class="asana-item">
-    <div class="asana-due overdue">Overdue</div>
-    <div>Sign tax returns in Lusio (Michelle will provide)</div>
-  </div>
-  <div class="asana-item">
-    <div class="asana-due overdue">Overdue</div>
-    <div>Payroll and expense transfers — review finances</div>
-  </div>
-  <div class="asana-item">
-    <div class="asana-due overdue">Overdue</div>
-    <div>Send email to Batch Data</div>
-  </div>
-  <div class="asana-item">
-    <div class="asana-due overdue">Overdue</div>
-    <div>No zero dollar tickets — all customers must download app &amp; sync contacts</div>
-  </div>
-  <div class="asana-item">
-    <div class="asana-due overdue">Overdue</div>
-    <div>Confirm with Zack on rising Azure bills</div>
-  </div>
-  <div class="asana-item">
-    <div class="asana-due overdue">Overdue</div>
-    <div>Review Call Center Scripting</div>
-  </div>
-  <div class="asana-item">
-    <div class="asana-due overdue">Overdue</div>
-    <div>Touch base with Van RE: dispatch &amp; CX escalations</div>
-  </div>
-  <div class="asana-item">
-    <div class="asana-due overdue">Overdue</div>
-    <div>Custom GPT launched for Techs</div>
-  </div>
-  <div class="asana-item">
-    <div class="asana-due overdue">Overdue</div>
-    <div>Assign Tim Franks a ChatGPT login</div>
-  </div>
-  <div class="asana-item">
-    <div class="asana-due overdue">Overdue</div>
-    <div>Get Jose into ChatGPT</div>
-  </div>
+    <div class="hit-item">
+      <span class="hit-num">2</span>
+      <div><span class="urgent">NRRSF ⚠️ DOWN &minus;5.6%</span> — Significant move, over the 5% flag threshold. Check position and news before market opens fully.</div>
+    </div>
 
-  <div class="workspace-label" style="margin-top:16px;">Novus Global — Coaching Tasks</div>
-  <div class="asana-item">
-    <div class="asana-due" style="color:#888;">No due date</div>
-    <div><strong>Daily commitments:</strong> "What system am I running?" · noon check-in · re-read System B Rich · end-of-day review</div>
-  </div>
-  <div class="asana-item">
-    <div class="asana-due" style="color:#888;">No due date</div>
-    <div>Describe System B Rich — build the character (superhero, real feelings, descriptors)</div>
-  </div>
-  <div class="asana-item">
-    <div class="asana-due" style="color:#888;">No due date</div>
-    <div>System B SFD — Rich is working on it</div>
-  </div>
-  <div class="asana-item">
-    <div class="asana-due" style="color:#888;">No due date</div>
-    <div>Identify 2–3 action items for next 7 days — act from System B</div>
-  </div>
-  <div class="asana-item">
-    <div class="asana-due" style="color:#888;">No due date</div>
-    <div>Review notes from session 2, respond where you feel called</div>
+    <div class="hit-item">
+      <span class="hit-num">3</span>
+      <div><span class="urgent">Asana backlog is piling up</span> — 5+ tasks overdue since April/early May: Ed Covington Letter, approve team goals, Microsoft Graph API with Michelle, Rodeo Angels donation details. Pick 2 to close today.</div>
+    </div>
+
+    <div class="hit-item">
+      <span class="hit-num">4</span>
+      <div>Bay house — crew hasn't been there in ~1 month. List is incoming from John. Confirm you receive it and set a walk date this week.</div>
+    </div>
+
+    <div class="hit-item">
+      <span class="hit-num">5</span>
+      <div>Novus: Identify 2–3 System B action items for this week. You've got the Daily Commitments task sitting open — check in at noon per your commitment.</div>
+    </div>
+
   </div>
 </section>
 
-<!-- ═══════════════════════════ MARKET DASHBOARD ═══════════════════════════ -->
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 2. ASANA TASKS -->
+<!-- ═══════════════════════════════════════════════ -->
 <section>
-  <h2>📈 Market Dashboard</h2>
+  <h3>📋 Asana Tasks</h3>
+
+  <p style="font-size:0.8rem; font-family:Arial,sans-serif; color:#888; margin-bottom:8px;">RJH Structured Holdings — assigned to you, open</p>
+  <table>
+    <thead>
+      <tr><th>Task</th><th>Due</th><th>Project</th></tr>
+    </thead>
+    <tbody>
+      <tr class="task-row"><td>Ed Covington Letter</td><td><span class="due-overdue">May 1 ⚠️</span></td><td><span class="project-tag">Personal</span></td></tr>
+      <tr class="task-row"><td>Approve draft goals [Reassign to approver]</td><td><span class="due-overdue">May 1 ⚠️</span></td><td>—</td></tr>
+      <tr class="task-row"><td>Publish approved goals to Asana Goals</td><td><span class="due-overdue">May 3 ⚠️</span></td><td>—</td></tr>
+      <tr class="task-row"><td>Review draft goals with your team</td><td><span class="due-overdue">Apr 29 ⚠️</span></td><td>—</td></tr>
+      <tr class="task-row"><td>Richard &amp; Van to Implement</td><td><span class="due-overdue">Apr 28 ⚠️</span></td><td>—</td></tr>
+      <tr class="task-row"><td>Let Michelle know — Donation for Rodeo Angels</td><td><span class="due-overdue">Apr 15 ⚠️</span></td><td><span class="project-tag">Michelle &amp; Richard</span></td></tr>
+      <tr class="task-row"><td>Get back with Prolific</td><td><span class="due-overdue">Apr 13 ⚠️</span></td><td><span class="project-tag">Michelle &amp; Richard</span></td></tr>
+      <tr class="task-row"><td>Set up Microsoft Graph API with Michelle for OpenClaw email access</td><td><span class="due-overdue">Apr 9 ⚠️</span></td><td>—</td></tr>
+      <tr class="task-row"><td>Technician Material Ordering &amp; Admin Support</td><td><span class="due-overdue">Mar 23 ⚠️</span></td><td><span class="project-tag">Leadership Action Items</span></td></tr>
+      <tr class="task-row"><td>Ping John for list for bus</td><td><span class="due-overdue">Mar 16 ⚠️</span></td><td><span class="project-tag">Christian Limas</span></td></tr>
+      <tr class="task-row"><td>Caulk gate / Paint gate trim / Follow up on plants</td><td><span class="due-overdue">Mar 16 ⚠️</span></td><td><span class="project-tag">Christian Limas</span></td></tr>
+      <tr class="task-row"><td>Today plan — Non-negotiables + defer list</td><td><span class="due-none">No date</span></td><td>—</td></tr>
+      <tr class="task-row"><td>Finish Jon task (early this week)</td><td><span class="due-none">No date</span></td><td>—</td></tr>
+      <tr class="task-row"><td>Update warranties / Watch winder / Wave runners</td><td><span class="due-none">No date</span></td><td>—</td></tr>
+      <tr class="task-row"><td>How to price job with customer-furnished materials</td><td><span class="due-none">No date</span></td><td>—</td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:0.8rem; font-family:Arial,sans-serif; color:#888; margin: 12px 0 8px;">Novus Global — open coaching commitments</p>
+  <div>
+    <div class="novus-item">Daily commitments: "What system am I running?" — check in at noon, write/re-read System B, end-of-day review</div>
+    <div class="novus-item">System B SFD — Rich is working on it</div>
+    <div class="novus-item">Identify 2–3 action items for the next 7 days (big or small) — System B definition of productivity</div>
+    <div class="novus-item">Review notes from session 2, respond where you feel called</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 3. MARKET DASHBOARD -->
+<!-- ═══════════════════════════════════════════════ -->
+<section>
+  <h3>📈 Market Dashboard</h3>
   <div class="market-grid">
     <div class="market-card">
       <div class="market-ticker">BTC</div>
-      <div class="market-price">$78,373</div>
-      <div class="market-change change-up">▲ +0.40% (24h)</div>
+      <div class="market-price">$77,246</div>
+      <div class="market-chg chg-neg">▼ −1.44% (24hr)</div>
     </div>
     <div class="market-card">
       <div class="market-ticker">TSLA</div>
-      <div class="market-price">$422.24</div>
-      <div class="market-change change-down">▼ −1.43%</div>
+      <div class="market-price">$135.33</div>
+      <div class="market-chg chg-neg">▼ −1.47%</div>
     </div>
     <div class="market-card" style="border-color:#C41E3A;">
-      <div class="market-ticker">NRRSF</div>
-      <div class="market-price change-down">$0.81</div>
-      <div class="market-change change-flag">▼ −5.81% ⚠ &gt;5%</div>
+      <div class="market-ticker">NRRSF <span class="flag">⚠️ &gt;5%</span></div>
+      <div class="market-price" style="font-size:1.1rem; color:#C41E3A;">Price N/A</div>
+      <div class="market-chg chg-warn">▼ −5.55% ⚠️ FLAGGED</div>
     </div>
     <div class="market-card">
       <div class="market-ticker">LINK</div>
-      <div class="market-price">$9.79</div>
-      <div class="market-change change-up">▲ +1.41% (24h)</div>
+      <div class="market-price">$9.51</div>
+      <div class="market-chg chg-neg">▼ −2.82% (24hr)</div>
     </div>
   </div>
-  <p class="note" style="margin-top:10px;">Market data as of 7:00 AM CT. TSLA/NRRSF last close. BTC/LINK live via CoinGecko.</p>
+  <p style="font-size:0.75rem; font-family:Arial,sans-serif; color:#aaa; margin-top:8px;">Prices as of ~7AM CT. NRRSF price unavailable via API; check brokerage. Sources: CoinGecko, Yahoo Finance.</p>
 </section>
 
-<!-- ═══════════════════════════ TEXT MESSAGES ═══════════════════════════ -->
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 4. TEXT MESSAGES -->
+<!-- ═══════════════════════════════════════════════ -->
 <section>
-  <h2>💬 Text Messages — Last 24 Hours</h2>
+  <h3>💬 Text Messages — Last 72 Hours</h3>
 
-  <div class="text-msg">
-    <div class="text-meta">1:38 AM · +1 (832) 771-5106</div>
-    <div class="text-body">"Thanks honey…"</div>
+  <div class="msg-row">
+    <div><span class="msg-sender">Unknown</span><span class="msg-time">Sun 10:00 PM</span></div>
+    <div class="msg-body">Sleep well! Love you 🥰</div>
   </div>
-  <div class="text-msg">
-    <div class="text-meta">12:09 AM · +1 (281) 704-6152</div>
-    <div class="text-body">"Sounds good what time"</div>
+  <div class="msg-row">
+    <div><span class="msg-sender">Contact</span><span class="msg-time">Sun 8:36 PM</span></div>
+    <div class="msg-body urgent">Ok thanks — I told Jon to hold off sending the email to Fred until we talked tomorrow. ← <strong>ACTION NEEDED</strong></div>
   </div>
-  <div class="text-msg">
-    <div class="text-meta">Yesterday 7:55 PM · +1 (832) 928-1962</div>
-    <div class="text-body">"Sounds great! Have a great Sunday" / "Was already planning to have it to you before then! It has been once, I'd like to do 1 more."</div>
+  <div class="msg-row">
+    <div><span class="msg-sender">Contact</span><span class="msg-time">Sun 8:31 PM</span></div>
+    <div class="msg-body">I think we already approved plans that show the electrical panels in their current location but I think we thought they were something else — can you check tomorrow?</div>
   </div>
-  <div class="text-msg">
-    <div class="text-meta">Yesterday 7:51 PM · +1 (281) 415-0148 (multiple)</div>
-    <div class="text-body">"You only [an] inch left to greatness is simply following a process the you [and] we co-author daily that produces predictable results over time beyond the fire fighting." / "I'm here and 100% bought in" / "I'm much calmer now and am better with people… I vow to fix that"</div>
+  <div class="msg-row">
+    <div><span class="msg-sender">Contact</span><span class="msg-time">Sun 8:26 PM</span></div>
+    <div class="msg-body">Yes I have been checking the bay house. Haven't been there in almost a month. Let's wait for the list before assuming stuff.</div>
   </div>
-  <div class="text-msg">
-    <div class="text-meta">Yesterday 6:33 PM · +1 (281) 415-0148</div>
-    <div class="text-body">"Remind what tech was going to walk a job?"</div>
+  <div class="msg-row">
+    <div><span class="msg-sender">Contact</span><span class="msg-time">Sun 8:20 PM</span></div>
+    <div class="msg-body win">Got a list! Will text it to you after I get home shortly. But your side looked pretty good.</div>
   </div>
-  <div class="text-msg">
-    <div class="text-meta">Yesterday 6:08 PM · +1 (281) 914-1185</div>
-    <div class="text-body">"He's got binoculars in-hand on the deck right now watching the birds 🐦 Happy place"</div>
+  <div class="msg-row">
+    <div><span class="msg-sender">Contact</span><span class="msg-time">Sun 6:03 PM</span></div>
+    <div class="msg-body">Just to give you a heads up. I might be able to do just one day this week. I'll know for sure tomorrow around lunch. [Doing big painting job in Arkansas — pushing to Wednesday]</div>
   </div>
-</section>
-
-<!-- ═══════════════════════════ CREDIT MARKETS ═══════════════════════════ -->
-<section>
-  <h2>🏦 Credit Markets</h2>
-  <div class="market-grid">
-    <div class="market-card" style="border-color:#C41E3A;">
-      <div class="market-ticker">10Y Treasury</div>
-      <div class="market-price change-down">4.595%</div>
-      <div class="market-change change-flag">▲ +18.5 bps ⚠</div>
-    </div>
-    <div class="market-card">
-      <div class="market-ticker">3M T-Bill</div>
-      <div class="market-price">3.588%</div>
-      <div class="market-change" style="color:#888;">Effective rate</div>
-    </div>
-    <div class="market-card">
-      <div class="market-ticker">HYG (HY ETF)</div>
-      <div class="market-price">$79.46</div>
-      <div class="market-change change-down">▼ −0.85%</div>
-    </div>
-    <div class="market-card">
-      <div class="market-ticker">LQD (IG ETF)</div>
-      <div class="market-price">$107.86</div>
-      <div class="market-change change-down">▼ −1.23%</div>
-    </div>
+  <div class="msg-row">
+    <div><span class="msg-sender">Contact</span><span class="msg-time">Sun 5:20 PM</span></div>
+    <div class="msg-body">Hey there, about to head back… good but long week. Will look at schedule — no ideas what is set yet for November…</div>
   </div>
-  <p style="margin-top:10px; font-size:14px;">The 10Y yield surged ~18.5 bps — a notable move that is compressing both IG and HY bond prices. The spread between the 3M T-Bill (3.59%) and 10Y (4.60%) is widening, which historically signals market uncertainty about the growth/inflation trajectory. Monitor closely heading into the week.</p>
-</section>
-
-<!-- ═══════════════════════════ AI & OPENCLAW INTEL ═══════════════════════════ -->
-<section>
-  <h2>🤖 AI &amp; OpenClaw Intel</h2>
-
-  <div class="ai-item">
-    <div class="ai-date">Apr 17, 2026 · Anthropic</div>
-    <strong>Claude Design launched</strong> — New Anthropic Labs product for collaborating with Claude on visual work: designs, prototypes, slides, one-pagers. Relevant for Novus Global decks and RJH ops docs.
-  </div>
-  <div class="ai-item">
-    <div class="ai-date">Apr 7, 2026 · Anthropic + Tech Coalition</div>
-    <strong>Project Glasswing</strong> — AWS, Anthropic, Apple, Broadcom, Cisco, CrowdStrike, Google, JPMorganChase, Microsoft, NVIDIA, and others teamed up to secure critical software infrastructure. Major industry signal.
-  </div>
-  <div class="ai-item">
-    <div class="ai-date">Feb 4, 2026 · Anthropic</div>
-    <strong>Claude stays ad-free</strong> — Anthropic committed to keeping Claude ad-free, citing incompatibility between advertising incentives and genuine helpfulness. Plans to expand access without compromising user trust.
-  </div>
-  <div class="ai-item">
-    <div class="ai-date">Mac Studio M3 Ultra (512GB) — Local AI</div>
-    <strong>Top models running locally on your hardware:</strong> Llama 3.3 70B (Q8), Mixtral 8x22B, DeepSeek-R1 70B, Qwen2.5-72B — all via Ollama or LM Studio. Your 512GB unified memory supports 200B+ parameter models in high quantization. OpenClaw can route tasks to local models to reduce API costs.
+  <div class="msg-row">
+    <div><span class="msg-sender">Contact</span><span class="msg-time">Sun 8:40 PM</span></div>
+    <div class="msg-body">I never go on Instagram — but opened another forward from a friend, and I don't think it was just 'the algorithm'. I'm not even happy 50% of the time right now… but see it as a future possibility through working balance over time.</div>
   </div>
 </section>
 
-<!-- ═══════════════════════════ LOCAL NEWS ═══════════════════════════ -->
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 5. CREDIT MARKETS -->
+<!-- ═══════════════════════════════════════════════ -->
 <section>
-  <h2>📰 Local News — Houston / Galveston</h2>
+  <h3>🏦 Credit Markets</h3>
+  <div class="credit-row">
+    <span class="credit-label">10-Year Treasury Yield</span>
+    <span class="credit-val chg-warn">4.595% <span style="font-size:0.78rem; color:#C41E3A;">(+13.4 bps from 4.461%)</span></span>
+  </div>
+  <div class="credit-row">
+    <span class="credit-label">HYG (HY Bond ETF proxy)</span>
+    <span class="credit-val">$79.46 <span class="chg-neg" style="font-size:0.82rem;">−0.56%</span></span>
+  </div>
+  <div class="credit-row">
+    <span class="credit-label">13-Wk T-Bill (Fed funds proxy)</span>
+    <span class="credit-val">3.588%</span>
+  </div>
+  <div class="credit-row">
+    <span class="credit-label">BlackRock Outlook (May '26)</span>
+    <span class="credit-val info">"Get Paid to Wait" — IG spreads tight, credit fundamentals holding</span>
+  </div>
+  <p style="font-size:0.75rem; font-family:Arial,sans-serif; color:#aaa; margin-top:6px;">10Y yield jumped ~13 bps vs Friday close — watch for further rates pressure this week. Note: Perplexity search unavailable (low credits); data via Yahoo Finance direct.</p>
+</section>
 
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 6. AI & OPENCLAW INTEL -->
+<!-- ═══════════════════════════════════════════════ -->
+<section>
+  <h3>🤖 AI &amp; OpenClaw Intel</h3>
   <div class="news-item">
-    <strong>Houston:</strong> Trump administration moving to create a $1.776B "Truth &amp; Justice Commission" to compensate political allies, per sources. (ABC13)
+    <strong>OpenClaw reinstated on Claude subscriptions</strong> <span class="news-source">VentureBeat · May 13</span><br>
+    Anthropic reinstates OpenClaw and third-party agent usage on Claude subscriptions — with a catch. Review your subscription tier and confirm agent access is active.
   </div>
   <div class="news-item">
-    <strong>Houston:</strong> 43 million people no longer receiving food stamps under new federal policy. Potential CX/service demand impact. (ABC13)
+    <strong>M5 Mac Studio rumors &amp; specs</strong> <span class="news-source">Macworld · May 7</span><br>
+    M5 Mac Studio launch may be delayed. Your M3 Ultra 512GB remains current-gen peak for local inference. Llama 3.3 70B, Mistral Large, and Qwen2.5-72B run comfortably at full-context on your rig.
   </div>
   <div class="news-item">
-    <strong>ParkHouston:</strong> City reviewing judgments from ParkHouston-related tow hearings to ensure drivers are paid what they're owed. (ABC13)
-  </div>
-  <div class="news-item">
-    <strong>Galveston / Tiki Island:</strong> Air quality alert continues — weather warming and rain chances increasing through the week. (Galveston Daily News)
-  </div>
-  <div class="news-item">
-    <strong>Galveston:</strong> Texas City's Lago Mar residents frustrated over near-empty lagoon — may be relevant if you have property interests in the area. (Galveston Daily News)
-  </div>
-  <div class="news-item">
-    <strong>Regional:</strong> Suburban Houston county (Waller Co.) surging with major development project in Attwater area — potential investment angle. (Chron)
+    <strong>Local model note:</strong> Claude Sonnet 4.5 (current model in OpenClaw), Gemma 3 27B, and Phi-4 are newly optimized for Apple Silicon. Worth testing for specific workflows.
   </div>
 </section>
 
-<!-- ═══════════════════════════ WEATHER ═══════════════════════════ -->
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 7. LOCAL NEWS -->
+<!-- ═══════════════════════════════════════════════ -->
 <section>
-  <h2>🌤 Weather</h2>
-  <div class="weather-row">
+  <h3>📰 Local News</h3>
+  <div class="news-item">
+    <strong>Houston:</strong> Body found in Greens Bayou near I-10 in east Houston <span class="news-source">Click2Houston · May 17</span>
+  </div>
+  <div class="news-item">
+    <strong>Houston:</strong> Secret Service finds 14 illegal credit card skimming devices in Houston probe <span class="news-source">Houston Chronicle · May 16</span> — <span style="color:#C41E3A; font-size:0.85rem;">Check gas stations &amp; ATMs you frequent.</span>
+  </div>
+  <div class="news-item">
+    <strong>Galveston County:</strong> 17 arrests across Galveston County result in immigration holds <span class="news-source">galvnews.com · Mar 2026</span>
+  </div>
+  <div class="news-item">
+    <strong>Piney Point Village:</strong> Real estate activity — 11328 Surrey Oaks Ln listed <span class="news-source">Realtor.com · May 16</span>. Neighborhood comp activity.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- 8. WEATHER -->
+<!-- ═══════════════════════════════════════════════ -->
+<section>
+  <h3>🌤 Weather</h3>
+  <div class="weather-grid">
     <div class="weather-card">
-      <div class="weather-location">Houston / Piney Point (77024)</div>
-      <div class="weather-temp">79°F</div>
-      <div class="weather-desc">🌫 Mist / Overcast now → Sunny midday</div>
-      <div class="weather-detail">
-        High <strong>91°F</strong> &nbsp;·&nbsp; Low <strong>76°F</strong><br>
-        Feels like <strong>86°F</strong> &nbsp;·&nbsp; Humidity 89%<br>
-        🌧 Rain chance up to <strong class="urgent">100%</strong> late morning<br>
-        Wind: SSE 10 mph &nbsp;·&nbsp; Sunrise 6:27 AM
-      </div>
+      <div class="weather-loc">Houston · 77024</div>
+      <div class="weather-temp">79°F <span style="font-size:1rem; font-weight:normal; color:#888;">feels 85°</span></div>
+      <div class="weather-desc">Mist / Overcast</div>
+      <div class="weather-detail">High 91° / Low 76° &nbsp;|&nbsp; Rain 0%</div>
+      <div class="weather-detail">Tomorrow: High 88° / Low 76°</div>
     </div>
     <div class="weather-card">
-      <div class="weather-location">Tiki Island / Galveston (77554)</div>
-      <div class="weather-temp">78°F</div>
-      <div class="weather-desc">☁️ Overcast → Partly Cloudy afternoon</div>
-      <div class="weather-detail">
-        High <strong>83°F</strong> &nbsp;·&nbsp; Low <strong>77°F</strong><br>
-        Feels like <strong>84°F</strong> &nbsp;·&nbsp; Humidity 90%<br>
-        🌧 Rain chance: <strong>low</strong> (daytime 0%)<br>
-        Wind: SSE 20 mph &nbsp;·&nbsp; ⚠ Air quality alert
-      </div>
+      <div class="weather-loc">Tiki Island · 77554</div>
+      <div class="weather-temp">79°F <span style="font-size:1rem; font-weight:normal; color:#888;">feels 85°</span></div>
+      <div class="weather-desc">Overcast</div>
+      <div class="weather-detail">High 83° / Low 77° &nbsp;|&nbsp; Rain 0%</div>
+      <div class="weather-detail">Tomorrow: High 82° / Low 78°</div>
     </div>
   </div>
 </section>
 
-<footer style="text-align:center; font-family:Arial,sans-serif; font-size:11px; color:#bbb; margin-top:30px; padding-top:14px; border-top:1px solid #ddd;">
-  Generated by Dude · AI Chief of Staff &nbsp;·&nbsp; Sunday, May 17, 2026 at 7:00 AM CT<br>
-  <a href="https://hodger07.github.io/pages/morning-briefing.html" style="color:#1565C0;">hodger07.github.io/pages/morning-briefing.html</a>
+<footer style="margin-top:18px; padding-top:10px; border-top:1px solid #ddd; font-size:0.72rem; font-family:Arial,sans-serif; color:#bbb; text-align:center;">
+  Generated by Dude (OpenClaw) &nbsp;·&nbsp; Monday May 18 2026 7:00 AM CT &nbsp;·&nbsp; <a href="https://hodger07.github.io/pages/morning-briefing.html" style="color:#bbb;">hodger07.github.io/pages/morning-briefing.html</a>
 </footer>
 
 </body>
