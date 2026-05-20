@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>DFW Routing Plan — Cut Drive Time & Tolls, Add Billable Hours</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  :root{
+    --ink:#1a1d22; --soft:#5a6470; --line:#e3e7ec; --bg:#f7f8fa;
+    --green:#0a7a3b; --green-soft:#e8f4ec;
+    --amber:#c98a1c; --amber-soft:#fff8eb;
+    --red:#a33; --red-soft:#fdecec;
+    --accent:#1f4f8b;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  .wrap{max-width:1180px;margin:0 auto;padding:36px 28px 80px}
+  header{border-bottom:2px solid var(--ink);padding-bottom:18px;margin-bottom:28px}
+  h1{margin:0 0 6px;font-size:28px;letter-spacing:-.01em}
+  .sub{color:var(--soft);font-size:14px}
+  h2{font-size:20px;margin:38px 0 12px;border-bottom:1px solid var(--line);padding-bottom:6px}
+  h3{font-size:16px;margin:22px 0 8px}
+  p{margin:0 0 12px}
+  ul{margin:6px 0 14px;padding-left:22px}
+  li{margin:4px 0}
+  .summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0 8px}
+  .kpi{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px}
+  .kpi .lbl{font-size:12px;color:var(--soft);text-transform:uppercase;letter-spacing:.06em}
+  .kpi .val{font-size:24px;font-weight:700;margin-top:4px}
+  .kpi .delta{font-size:12px;color:var(--soft);margin-top:2px}
+  .kpi.good{border-left:4px solid var(--green)}
+  .kpi.amber{border-left:4px solid var(--amber)}
+  .kpi.accent{border-left:4px solid var(--accent)}
+  .callout{background:#fff;border-left:4px solid var(--accent);border-radius:8px;padding:14px 18px;margin:14px 0}
+  .callout.good{border-left-color:var(--green);background:var(--green-soft)}
+  .callout.warn{border-left-color:var(--amber);background:var(--amber-soft)}
+  table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);font-size:13px}
+  th,td{padding:8px 11px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:#f0f3f7;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--soft)}
+  tr:hover td{background:#f7faff}
+  .tabs{display:flex;flex-wrap:wrap;gap:4px;margin:14px 0 0;border-bottom:1px solid var(--line)}
+  .tab{padding:8px 14px;cursor:pointer;border:1px solid transparent;border-bottom:none;border-radius:6px 6px 0 0;font-size:13px;color:var(--soft);white-space:nowrap}
+  .tab.active{background:#fff;border-color:var(--line);color:var(--ink);font-weight:600;position:relative;top:1px}
+  .tab .badge{display:inline-block;background:#e3e7ec;color:var(--soft);font-size:11px;border-radius:8px;padding:1px 6px;margin-left:6px}
+  .tab.active .badge{background:var(--accent);color:#fff}
+  .tab-pane{display:none;background:#fff;border:1px solid var(--line);border-top:none}
+  .tab-pane.active{display:block}
+  .chart-wrap{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px;margin:14px 0}
+  .charts{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media (max-width:880px){.summary-grid{grid-template-columns:repeat(2,1fr)}.charts{grid-template-columns:1fr}}
+  .heatmap-frame{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px;margin:18px 0}
+  .heatmap-frame img{max-width:100%;display:block;border-radius:6px;margin:0 auto}
+  .heatmap-frame .missing{display:flex;align-items:center;justify-content:center;height:280px;background:#f0f3f7;border:2px dashed #c9d0d9;border-radius:6px;color:var(--soft);text-align:center;padding:20px;font-size:14px}
+  .chip-when{display:inline-block;font-size:11px;padding:2px 8px;border-radius:999px;background:var(--accent);color:#fff;font-weight:600}
+  .schedule{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:14px 0}
+  .day{background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px}
+  .day h4{margin:0 0 8px;font-size:13px;color:var(--accent);text-transform:uppercase;letter-spacing:.04em}
+  .day .slot{font-size:12px;padding:4px 0;border-top:1px dashed var(--line)}
+  .day .slot:first-of-type{border-top:none}
+  .day .who{font-weight:600;color:var(--ink)}
+  footer{margin-top:50px;padding-top:14px;border-top:1px solid var(--line);color:var(--soft);font-size:12px}
+  code{background:#f0f3f7;padding:1px 6px;border-radius:4px;font-size:13px}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>DFW Routing Plan — Cut Drive Time & Tolls, Add Billable Hours</h1>
+  <div class="sub">Tony Cross out 2 wks · Garrett (Keller) + Jamieson (Denton) + installer · Shop: Central NE Fort Worth · Period: 04/01/25–04/30/26 · Prepared May 20, 2026</div>
+</header>
+
+<h2>Executive Summary</h2>
+<p><strong>Goal: zero revenue loss.</strong> We keep every ZIP we currently service. The problem isn't where we work — it's how much of the day we burn on windshield time and DFW tolls instead of billable hours. The solution is a 2-week dispatch discipline: <strong>cluster outer-ring jobs into dedicated batch days</strong>, run the rest of the week on-demand from the two anchors. The drive-time recapture covers most of Tony's absent capacity without touching the customer list.</p>
+
+<div class="summary-grid">
+  <div class="kpi accent">
+    <div class="lbl">12-mo revenue</div>
+    <div class="val">$2,323,957</div>
+    <div class="delta">1,644 jobs · 176 ZIPs · all kept</div>
+  </div>
+  <div class="kpi good">
+    <div class="lbl">Drive miles recaptured</div>
+    <div class="val">22,063/yr</div>
+    <div class="delta">40% of the 55,764 mi baseline</div>
+  </div>
+  <div class="kpi good">
+    <div class="lbl">Toll spend cut</div>
+    <div class="val">$5,053/yr</div>
+    <div class="delta">From baseline $7,923</div>
+  </div>
+  <div class="kpi good">
+    <div class="lbl">Billable hours unlocked</div>
+    <div class="val">689 hrs/yr</div>
+    <div class="delta">≈ $131,000/yr capacity at $190/hr</div>
+  </div>
+</div>
+
+<div class="callout good">
+  <strong>2-week math (Tony's outage).</strong> Tony's 2-wk run-rate = <strong>$25,615</strong>. Routing discipline alone recaptures <strong>27 tech-hours in the 2-week window</strong> (worth ~$5,038 of new billable capacity). Combined with Garrett + Jamieson absorbing Tony's CORE territory — 78% of his $666K annual revenue is already inside their normal radius — we cover the gap without dropping any ZIPs.
+</div>
+
+<div class="callout good" style="text-align:center"><strong>Companion deliverables:</strong>
+  <a href="dfw-territory-map.html" style="margin:0 12px;color:var(--accent);text-decoration:underline;font-weight:600">🗺️ Interactive territory map</a>
+  ·
+  <a href="dfw-territory-zips.xlsx" style="margin:0 12px;color:var(--accent);text-decoration:underline;font-weight:600">📊 Territory + ZIP spreadsheet</a>
+</div>
+
+<h2>The Strategy in One Page</h2>
+<p>Group the 176 ZIPs into 6 geographic clusters by proximity to our three anchors and toll exposure. Run the inner clusters daily; batch the outer clusters into specific days so we pay tolls once per route, not once per job.</p>
+<table>
+  <thead><tr><th>Cluster</th><th>Annual rev</th><th>Jobs</th><th>ZIPs</th><th>Avg dist</th><th>Annual tolls</th><th>When</th><th>How we work it</th></tr></thead>
+  <tbody><tr>
+      <td style="font-weight:600">A. Tarrant Core (Shop + Keller close)</td>
+      <td>$1,037,617</td>
+      <td>596</td>
+      <td>59</td>
+      <td>8.9 mi</td>
+      <td>$0</td>
+      <td><span class="chip-when">Always-on</span></td>
+      <td>Daily on-demand</td>
+    </tr><tr>
+      <td style="font-weight:600">B. North Tarrant → Denton corridor</td>
+      <td>$57,073</td>
+      <td>67</td>
+      <td>7</td>
+      <td>9.0 mi</td>
+      <td>$0</td>
+      <td><span class="chip-when">Always-on</span></td>
+      <td>Daily on-demand (Jamieson)</td>
+    </tr><tr>
+      <td style="font-weight:600">C. Mid-cities / Irving / Las Colinas</td>
+      <td>$702,925</td>
+      <td>501</td>
+      <td>48</td>
+      <td>21.6 mi</td>
+      <td>$2,943</td>
+      <td><span class="chip-when">Tue/Thu</span></td>
+      <td>Batch days — Tue & Thu</td>
+    </tr><tr>
+      <td style="font-weight:600">D. Collin County (Plano/Frisco/McKinney) — toll-heavy</td>
+      <td>$384,031</td>
+      <td>373</td>
+      <td>19</td>
+      <td>22.1 mi</td>
+      <td>$4,476</td>
+      <td><span class="chip-when">Wed only</span></td>
+      <td>Batch day — Wed only</td>
+    </tr><tr>
+      <td style="font-weight:600">E. South / SE / outer (low priority for batch)</td>
+      <td>$16,865</td>
+      <td>13</td>
+      <td>3</td>
+      <td>42.0 mi</td>
+      <td>$0</td>
+      <td><span class="chip-when">Defer 2 wks</span></td>
+      <td>Book past Tony return</td>
+    </tr><tr>
+      <td style="font-weight:600">F. Misc / outliers</td>
+      <td>$125,447</td>
+      <td>94</td>
+      <td>4</td>
+      <td>25.3 mi</td>
+      <td>$504</td>
+      <td><span class="chip-when">As-needed</span></td>
+      <td>Case-by-case</td>
+    </tr></tbody>
+</table>
+
+<h2>Two-Week Schedule (while Tony is out)</h2>
+<div class="schedule">
+  <div class="day"><h4>Monday</h4>
+    <div class="slot"><div class="who">Garrett</div>Cluster A (Tarrant Core) — on demand</div>
+    <div class="slot"><div class="who">Jamieson</div>Cluster B (Denton corridor) — on demand</div>
+    <div class="slot"><div class="who">Installer</div>Same-day batched installs in A/B</div>
+  </div>
+  <div class="day"><h4>Tuesday</h4>
+    <div class="slot"><div class="who">Garrett</div>Cluster C BATCH DAY (Irving / Mid-cities)</div>
+    <div class="slot"><div class="who">Jamieson</div>Cluster A + B</div>
+    <div class="slot"><div class="who">Installer</div>A/B</div>
+  </div>
+  <div class="day"><h4>Wednesday</h4>
+    <div class="slot"><div class="who">Garrett or Jamieson</div>Cluster D BATCH DAY (Plano / Frisco / McKinney) — single tech, 3–5 stops, one toll trip</div>
+    <div class="slot"><div class="who">Other tech</div>Cluster A + B</div>
+  </div>
+  <div class="day"><h4>Thursday</h4>
+    <div class="slot"><div class="who">Garrett</div>Cluster C BATCH DAY (2nd weekly run)</div>
+    <div class="slot"><div class="who">Jamieson</div>Cluster A + B</div>
+  </div>
+  <div class="day"><h4>Friday</h4>
+    <div class="slot"><div class="who">Both</div>Cluster A + B on demand · catch-up day</div>
+    <div class="slot"><div class="who">Dispatch</div>Audit week's toll spend vs plan</div>
+  </div>
+</div>
+
+<div class="callout">
+  <strong>Dispatch rules during the outage.</strong>
+  <ul>
+    <li>Cluster D (Collin Co.) calls only book into Wednesday slots unless customer is on emergency/no-power.</li>
+    <li>Cluster C (Irving / mid-cities) calls book into Tue or Thu blocks.</li>
+    <li>If a Cluster D batch has &lt; 3 stops by Tuesday close, push the day to next Wed or run as add-on to existing route.</li>
+    <li>Quote Cluster D / C customers a 2-day window rather than same-day — most accept it.</li>
+    <li>Cluster A + B remain same/next-day — this is where our $/hour is highest.</li>
+  </ul>
+</div>
+
+<h2>Cluster-Level ZIP Detail</h2>
+<div class="tabs"><div class="tab active" onclick="showTab(event,'c0')">A. Tarrant Core <span class="badge">596</span></div><div class="tab" onclick="showTab(event,'c1')">B. North Tarrant → Denton corrido <span class="badge">67</span></div><div class="tab" onclick="showTab(event,'c2')">C. Mid-cities / Irving / Las Coli <span class="badge">501</span></div><div class="tab" onclick="showTab(event,'c3')">D. Collin County <span class="badge">373</span></div><div class="tab" onclick="showTab(event,'c4')">E. South / SE / outer <span class="badge">13</span></div><div class="tab" onclick="showTab(event,'c5')">F. Misc / outliers <span class="badge">94</span></div></div>
+<div id="c0" class="tab-pane active">
+      <table><thead><tr><th>ZIP</th><th>Annual rev</th><th>Jobs</th><th>Min dist</th><th>Nearest anchor</th><th>Toll class</th><th>Toll detail</th></tr></thead>
+      <tbody><tr><td><strong>76182</strong></td><td>$64,739</td><td>24</td><td>3.3 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76179</strong></td><td>$60,932</td><td>30</td><td>8.7 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76108</strong></td><td>$59,627</td><td>21</td><td>15.1 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76248</strong></td><td>$57,133</td><td>24</td><td>1.2 mi</td><td>Keller (Garrett)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76107</strong></td><td>$51,652</td><td>21</td><td>9.8 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76262</strong></td><td>$48,560</td><td>29</td><td>5.0 mi</td><td>Keller (Garrett)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76021</strong></td><td>$45,359</td><td>23</td><td>8.1 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76244</strong></td><td>$38,599</td><td>29</td><td>1.9 mi</td><td>Keller (Garrett)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76112</strong></td><td>$37,216</td><td>4</td><td>8.0 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76109</strong></td><td>$35,507</td><td>16</td><td>11.9 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76131</strong></td><td>$30,832</td><td>31</td><td>4.6 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76114</strong></td><td>$29,313</td><td>8</td><td>9.3 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76017</strong></td><td>$27,653</td><td>18</td><td>15.1 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76034</strong></td><td>$25,691</td><td>13</td><td>5.5 mi</td><td>Keller (Garrett)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76137</strong></td><td>$23,298</td><td>11</td><td>1.2 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76039</strong></td><td>$22,710</td><td>15</td><td>10.1 mi</td><td>Keller (Garrett)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76133</strong></td><td>$22,130</td><td>13</td><td>15.3 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76126</strong></td><td>$19,661</td><td>11</td><td>21.8 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76180</strong></td><td>$19,569</td><td>12</td><td>2.7 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76051</strong></td><td>$19,384</td><td>24</td><td>8.8 mi</td><td>Keller (Garrett)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76110</strong></td><td>$19,153</td><td>10</td><td>11.1 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76053</strong></td><td>$19,125</td><td>5</td><td>5.7 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76119</strong></td><td>$19,001</td><td>5</td><td>10.5 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76111</strong></td><td>$18,844</td><td>8</td><td>6.5 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76123</strong></td><td>$18,597</td><td>8</td><td>18.2 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76010</strong></td><td>$17,769</td><td>5</td><td>14.0 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76092</strong></td><td>$15,885</td><td>17</td><td>3.4 mi</td><td>Keller (Garrett)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76052</strong></td><td>$15,206</td><td>20</td><td>8.5 mi</td><td>Keller (Garrett)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76001</strong></td><td>$15,167</td><td>10</td><td>15.7 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76132</strong></td><td>$14,920</td><td>12</td><td>16.3 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76012</strong></td><td>$14,381</td><td>6</td><td>11.1 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76118</strong></td><td>$12,573</td><td>4</td><td>4.7 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76120</strong></td><td>$10,476</td><td>4</td><td>7.5 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76116</strong></td><td>$8,413</td><td>8</td><td>13.1 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76040</strong></td><td>$7,695</td><td>1</td><td>11.2 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76134</strong></td><td>$7,601</td><td>7</td><td>15.5 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76013</strong></td><td>$6,861</td><td>3</td><td>12.1 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76060</strong></td><td>$6,001</td><td>2</td><td>13.5 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76103</strong></td><td>$5,662</td><td>5</td><td>7.8 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76016</strong></td><td>$5,100</td><td>7</td><td>13.4 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76135</strong></td><td>$4,895</td><td>7</td><td>10.8 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76028</strong></td><td>$4,889</td><td>3</td><td>22.8 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76022</strong></td><td>$3,843</td><td>6</td><td>7.7 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76148</strong></td><td>$3,678</td><td>7</td><td>0.7 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76247</strong></td><td>$3,451</td><td>9</td><td>8.7 mi</td><td>Keller (Garrett)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76036</strong></td><td>$2,787</td><td>6</td><td>22.6 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76063</strong></td><td>$2,504</td><td>3</td><td>21.2 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76006</strong></td><td>$2,388</td><td>3</td><td>12.9 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76015</strong></td><td>$2,132</td><td>4</td><td>13.8 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76018</strong></td><td>$1,846</td><td>3</td><td>16.9 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76117</strong></td><td>$1,768</td><td>5</td><td>4.0 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76014</strong></td><td>$1,588</td><td>4</td><td>14.2 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76140</strong></td><td>$1,347</td><td>2</td><td>15.4 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76177</strong></td><td>$935</td><td>2</td><td>4.1 mi</td><td>Keller (Garrett)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76008</strong></td><td>$473</td><td>1</td><td>17.6 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76102</strong></td><td>$455</td><td>1</td><td>8.3 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76054</strong></td><td>$268</td><td>2</td><td>3.7 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76115</strong></td><td>$237</td><td>1</td><td>12.5 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76105</strong></td><td>$138</td><td>3</td><td>8.7 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+</tbody></table>
+    </div><div id="c1" class="tab-pane">
+      <table><thead><tr><th>ZIP</th><th>Annual rev</th><th>Jobs</th><th>Min dist</th><th>Nearest anchor</th><th>Toll class</th><th>Toll detail</th></tr></thead>
+      <tbody><tr><td><strong>76226</strong></td><td>$24,685</td><td>35</td><td>9.6 mi</td><td>Denton (Jamieson)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76208</strong></td><td>$13,498</td><td>7</td><td>2.9 mi</td><td>Denton (Jamieson)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76209</strong></td><td>$7,785</td><td>3</td><td>1.7 mi</td><td>Denton (Jamieson)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76210</strong></td><td>$6,678</td><td>7</td><td>5.7 mi</td><td>Denton (Jamieson)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76227</strong></td><td>$4,289</td><td>12</td><td>15.2 mi</td><td>Denton (Jamieson)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76207</strong></td><td>$138</td><td>2</td><td>3.4 mi</td><td>Denton (Jamieson)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>76249</strong></td><td>$0</td><td>1</td><td>14.7 mi</td><td>Denton (Jamieson)</td><td>No / light toll</td><td>—</td></tr>
+</tbody></table>
+    </div><div id="c2" class="tab-pane">
+      <table><thead><tr><th>ZIP</th><th>Annual rev</th><th>Jobs</th><th>Min dist</th><th>Nearest anchor</th><th>Toll class</th><th>Toll detail</th></tr></thead>
+      <tbody><tr><td><strong>75062</strong></td><td>$81,112</td><td>40</td><td>17.4 mi</td><td>Keller (Garrett)</td><td>Moderate toll</td><td>$6–$10 RT (SH-114 / 121 / PGBT)</td></tr>
+<tr><td><strong>75063</strong></td><td>$65,054</td><td>54</td><td>16.0 mi</td><td>Keller (Garrett)</td><td>Moderate toll</td><td>$6–$10 RT (SH-114 / 121 / PGBT)</td></tr>
+<tr><td><strong>75067</strong></td><td>$57,527</td><td>27</td><td>15.2 mi</td><td>Denton (Jamieson)</td><td>Moderate toll</td><td>$6–$10 RT (SH-114 / 121 / PGBT)</td></tr>
+<tr><td><strong>75019</strong></td><td>$50,627</td><td>51</td><td>15.0 mi</td><td>Keller (Garrett)</td><td>Moderate toll</td><td>$6–$10 RT (SH-114 / 121 / PGBT)</td></tr>
+<tr><td><strong>75229</strong></td><td>$46,801</td><td>12</td><td>23.3 mi</td><td>Keller (Garrett)</td><td>Moderate toll</td><td>$5–$9 RT (PGBT / LBJ)</td></tr>
+<tr><td><strong>75022</strong></td><td>$34,702</td><td>20</td><td>10.8 mi</td><td>Denton (Jamieson)</td><td>Moderate toll</td><td>$6–$10 RT (SH-114 / 121 / PGBT)</td></tr>
+<tr><td><strong>75231</strong></td><td>$29,688</td><td>11</td><td>29.6 mi</td><td>Keller (Garrett)</td><td>Moderate toll</td><td>$5–$9 RT (PGBT / LBJ)</td></tr>
+<tr><td><strong>75061</strong></td><td>$27,409</td><td>18</td><td>18.7 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>75044</strong></td><td>$23,553</td><td>6</td><td>32.6 mi</td><td>Denton (Jamieson)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>75214</strong></td><td>$20,627</td><td>12</td><td>30.0 mi</td><td>Keller (Garrett)</td><td>Moderate toll</td><td>$5–$9 RT (PGBT / LBJ)</td></tr>
+<tr><td><strong>75238</strong></td><td>$20,233</td><td>5</td><td>31.4 mi</td><td>Keller (Garrett)</td><td>Moderate toll</td><td>$5–$9 RT (PGBT / LBJ)</td></tr>
+<tr><td><strong>75252</strong></td><td>$17,775</td><td>6</td><td>24.9 mi</td><td>Denton (Jamieson)</td><td>Heavy toll</td><td>$10–$15 RT (DNT + 121/PGBT)</td></tr>
+<tr><td><strong>75038</strong></td><td>$16,995</td><td>16</td><td>16.6 mi</td><td>Keller (Garrett)</td><td>Moderate toll</td><td>$6–$10 RT (SH-114 / 121 / PGBT)</td></tr>
+<tr><td><strong>75039</strong></td><td>$13,543</td><td>13</td><td>18.3 mi</td><td>Keller (Garrett)</td><td>Moderate toll</td><td>$6–$10 RT (SH-114 / 121 / PGBT)</td></tr>
+<tr><td><strong>75220</strong></td><td>$12,793</td><td>11</td><td>23.6 mi</td><td>Keller (Garrett)</td><td>Moderate toll</td><td>$5–$9 RT (PGBT / LBJ)</td></tr>
+<tr><td><strong>75225</strong></td><td>$12,579</td><td>6</td><td>27.8 mi</td><td>Keller (Garrett)</td><td>Moderate toll</td><td>$5–$9 RT (PGBT / LBJ)</td></tr>
+<tr><td><strong>75077</strong></td><td>$12,422</td><td>20</td><td>9.0 mi</td><td>Denton (Jamieson)</td><td>Moderate toll</td><td>$6–$10 RT (SH-114 / 121 / PGBT)</td></tr>
+<tr><td><strong>75209</strong></td><td>$11,809</td><td>10</td><td>25.6 mi</td><td>Keller (Garrett)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>75224</strong></td><td>$11,009</td><td>4</td><td>27.5 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>75230</strong></td><td>$10,744</td><td>8</td><td>26.8 mi</td><td>Keller (Garrett)</td><td>Moderate toll</td><td>$5–$9 RT (PGBT / LBJ)</td></tr>
+<tr><td><strong>75088</strong></td><td>$9,764</td><td>4</td><td>39.0 mi</td><td>Denton (Jamieson)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>75219</strong></td><td>$8,433</td><td>9</td><td>26.8 mi</td><td>Keller (Garrett)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>75204</strong></td><td>$7,811</td><td>3</td><td>28.2 mi</td><td>Keller (Garrett)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>75240</strong></td><td>$7,754</td><td>8</td><td>28.0 mi</td><td>Keller (Garrett)</td><td>Heavy toll</td><td>$10–$15 RT (DNT + 121/PGBT)</td></tr>
+<tr><td><strong>75206</strong></td><td>$7,226</td><td>14</td><td>28.8 mi</td><td>Keller (Garrett)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>75043</strong></td><td>$6,782</td><td>7</td><td>36.8 mi</td><td>Keller (Garrett)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>75208</strong></td><td>$6,622</td><td>3</td><td>26.4 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>75215</strong></td><td>$5,760</td><td>5</td><td>30.0 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>75248</strong></td><td>$5,662</td><td>13</td><td>26.2 mi</td><td>Denton (Jamieson)</td><td>Heavy toll</td><td>$10–$15 RT (DNT + 121/PGBT)</td></tr>
+<tr><td><strong>75060</strong></td><td>$5,594</td><td>12</td><td>17.4 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>75087</strong></td><td>$5,222</td><td>5</td><td>42.4 mi</td><td>Denton (Jamieson)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>75080</strong></td><td>$4,905</td><td>6</td><td>27.8 mi</td><td>Denton (Jamieson)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>75040</strong></td><td>$4,798</td><td>4</td><td>35.8 mi</td><td>Denton (Jamieson)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>75287</strong></td><td>$4,747</td><td>5</td><td>23.6 mi</td><td>Denton (Jamieson)</td><td>Heavy toll</td><td>$10–$15 RT (DNT + 121/PGBT)</td></tr>
+<tr><td><strong>75089</strong></td><td>$4,669</td><td>4</td><td>39.8 mi</td><td>Denton (Jamieson)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>75228</strong></td><td>$4,493</td><td>5</td><td>34.1 mi</td><td>Keller (Garrett)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>75081</strong></td><td>$4,285</td><td>6</td><td>30.5 mi</td><td>Denton (Jamieson)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>75205</strong></td><td>$3,384</td><td>4</td><td>27.4 mi</td><td>Keller (Garrett)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>75218</strong></td><td>$2,974</td><td>4</td><td>31.6 mi</td><td>Keller (Garrett)</td><td>Moderate toll</td><td>$5–$9 RT (PGBT / LBJ)</td></tr>
+<tr><td><strong>75098</strong></td><td>$2,938</td><td>6</td><td>37.4 mi</td><td>Denton (Jamieson)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>75244</strong></td><td>$2,836</td><td>2</td><td>24.3 mi</td><td>Keller (Garrett)</td><td>Moderate toll</td><td>$5–$9 RT (PGBT / LBJ)</td></tr>
+<tr><td><strong>75243</strong></td><td>$2,606</td><td>6</td><td>30.3 mi</td><td>Keller (Garrett)</td><td>Moderate toll</td><td>$5–$9 RT (PGBT / LBJ)</td></tr>
+<tr><td><strong>75254</strong></td><td>$2,552</td><td>3</td><td>26.8 mi</td><td>Keller (Garrett)</td><td>Heavy toll</td><td>$10–$15 RT (DNT + 121/PGBT)</td></tr>
+<tr><td><strong>75234</strong></td><td>$2,273</td><td>8</td><td>21.4 mi</td><td>Keller (Garrett)</td><td>Moderate toll</td><td>$5–$9 RT (PGBT / LBJ)</td></tr>
+<tr><td><strong>75201</strong></td><td>$746</td><td>1</td><td>27.9 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>75048</strong></td><td>$648</td><td>1</td><td>37.7 mi</td><td>Denton (Jamieson)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>75065</strong></td><td>$437</td><td>1</td><td>9.7 mi</td><td>Denton (Jamieson)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>75041</strong></td><td>$0</td><td>2</td><td>32.9 mi</td><td>Keller (Garrett)</td><td>No / light toll</td><td>—</td></tr>
+</tbody></table>
+    </div><div id="c3" class="tab-pane">
+      <table><thead><tr><th>ZIP</th><th>Annual rev</th><th>Jobs</th><th>Min dist</th><th>Nearest anchor</th><th>Toll class</th><th>Toll detail</th></tr></thead>
+      <tbody><tr><td><strong>75023</strong></td><td>$48,816</td><td>30</td><td>25.3 mi</td><td>Denton (Jamieson)</td><td>Heavy toll</td><td>$10–$15 RT (DNT + 121/PGBT)</td></tr>
+<tr><td><strong>75071</strong></td><td>$43,714</td><td>38</td><td>22.8 mi</td><td>Denton (Jamieson)</td><td>Heavy toll</td><td>$10–$15 RT (DNT + 121/PGBT)</td></tr>
+<tr><td><strong>75025</strong></td><td>$36,686</td><td>19</td><td>24.2 mi</td><td>Denton (Jamieson)</td><td>Heavy toll</td><td>$10–$15 RT (DNT + 121/PGBT)</td></tr>
+<tr><td><strong>75033</strong></td><td>$31,666</td><td>21</td><td>17.8 mi</td><td>Denton (Jamieson)</td><td>Heavy toll</td><td>$10–$15 RT (DNT + 121/PGBT)</td></tr>
+<tr><td><strong>75034</strong></td><td>$28,242</td><td>30</td><td>17.9 mi</td><td>Denton (Jamieson)</td><td>Heavy toll</td><td>$10–$15 RT (DNT + 121/PGBT)</td></tr>
+<tr><td><strong>75013</strong></td><td>$27,505</td><td>30</td><td>25.7 mi</td><td>Denton (Jamieson)</td><td>Heavy toll</td><td>$10–$15 RT (DNT + 121/PGBT)</td></tr>
+<tr><td><strong>75093</strong></td><td>$27,300</td><td>26</td><td>22.3 mi</td><td>Denton (Jamieson)</td><td>Heavy toll</td><td>$10–$15 RT (DNT + 121/PGBT)</td></tr>
+<tr><td><strong>75070</strong></td><td>$19,289</td><td>30</td><td>25.8 mi</td><td>Denton (Jamieson)</td><td>Heavy toll</td><td>$10–$15 RT (DNT + 121/PGBT)</td></tr>
+<tr><td><strong>75035</strong></td><td>$18,882</td><td>41</td><td>21.6 mi</td><td>Denton (Jamieson)</td><td>Heavy toll</td><td>$10–$15 RT (DNT + 121/PGBT)</td></tr>
+<tr><td><strong>75075</strong></td><td>$18,779</td><td>17</td><td>26.7 mi</td><td>Denton (Jamieson)</td><td>Heavy toll</td><td>$10–$15 RT (DNT + 121/PGBT)</td></tr>
+<tr><td><strong>75056</strong></td><td>$17,163</td><td>12</td><td>16.4 mi</td><td>Denton (Jamieson)</td><td>Heavy toll</td><td>$10–$15 RT (DNT + 121/PGBT)</td></tr>
+<tr><td><strong>75036</strong></td><td>$16,024</td><td>14</td><td>13.6 mi</td><td>Denton (Jamieson)</td><td>Heavy toll</td><td>$10–$15 RT (DNT + 121/PGBT)</td></tr>
+<tr><td><strong>75024</strong></td><td>$12,901</td><td>16</td><td>21.4 mi</td><td>Denton (Jamieson)</td><td>Heavy toll</td><td>$10–$15 RT (DNT + 121/PGBT)</td></tr>
+<tr><td><strong>75068</strong></td><td>$10,700</td><td>17</td><td>11.3 mi</td><td>Denton (Jamieson)</td><td>Heavy toll</td><td>$10–$15 RT (DNT + 121/PGBT)</td></tr>
+<tr><td><strong>75094</strong></td><td>$8,023</td><td>6</td><td>31.9 mi</td><td>Denton (Jamieson)</td><td>Heavy toll</td><td>$10–$15 RT (DNT + 121/PGBT)</td></tr>
+<tr><td><strong>75074</strong></td><td>$6,460</td><td>8</td><td>29.1 mi</td><td>Denton (Jamieson)</td><td>Heavy toll</td><td>$10–$15 RT (DNT + 121/PGBT)</td></tr>
+<tr><td><strong>75078</strong></td><td>$5,503</td><td>8</td><td>20.2 mi</td><td>Denton (Jamieson)</td><td>Heavy toll</td><td>$10–$15 RT (DNT + 121/PGBT)</td></tr>
+<tr><td><strong>75069</strong></td><td>$4,405</td><td>7</td><td>29.7 mi</td><td>Denton (Jamieson)</td><td>Heavy toll</td><td>$10–$15 RT (DNT + 121/PGBT)</td></tr>
+<tr><td><strong>75072</strong></td><td>$1,973</td><td>3</td><td>24.8 mi</td><td>Denton (Jamieson)</td><td>Heavy toll</td><td>$10–$15 RT (DNT + 121/PGBT)</td></tr>
+</tbody></table>
+    </div><div id="c4" class="tab-pane">
+      <table><thead><tr><th>ZIP</th><th>Annual rev</th><th>Jobs</th><th>Min dist</th><th>Nearest anchor</th><th>Toll class</th><th>Toll detail</th></tr></thead>
+      <tbody><tr><td><strong>75126</strong></td><td>$8,789</td><td>9</td><td>48.0 mi</td><td>Keller (Garrett)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>75115</strong></td><td>$7,247</td><td>3</td><td>28.0 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>75104</strong></td><td>$828</td><td>1</td><td>29.4 mi</td><td>Shop</td><td>No / light toll</td><td>—</td></tr>
+</tbody></table>
+    </div><div id="c5" class="tab-pane">
+      <table><thead><tr><th>ZIP</th><th>Annual rev</th><th>Jobs</th><th>Min dist</th><th>Nearest anchor</th><th>Toll class</th><th>Toll detail</th></tr></thead>
+      <tbody><tr><td><strong>75007</strong></td><td>$56,307</td><td>36</td><td>20.1 mi</td><td>Denton (Jamieson)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>75002</strong></td><td>$55,774</td><td>42</td><td>31.7 mi</td><td>Denton (Jamieson)</td><td>Heavy toll</td><td>$10–$15 RT (DNT + 121/PGBT)</td></tr>
+<tr><td><strong>75006</strong></td><td>$13,296</td><td>15</td><td>19.7 mi</td><td>Keller (Garrett)</td><td>No / light toll</td><td>—</td></tr>
+<tr><td><strong>75001</strong></td><td>$69</td><td>1</td><td>24.1 mi</td><td>Keller (Garrett)</td><td>No / light toll</td><td>—</td></tr>
+</tbody></table>
+    </div>
+
+<h2>The Charts</h2>
+<div class="charts">
+  <div class="chart-wrap"><canvas id="revByCluster" height="220"></canvas></div>
+  <div class="chart-wrap"><canvas id="avgMiCluster" height="220"></canvas></div>
+</div>
+<div class="charts">
+  <div class="chart-wrap"><canvas id="tollByCluster" height="220"></canvas></div>
+  <div class="chart-wrap"><canvas id="savingsCompare" height="220"></canvas></div>
+</div>
+
+<h2>Demographic Context (why the Collin Co. corridor still matters)</h2>
+<p>The Collin County batch list (Cluster D) includes 75002 Allen, 75013 Frisco, 75070/75071 McKinney, 75078 Prosper. These are the strongest-growth ZIPs in the country right now and we want to keep showing up — just on our toll-rationalized terms.</p>
+<ul>
+  <li><strong>Prosper 75078</strong> ranks <strong>9th fastest-growing ZIP in the U.S.</strong> — population +254%, housing +243% over the past decade.</li>
+  <li><strong>North Fort Worth 76177</strong> is the <strong>7th fastest in the U.S.</strong> — and it sits in our Cluster A, so we already win on it.</li>
+  <li><strong>DFW metro</strong> added 123,557 residents last year (~339/day). 4th-largest metro in the U.S.</li>
+  <li><strong>Denton County</strong> remains a top-5 growth county nationally — Jamieson's home base is in the right place.</li>
+  <li><strong>Keller (76248)</strong> has plateaued (<em>−2.6% 2019–2023</em>). Mature, dense, ideal dispatch hub — but the growth is east (Collin) and north (Denton corridor), which is why batching them right is essential.</li>
+</ul>
+
+<h2>Assumptions & How to Tighten</h2>
+<ul>
+  <li>Toll cost classes are conservative DFW averages (TollTag rates). Replace with your actual T-Tag invoice and the number sharpens.</li>
+  <li>Drive savings model assumes ~3 stops/batch day in Cluster D and ~2 stops/batch in Cluster C. Higher density = bigger savings.</li>
+  <li>Billable rate of $190/hr is a placeholder. Sub in your fully-loaded hourly to recompute the capacity-recapture line.</li>
+  <li>Baseline assumes each job is a round trip from the nearest anchor. Real-world consecutive-job routing already saves some — so the recapture is incremental on top of what you're doing today.</li>
+</ul>
+
+<footer>
+  Source: Job Completed Detail Report 04/01/25–04/30/26 — 1,744 jobs, $2,433,745.<br>
+  Demographic citations: CultureMap Dallas/Fort Worth, DFW Agent Magazine, Fort Worth EDP, Community Impact, City of Keller, U.S. Census via FRED.
+</footer>
+
+</div>
+
+<script>
+function showTab(e, id) {
+  const tabs = e.target.closest('.tabs').querySelectorAll('.tab');
+  tabs.forEach(t => t.classList.remove('active'));
+  e.target.classList.add('active');
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+const clusterLabels = ["A", "B", "C", "D", "E", "F"];
+const revs = [1037616.9700000003, 57073.44, 702924.6499999997, 384030.91, 16864.61, 125446.56999999999];
+const jobs = [596, 67, 501, 373, 13, 94];
+const tolls = [0.0, 0.0, 2943.0, 4476.0, 0.0, 504.0];
+const miles = [8.868897828494447, 9.021666331633977, 21.599920772386206, 22.119648744945756, 41.97524318877264, 25.2532893248264];
+
+new Chart(document.getElementById('revByCluster'), {
+  type:'bar',
+  data:{labels:clusterLabels,
+    datasets:[
+      {label:'Annual revenue', data:revs, backgroundColor:'#1f4f8b'},
+    ]},
+  options:{plugins:{title:{display:true,text:'Revenue by cluster'}},
+    responsive:true, scales:{y:{ticks:{callback:v=>'$'+(v/1000)+'k'}}}}
+});
+
+new Chart(document.getElementById('avgMiCluster'), {
+  type:'bar',
+  data:{labels:clusterLabels,
+    datasets:[{label:'Avg miles to nearest anchor', data:miles, backgroundColor:'#c98a1c'}]},
+  options:{plugins:{title:{display:true,text:'Avg one-way distance to nearest anchor (mi)'}, legend:{display:false}},
+    responsive:true}
+});
+
+new Chart(document.getElementById('tollByCluster'), {
+  type:'bar',
+  data:{labels:clusterLabels,
+    datasets:[{label:'Annual toll burden ($)', data:tolls, backgroundColor:'#a33'}]},
+  options:{plugins:{title:{display:true,text:'Annual toll spend by cluster (baseline, per-job round trips)'}, legend:{display:false}},
+    responsive:true, scales:{y:{ticks:{callback:v=>'$'+v}}}}
+});
+
+new Chart(document.getElementById('savingsCompare'), {
+  type:'bar',
+  data:{labels:['Drive miles/yr','Toll $/yr','Tech hours/yr'],
+    datasets:[
+      {label:'Baseline', data:[55764,7923,1743], backgroundColor:'#a33'},
+      {label:'After batching', data:[33701,2870,1053], backgroundColor:'#0a7a3b'}
+    ]},
+  options:{plugins:{title:{display:true,text:'Before vs after route batching'}},
+    responsive:true}
+});
+</script>
+</body></html>
