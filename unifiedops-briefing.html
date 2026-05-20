@@ -253,8 +253,18 @@ table tr:nth-child(even) td { background: #fbfaf6; }
         <li>15-minute SLA from "tech done" to coached + happy-called. Both required. System-enforced, no manual close button.</li>
         <li>9 roles, each with their own queue; every metric on the 21 has an owner and a different person marking it.</li>
         <li>~6 of 21 metrics auto-compute today; ~5 more become auto post-ST integration; the rest are manual judgement marks.</li>
+        <li>AI layer rolls out in phases over the first year — surfaces quiet reds, coaching evasion, cherry-picking, manager procrastination, and other defects humans miss in real time.</li>
         <li>Phases 1-5 already built and running. Pre-build review is for Phases A0–D (foundation + workflow + 21×10 board).</li>
     </ul>
+</div>
+
+<!-- CORE PRINCIPLE BANNER -->
+<div style="background: #fff4cf; border-top: 1px solid var(--gold); border-bottom: 4px solid var(--gold); padding: 28px 60px;">
+    <div style="max-width: 1080px; margin: 0 auto;">
+        <div style="font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: #7a5a00; margin-bottom: 8px;">Core Operating Principle</div>
+        <div style="font-family: 'Georgia', serif; font-size: 1.35rem; font-weight: 700; margin-bottom: 10px; line-height: 1.25;">Every customer- and tech-facing department is updating live, all day long.</div>
+        <p style="margin: 0; font-size: 0.97rem; color: #3a2a00;">Nobody waits for an end-of-day report. At any moment of the working day, every role can see exactly where they are tracking against every SLA — the 15-minute coaching window, the 15-minute happy-call window, the 10 AM 21×10 clearance, the per-metric daily pacing. The dispatcher board, CSR happy-call queue, manager coaching queue, controller daily-actuals view, tech personal dashboard, and 21×10 board all update in real time as data lands. <strong>Full stop.</strong> This is non-negotiable and shapes every screen.</p>
+    </div>
 </div>
 
 <!-- 01 SCOPE -->
@@ -285,9 +295,79 @@ table tr:nth-child(even) td { background: #fbfaf6; }
     <div class="callout"><strong>Rule:</strong> UnifiedOps never writes back to Service Titan. Read-only consumer when integration arrives.</div>
 </div>
 
-<!-- 02 ROLES -->
+<!-- 02 AI ANALYSIS -->
 <div class="section">
-    <h2>02 — Nine Roles + Permission Matrix</h2>
+    <h2>02 — AI Analysis &amp; Operational Defect Detection</h2>
+    <div class="h-title">What we get from owning all this data</div>
+
+    <p><strong>Rules-based today, no AI yet.</strong> AI layers on later, in phases — because AI on thin data is worse than no AI. Once the dataset is mature, the system illuminates management defects humans miss in real time. Each row below is a specific defect, the signal that exposes it, and what the system says.</p>
+
+    <h3>Defects this illuminates</h3>
+    <table class="compact">
+        <thead><tr><th>Defect</th><th>Signal</th><th>What the system surfaces</th></tr></thead>
+        <tbody>
+            <tr><td>Manager procrastination on coaching</td><td>15-min SLA breach count per manager per week</td><td>"Manager X breached coaching SLA on 8 of 22 jobs last week"</td></tr>
+            <tr><td>Quiet reds (the removable offense)</td><td>Marked Green while underlying MTD pacing was Red</td><td>"Metric 04 marked Green 3 times this month with pacing &lt; 0.95"</td></tr>
+            <tr><td>10 AM cramming (reactive marking)</td><td>Distribution of mark timestamps clustered near deadline</td><td>"73% of marks land between 9:45-10:00 AM. Suggests reactive, not honest review."</td></tr>
+            <tr><td>Office reaction-time drift</td><td>(CreatedAt − TechCompletedAt) trending up</td><td>"CSR avg reaction time: 4.2 min, up from 2.1 min over 4 weeks"</td></tr>
+            <tr><td>Coaching over-scoring / evasion</td><td>Coaching scores vs callback rates per tech</td><td>"Techs scored ≥90 by Manager X have 3× callback rate vs company avg"</td></tr>
+            <tr><td>Tech behavioral drift</td><td>Exception clustering per tech over time</td><td>"Tech Y: 4 Tech Behavior exceptions in 30 days, all filed by Dispatcher Jen"</td></tr>
+            <tr><td>Hidden cherry-picking</td><td>High-rev vs low-rev acceptance ratio per tech</td><td>"Tech Z accepts 96% of $1000+ jobs, 41% of &lt;$300 jobs — statistically off baseline"</td></tr>
+            <tr><td>Resolution-quality decay</td><td>Resolution-note text length vs reopen rate</td><td>"Exceptions resolved with notes &lt;20 words reopen 2.4× more often"</td></tr>
+            <tr><td>Repeat-customer erosion</td><td>Metric 03 trend correlation with specific tech job dates</td><td>"May repeat % drop correlates with Tech A's March job dates"</td></tr>
+            <tr><td>Manager favoritism</td><td>Coaching-score variance by tech-manager tenure</td><td>"Manager X's score variance is 2σ wider for techs hired under their tenure"</td></tr>
+            <tr><td>Day Status pattern erosion</td><td>Sick/late clustering per tech, day-of-week, month</td><td>"Tech B has Monday-after-payday late pattern; 4 of last 6"</td></tr>
+            <tr><td>Hidden tech development gaps</td><td>Coaching missed-criteria patterns per tech over time</td><td>"Tech C consistently misses 'options presentation' on jobs &gt;$1000; not coached in 60 days"</td></tr>
+        </tbody>
+    </table>
+
+    <h3>Phased AI rollout</h3>
+    <table class="compact">
+        <thead><tr><th>Phase</th><th>Capability</th><th>Data prerequisite</th></tr></thead>
+        <tbody>
+            <tr><td>Now (MVP)</td><td>Deterministic rules engine — counts, thresholds, color coding, exception firing. <em>No AI.</em></td><td>None — works day one</td></tr>
+            <tr><td>Phase E</td><td>Statistical anomaly detection ("Tech X RPH is 2σ below their own baseline")</td><td>~1 month of data</td></tr>
+            <tr><td>Phase F</td><td>LLM weekly digest — reads structured + free-text data, writes specific named-pattern callouts to Owner</td><td>~3 months of data</td></tr>
+            <tr><td>Phase G</td><td>Cross-signal predictive — "3+ unreviewed invoices in a month → 60-day callback risk"</td><td>~6 months of data</td></tr>
+            <tr><td>Phase H</td><td>Coaching recommendations per tech from pattern history</td><td>~12 months of data; aspirational</td></tr>
+        </tbody>
+    </table>
+
+    <h3>Phase F sample output (LLM weekly digest)</h3>
+    <div class="pre">Mister Sparky Katy — week ending 5/24/2026
+
+<span class="hl-gold">CLEARED</span>
+  · Manager Mike: resolved 47 of 50 metric Reds within 24h. Best in company.
+  · Avg happy-call score: 8.7 (target 8.0). 9th consecutive week above target.
+
+<span class="hl-yellow">WATCH</span>
+  · Manager Sarah: 6 Reds carried 3+ days. All Metric 12 (Tech Behavior).
+    3 of 6 relate to the same tech (Tech A). Pattern, not noise.
+  · CSR avg reaction time: 4.2 min, up from 2.1 min over 4 weeks. Linear trend.
+  · Tech B: 4 Tech Behavior exceptions in 30 days, all filed by Dispatcher Jen.
+
+<span class="hl-red">ESCALATE</span>
+  · 3 jobs closed last week with happy-call score 7 and no escalation.
+    Per policy, all should have escalated. System flags as integrity violation.
+  · Marketing Volume MTD: 1,830 vs 1,950 expected. Trend suggests $14k revenue
+    shortfall by month-end if uncorrected.</div>
+
+    <h3>What AI is NOT doing</h3>
+    <ul>
+        <li>Not making decisions for managers — surfaces patterns; humans act</li>
+        <li>Not auto-firing or auto-disciplining anyone</li>
+        <li>Not replacing human judgment on the 21 (markers still mark; AI flags suspicious marks)</li>
+        <li>Not generating performance reviews</li>
+        <li>Not exposed beyond Leadership — digest is Owner-only by default</li>
+        <li>Not reading customer PII or sensitive financial detail beyond what's already in the system</li>
+    </ul>
+
+    <div class="callout"><strong>The premise:</strong> The 21×10 framework demands honesty by 10 AM. AI provides the audit layer that says "you marked it Green; let's check the underlying data." Quiet reds stop being culturally discouraged and start being structurally impossible.</div>
+</div>
+
+<!-- 03 ROLES -->
+<div class="section">
+    <h2>03 — Nine Roles + Permission Matrix</h2>
     <div class="h-title">Who can do what</div>
 
     <table class="compact">
@@ -339,7 +419,7 @@ table tr:nth-child(even) td { background: #fbfaf6; }
 
 <!-- 03 21x10 FULL TABLE -->
 <div class="section">
-    <h2>03 — The 21 Metrics</h2>
+    <h2>04 — The 21 Metrics</h2>
     <div class="h-title">Owner, marker, type, data source for each</div>
 
     <table class="compact">
@@ -380,7 +460,7 @@ table tr:nth-child(even) td { background: #fbfaf6; }
 
 <!-- 04 PACING MATH -->
 <div class="section">
-    <h2>04 — Pacing Math (Quantitative Metrics)</h2>
+    <h2>05 — Pacing Math (Quantitative Metrics)</h2>
     <div class="h-title">How "green" gets computed</div>
 
     <p><strong>Inputs per metric, per division:</strong> monthly target value, direction (higher-is-better or lower-is-better), yellow buffer (default 5%), red buffer (default 10%).</p>
@@ -423,7 +503,7 @@ PacingRatio(D)         = ActualMtd / ExpectedMtd
 
 <!-- 05 JOB LIFECYCLE -->
 <div class="section">
-    <h2>05 — Job Lifecycle &amp; 15-Minute SLA</h2>
+    <h2>06 — Job Lifecycle &amp; 15-Minute SLA</h2>
     <div class="h-title">Every timestamp, every breach threshold</div>
 
     <div class="pre"><span class="hl-gold">TIMESTAMP</span>                      <span class="hl-gold">SET BY</span>                          <span class="hl-gold">SLA CLOCK</span>
@@ -461,7 +541,7 @@ Job.ClosedAt                   <span class="hl-gold">system — auto-set</span> 
 
 <!-- 06 BOARD WIREFRAME -->
 <div class="section">
-    <h2>06 — Daily 21×10 Board (Wireframe)</h2>
+    <h2>07 — Daily 21×10 Board (Wireframe)</h2>
     <div class="h-title">The single most-important screen</div>
 
     <div class="pre">┌─────────────────────────────────────────────────────────────────────────┐
@@ -501,7 +581,7 @@ Job.ClosedAt                   <span class="hl-gold">system — auto-set</span> 
 
 <!-- 07 EXCEPTIONS -->
 <div class="section">
-    <h2>07 — Exception Types</h2>
+    <h2>08 — Exception Types</h2>
     <div class="h-title">Two sources, single inbox</div>
 
     <h3>Auto-generated (system fires)</h3>
@@ -538,7 +618,7 @@ Job.ClosedAt                   <span class="hl-gold">system — auto-set</span> 
 
 <!-- 08 DATA -->
 <div class="section">
-    <h2>08 — Data Captured per Entity</h2>
+    <h2>09 — Data Captured per Entity</h2>
     <div class="h-title">What lands in the database</div>
 
     <h3>Job (after Phase A1 migration)</h3>
@@ -565,7 +645,7 @@ Job.ClosedAt                   <span class="hl-gold">system — auto-set</span> 
 
 <!-- 09 PHASES -->
 <div class="section">
-    <h2>09 — Phase Status</h2>
+    <h2>10 — Phase Status</h2>
     <div class="h-title">What's built, what's next</div>
 
     <table class="compact">
@@ -594,7 +674,7 @@ Job.ClosedAt                   <span class="hl-gold">system — auto-set</span> 
 
 <!-- 10 IN/OUT -->
 <div class="section">
-    <h2>10 — In Scope vs Out of Scope</h2>
+    <h2>11 — In Scope vs Out of Scope</h2>
     <div class="h-title">Sharp lines</div>
 
     <div class="two-col">
@@ -641,7 +721,7 @@ Job.ClosedAt                   <span class="hl-gold">system — auto-set</span> 
 
 <!-- 11 OPEN -->
 <div class="section">
-    <h2>11 — Open Decisions Needing Team Input</h2>
+    <h2>12 — Open Decisions Needing Team Input</h2>
     <div class="h-title">Where you weigh in before build starts</div>
 
     <ul class="q-list">
@@ -681,7 +761,7 @@ Job.ClosedAt                   <span class="hl-gold">system — auto-set</span> 
 
 <!-- 12 DIVERGENCES -->
 <div class="section">
-    <h2>12 — Divergences from Earlier V2 Spec</h2>
+    <h2>13 — Divergences from Earlier V2 Spec</h2>
     <div class="h-title">What changed and why (for those who saw the earlier doc)</div>
 
     <table class="compact">
