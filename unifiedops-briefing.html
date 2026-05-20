@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UnifiedOps — Team Briefing | Pre-Build Review</title>
+<style>
+:root {
+    --demand:     #1a3a5c;
+    --conversion: #1e5c2a;
+    --delivery:   #7a3010;
+    --people:     #3a1a5c;
+    --standard:   #1a4a5c;
+    --gold:       #c8a84b;
+    --bg:         #fafaf8;
+    --text:       #1a1a1a;
+    --muted:      #555;
+    --card:       #ffffff;
+    --border:     #e5e0da;
+    --red:        #c0392b;
+    --green:      #1e5c2a;
+    --yellow:     #b88a00;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+}
+.doc-header {
+    background: #0b121b;
+    color: white;
+    padding: 64px 80px 56px;
+    border-bottom: 4px solid var(--gold);
+}
+.doc-header .eyebrow {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 18px;
+}
+.doc-header h1 {
+    font-size: 2.6rem;
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 14px;
+    letter-spacing: -0.01em;
+}
+.doc-header .tagline {
+    font-style: italic;
+    font-size: 1.05rem;
+    color: #cbd2db;
+    max-width: 780px;
+}
+.nav-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    background: #0e1620;
+    color: white;
+    padding: 18px 80px;
+    border-bottom: 1px solid #1c2734;
+}
+.nav-pill {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: #1c2734;
+    color: #cbd2db;
+    padding: 8px 16px;
+    border-radius: 3px;
+}
+.nav-pill span {
+    color: var(--gold);
+    margin-right: 8px;
+    font-weight: 700;
+}
+.foreword {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 72px 60px 48px;
+    border-bottom: 1px solid var(--border);
+}
+.foreword-label {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 18px;
+}
+.foreword h2 {
+    font-size: 1.9rem;
+    font-weight: 700;
+    margin-bottom: 28px;
+    line-height: 1.25;
+}
+.foreword p {
+    margin-bottom: 18px;
+    font-size: 1.02rem;
+}
+.foreword p.lead {
+    font-size: 1.15rem;
+    color: var(--muted);
+}
+.pull-quote {
+    border-left: 4px solid var(--gold);
+    margin: 32px 0;
+    padding: 8px 0 8px 28px;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: #2a2a2a;
+}
+.section {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 56px 60px;
+    border-bottom: 1px solid var(--border);
+}
+.section h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+.section .section-q {
+    font-style: italic;
+    color: var(--muted);
+    margin-bottom: 28px;
+    font-size: 1rem;
+}
+.section h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 28px 0 12px;
+}
+.section p {
+    margin-bottom: 14px;
+}
+.section ul {
+    margin: 12px 0 18px 22px;
+}
+.section li { margin-bottom: 8px; }
+.section-bar {
+    width: 60px;
+    height: 3px;
+    background: var(--gold);
+    margin: 0 0 24px;
+}
+.role-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin: 24px 0;
+}
+.role-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px 22px;
+}
+.role-card .role-name {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+}
+.role-card h4 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+.role-card p {
+    font-size: 0.92rem;
+    color: var(--muted);
+    margin-bottom: 0;
+}
+.compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 24px 0;
+}
+.compare-box {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 22px 24px;
+}
+.compare-box.do { background: #f3f8f3; border-left: 4px solid var(--green); }
+.compare-box.dont { background: #faf3f0; border-left: 4px solid var(--delivery); }
+.compare-box .label {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+.compare-box.do .label { color: var(--green); }
+.compare-box.dont .label { color: var(--delivery); }
+table.matrix {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 0.92rem;
+}
+table.matrix th, table.matrix td {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+}
+table.matrix th {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: #f6f4f0;
+}
+.phase-list {
+    list-style: none;
+    margin: 20px 0;
+    padding: 0;
+}
+.phase-list li {
+    display: flex;
+    align-items: baseline;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+}
+.phase-list .phase-tag {
+    flex-shrink: 0;
+    width: 90px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--demand);
+}
+.phase-list .phase-body {
+    flex: 1;
+    padding-right: 14px;
+}
+.phase-list .phase-status {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+.phase-status.done { background: #e5f0e6; color: var(--green); }
+.phase-status.partial { background: #fff4d6; color: var(--yellow); }
+.phase-status.new { background: #e8f0f5; color: var(--demand); }
+.phase-status.future { background: #f2eef7; color: var(--people); }
+.callout {
+    background: #fff9e6;
+    border-left: 4px solid var(--gold);
+    padding: 22px 26px;
+    border-radius: 3px;
+    margin: 28px 0;
+    font-size: 1rem;
+}
+.callout strong { display: block; margin-bottom: 6px; font-weight: 700; }
+.questions-list {
+    list-style: none;
+    counter-reset: q;
+    margin: 20px 0;
+    padding: 0;
+}
+.questions-list li {
+    counter-increment: q;
+    padding: 18px 20px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    margin-bottom: 12px;
+    border-radius: 3px;
+    font-size: 0.98rem;
+}
+.questions-list li::before {
+    content: "Q" counter(q, decimal-leading-zero);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 6px;
+}
+.feedback-block {
+    background: #0b121b;
+    color: white;
+    padding: 52px 60px;
+    margin-top: 0;
+    text-align: center;
+}
+.feedback-block .label {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+}
+.feedback-block h2 { font-size: 1.8rem; margin-bottom: 18px; }
+.feedback-block p { max-width: 680px; margin: 0 auto 12px; font-size: 1.02rem; color: #cbd2db; }
+.footer-meta {
+    background: #0e1620;
+    color: #8794a4;
+    padding: 28px 60px;
+    text-align: center;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+}
+@media (max-width: 720px) {
+    .doc-header { padding: 40px 28px 36px; }
+    .doc-header h1 { font-size: 1.9rem; }
+    .nav-strip { padding: 14px 28px; }
+    .foreword, .section { padding: 40px 28px; }
+    .compare-grid { grid-template-columns: 1fr; }
+    .phase-list li { flex-wrap: wrap; }
+    .phase-list .phase-tag { width: 100%; margin-bottom: 6px; }
+    .feedback-block { padding: 40px 28px; }
+}
+</style>
+</head>
+<body>
+
+<div class="doc-header">
+    <div class="eyebrow">Operations Leadership &nbsp;·&nbsp; Pre-Build Review</div>
+    <h1>UnifiedOps — Team Briefing</h1>
+    <div class="tagline">The system we're building to run the 21 by 10 and put discipline behind it. Your critique before we cut code.</div>
+</div>
+
+<div class="nav-strip">
+    <div class="nav-pill"><span>01</span>What This Is</div>
+    <div class="nav-pill"><span>02</span>What It Does For Each Role</div>
+    <div class="nav-pill"><span>03</span>The Daily 21×10 Board</div>
+    <div class="nav-pill"><span>04</span>The 15-Minute Discipline</div>
+    <div class="nav-pill"><span>05</span>The Exception Report</div>
+    <div class="nav-pill"><span>06</span>What We're NOT Building</div>
+    <div class="nav-pill"><span>07</span>Phased Build</div>
+    <div class="nav-pill"><span>08</span>Where You Come In</div>
+</div>
+
+<!-- FOREWORD -->
+<div class="foreword">
+    <div class="foreword-label">From the Principal &nbsp;·&nbsp; May 2026</div>
+    <h2>Why This Document Exists</h2>
+    <p class="lead">Last month I published 21 by 10 — the operating framework. Five functions, twenty-one metrics, cleared by 10 AM, every day.</p>
+    <p>Frameworks on paper change nothing. So we're building the software that puts teeth behind the framework. The working name is UnifiedOps. It runs alongside Service Titan — it does not replace it. ST keeps doing what ST does well (dispatch, field execution, customer comms, invoicing). UnifiedOps does the parts ST does badly or not at all: the daily DMR rhythm, invoice coaching, manager accountability, exception reporting, and the morning 21 by 10 ritual.</p>
+    <p>This document is your shot to push back <em>before</em> we build. If something in here is wrong, missing, or going to make your daily life harder instead of easier, I want to hear it now. Once the code is written and the team is using it, every change costs more.</p>
+    <div class="pull-quote">
+        "The list makes the red visible. The team makes the red green. The software is just the list — well-engineered, hard to ignore, and impossible to hide from."
+    </div>
+</div>
+
+<!-- SECTION 1: WHAT THIS IS -->
+<div class="section">
+    <h2>01 &nbsp; What This Is</h2>
+    <div class="section-q">In one paragraph, what are we building?</div>
+    <div class="section-bar"></div>
+
+    <p>UnifiedOps is a web application — used on desktops, iPads, iPhones, and Android — that captures the operational data we need to run the 21 by 10 every day, in real time. It enforces a 15-minute service-level standard from when a tech finishes a job to when that job is invoice-coached and happy-called. It surfaces every red on the 21 by 10 board by 10 AM each morning, with named owners and same-day plans, so nothing rots quietly. And it gives every role — Owner, Manager, Dispatcher, CSR, Controller, Recruiter, Tech — a single screen where their work for the day lives, with the rules baked in so nobody can skip steps or close items prematurely.</p>
+
+    <div class="callout">
+        <strong>One sentence for skeptics:</strong> It's the structural enforcement of "today's work today, honest by 10 AM, no quiet reds" — turned into software that doesn't get tired, doesn't take days off, and doesn't let things slip through the cracks.
+    </div>
+</div>
+
+<!-- SECTION 2: WHAT IT DOES FOR EACH ROLE -->
+<div class="section" style="background: #faf9f6;">
+    <h2>02 &nbsp; What It Does For Each Role</h2>
+    <div class="section-q">When you log in tomorrow, what do you see?</div>
+    <div class="section-bar"></div>
+
+    <p>Every role gets a default landing page that's <em>their day</em> — not a generic dashboard everyone has to interpret.</p>
+
+    <div class="role-grid">
+        <div class="role-card">
+            <div class="role-name">Owner</div>
+            <h4>Cross-shop 21×10 roll-up</h4>
+            <p>All four divisions side-by-side. Counts of cleared / unowned / red per shop. The bird's-eye view of the day.</p>
+        </div>
+        <div class="role-card">
+            <div class="role-name">Manager (per shop)</div>
+            <h4>Your division's 21×10 + coaching queue</h4>
+            <p>Your shop's full board. Your pending invoice coachings, sorted by age. Real-time updates as jobs come in.</p>
+        </div>
+        <div class="role-card">
+            <div class="role-name">Dispatcher</div>
+            <h4>Day status board + your marks</h4>
+            <p>Today's sick / late / no-show log. The metrics you're responsible for marking (Tech Behavior, Tech Refusals, Tech Control, Standards of Care).</p>
+        </div>
+        <div class="role-card">
+            <div class="role-name">CSR</div>
+            <h4>Pending Happy Calls queue</h4>
+            <p>Every job awaiting a happy call, sorted by age with the 15-min SLA clock running. One-click into the customer call workflow.</p>
+        </div>
+        <div class="role-card">
+            <div class="role-name">CX Manager</div>
+            <h4>Open complaints + your marks</h4>
+            <p>Every customer complaint not yet resolved. Your metric mark (Customer Issues). Visibility into CSR queue depth.</p>
+        </div>
+        <div class="role-card">
+            <div class="role-name">Controller</div>
+            <h4>Daily-actuals entry + your marks</h4>
+            <p>The thirteen metrics you grade. Quick-entry for any daily numbers that aren't auto-fed yet. The objective check on the operators.</p>
+        </div>
+        <div class="role-card">
+            <div class="role-name">Recruiter</div>
+            <h4>Recruiting & Training metric</h4>
+            <p>Your one metric (Metric 16). The hiring pipeline and tech-development tracker. Manager grades it; you own the outcome.</p>
+        </div>
+        <div class="role-card">
+            <div class="role-name">Tech</div>
+            <h4>Your day, your week, your month</h4>
+            <p>Your jobs, your revenue per hour, your callbacks, your happy call scores, your open coaching items. You can file exceptions from the field — equipment, safety, customer issues, anything you see.</p>
+        </div>
+    </div>
+</div>
+
+<!-- SECTION 3: THE DAILY 21×10 BOARD -->
+<div class="section">
+    <h2>03 &nbsp; The Daily 21×10 Board</h2>
+    <div class="section-q">Where the framework becomes a screen.</div>
+    <div class="section-bar"></div>
+
+    <p>The board is the single most important screen in the system. Every leadership role starts their morning here.</p>
+
+    <h3>How it works</h3>
+    <ul>
+        <li><strong>Five functions, twenty-one metrics</strong> — same structure as the framework document, code-locked.</li>
+        <li><strong>Each metric has a per-shop monthly target</strong> — your "what green means" homework, captured here. The system computes daily/weekly/MTD pacing against that target.</li>
+        <li><strong>Every metric has a named owner and a named marker</strong> — and the marker is never the owner. That's the structural prevention of quiet reds.</li>
+        <li><strong>Three states per metric</strong>: 🟢 Green (hit target) · 🟡 Owned (red with named owner and same-day plan) · 🔴 Unowned Red (the violation).</li>
+        <li><strong>By 10 AM local shop time</strong>, every unowned red auto-escalates to the Owner. The metric stays visibly flagged.</li>
+        <li><strong>"Cleared" ≠ "Green."</strong> Cleared means owned. A board is cleared when zero metrics are unowned red.</li>
+    </ul>
+
+    <h3>The owner / marker matrix (locked)</h3>
+    <p>Every metric has both an owner (accountable for the outcome) and a marker (objective check who grades the status). For the 21, here's what we landed on:</p>
+
+    <table class="matrix">
+        <thead>
+            <tr><th>#</th><th>Metric</th><th>Function</th><th>Owner</th><th>Marker</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>01</td><td>Marketing Volume</td><td>Demand</td><td>Manager</td><td>Controller</td></tr>
+            <tr><td>02</td><td>Cost Per Lead</td><td>Demand</td><td>Manager</td><td>Controller</td></tr>
+            <tr><td>03</td><td>Repeat Customers</td><td>Demand</td><td>Manager</td><td>Controller</td></tr>
+            <tr><td>04</td><td>Phone Conversion</td><td>Demand</td><td>Manager</td><td>Controller</td></tr>
+            <tr><td>05</td><td>Speed to Call</td><td>Conversion</td><td>Dispatcher</td><td>Controller</td></tr>
+            <tr><td>06</td><td>Dispatch for Profit</td><td>Conversion</td><td>Dispatcher</td><td>Kasey</td></tr>
+            <tr><td>07</td><td>On-Time Arrival</td><td>Conversion</td><td>Dispatcher</td><td>Controller</td></tr>
+            <tr><td>08</td><td>Close Rate</td><td>Conversion</td><td>Manager</td><td>Controller</td></tr>
+            <tr><td>09</td><td>Do the Work</td><td>Delivery</td><td>Tech → Manager</td><td>Controller</td></tr>
+            <tr><td>10</td><td>Customer Issues</td><td>Delivery</td><td>Manager</td><td>CX Manager</td></tr>
+            <tr><td>11</td><td>Collect for the Work</td><td>Delivery</td><td>Manager</td><td>Controller</td></tr>
+            <tr><td>12</td><td>Tech Behavior</td><td>People</td><td>Manager</td><td>Dispatcher</td></tr>
+            <tr><td>13</td><td>Tech Refusals</td><td>People</td><td>Manager</td><td>Dispatcher</td></tr>
+            <tr><td>14</td><td>Tech Control</td><td>People</td><td>Manager</td><td>Dispatcher</td></tr>
+            <tr><td>15</td><td>Dispatcher Line-Holding</td><td>People</td><td>Dispatcher</td><td>Manager</td></tr>
+            <tr><td>16</td><td>Recruiting & Training</td><td>People</td><td>Recruiter</td><td>Manager</td></tr>
+            <tr><td>17</td><td>Revenue Targets</td><td>Standard</td><td>Manager</td><td>Controller</td></tr>
+            <tr><td>18</td><td>Nights & Weekends Coverage</td><td>Standard</td><td>Manager</td><td>Controller</td></tr>
+            <tr><td>19</td><td>Standards of Care & Image</td><td>Standard</td><td>Manager</td><td>Dispatcher</td></tr>
+            <tr><td>20</td><td>AI & Tech Evolution</td><td>Standard</td><td>Owner</td><td>Controller</td></tr>
+            <tr><td>21</td><td>Core Values Alignment</td><td>Standard</td><td>Owner / Manager</td><td>Controller</td></tr>
+        </tbody>
+    </table>
+
+    <p><strong>Marker workloads:</strong> Controller carries 13, Dispatcher carries 4, Manager carries 2, CX Manager carries 1, Kasey carries 1. The Controller is heavy on purpose — finance/oversight grades the operators.</p>
+
+    <p style="font-style: italic; color: var(--muted);">If any of these owner/marker assignments don't reflect how your shop actually operates, this is the moment to push back.</p>
+</div>
+
+<!-- SECTION 4: THE 15-MINUTE DISCIPLINE -->
+<div class="section" style="background: #faf9f6;">
+    <h2>04 &nbsp; The 15-Minute Discipline</h2>
+    <div class="section-q">Today's work today. Measured in minutes.</div>
+    <div class="section-bar"></div>
+
+    <p>When a tech notifies the office that he's done with a job (currently via Slack), a 15-minute clock starts. Within that window, both of the following must be true:</p>
+
+    <ul>
+        <li>The invoice has been coached by the Manager</li>
+        <li>The happy call has been completed by the CSR</li>
+    </ul>
+
+    <p>If either is missing at 15 minutes, an exception fires automatically. At 30 minutes, it escalates to the Owner. The system literally does not let you forget — and it does not let you mark something done when it isn't.</p>
+
+    <h3>What happens after that</h3>
+    <p>The happy call captures a 1-10 customer score. Anything 7 or below auto-escalates to a Manager for follow-up. Until that escalation is resolved, the call is not considered closed.</p>
+
+    <p><strong>There is no "close" button on a job.</strong> A call closes only when all of the following are complete: job entered, invoice coached, happy call done, any escalation resolved, any customer complaint resolved. The workflow itself is the close mechanism. You can't sweep it off your plate. The only way it disappears is by doing the work.</p>
+
+    <div class="callout">
+        <strong>Free coaching signal:</strong> The system also captures how long the office took to enter the job after the tech Slacked. If a CSR is sitting on a tech's notification for ten minutes, that's measurable — and it shows up as a coaching opportunity for the office, not just for the tech.
+    </div>
+</div>
+
+<!-- SECTION 5: THE EXCEPTION REPORT -->
+<div class="section">
+    <h2>05 &nbsp; The Exception Report</h2>
+    <div class="section-q">What ST doesn't show, but you need to see.</div>
+    <div class="section-bar"></div>
+
+    <p>Two kinds of exceptions show up here:</p>
+
+    <h3>1. Auto-generated by the system</h3>
+    <ul>
+        <li>SLA breaches (coaching or happy call not done within 15 min)</li>
+        <li>Happy call score ≤ 7 (auto-escalated)</li>
+        <li>Tech chronic late (3+ in 7 days)</li>
+        <li>Tech no-show</li>
+        <li>Customer complaint aged past 4 hours</li>
+        <li>21×10 metric still unowned red at 10:01 AM</li>
+        <li>Any job not closed by midnight</li>
+    </ul>
+
+    <h3>2. Filed by humans</h3>
+    <p>Anyone in the company can file an exception. <strong>Techs especially.</strong> If a tech sees an equipment problem, a safety concern, a coworker issue, a customer behavior issue — they file it, it routes to the right person, and it becomes part of the record. Bottom-up signal that ST has no way to capture.</p>
+
+    <h3>How exceptions die</h3>
+    <p>To close one, you write a resolution note. You don't get a "clear" button. You have to type what action you took. Closed exceptions stay queryable forever — they become the coaching/action history. That kills both the "click-close to clear the count" anti-pattern <em>and</em> gives the Owner an auditable record of how exceptions were actually handled.</p>
+</div>
+
+<!-- SECTION 6: WHAT WE'RE NOT BUILDING -->
+<div class="section" style="background: #faf9f6;">
+    <h2>06 &nbsp; What We're <em>Not</em> Building</h2>
+    <div class="section-q">Scope discipline matters. Here's what stays out.</div>
+    <div class="section-bar"></div>
+
+    <div class="compare-grid">
+        <div class="compare-box do">
+            <div class="label">We ARE building</div>
+            <ul>
+                <li>The Daily 21×10 Board with pacing math</li>
+                <li>Job entry form (manual, parallel to ST)</li>
+                <li>Invoice coaching workflow with 15-min SLA</li>
+                <li>Happy call queue with 1-10 scoring + escalation</li>
+                <li>Customer complaint logging (we capture what ST swallows)</li>
+                <li>Sick/late call-in capture (currently lost in Slack)</li>
+                <li>Real-time updates everywhere — no refresh button</li>
+                <li>Mobile-responsive (manager can coach from a phone)</li>
+                <li>Exception report with bottom-up tech filing</li>
+                <li>Audit trail on everything that matters</li>
+            </ul>
+        </div>
+        <div class="compare-box dont">
+            <div class="label">We are NOT building</div>
+            <ul>
+                <li>A Service Titan replacement (ever)</li>
+                <li>Dispatch board (ST owns this)</li>
+                <li>Customer SMS / arrival notifications (ST owns this)</li>
+                <li>Invoicing or payment processing (ST owns this)</li>
+                <li>Tech timekeeping / payroll (out of scope)</li>
+                <li>Customer-facing portal</li>
+                <li>Predictive scheduling / AI auto-coaching</li>
+                <li>Multi-tenant franchise hierarchy (V1's mistake)</li>
+                <li>Mobile-native app for techs (web works for now)</li>
+                <li>Manual "close" buttons that bypass workflow</li>
+            </ul>
+        </div>
+    </div>
+
+    <p>Once UnifiedOps is stable, a future phase will ingest data from Service Titan (read-only) to auto-fill several of the metrics that are currently manual entry. But that's after launch. The MVP runs in parallel to ST with double-entry on a small handful of fields. The discipline of the 21 by 10 is worth more than the cost of a few extra keystrokes per day.</p>
+</div>
+
+<!-- SECTION 7: PHASED BUILD -->
+<div class="section">
+    <h2>07 &nbsp; Phased Build</h2>
+    <div class="section-q">What's done, what's next, what's later.</div>
+    <div class="section-bar"></div>
+
+    <p>Several pieces are already in place from earlier work. The new phases build on top of what's already running.</p>
+
+    <ul class="phase-list">
+        <li>
+            <span class="phase-tag">Phases 1–5</span>
+            <span class="phase-body">Foundation: auth, division/tech models, job entry, scoring criteria, approval queue, basic dashboard. Already in production-dev with 63 passing tests.</span>
+            <span class="phase-status done">Done</span>
+        </li>
+        <li>
+            <span class="phase-tag">Phase 6</span>
+            <span class="phase-body">Budgets + legacy DMR formula port. Partially done; the rest gets absorbed into the Pacing Engine that drives the 21×10 board.</span>
+            <span class="phase-status partial">Partial</span>
+        </li>
+        <li>
+            <span class="phase-tag">Phase A0</span>
+            <span class="phase-body">Nine-role permission system, audit trail across all entities, user management UI. Foundation that everything else depends on.</span>
+            <span class="phase-status new">Next</span>
+        </li>
+        <li>
+            <span class="phase-tag">Phase A1–A7</span>
+            <span class="phase-body">Job entry form revamp (Job Outcome Type, customer fields, mobile responsive). Happy Call workflow. Complaint logging. Day Status capture. Mobile pass across all screens.</span>
+            <span class="phase-status new">Next</span>
+        </li>
+        <li>
+            <span class="phase-tag">Phase B</span>
+            <span class="phase-body">The Daily 21×10 Board itself. Pacing engine. Owner/marker enforcement. The single most important screen.</span>
+            <span class="phase-status new">Next</span>
+        </li>
+        <li>
+            <span class="phase-tag">Phase C</span>
+            <span class="phase-body">Active Work Board (cross-role workflow view). Every in-flight job visible until fully closed.</span>
+            <span class="phase-status new">Next</span>
+        </li>
+        <li>
+            <span class="phase-tag">Phase D</span>
+            <span class="phase-body">Real-time SignalR layer — powers live updates on every queue and board. No refresh button anywhere.</span>
+            <span class="phase-status new">Next</span>
+        </li>
+        <li>
+            <span class="phase-tag">Future</span>
+            <span class="phase-body">Service Titan ingestion (read-only). Slack auto-detection of "done" notifications. PDF reports. Load testing and full deployment guide.</span>
+            <span class="phase-status future">Post-MVP</span>
+        </li>
+    </ul>
+</div>
+
+<!-- SECTION 8: WHERE YOU COME IN -->
+<div class="section" style="background: #faf9f6;">
+    <h2>08 &nbsp; Where You Come In</h2>
+    <div class="section-q">Honest reds make this business better. So does honest pushback.</div>
+    <div class="section-bar"></div>
+
+    <p>These are the questions still open. If your job touches any of them, your answer is worth more than mine. Push back hard — better to argue it out now than to rebuild later.</p>
+
+    <ul class="questions-list">
+        <li>
+            <strong>Deputy markers:</strong> when the primary marker for a metric is out sick or on vacation, who covers? Auto-fall to a backup role, default to Owner, manual reassignment each morning, or hold the red as unowned until they're back?
+        </li>
+        <li>
+            <strong>Same-day plan field:</strong> when a Marker sets a metric to Owned (red with plan), what fields are required? Free text only, or also a target resolution date?
+        </li>
+        <li>
+            <strong>Owner unavailability:</strong> when the Owner is traveling and can't enter the morning's data for the metrics that aren't auto-fed, who covers? Designated backup per shop, or SuperAdmin steps in, or do we just live with missing data that day?
+        </li>
+        <li>
+            <strong>Tech personal dashboard:</strong> what should a tech actually see on their phone when they log in? Today's jobs, RPH, happy-call average, open coaching items, callbacks — anything missing?
+        </li>
+        <li>
+            <strong>The owner/marker matrix:</strong> we have all 21 locked, but if you read through it and any assignment is wrong for how your shop actually operates, say so now.
+        </li>
+        <li>
+            <strong>Metric thresholds (your homework):</strong> from the original 21 by 10 doc — what does "green" actually mean as a number for each of the 21 in your shop? Without those numbers, the pacing engine has nothing to grade against.
+        </li>
+        <li>
+            <strong>Anything missing entirely:</strong> is there an operational pain you've been carrying that nothing in this brief addresses? Now's the time.
+        </li>
+    </ul>
+</div>
+
+<!-- FEEDBACK BLOCK -->
+<div class="feedback-block">
+    <div class="label">Push Back</div>
+    <h2>How to weigh in</h2>
+    <p>Read this once start to finish, then push back. Send your critique by [DATE TBD] — text, email, in person, whatever's fastest. Specifics over generalities. Concerns about workflow over concerns about pixels.</p>
+    <p style="margin-top: 18px; color: var(--gold);">Nothing here is locked. Nothing here can't change. What can't change is that we're going to put structural enforcement behind the 21 by 10 — and we'd rather get the structure right with your input than ship it and have to rework it.</p>
+</div>
+
+<div class="footer-meta">
+    UnifiedOps Pre-Build Briefing &nbsp;·&nbsp; May 2026 &nbsp;·&nbsp; Confidential — Operations Leadership
+</div>
+
+</body>
+</html>
