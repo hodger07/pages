@@ -420,6 +420,9 @@ table tr:nth-child(even) td { background: #fbfaf6; }
         </thead>
         <tbody>
             <tr><td>Manage users / assign roles</td><td>✅</td><td>✅</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>Edit Job directly (no approval needed)</td><td>✅</td><td>✅</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+            <tr><td>Submit Job adjustment request</td><td>—</td><td>—</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>✅ own</td></tr>
+            <tr><td>Approve Job adjustment request</td><td>✅</td><td>✅</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
             <tr><td>Enter job (manual form)</td><td>✅</td><td>—</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>—</td><td>—</td><td>—</td></tr>
             <tr><td>Coach invoice</td><td>✅</td><td>—</td><td>✅</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
             <tr><td>Make happy call</td><td>✅</td><td>—</td><td>—</td><td>—</td><td>✅</td><td>✅</td><td>—</td><td>—</td><td>—</td></tr>
@@ -675,6 +678,32 @@ Job.ClosedAt                   <span class="hl-gold">system — auto-set</span> 
     <h3>TechDayException (new)</h3>
     <p>TechnicianId · DivisionId · Date · Category (Sick | Late | Vehicle | Personal | NoShow | MissingParts | Other) · Etag (e.g. "ETA 7:45") · Notes · LoggedBy/At · ResolvedAt.</p>
 
+    <h3>DivisionRateConfig (new — versioned billable-rate per shop)</h3>
+    <p>Effective-dated history of TargetRevenuePerHour + MaterialAdjustmentPercent per shop (e.g. $700, 8%). When a Job is created, the effective values at JobDate are <strong>snapshotted onto the Job</strong> and never change. Rate changes 2-3×/year don't retroactively re-grade old data. Effective target: <code>TargetRpH × (1 - MaterialPct/100)</code>.</p>
+
+    <h3>JobAdjustmentRequest (new — edit-by-approval workflow)</h3>
+    <p>All non-Owner/SuperAdmin users submit requests instead of editing directly. Routes to global SuperAdmin pool (no per-division designation). Fields: JobId · RequestedByUserId · Reason · ProposedChanges (JSON deltas) · Status (Pending / Approved / Rejected / Applied) · ReviewedByUserId · ReviewNotes · AppliedAt. Owner + SuperAdmin retain direct-edit ability for emergencies. <strong>SLA timestamps</strong> (TechCompletedAt, CoachedAt, HappyCheckedAt, ClosedAt) are <strong>immutable</strong> even via approved requests.</p>
+
+    <h3>Rilla data (4-entity bundle, new)</h3>
+    <ul>
+        <li><strong>RillaTracker</strong> — admin-configurable list (~18 active). Name · Description · SortOrder · IsActive.</li>
+        <li><strong>RillaThresholdConfig</strong> — per-shop, effective-dated. HitCountGreen / Yellow + InteractivityGreen / Yellow. Snapshots onto each call review.</li>
+        <li><strong>RillaCallReview</strong> — one per Job. InteractivityScore (0-100, from speaker-split %) · TotalTrackersHit · TotalTrackersPossibleAtEntry (snapshot) · RillaAiSummary text.</li>
+        <li><strong>RillaTrackerHit</strong> — M:N which trackers were hit on this call.</li>
+    </ul>
+
+    <h3>DayCapacityOverride (new — production capacity)</h3>
+    <p>Per-day exceptions to defaults (Mon-Fri 100%, weekends 0%, holidays 0%). Owner/Manager enters month-start exceptions only (Christmas Eve 50%, working Saturday 100%, etc.). DivisionId · Date · CapacityPct · Reason · IsPaidHoliday. Working-days math uses sum-of-capacity across the month as denominator.</p>
+
+    <h3>MarketingDailyLead (new — daily lead count per shop)</h3>
+    <p>DivisionId · Date · LeadCount · EnteredByUserId (typically Controller). No per-source breakdown in MVP. CPL computed monthly: <code>monthly spend (setup) / sum(LeadCount)</code>.</p>
+
+    <h3>DivisionMonthlyHistorical (new — YOY backfill)</h3>
+    <p>Per-shop, per-month historical aggregates for last year (and future backfills). Year · Month · Revenue · CallsRun · LeadsReceived · Source. Powers YOY widgets on the Hot Page. Entry UI matches legacy Budget Data grid.</p>
+
+    <h3>TechnicianMonthlyGoal (new — per-tech revenue target)</h3>
+    <p>TechnicianId · Year · Month · RevenueGoal. Surfaced on Employee Report drilldown as "Employee Goals + +/- Goals variance."</p>
+
     <h3>JobAggregate (new — bulk batch entry)</h3>
     <p>Period-level rollup per tech × division × category, used for historical backfill (mid-year onboarding, pre-launch import, shop batch-up, system-downtime fill-in). One submit on the bulk entry form creates one row per category in the period.</p>
     <p>TechnicianId · DivisionId · JobCategoryId · PeriodStart · PeriodEnd · <strong>CallsRan</strong> (int) · <strong>CallsClosed</strong> (int) · <strong>Revenue</strong> (decimal) · BillableHours (decimal, optional) · AgreementsSold (int, optional) · MembershipsOffered (int, optional) · GoBackCount (int, optional) · Notes · Source (BulkEntry | Imported) · EnteredBy/At · audit fields.</p>
@@ -710,9 +739,15 @@ Job.ClosedAt                   <span class="hl-gold">system — auto-set</span> 
             <tr><td>A6</td><td>Day Status quick-log widget</td><td><span class="badge new">Next</span></td></tr>
             <tr><td>A7</td><td>Mobile responsive across all screens (sidebar→hamburger, table scroll, etc.)</td><td><span class="badge new">Next</span></td></tr>
             <tr><td>A8</td><td><strong>Bulk Batch Entry (LAUNCH-BLOCKING)</strong> — per-tech, per-category, per-period rollups (JobAggregate). Without this, any shop onboarded mid-year has broken YTD/MTD reports from day one. <em>Critical path, not optional.</em></td><td><span class="badge" style="background:#fadcd6;color:var(--red);">Critical</span></td></tr>
-            <tr><td>B</td><td><strong>Daily 21×10 Board + Pacing Engine</strong> (the centerpiece)</td><td><span class="badge new">Next</span></td></tr>
-            <tr><td>C</td><td>Active Work Board (cross-role workflow visibility)</td><td><span class="badge new">Next</span></td></tr>
-            <tr><td>D</td><td>SignalR real-time layer (powers A4, B, C)</td><td><span class="badge new">Next</span></td></tr>
+            <tr><td>A9</td><td>Adjustment Request Workflow — JobAdjustmentRequest entity; global SuperAdmin pool review; SLA-timestamp protection on Job.</td><td><span class="badge new">Next</span></td></tr>
+            <tr><td>A10</td><td>Setup Page — hierarchical shop-scoped (each shop = settings folder; tabs: Targets · Rates · Categories · Scoring · Rilla · Marketing · Holidays · Techs · Labels · Metric Targets). User Management top-level.</td><td><span class="badge new">Next</span></td></tr>
+            <tr><td>A11</td><td>Annual Budget Grid + Historical Data Entry (DivisionMonthlyHistorical) — matches legacy Budget Data layout for entry; powers YOY widgets.</td><td><span class="badge new">Next</span></td></tr>
+            <tr><td>A12</td><td>Marketing Leads daily entry (MarketingDailyLead) + monthly spend in setup.</td><td><span class="badge new">Next</span></td></tr>
+            <tr><td>A13</td><td>Rilla data model + entry UI — 18 trackers (admin-configurable), interactivity score, effective-dated per-shop thresholds, 4-entity bundle (Tracker, ThresholdConfig, CallReview, TrackerHit).</td><td><span class="badge new">Next</span></td></tr>
+            <tr><td>B</td><td><strong>Daily 21×10 Board + Pacing Engine</strong> (the centerpiece) — absorbs Phase 6 legacy formulas; computes MTD/YOY pacing from monthly targets + daily actuals.</td><td><span class="badge new">Next</span></td></tr>
+            <tr><td>C</td><td><strong>Hot Page</strong> — configurable drag-drop dashboard (<code>react-grid-layout</code>); per-user saved layout; YOY widgets; narrative storytelling; ~12 pre-built widgets at launch.</td><td><span class="badge new">Next</span></td></tr>
+            <tr><td>D</td><td>Active Work Board (cross-role workflow visibility — Awaiting Completion / Coaching / Happy Call / Escalated / Complaint Open)</td><td><span class="badge new">Next</span></td></tr>
+            <tr><td>E</td><td>SignalR real-time layer (powers A4, B, C, D — every queue and board updates live, no refresh button)</td><td><span class="badge new">Next</span></td></tr>
             <tr><td>Future</td><td>Service Titan ingestion (read-only)</td><td><span class="badge future">Post-MVP</span></td></tr>
             <tr><td>Future</td><td>Slack auto-detection of "done" messages</td><td><span class="badge future">Post-MVP</span></td></tr>
             <tr><td>Future</td><td>PDF reports, load testing, deployment guide</td><td><span class="badge future">Post-MVP</span></td></tr>
@@ -744,6 +779,15 @@ Job.ClosedAt                   <span class="hl-gold">system — auto-set</span> 
                 <li>User &amp; role management UI</li>
                 <li>Per-shop paid-holiday calendar</li>
                 <li>Bulk batch entry (per tech × category × period) for mid-year onboarding</li>
+                <li>Adjustment request workflow (approval-by-SuperAdmin for all non-Owner edits)</li>
+                <li>Versioned billable-rate + material % per shop (snapshot lock-in)</li>
+                <li>Rilla 4-entity coaching data model (18 trackers, interactivity, versioned thresholds)</li>
+                <li>Hot Page: configurable drag-drop dashboard with YOY widgets and narrative storytelling</li>
+                <li>YOY backfill via DivisionMonthlyHistorical (revenue, calls run, leads — per shop per month)</li>
+                <li>Marketing leads daily total + monthly spend in setup → automatic CPL computation</li>
+                <li>Hierarchical Settings: each shop is a settings folder with tabs (Targets, Rates, Categories, Scoring, Rilla, Marketing, Holidays, Techs, Labels)</li>
+                <li>Repeat-customer manual checkbox on job entry</li>
+                <li>Multi-model build pipeline (Claude orchestrator + Qwen3-Coder-Next + DeepSeek-V3 + Qwen3 30B + Llama 4 Maverick) — every phase gets multi-model review</li>
             </ul>
         </div>
         <div class="col-box dont">
