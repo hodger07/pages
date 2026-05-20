@@ -60,6 +60,24 @@
   .day .who{font-weight:600;color:var(--ink)}
   footer{margin-top:50px;padding-top:14px;border-top:1px solid var(--line);color:var(--soft);font-size:12px}
   code{background:#f0f3f7;padding:1px 6px;border-radius:4px;font-size:13px}
+  .hero-kpi{background:linear-gradient(180deg,#0a7a3b,#0a5a2c);color:#fff;border-radius:14px;padding:28px;margin:14px 0 18px;text-align:center;box-shadow:0 6px 24px rgba(10,122,59,.18)}
+  .hero-num{font-size:54px;font-weight:800;line-height:1;letter-spacing:-.02em}
+  .hero-lbl{font-size:16px;margin-top:8px;opacity:.95}
+  .hero-formula{font-size:13px;margin-top:14px;opacity:.85;background:rgba(255,255,255,.12);border-radius:8px;padding:8px 14px;display:inline-block}
+  .net-flow{background:#fff;border:1px solid var(--line);border-radius:12px;padding:0;margin:14px 0;overflow:hidden}
+  .net-flow .nf-row{display:grid;grid-template-columns:1fr auto;padding:12px 18px;border-top:1px solid var(--line);align-items:center;gap:14px}
+  .net-flow .nf-row:first-child{border-top:none}
+  .net-flow .nf-row.hd{background:#f0f3f7;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--soft);font-weight:600;padding:10px 18px}
+  .net-flow .nf-row .desc{font-size:14px}
+  .net-flow .nf-row .amt{font-variant-numeric:tabular-nums;font-weight:600;font-size:15px;white-space:nowrap}
+  .net-flow .nf-row.add .amt{color:var(--green)}
+  .net-flow .nf-row.sub .amt{color:var(--red)}
+  .net-flow .nf-row.net{background:#e8f4ec;border-top:2px solid var(--green)}
+  .net-flow .nf-row.net .desc{font-weight:700;font-size:16px}
+  .net-flow .nf-row.net .amt{font-size:22px;color:var(--green);font-weight:800}
+  .net-flow .nf-section{background:#1f4f8b;color:#fff;padding:8px 18px;font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media (max-width:880px){.two-col{grid-template-columns:1fr}.hero-num{font-size:38px}}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 </head>
@@ -71,35 +89,110 @@
   <div class="sub">Tony Cross out 2 wks · Garrett (Keller) + Jamieson (Denton) + installer · Shop: Central NE Fort Worth · Period: 04/01/25–04/30/26 · Prepared May 20, 2026</div>
 </header>
 
-<h2>Executive Summary</h2>
-<p><strong>Goal: zero revenue loss.</strong> We keep every ZIP we currently service. The problem isn't where we work — it's how much of the day we burn on windshield time and DFW tolls instead of billable hours. The solution is a 2-week dispatch discipline: <strong>cluster outer-ring jobs into dedicated batch days</strong>, run the rest of the week on-demand from the two anchors. The drive-time recapture covers most of Tony's absent capacity without touching the customer list.</p>
+<h2>Bottom Line</h2>
+
+<div class="hero-kpi">
+  <div class="hero-num">+$298,400/yr</div>
+  <div class="hero-lbl">net profit gain after materials, spiff, fuel and toll savings</div>
+  <div class="hero-formula">From $482K of new revenue, we keep ~62% as profit because we're filling already-paid tech hours.</div>
+</div>
+
+<h2>How We Get There — Simple Walk-Through</h2>
+<p>The plan recaptures <strong>689 drive-time hours per year</strong>. Each hour fills with one half of a dispatch (~2 hrs each). With your <strong>$2,000 average ticket</strong> and <strong>70% close rate</strong>, that's straightforward to net out:</p>
+
+<div class="two-col">
+
+<div>
+<div class="net-flow">
+  <div class="nf-section">Annual — ongoing (after Tony's back)</div>
+  <div class="nf-row hd"><span>Line item</span><span>Amount</span></div>
+  <div class="nf-row add"><span class="desc">+ Extra dispatches: 689 hrs ÷ 2 hrs/job × 70% close = <strong>241 booked jobs</strong></span><span class="amt"></span></div>
+  <div class="nf-row add"><span class="desc">+ Revenue: 241 × $2,000 ticket</span><span class="amt">+$482,300</span></div>
+  <div class="nf-row sub"><span class="desc">− Parts &amp; materials (~30% of ticket)</span><span class="amt">−$144,690</span></div>
+  <div class="nf-row sub"><span class="desc">− Tech variable comp / spiff (~10%)</span><span class="amt">−$48,230</span></div>
+  <div class="nf-row add"><span class="desc">+ Toll savings (batched routes)</span><span class="amt">+$5,053</span></div>
+  <div class="nf-row add"><span class="desc">+ Fuel savings (22,063 mi × $0.18/mi)</span><span class="amt">+$3,971</span></div>
+  <div class="nf-row net"><span class="desc">NET PROFIT GAIN per year</span><span class="amt">+$298,400</span></div>
+</div>
+</div>
+
+<div>
+<div class="net-flow">
+  <div class="nf-section">2-Week Window — Tony's outage</div>
+  <div class="nf-row hd"><span>Line item</span><span>Amount</span></div>
+  <div class="nf-row add"><span class="desc">+ Extra dispatches in 2 wks: 13.2</span><span class="amt"></span></div>
+  <div class="nf-row add"><span class="desc">+ Revenue: 13.2 × $1,400 (net of close rate)</span><span class="amt">+$18,550</span></div>
+  <div class="nf-row sub"><span class="desc">− Materials (~30%)</span><span class="amt">−$5,565</span></div>
+  <div class="nf-row sub"><span class="desc">− Tech spiff (~10%)</span><span class="amt">−$1,855</span></div>
+  <div class="nf-row add"><span class="desc">+ Toll &amp; fuel savings (2-wk share)</span><span class="amt">+$347</span></div>
+  <div class="nf-row net"><span class="desc">NET PROFIT GAIN (2 wks)</span><span class="amt">+$11,480</span></div>
+</div>
+</div>
+
+</div>
+
+<div class="callout good">
+  <strong>How the 2-week window nets vs Tony being out.</strong> Tony's 2-wk revenue normally = $25,615. But <strong>78% of his territory ($519K of his $666K/yr) sits inside Garrett's + Jamieson's normal radius</strong> — they were going there anyway. So only ~$5,600 of Tony's 2-wk work is "uniquely his." The $11,480 net profit gain from route batching <strong>more than covers the un-absorbable gap</strong>. Net position: <strong>revenue-neutral to slightly positive</strong> during the outage. Once Tony returns, the same routing discipline keeps producing <strong>+$298K/yr of net profit</strong>.
+</div>
+
+<h2>The Three Numbers That Make This Work</h2>
+<p>Same customers, same ZIPs, same techs. We're just trading windshield time for billable time.</p>
 
 <div class="summary-grid">
-  <div class="kpi accent">
-    <div class="lbl">12-mo revenue</div>
-    <div class="val">$2,323,957</div>
-    <div class="delta">1,644 jobs · 176 ZIPs · all kept</div>
-  </div>
   <div class="kpi good">
-    <div class="lbl">Drive miles recaptured</div>
+    <div class="lbl">Drive miles cut</div>
     <div class="val">22,063/yr</div>
-    <div class="delta">40% of the 55,764 mi baseline</div>
+    <div class="delta">40% off the 55,764-mi baseline</div>
   </div>
   <div class="kpi good">
     <div class="lbl">Toll spend cut</div>
     <div class="val">$5,053/yr</div>
-    <div class="delta">From baseline $7,923</div>
+    <div class="delta">From $7,923 baseline — DFW tolls are no joke</div>
   </div>
   <div class="kpi good">
-    <div class="lbl">Billable hours unlocked</div>
+    <div class="lbl">Tech-hours freed</div>
     <div class="val">689 hrs/yr</div>
-    <div class="delta">≈ $131,000/yr capacity at $190/hr</div>
+    <div class="delta">≈ 13 hrs/week across the crew → more billable jobs</div>
+  </div>
+  <div class="kpi accent">
+    <div class="lbl">Annual baseline rev</div>
+    <div class="val">$2.32M</div>
+    <div class="delta">1,644 jobs · 176 ZIPs · all kept, none dropped</div>
   </div>
 </div>
 
-<div class="callout good">
-  <strong>2-week math (Tony's outage).</strong> Tony's 2-wk run-rate = <strong>$25,615</strong>. Routing discipline alone recaptures <strong>27 tech-hours in the 2-week window</strong> (worth ~$5,038 of new billable capacity). Combined with Garrett + Jamieson absorbing Tony's CORE territory — 78% of his $666K annual revenue is already inside their normal radius — we cover the gap without dropping any ZIPs.
-</div>
+<h3 style="margin-top:24px">Per-Tech, Per-Week Detail</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Scenario</th>
+      <th>Hrs / tech / day</th>
+      <th>Hrs / tech / week</th>
+      <th>Extra dispatches / tech / wk</th>
+      <th>Extra rev / tech / wk</th>
+      <th>Extra rev / tech / yr</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background:#fff8eb">
+      <td><strong>2-tech (Tony out)</strong></td>
+      <td>1.32</td>
+      <td>6.62</td>
+      <td>3.31</td>
+      <td>$4,638</td>
+      <td>$241,150</td>
+    </tr>
+    <tr>
+      <td>3-tech (Tony back)</td>
+      <td>0.88</td>
+      <td>4.42</td>
+      <td>2.21</td>
+      <td>$3,092</td>
+      <td>$160,767</td>
+    </tr>
+  </tbody>
+</table>
+<p style="font-size:13px;color:var(--soft);margin-top:6px"><em>The crew total is the same either way ($482K/yr of new revenue) — same 689 hrs/yr recaptured. Just spread across more or fewer techs.</em></p>
 
 <div class="callout good" style="text-align:center"><strong>Companion deliverables:</strong>
   <a href="dfw-territory-map.html" style="margin:0 12px;color:var(--accent);text-decoration:underline;font-weight:600">🗺️ Interactive territory map</a>
@@ -391,7 +484,7 @@
 <ul>
   <li>Toll cost classes are conservative DFW averages (TollTag rates). Replace with your actual T-Tag invoice and the number sharpens.</li>
   <li>Drive savings model assumes ~3 stops/batch day in Cluster D and ~2 stops/batch in Cluster C. Higher density = bigger savings.</li>
-  <li>Billable rate of $190/hr is a placeholder. Sub in your fully-loaded hourly to recompute the capacity-recapture line.</li>
+  <li>Revenue math uses your numbers: $2,000 average ticket × 70% conversion rate, with 2 hours per dispatch (drive + onsite). Each input is independently tunable — every 5-point conversion-rate move shifts the annual incremental by ~$34K; every $250 of ticket size shifts it by ~$60K.</li>
   <li>Baseline assumes each job is a round trip from the nearest anchor. Real-world consecutive-job routing already saves some — so the recapture is incremental on top of what you're doing today.</li>
 </ul>
 
