@@ -706,18 +706,24 @@ TECH              STATUS         ETA / REASON         MO. PATTERN
 🟢 Tony Ramirez   Ready          —                    —</div>
     <p>The "Mo. Pattern" column auto-fires a coaching-conversation exception when a tech crosses a threshold (3+ lates / month, 2+ no-shows / quarter, etc.).</p>
 
-    <h3>Live Tech Status Board (during-day "fucking around" detector)</h3>
-    <p>Real-time per-tech view that catches the dead time between jobs nobody usually sees:</p>
+    <h3>Live Tech Status Board (latency exception detector)</h3>
+    <p>Real-time per-tech view. Shows job state and any active latency exceptions. The three meaningful triggers are revenue- and per-job-grounded, not flat thresholds:</p>
+    <ul>
+        <li><strong>Travel time exceeded</strong> — dispatcher entered expected travel at dispatch (what tech said); exception fires if <code>OnSiteAt − DispatchedAt &gt; ExpectedTravelMinutes</code></li>
+        <li><strong>On-site &gt; 60 min without a sold estimate</strong> — per-shop config (default 60 min)</li>
+        <li><strong>Labor time exceeded allowance</strong> — revenue-based: <code>Revenue × (1 − Material%) / TargetRpH × (1 + Buffer%)</code>. Example: $1,000 sold · $500/hr · 10% material · 30% buffer → 1.8 hr expected × 1.3 = 2.34 hr allowed. Exception fires to dispatcher + manager.</li>
+    </ul>
+    <p>Idle time alone does NOT trigger an exception — natural gaps (awaiting calls, phone tag, parts, lunch) shouldn't generate noise. Idle is shown for situational awareness; exceptions come from the three thresholds above.</p>
     <div class="pre">LIVE TECH STATUS — Mister Sparky Katy — Tue 5/20/2026 — 11:23 AM
 ─────────────────────────────────────────────────────────────────────
-TECH       STATUS              ON JOB / IDLE     TODAY  HRS  RPH
+TECH       STATUS                       LATENCY              TODAY
 ─────────────────────────────────────────────────────────────────────
-🟢 Sarah   Onsite — Smith Job  ⏱ 42 min on-job   $1,250 2.3  $543
-🟢 Derek   Sold — finishing    ⏱ 18 min on-job   $890   1.7  $524
-<span class="hl-yellow">🟡 Mike    On-route 2nd call   ⏱ 12 min travel   $620   1.1  $564</span>
-<span class="hl-red">🔴 Tony    IDLE since 10:34    ⏱ 49 MIN IDLE     $1,120 2.4  $467</span>
-🟢 James   Onsite — Park Job   ⏱ 1h 23m on-job   $0     1.4  $0</div>
-    <p>Color rules: 🟢 actively on job · 🟡 transitioning (travel, wrap) · 🔴 <strong>idle &gt; 30 min between jobs</strong>. Red rows pulse on the dispatcher's screen and auto-fire an exception — dispatcher must either dispatch the tech somewhere OR log an explanation (lunch, parts run, training). No more invisible dead time.</p>
+🟢 Sarah   Onsite Smith Job (sold)      labor 64m / 140m     $1,250
+🟢 Derek   Sold — finishing (no exc.)   labor 48m / 78m      $890
+<span class="hl-yellow">🟡 Mike    On-route 2nd call             travel 18m / 25m est  $620</span>
+<span class="hl-red">🔴 Tony    Onsite Jones — UNSOLD &gt;60m   on-site-to-sold ⚠     $1,120</span>
+⚪ James   Idle (no active job)         —                    $0</div>
+    <p>Color rules: 🟢 on job, no exceptions · 🟡 within 80% of a threshold · 🔴 latency exception active (named on the row) · ⚪ idle (info only, no auto-exception). Red rows pulse on the dispatcher's screen — exception fires to dispatcher + manager, both can clear with required resolution note.</p>
 
     <h3>State semantics</h3>
     <ul>
