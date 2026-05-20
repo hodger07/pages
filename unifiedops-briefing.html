@@ -608,13 +608,32 @@ Job.ClosedAt               <span class="hl-gold">system — auto-set</span>     
    Onsite for 47 minutes" — it pulses red on their board and the system
    flags it as an exception.
 
+<span class="hl-gold">EXPEDITED STATE (TechCompletedAt set → ClosedAt set):</span>
+   Job enters "Expedited" the moment the tech is marked done. Everything in
+   this window races the 15-min SLA — invoice coaching, happy call, final
+   dollars confirmed, outcome type locked. If happy-call score ≤7, escalation
+   opens and Expedited extends until resolved.
+
 <span class="hl-gold">CLOSURE RULE (Job.ClosedAt is set ⟺ all are true):</span>
    CoachedAt IS NOT NULL
    AND HappyCheckedAt IS NOT NULL
    AND (HappyCall not escalated OR EscalationResolvedAt IS NOT NULL)
    AND (no linked Complaint OR Complaint.Status = Resolved)
 
-<span class="hl-red">There is no manual "close" button.</span> The workflow IS the close mechanism.</div>
+<span class="hl-red">There is no manual "close" button.</span> The workflow IS the close mechanism.
+
+<span class="hl-gold">METRICS PRODUCED AT CLOSE (no separate entry — already captured):</span>
+   Billable $/hr      = Revenue / (TechCompletedAt - OnSiteAt)
+                         graded vs TargetRpH × (1 - MaterialPct/100)
+   Average ticket     = Revenue per closed job
+   Conversion rate    = Jobs(SaleClosed) / Total Jobs
+   Phone conversion   = Jobs Booked / Calls Received (Metric 04)
+   Zero ticket count  = Jobs(Revenue = 0 AND Normal outcome)
+   Travel latency     = OnSiteAt - DispatchedAt
+   Sales latency      = SoldAt - OnSiteAt
+   Total on-site      = TechCompletedAt - OnSiteAt
+   Happy call avg     = AVG(HappyCall.CustomerScore) per tech/period
+   Callback rate      = Jobs(non-Normal outcome) / Total Jobs per tech</div>
 
     <h3>Aging thresholds (per job, measured from TechCompletedAt)</h3>
     <table class="compact">
