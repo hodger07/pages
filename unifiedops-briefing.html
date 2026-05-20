@@ -633,6 +633,11 @@ Job.ClosedAt                   <span class="hl-gold">system — auto-set</span> 
     <h3>TechDayException (new)</h3>
     <p>TechnicianId · DivisionId · Date · Category (Sick | Late | Vehicle | Personal | NoShow | MissingParts | Other) · Etag (e.g. "ETA 7:45") · Notes · LoggedBy/At · ResolvedAt.</p>
 
+    <h3>JobAggregate (new — bulk catch-up entry)</h3>
+    <p>Period-level rollup per tech × division × category, used for historical backfill (mid-year onboarding, pre-launch import, shop catch-up, system-downtime fill-in). One submit on the bulk entry form creates one row per category in the period.</p>
+    <p>TechnicianId · DivisionId · JobCategoryId · PeriodStart · PeriodEnd · <strong>CallsRan</strong> (int) · <strong>CallsClosed</strong> (int) · <strong>Revenue</strong> (decimal) · BillableHours (decimal, optional) · AgreementsSold (int, optional) · MembershipsOffered (int, optional) · GoBackCount (int, optional) · Notes · Source (BulkEntry | Imported) · EnteredBy/At · audit fields.</p>
+    <p><strong>Reporting behavior (MVP recommendation):</strong> aggregates contribute to MTD / YTD / historical reports and AI anomaly baselines, but do <em>not</em> contribute to the live daily 21×10 board or Active Work Board — those use individual Job rows only. Avoids double-counting and keeps the daily ritual honest.</p>
+
     <h3>21×10 entities (new)</h3>
     <p><strong>MetricMonthlyTarget</strong> (per div+metric+month): TargetValue · TargetUnit · Direction · YellowBuffer · RedBuffer.<br>
        <strong>MetricDailyActual</strong>: ActualValue · Source (Computed | Manual) · EnteredBy/At.<br>
@@ -662,6 +667,7 @@ Job.ClosedAt                   <span class="hl-gold">system — auto-set</span> 
             <tr><td>A5</td><td>Complaint logging + resolution UI</td><td><span class="badge new">Next</span></td></tr>
             <tr><td>A6</td><td>Day Status quick-log widget</td><td><span class="badge new">Next</span></td></tr>
             <tr><td>A7</td><td>Mobile responsive across all screens (sidebar→hamburger, table scroll, etc.)</td><td><span class="badge new">Next</span></td></tr>
+            <tr><td>A8</td><td>Bulk Catch-up Entry — per-tech, per-category, per-period rollups (JobAggregate). Required for any shop onboarded mid-year.</td><td><span class="badge new">Next</span></td></tr>
             <tr><td>B</td><td><strong>Daily 21×10 Board + Pacing Engine</strong> (the centerpiece)</td><td><span class="badge new">Next</span></td></tr>
             <tr><td>C</td><td>Active Work Board (cross-role workflow visibility)</td><td><span class="badge new">Next</span></td></tr>
             <tr><td>D</td><td>SignalR real-time layer (powers A4, B, C)</td><td><span class="badge new">Next</span></td></tr>
@@ -695,6 +701,7 @@ Job.ClosedAt                   <span class="hl-gold">system — auto-set</span> 
                 <li>Per-division metric label / target overrides</li>
                 <li>User &amp; role management UI</li>
                 <li>Per-shop paid-holiday calendar</li>
+                <li>Bulk catch-up entry (per tech × category × period) for mid-year onboarding</li>
             </ul>
         </div>
         <div class="col-box dont">
@@ -753,7 +760,12 @@ Job.ClosedAt                   <span class="hl-gold">system — auto-set</span> 
             What should a tech see on their phone? Today's jobs, RPH, happy-call avg, open coaching, callbacks — anything missing?
         </li>
         <li>
-            <strong>Q7 — Anything missing</strong>
+            <strong>Q7 — Bulk Catch-up Entry — does it feed the live 21×10?</strong>
+            How should historical/period aggregates contribute to reports?
+            <div class="opts">Options: (a) historical-only — aggregates feed YTD/MTD reports and AI baselines but never the live daily 21×10 (recommended) · (b) period-aware merge — pro-rate into current MTD alongside individual jobs · (c) period-lock — bulk entry blocks individual job entry for the same tech/div/period</div>
+        </li>
+        <li>
+            <strong>Q8 — Anything missing</strong>
             Is there an operational pain you're carrying that nothing in this brief addresses?
         </li>
     </ul>
