@@ -365,9 +365,51 @@ table tr:nth-child(even) td { background: #fbfaf6; }
     <div class="callout"><strong>The premise:</strong> The 21×10 framework demands honesty by 10 AM. AI provides the audit layer that says "you marked it Green; let's check the underlying data." Quiet reds stop being culturally discouraged and start being structurally impossible.</div>
 </div>
 
-<!-- 03 ROLES -->
+<!-- 03 BUILD WORKFLOW -->
 <div class="section">
-    <h2>03 — Nine Roles + Permission Matrix</h2>
+    <h2>03 — How the Build Will Actually Run</h2>
+    <div class="h-title">Multi-model cross-check at every step, zero marginal cost</div>
+
+    <p>This isn't a single-developer build. The owner runs a Mac Studio with 512 GB RAM hosting six local LLMs that work 24×7 with no API limits. That changes the math on quality assurance:</p>
+
+    <table class="compact">
+        <thead><tr><th>Step</th><th>Tool</th><th>Role in the build</th></tr></thead>
+        <tbody>
+            <tr><td>Architecture &amp; scoping</td><td>Claude (this Code session)</td><td>Frontier model with full repo context. Owns design decisions, multi-file refactors, novel architecture.</td></tr>
+            <tr><td>Code writes (controllers, migrations, tests)</td><td>Qwen3-Coder-Next via Aider</td><td>SOTA open code model. Runs in terminal, edits files directly, applies the design.</td></tr>
+            <tr><td>Architecture review at end of each phase</td><td>DeepSeek-V3 (671B)</td><td>Reads completed work, catches design drift, surfaces issues a coding model would miss.</td></tr>
+            <tr><td>Continuous test generation</td><td>Qwen3 30B (fast)</td><td>Authors hundreds of test cases overnight against the new entities/endpoints. Coverage approaches 100% by default.</td></tr>
+            <tr><td>"Fresh eyes" feature review</td><td>Llama 4 Maverick (244 GB)</td><td>Different model family from Qwen/DeepSeek. Catches issues both miss by virtue of different training.</td></tr>
+            <tr><td>Embedding-based semantic code search</td><td>nomic-embed-text</td><td>Powers fast "find the function that handles X" lookups for the other models.</td></tr>
+            <tr><td>Orchestration, disagreement resolution, verification</td><td>Claude (this session)</td><td>When models disagree, the call comes back here. Verification before anything is considered done.</td></tr>
+        </tbody>
+    </table>
+
+    <h3>What this changes</h3>
+    <ul>
+        <li><strong>Quality is the constraint, not effort.</strong> Dev hours are effectively free. We don't trade off scope for time; we trade off complexity for user experience.</li>
+        <li><strong>Multi-model cross-check is the default</strong>, not a luxury. Every phase ends with at least two independent model reviews before the work is signed off.</li>
+        <li><strong>Test coverage by default.</strong> Qwen3 30B grinds out tests in parallel with feature work. New phases ship with comprehensive coverage from day one.</li>
+        <li><strong>Honest disagreements surface.</strong> When DeepSeek-V3 disagrees with Qwen3-Coder-Next, the human (Claude orchestrator) sees both arguments and adjudicates. Nothing gets approved by silent consensus.</li>
+        <li><strong>No API cost ceiling.</strong> We can afford to over-review. Every PR-equivalent change gets read by 2-3 models.</li>
+    </ul>
+
+    <h3>What stays human</h3>
+    <ul>
+        <li>Architectural decisions when models disagree</li>
+        <li>Sign-off on each phase before the next begins</li>
+        <li>UX judgment calls (what the screen should feel like, not just whether it compiles)</li>
+        <li>Verification: "trust but verify" — the orchestrator confirms the work is actually done, not just claimed done</li>
+    </ul>
+
+    <div class="callout">
+        <strong>Competitive moat:</strong> Most teams ship code reviewed by one developer at best. This build ships code reviewed by 3-4 independent models plus a frontier orchestrator. The discipline of the 21×10 board has a parallel in the build process itself — nothing closes until every check is honest.
+    </div>
+</div>
+
+<!-- 04 ROLES -->
+<div class="section">
+    <h2>04 — Nine Roles + Permission Matrix</h2>
     <div class="h-title">Who can do what</div>
 
     <table class="compact">
@@ -419,7 +461,7 @@ table tr:nth-child(even) td { background: #fbfaf6; }
 
 <!-- 03 21x10 FULL TABLE -->
 <div class="section">
-    <h2>04 — The 21 Metrics</h2>
+    <h2>05 — The 21 Metrics</h2>
     <div class="h-title">Owner, marker, type, data source for each</div>
 
     <table class="compact">
@@ -460,7 +502,7 @@ table tr:nth-child(even) td { background: #fbfaf6; }
 
 <!-- 04 PACING MATH -->
 <div class="section">
-    <h2>05 — Pacing Math (Quantitative Metrics)</h2>
+    <h2>06 — Pacing Math (Quantitative Metrics)</h2>
     <div class="h-title">How "green" gets computed</div>
 
     <p><strong>Inputs per metric, per division:</strong> monthly target value, direction (higher-is-better or lower-is-better), yellow buffer (default 5%), red buffer (default 10%).</p>
@@ -503,7 +545,7 @@ PacingRatio(D)         = ActualMtd / ExpectedMtd
 
 <!-- 05 JOB LIFECYCLE -->
 <div class="section">
-    <h2>06 — Job Lifecycle &amp; 15-Minute SLA</h2>
+    <h2>07 — Job Lifecycle &amp; 15-Minute SLA</h2>
     <div class="h-title">Every timestamp, every breach threshold</div>
 
     <div class="pre"><span class="hl-gold">TIMESTAMP</span>                      <span class="hl-gold">SET BY</span>                          <span class="hl-gold">SLA CLOCK</span>
@@ -541,7 +583,7 @@ Job.ClosedAt                   <span class="hl-gold">system — auto-set</span> 
 
 <!-- 06 BOARD WIREFRAME -->
 <div class="section">
-    <h2>07 — Daily 21×10 Board (Wireframe)</h2>
+    <h2>08 — Daily 21×10 Board (Wireframe)</h2>
     <div class="h-title">The single most-important screen</div>
 
     <div class="pre">┌─────────────────────────────────────────────────────────────────────────┐
@@ -581,7 +623,7 @@ Job.ClosedAt                   <span class="hl-gold">system — auto-set</span> 
 
 <!-- 07 EXCEPTIONS -->
 <div class="section">
-    <h2>08 — Exception Types</h2>
+    <h2>09 — Exception Types</h2>
     <div class="h-title">Two sources, single inbox</div>
 
     <h3>Auto-generated (system fires)</h3>
@@ -618,7 +660,7 @@ Job.ClosedAt                   <span class="hl-gold">system — auto-set</span> 
 
 <!-- 08 DATA -->
 <div class="section">
-    <h2>09 — Data Captured per Entity</h2>
+    <h2>10 — Data Captured per Entity</h2>
     <div class="h-title">What lands in the database</div>
 
     <h3>Job (after Phase A1 migration)</h3>
@@ -650,7 +692,7 @@ Job.ClosedAt                   <span class="hl-gold">system — auto-set</span> 
 
 <!-- 09 PHASES -->
 <div class="section">
-    <h2>10 — Phase Status</h2>
+    <h2>11 — Phase Status</h2>
     <div class="h-title">What's built, what's next</div>
 
     <table class="compact">
@@ -680,7 +722,7 @@ Job.ClosedAt                   <span class="hl-gold">system — auto-set</span> 
 
 <!-- 10 IN/OUT -->
 <div class="section">
-    <h2>11 — In Scope vs Out of Scope</h2>
+    <h2>12 — In Scope vs Out of Scope</h2>
     <div class="h-title">Sharp lines</div>
 
     <div class="two-col">
@@ -728,7 +770,7 @@ Job.ClosedAt                   <span class="hl-gold">system — auto-set</span> 
 
 <!-- 11 OPEN -->
 <div class="section">
-    <h2>12 — Open Decisions Needing Team Input</h2>
+    <h2>13 — Open Decisions Needing Team Input</h2>
     <div class="h-title">Where you weigh in before build starts</div>
 
     <ul class="q-list">
@@ -773,7 +815,7 @@ Job.ClosedAt                   <span class="hl-gold">system — auto-set</span> 
 
 <!-- 12 DIVERGENCES -->
 <div class="section">
-    <h2>13 — Divergences from Earlier V2 Spec</h2>
+    <h2>14 — Divergences from Earlier V2 Spec</h2>
     <div class="h-title">What changed and why (for those who saw the earlier doc)</div>
 
     <table class="compact">
