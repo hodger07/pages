@@ -583,15 +583,30 @@ PacingRatio(D)         = ActualMtd / ExpectedMtd
     <h2>07 — Job Lifecycle &amp; 15-Minute SLA</h2>
     <div class="h-title">Every timestamp, every breach threshold</div>
 
-    <div class="pre"><span class="hl-gold">TIMESTAMP</span>                      <span class="hl-gold">SET BY</span>                          <span class="hl-gold">SLA CLOCK</span>
-─────────────────────────────────────────────────────────────────────
-Job.CreatedAt                  system, on form save             —
-Job.TechCompletedAt            CSR (back-stampable from Slack)  <span class="hl-gold">starts clock</span>
-Job.CoachedAt                  Manager (invoice coaching)       must be ≤ +15 min
-Job.HappyCheckedAt             CSR (happy call complete)        must be ≤ +15 min
-HappyCall.EscalatedAt          system, if CustomerScore ≤ 7     must be resolved before close
-CustomerComplaint.ResolvedAt   Manager or CX Mgr                must be resolved before close
-Job.ClosedAt                   <span class="hl-gold">system — auto-set</span>                drops off Active Work Board
+    <div class="pre"><span class="hl-gold">TIMESTAMP</span>                  <span class="hl-gold">SET BY</span>                          <span class="hl-gold">MEASURES LATENCY TO NEXT STAGE</span>
+─────────────────────────────────────────────────────────────────────────────────────────
+Job.CreatedAt /            Dispatcher (job is created      <span class="hl-gold">start of all field clocks</span>
+Job.DispatchedAt           in UnifiedOps AT dispatch)
+Job.OnSiteAt               Dispatcher/CSR (tech Slacks     <span class="hl-yellow">travel latency = OnSiteAt - DispatchedAt</span>
+                           "I'm here")                     <span class="hl-muted">(dispatcher routing / tech responsiveness)</span>
+Job.SoldAt                 Dispatcher/CSR (tech Slacks     <span class="hl-yellow">on-site sales latency = SoldAt - OnSiteAt</span>
+                           "$X sold"; nullable if not      <span class="hl-muted">(on-site close speed)</span>
+                           sold = zero ticket)
+Job.TechCompletedAt        Dispatcher/CSR (tech Slacks     <span class="hl-yellow">total on-site = TechCompletedAt - OnSiteAt</span>
+                           "I'm done")                     <span class="hl-gold">+ STARTS 15-MIN SLA for coach + happy call</span>
+Job.CoachedAt              Manager (invoice coaching       must be ≤ TechCompletedAt + 15 min
+                           submitted)
+Job.HappyCheckedAt         CSR (happy call complete)       must be ≤ TechCompletedAt + 15 min
+HappyCall.EscalatedAt      system, if CustomerScore ≤ 7    must resolve before close
+Complaint.ResolvedAt       Manager or CX Mgr               must resolve before close
+Job.ClosedAt               <span class="hl-gold">system — auto-set</span>                drops off Active Work Board
+
+<span class="hl-gold">DISPATCHER ACCOUNTABILITY (forces them to be on their game):</span>
+   The dispatcher's screen shows a live list of in-flight jobs with quick-stamp
+   buttons: [Mark Onsite Now] [Mark Sold Now $___] [Mark Done Now]. Each click
+   writes the timestamp. They can't ignore a job sitting at "Dispatched, no
+   Onsite for 47 minutes" — it pulses red on their board and the system
+   flags it as an exception.
 
 <span class="hl-gold">CLOSURE RULE (Job.ClosedAt is set ⟺ all are true):</span>
    CoachedAt IS NOT NULL
