@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AB Statement Analysis — Bustos Investments</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f4f1ec; color: #1a1a1a; }
+
+  .header { background: #1a2744; color: white; padding: 30px 40px; }
+  .header h1 { font-size: 1.3rem; font-weight: 700; }
+  .header .sub { font-size: 0.85rem; opacity: 0.75; margin-top: 6px; }
+  .header .conf { font-size: 0.72rem; opacity: 0.6; margin-top: 10px; letter-spacing: 0.5px; text-transform: uppercase; }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 30px 40px; }
+
+  .back-link { display: inline-block; margin-bottom: 20px; font-size: 0.82rem; color: #1a2744; text-decoration: none; border: 1px solid #1a2744; padding: 5px 14px; border-radius: 4px; }
+  .back-link:hover { background: #1a2744; color: white; }
+
+  /* CALLOUT GRID */
+  .callout-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
+  .callout-card { background: white; border-radius: 8px; padding: 18px 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); text-align: center; }
+  .callout-card .val { font-size: 1.4rem; font-weight: 700; margin-bottom: 4px; }
+  .callout-card .lbl { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: #888; line-height: 1.4; }
+  .callout-card.red { border-top: 4px solid #7c1e1e; }
+  .callout-card.red .val { color: #7c1e1e; }
+  .callout-card.orange { border-top: 4px solid #c8801a; }
+  .callout-card.orange .val { color: #c8801a; }
+  .callout-card.green { border-top: 4px solid #1a6b3a; }
+  .callout-card.green .val { color: #1a6b3a; }
+  .callout-card.blue { border-top: 4px solid #1a2744; }
+  .callout-card.blue .val { color: #1a2744; }
+
+  /* LEGEND */
+  .legend { display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; font-size: 0.8rem; }
+  .legend-item { display: flex; align-items: center; gap: 7px; }
+  .sw { width: 14px; height: 14px; border-radius: 2px; flex-shrink: 0; }
+  .sw-paid { background: #fde8e8; border: 1px solid #e88; }
+  .sw-backbill { background: #7c1e1e; }
+  .sw-journal { background: #fff3cd; border: 1px solid #ffc107; }
+  .sw-normal { background: #e8f5e9; border: 1px solid #81c784; }
+  .sw-missing { background: #e3e8f0; border: 1px solid #aab; }
+
+  /* TABLE */
+  .table-wrap { background: white; border-radius: 8px; box-shadow: 0 1px 6px rgba(0,0,0,0.08); overflow: hidden; margin-bottom: 24px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  thead tr { background: #1a2744; color: white; }
+  thead th { padding: 10px 14px; text-align: left; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; }
+  thead th.num { text-align: right; }
+  tbody tr { border-bottom: 1px solid #f0f0f0; }
+  tbody tr:hover { background: #fafafa; }
+  td { padding: 9px 14px; vertical-align: middle; }
+  td.num { text-align: right; font-family: 'Courier New', monospace; font-size: 0.85rem; }
+  td.bal { text-align: right; font-family: 'Courier New', monospace; font-size: 0.82rem; color: #555; }
+
+  .tag { display: inline-block; font-size: 0.65rem; padding: 2px 7px; border-radius: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-left: 4px; vertical-align: middle; }
+  .tag-paid { background: #fde8e8; color: #7c1e1e; }
+  .tag-backbill { background: #7c1e1e; color: white; }
+  .tag-journal { background: #fff3cd; color: #7a5000; }
+  .tag-normal { background: #e8f5e9; color: #1a6b3a; }
+  .tag-missing { background: #e3e8f0; color: #1a2744; }
+
+  .row-backbill { background: #fde8e8 !important; }
+  .row-paid-fwd { background: #fff8e1 !important; }
+  .row-journal { background: #fffde7; }
+  .row-normal { background: #f9fffe; }
+
+  tfoot td { padding: 12px 14px; font-weight: 700; background: #f4f1ec; border-top: 2px solid #ddd; }
+  tfoot .section-head { background: #1a2744; color: white; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* MATH BOX */
+  .math-box { background: white; border-radius: 8px; padding: 24px 28px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); margin-bottom: 20px; }
+  .math-box h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; color: #888; margin-bottom: 16px; }
+  .math-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0; font-size: 0.88rem; }
+  .math-row:last-child { border-bottom: none; }
+  .math-row.total { font-weight: 700; font-size: 0.95rem; border-top: 2px solid #1a2744; margin-top: 4px; padding-top: 12px; }
+  .math-row.sub { color: #7c1e1e; }
+  .math-row .amt { font-family: 'Courier New', monospace; }
+  .math-row .amt.red { color: #7c1e1e; }
+  .math-row .amt.green { color: #1a6b3a; }
+  .math-row .amt.gold { color: #c8801a; font-weight: 700; }
+
+  /* ISSUE BOXES */
+  .issue-box { border-left: 4px solid; border-radius: 0 6px 6px 0; padding: 14px 18px; margin-bottom: 12px; font-size: 0.85rem; line-height: 1.7; }
+  .issue-red { background: #fde8e8; border-color: #7c1e1e; }
+  .issue-orange { background: #fff8f0; border-color: #c8801a; }
+  .issue-yellow { background: #fffde7; border-color: #f0c000; }
+  .issue-box .issue-title { font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
+  .issue-red .issue-title { color: #7c1e1e; }
+  .issue-orange .issue-title { color: #c8801a; }
+  .issue-yellow .issue-title { color: #7a6000; }
+
+  h2 { font-size: 1rem; color: #1a2744; border-bottom: 2px solid #1a2744; padding-bottom: 6px; margin: 28px 0 14px; }
+  @media (max-width: 700px) { .callout-grid { grid-template-columns: 1fr 1fr; } .container { padding: 20px; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>AB Statement Analysis — Bustos Investments (MS0135)</h1>
+  <div class="sub">Statement Date: 5/19/2026 &nbsp;|&nbsp; Amount Claimed: $149,761.16 &nbsp;|&nbsp; Annotated charge-by-charge breakdown</div>
+  <div class="conf">Attorney-Client Privileged / Confidential — Fed. R. Evid. 408</div>
+</div>
+
+<div class="container">
+
+  <a class="back-link" href="../franchise-dispute-brief.html">← Back to Full Brief</a>
+
+  <!-- SUMMARY CARDS -->
+  <div class="callout-grid">
+    <div class="callout-card red">
+      <div class="val">$149,761</div>
+      <div class="lbl">AB Total Demand<br>(Statement 5/19/2026)</div>
+    </div>
+    <div class="callout-card red">
+      <div class="val">$88,044</div>
+      <div class="lbl">Retroactive Backbill<br>(INVMSPRK-29403 alone)</div>
+    </div>
+    <div class="callout-card orange">
+      <div class="val">$31,135</div>
+      <div class="lbl">2017 Invoices — Paid<br>3/27/2020 Receipt on File</div>
+    </div>
+    <div class="callout-card green">
+      <div class="val">~$30,582</div>
+      <div class="lbl">Residual After Removing<br>Backbill + Paid Balance</div>
+    </div>
+  </div>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="legend-item"><div class="sw sw-paid"></div><span><strong>Already paid</strong> — receipt on file</span></div>
+    <div class="legend-item"><div class="sw sw-backbill"></div><span><strong>Retroactive backbill</strong> — disputed (Dispositive Issue #3)</span></div>
+    <div class="legend-item"><div class="sw sw-journal"></div><span><strong>Internal journal entry</strong> — no invoice; documentation not produced</span></div>
+    <div class="legend-item"><div class="sw sw-normal"></div><span><strong>Normal capture invoice</strong> — potentially legitimate</span></div>
+    <div class="legend-item"><div class="sw sw-missing"></div><span><strong>No payments shown</strong> — Payment column entirely blank</span></div>
+  </div>
+
+  <!-- CHARGE TABLE -->
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Description</th>
+          <th class="num">Charge</th>
+          <th class="num">Running Balance</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- BALANCE FORWARD -->
+        <tr class="row-paid-fwd">
+          <td>1/1/2019</td>
+          <td><strong>Balance Forward</strong> — 11 invoices from 2017 (SI000000818–SI000001433)</td>
+          <td class="num">$31,134.97</td>
+          <td class="bal">$31,134.97</td>
+          <td><span class="tag tag-paid">Paid 3/27/2020</span></td>
+        </tr>
+        <!-- 2023 NORMAL CAPTURES -->
+        <tr class="row-normal"><td>1/25/2023</td><td>Invoice #INVMSPRK-25466</td><td class="num">$1,686.68</td><td class="bal">$32,821.65</td><td><span class="tag tag-normal">Normal Capture</span></td></tr>
+        <tr class="row-normal"><td>1/31/2023</td><td>Invoice #INVMSPRK-25525</td><td class="num">$1,686.68</td><td class="bal">$34,508.33</td><td><span class="tag tag-normal">Normal Capture</span></td></tr>
+        <tr class="row-journal"><td>1/31/2023</td><td>Journal #JEBF-11257</td><td class="num">$1,686.68</td><td class="bal">$36,195.01</td><td><span class="tag tag-journal">Journal — No Invoice</span></td></tr>
+        <tr class="row-normal"><td>2/28/2023</td><td>Invoice #INVMSPRK-25637</td><td class="num">$1,686.68</td><td class="bal">$37,881.69</td><td><span class="tag tag-normal">Normal Capture</span></td></tr>
+        <tr class="row-normal"><td>3/15/2023</td><td>Invoice #INVMSPRK-25688</td><td class="num">$1,686.68</td><td class="bal">$39,568.37</td><td><span class="tag tag-normal">Normal Capture</span></td></tr>
+        <tr class="row-journal"><td>3/30/2023</td><td>Journal #JEBF-11285</td><td class="num">$1,686.68</td><td class="bal">$41,255.05</td><td><span class="tag tag-journal">Journal — No Invoice</span></td></tr>
+        <tr class="row-normal"><td>3/31/2023</td><td>Invoice #INVMSPRK-25749</td><td class="num">$1,686.68</td><td class="bal">$42,941.73</td><td><span class="tag tag-normal">Normal Capture</span></td></tr>
+        <tr class="row-normal"><td>4/15/2023</td><td>Invoice #INVMSPRK-25844</td><td class="num">$1,686.68</td><td class="bal">$44,628.41</td><td><span class="tag tag-normal">Normal Capture</span></td></tr>
+        <tr class="row-normal"><td>4/30/2023</td><td>Invoice #INVMSPRK-25911</td><td class="num">$1,686.68</td><td class="bal">$46,315.09</td><td><span class="tag tag-normal">Normal Capture</span></td></tr>
+        <tr class="row-normal"><td>5/15/2023</td><td>Invoice #INVMSPRK-25965</td><td class="num">$1,686.68</td><td class="bal">$48,001.77</td><td><span class="tag tag-normal">Normal Capture</span></td></tr>
+        <tr class="row-normal"><td>6/30/2023</td><td>Invoice #INVMSPRK-26152</td><td class="num">$1,686.68</td><td class="bal">$49,688.45</td><td><span class="tag tag-normal">Normal Capture</span></td></tr>
+        <tr class="row-normal"><td>7/15/2023</td><td>Invoice #INVMSPRK-26209</td><td class="num">$1,686.68</td><td class="bal">$51,375.13</td><td><span class="tag tag-normal">Normal Capture</span></td></tr>
+        <tr class="row-journal"><td>11/10/2023</td><td>Journal #JEBF-11414 <em style="color:#888;font-size:0.78rem;">(= 5 captures bundled)</em></td><td class="num">$8,433.40</td><td class="bal">$59,808.53</td><td><span class="tag tag-journal">Bulk Journal — 5 Captures</span></td></tr>
+        <!-- 2024 -->
+        <tr class="row-journal"><td>1/26/2024</td><td>Journal #JEMSPRK-7221</td><td class="num">$1,686.68</td><td class="bal">$61,495.21</td><td><span class="tag tag-journal">Journal — No Invoice</span></td></tr>
+        <tr class="row-journal"><td>5/10/2024</td><td>Journal #JEBF-11531 (×5 entries)</td><td class="num">$5,085.04</td><td class="bal">$66,580.25</td><td><span class="tag tag-journal">Journal — No Invoice</span></td></tr>
+        <tr class="row-journal"><td>5/17/2024</td><td>Journal #JEBF-11532 (×5 entries)</td><td class="num">$6,211.68</td><td class="bal">$72,791.93</td><td><span class="tag tag-journal">Journal — No Invoice</span></td></tr>
+        <tr class="row-journal"><td>6/14/2024</td><td>Journal #JEBF-11554</td><td class="num">$1,500.00</td><td class="bal">$75,978.61</td><td><span class="tag tag-journal">Journal — No Invoice</span></td></tr>
+        <tr class="row-journal"><td>7/1/2024</td><td>Journal #JEBF-11579</td><td class="num">$3,373.36</td><td class="bal">$79,351.97</td><td><span class="tag tag-journal">Journal — No Invoice</span></td></tr>
+        <tr class="row-normal"><td>7/15/2024</td><td>Invoice #INVMSPRK-27899</td><td class="num">$1,500.00</td><td class="bal">$80,851.97</td><td><span class="tag tag-normal">Normal Capture</span></td></tr>
+        <tr class="row-journal"><td>7/19/2024</td><td>Journal #JEBF-11572 (×2)</td><td class="num">$3,000.00</td><td class="bal">$83,851.97</td><td><span class="tag tag-journal">Journal — No Invoice</span></td></tr>
+        <tr class="row-normal"><td>7/31/2024</td><td>Invoice #INVMSPRK-28057</td><td class="num">$1,500.00</td><td class="bal">$85,351.97</td><td><span class="tag tag-normal">Normal Capture</span></td></tr>
+        <tr class="row-journal"><td>8/30/2024</td><td>Journal #JEMSPRK-7320</td><td class="num">$1,500.00</td><td class="bal">$86,851.97</td><td><span class="tag tag-journal">Journal — No Invoice</span></td></tr>
+        <tr class="row-normal"><td>8/31/2024</td><td>Invoice #INVMSPRK-28310</td><td class="num">$1,500.00</td><td class="bal">$88,351.97</td><td><span class="tag tag-normal">Normal Capture</span></td></tr>
+        <tr class="row-normal"><td>9/15/2024</td><td>Invoice #INVMSPRK-28436</td><td class="num">$1,500.00</td><td class="bal">$89,851.97</td><td><span class="tag tag-normal">Normal Capture</span></td></tr>
+        <tr class="row-normal"><td>9/30/2024</td><td>Invoice #INVMSPRK-28572</td><td class="num">$1,500.00</td><td class="bal">$91,351.97</td><td><span class="tag tag-normal">Normal Capture</span></td></tr>
+        <tr class="row-normal"><td>10/15/2024</td><td>Invoice #INVMSPRK-28705</td><td class="num">$1,500.00</td><td class="bal">$92,851.97</td><td><span class="tag tag-normal">Normal Capture</span></td></tr>
+        <!-- BACKBILL -->
+        <tr class="row-backbill">
+          <td>12/31/2024</td>
+          <td><strong>Invoice #INVMSPRK-29403</strong> — <em>"AR Backbilling - $3750pm for 66 months thru end of 2024"</em></td>
+          <td class="num" style="color:#7c1e1e;font-weight:700;">$88,044.16</td>
+          <td class="bal">$180,896.13</td>
+          <td><span class="tag tag-backbill">Retroactive Backbill</span></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr><td colspan="5" class="section-head">Summary</td></tr>
+        <tr><td colspan="2"><strong>Statement ending balance</strong></td><td class="num"><strong>$180,896.13</strong></td><td colspan="2"></td></tr>
+        <tr><td colspan="2">Amount Due per Statement</td><td class="num">$149,761.16</td><td colspan="2" style="font-size:0.78rem;color:#888;">Difference of $31,134.97 = unknown credit not labeled in statement</td></tr>
+        <tr><td colspan="2" style="color:#e65100;"><strong>⚠ Payment column: ENTIRELY BLANK</strong></td><td colspan="3" style="color:#e65100;font-size:0.82rem;">No payments shown — yet $31,134.97 was paid 3/27/2020 per payment receipt on file</td></tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <!-- MATH BREAKDOWN -->
+  <h2>What AB's $149,761.16 Is Actually Made Of</h2>
+  <div class="math-box">
+    <h3>Charge Decomposition</h3>
+    <div class="math-row"><span>AB Total Demand</span><span class="amt">$149,761.16</span></div>
+    <div class="math-row sub"><span>Less: Retroactive backbill INVMSPRK-29403 (Dispositive Issue #3)</span><span class="amt red">− $88,044.16</span></div>
+    <div class="math-row sub"><span>Less: 2017 invoices paid 3/27/2020 (Dispositive Issue #2)</span><span class="amt red">− $31,134.97</span></div>
+    <div class="math-row total"><span>Residual — normal 2023–2024 capture charges</span><span class="amt gold">~$30,582</span></div>
+  </div>
+  <div class="math-box">
+    <h3>Residual Further Subject To</h3>
+    <div class="math-row"><span>Less: RGRH royalties paid on South Denton territory (same periods)</span><span class="amt red">TBD — to be produced</span></div>
+    <div class="math-row"><span>Less: Post-natural expiration captures (yellow — $0 owed)</span><span class="amt red">Included in $13,274 of 2024 total</span></div>
+    <div class="math-row sub"><span>Less: Unexplained Journal #JEBF entries — no supporting invoices produced</span><span class="amt red">~$22,000+ in journals</span></div>
+    <div class="math-row total"><span>Maximum defensible residual</span><span class="amt green">Well below $30,582</span></div>
+  </div>
+
+  <!-- KEY ISSUES -->
+  <h2>Three Issues with This Statement</h2>
+  <div class="issue-box issue-red">
+    <div class="issue-title">Issue 1 — No Payments Shown (Payment Column Blank)</div>
+    AB's statement shows zero payments received against this account since 1/1/2019. Yet a <strong>Payment Receipt dated 3/27/2020 confirms $31,134.97 was paid in full</strong> for the 2017 invoices comprising the Balance Forward. Normal capture payments through 2022 (all confirmed paid per Open Invoices Part 1 & 2) also do not appear. This is not a complete transaction history — it is a selective presentation of charges without corresponding credits.
+  </div>
+  <div class="issue-box issue-red">
+    <div class="issue-title">Issue 2 — Balance Forward Represents Already-Paid Invoices</div>
+    The $31,134.97 Balance Forward carried from 1/1/2019 represents 11 invoices from March–August 2017. These were paid in full on <strong>3/27/2020</strong> — payment receipt on file, applied amount confirmed. AB is re-asserting invoices for which it has already received and acknowledged payment. This $31,134.97 must be excluded from any legitimate demand.
+  </div>
+  <div class="issue-box issue-orange">
+    <div class="issue-title">Issue 3 — Unexplained Internal Journal Entries (~$22,000+)</div>
+    The statement contains multiple "Journal #JEBF" and "Journal #JEMSPRK" entries totaling over $22,000 that are <strong>not normal capture invoices</strong>. These are internal AB accounting adjustments. No supporting documentation has been produced for what these entries represent, when the underlying obligation arose, or how they were calculated. Until AB produces documentation for each journal entry, these amounts cannot be treated as liquidated claims.
+  </div>
+
+  <p style="margin-top:20px;font-size:0.78rem;color:#888;font-style:italic;">Statement Date: 5/19/2026 | Analysis prepared June 2026 | Source: AB SUPPORT/Sparky Statement.pdf + Payment Receipt 3/27/2020</p>
+
+</div>
+</body>
+</html>
