@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Candidate Brief — Matthew Worrell</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-elev: #161b22;
+    --bg-card: #1c2330;
+    --border: #2a3340;
+    --text: #e6edf3;
+    --text-dim: #9da7b3;
+    --text-faint: #6b7480;
+    --accent: #f5a623;
+    --accent-soft: rgba(245, 166, 35, 0.12);
+    --green: #3fb950;
+    --green-soft: rgba(63, 185, 80, 0.12);
+    --red: #f0883e;
+    --red-soft: rgba(240, 136, 62, 0.12);
+    --blue: #58a6ff;
+    --blue-soft: rgba(88, 166, 255, 0.12);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0 24px 80px; }
+
+  /* Header */
+  header {
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, #11161e 0%, var(--bg) 100%);
+    padding: 48px 0 36px;
+    margin-bottom: 8px;
+  }
+  .header-inner { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+  .confidential {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-soft);
+    border: 1px solid rgba(245,166,35,0.3);
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  h1 {
+    font-size: 38px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+  .subtitle { color: var(--text-dim); font-size: 17px; font-weight: 400; }
+  .header-meta {
+    margin-top: 22px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    font-size: 13px;
+    color: var(--text-faint);
+  }
+  .header-meta strong { color: var(--text-dim); font-weight: 600; }
+
+  /* Sections */
+  section { margin-top: 44px; }
+  .section-title {
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 18px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title .num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px; height: 22px;
+    background: var(--accent-soft);
+    border: 1px solid rgba(245,166,35,0.3);
+    border-radius: 50%;
+    font-size: 11px;
+    color: var(--accent);
+  }
+
+  /* Snapshot cards */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 14px;
+  }
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 18px 16px;
+  }
+  .card .label {
+    font-size: 11px;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 8px;
+  }
+  .card .value { font-size: 24px; font-weight: 700; color: var(--text); line-height: 1.2; }
+  .card .value.accent { color: var(--accent); }
+  .card .value.green { color: var(--green); }
+  .card .sub { font-size: 12px; color: var(--text-dim); margin-top: 4px; }
+
+  /* PI Profile */
+  .pi-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  .panel {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px;
+  }
+  .pi-type {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    background: linear-gradient(135deg, #1c2330 0%, #1a2535 100%);
+    border-color: rgba(88,166,255,0.25);
+  }
+  .pi-badge {
+    flex-shrink: 0;
+    width: 96px; height: 96px;
+    border-radius: 14px;
+    background: var(--blue-soft);
+    border: 1px solid rgba(88,166,255,0.35);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--blue);
+  }
+  .pi-badge .big { font-size: 30px; font-weight: 800; letter-spacing: 1px; }
+  .pi-badge .small { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
+  .pi-type-body h3 { font-size: 19px; margin-bottom: 4px; }
+  .pi-type-body p { color: var(--text-dim); font-size: 14px; }
+  .panel h4 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-dim);
+    margin-bottom: 14px;
+    font-weight: 600;
+  }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag {
+    font-size: 12.5px;
+    padding: 5px 11px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--bg-elev);
+    color: var(--text-dim);
+  }
+  .tag.strong { color: var(--green); border-color: rgba(63,185,80,0.3); background: var(--green-soft); }
+  .tag.caution { color: var(--red); border-color: rgba(240,136,62,0.3); background: var(--red-soft); }
+  .list { list-style: none; }
+  .list li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 9px;
+    color: var(--text-dim);
+    font-size: 14px;
+  }
+  .list li::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 10px;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .list.green li::before { background: var(--green); }
+  .list.red li::before { background: var(--red); }
+  .list.blue li::before { background: var(--blue); }
+
+  .fit-row { display: grid; gap: 12px; }
+  .fit-item {
+    border-left: 3px solid var(--border);
+    padding: 10px 16px;
+    background: var(--bg-elev);
+    border-radius: 0 8px 8px 0;
+  }
+  .fit-item.align { border-left-color: var(--green); }
+  .fit-item.misalign { border-left-color: var(--red); }
+  .fit-item .fit-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 3px;
+    font-weight: 600;
+  }
+  .fit-item.align .fit-label { color: var(--green); }
+  .fit-item.misalign .fit-label { color: var(--red); }
+  .fit-item p { font-size: 13.5px; color: var(--text-dim); }
+
+  /* Performance */
+  .perf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .perf-stat {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .perf-stat:last-child { border-bottom: none; }
+  .perf-stat .k { color: var(--text-dim); font-size: 14px; }
+  .perf-stat .v { font-weight: 700; color: var(--text); font-size: 15px; text-align: right; }
+  .perf-stat .v.accent { color: var(--accent); }
+
+  .timeline { position: relative; padding-left: 24px; }
+  .timeline::before {
+    content: ""; position: absolute; left: 6px; top: 6px; bottom: 6px;
+    width: 2px; background: var(--border);
+  }
+  .tl-item { position: relative; margin-bottom: 18px; }
+  .tl-item:last-child { margin-bottom: 0; }
+  .tl-item::before {
+    content: ""; position: absolute; left: -24px; top: 5px;
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--accent); border: 2px solid var(--bg-card);
+  }
+  .tl-item .role { font-weight: 700; font-size: 15px; }
+  .tl-item .meta { font-size: 12px; color: var(--text-faint); margin: 1px 0 5px; }
+  .tl-item .desc { font-size: 13.5px; color: var(--text-dim); }
+
+  /* Two col observed/concerns */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .obs-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 22px; }
+  .obs-card.good { border-top: 3px solid var(--green); }
+  .obs-card.warn { border-top: 3px solid var(--red); }
+  .obs-card h4 { margin-bottom: 14px; font-size: 14px; }
+  .obs-card.good h4 { color: var(--green); }
+  .obs-card.warn h4 { color: var(--red); }
+
+  /* Highlights */
+  .highlights { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .hl {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    font-size: 13.5px;
+    color: var(--text-dim);
+  }
+  .hl strong { color: var(--text); display: block; margin-bottom: 4px; font-size: 14px; }
+
+  /* Culture quote */
+  .quote {
+    background: var(--accent-soft);
+    border: 1px solid rgba(245,166,35,0.25);
+    border-radius: 10px;
+    padding: 18px 22px;
+    font-style: italic;
+    color: var(--text);
+    margin-top: 16px;
+    font-size: 14.5px;
+  }
+  .quote .who { display: block; font-style: normal; margin-top: 8px; font-size: 12px; color: var(--text-faint); }
+
+  /* Next steps */
+  .steps { counter-reset: step; }
+  .step {
+    display: flex; gap: 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    align-items: flex-start;
+  }
+  .step .n {
+    counter-increment: step;
+    flex-shrink: 0;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    border: 1px solid rgba(245,166,35,0.35);
+    color: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 13px;
+  }
+  .step .n::before { content: counter(step); }
+  .step .body strong { display: block; font-size: 14px; margin-bottom: 2px; }
+  .step .body p { font-size: 13px; color: var(--text-dim); }
+
+  /* Recommendation */
+  .rec {
+    margin-top: 48px;
+    background: linear-gradient(135deg, #16241a 0%, #1c2330 100%);
+    border: 1px solid rgba(63,185,80,0.3);
+    border-radius: 14px;
+    padding: 30px 32px;
+  }
+  .rec .rec-head {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 14px;
+  }
+  .rec .rec-icon {
+    width: 36px; height: 36px; border-radius: 9px;
+    background: var(--green-soft); border: 1px solid rgba(63,185,80,0.35);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--green); font-size: 18px; font-weight: 700;
+  }
+  .rec h3 { font-size: 18px; }
+  .rec p { color: var(--text); font-size: 14.5px; margin-bottom: 12px; }
+  .rec .rec-quote {
+    border-left: 3px solid var(--green);
+    padding: 8px 16px;
+    color: var(--text-dim);
+    font-style: italic;
+    font-size: 14px;
+    background: rgba(63,185,80,0.06);
+    border-radius: 0 8px 8px 0;
+  }
+  .rec .rec-quote .who { display: block; font-style: normal; margin-top: 6px; font-size: 12px; color: var(--text-faint); }
+
+  footer {
+    margin-top: 50px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--text-faint);
+    text-align: center;
+  }
+
+  @media (max-width: 720px) {
+    .pi-grid, .perf-grid, .two-col, .highlights { grid-template-columns: 1fr; }
+    .pi-type { flex-direction: column; text-align: center; }
+    h1 { font-size: 30px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <span class="confidential">Confidential — Internal Use Only</span>
+    <h1>Matthew Worrell</h1>
+    <div class="subtitle">Candidate Assessment — Residential Electrician</div>
+    <div class="header-meta">
+      <div><strong>Company:</strong> Mister Sparky (Houston / DFW)</div>
+      <div><strong>Reviewed by:</strong> Rich Hodge, Owner</div>
+      <div><strong>Date:</strong> June 17, 2026</div>
+      <div><strong>Status:</strong> Interview Complete</div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- 2. SNAPSHOT -->
+  <section>
+    <div class="section-title"><span class="num">1</span> Snapshot</div>
+    <div class="cards">
+      <div class="card">
+        <div class="label">Age</div>
+        <div class="value">25</div>
+        <div class="sub">Born May 17</div>
+      </div>
+      <div class="card">
+        <div class="label">Current Location</div>
+        <div class="value" style="font-size:18px;">Montevallo, AL</div>
+        <div class="sub">Relocating to Texas</div>
+      </div>
+      <div class="card">
+        <div class="label">Experience</div>
+        <div class="value">8 yrs</div>
+        <div class="sub">5 yrs Arm · 3 yrs Mister Sparky</div>
+      </div>
+      <div class="card">
+        <div class="label">Annual Revenue</div>
+        <div class="value accent">~$1.1M</div>
+        <div class="sub">~$82K / month, self-produced</div>
+      </div>
+      <div class="card">
+        <div class="label">Conversion Rate</div>
+        <div class="value green">80%</div>
+        <div class="sub">Self-reported · needs validation</div>
+      </div>
+      <div class="card">
+        <div class="label">Company Ranking</div>
+        <div class="value accent">#1–2</div>
+        <div class="sub">Every month, consistently</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. PI BEHAVIORAL PROFILE -->
+  <section>
+    <div class="section-title"><span class="num">2</span> Predictive Index — Behavioral Profile</div>
+    <div class="pi-grid">
+
+      <div class="panel pi-type">
+        <div class="pi-badge">
+          <span class="big">OP</span>
+          <span class="small">Operator</span>
+        </div>
+        <div class="pi-type-body">
+          <h3>The Operator</h3>
+          <p>Patient, conscientious, relaxed, cooperative team worker. Accepting of others' decisions, reflective and introspective, focused on getting things done <em>right</em>. Concentrates deeply on tasks for long stretches; unhurried, deliberate, and stable.</p>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h4>Core Strengths</h4>
+        <div class="tag-row">
+          <span class="tag strong">Patient &amp; conscientious</span>
+          <span class="tag strong">Cooperative team player</span>
+          <span class="tag strong">Reflective / introspective</span>
+          <span class="tag strong">Quality-focused</span>
+          <span class="tag strong">Deep, sustained focus</span>
+          <span class="tag strong">Stable &amp; deliberate</span>
+          <span class="tag strong">Follows established process</span>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h4>Caution Areas</h4>
+        <div class="tag-row">
+          <span class="tag caution">May be overly cautious</span>
+          <span class="tag caution">Not naturally strategic</span>
+          <span class="tag caution">Can appear too task-focused</span>
+          <span class="tag caution">May struggle with ambiguity</span>
+          <span class="tag caution">Hard to change set processes</span>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h4>Needs A Lot Of</h4>
+        <ul class="list green">
+          <li>Stability and long-term affiliation</li>
+          <li>Ability to work at a steady pace</li>
+          <li>Familiar surroundings</li>
+        </ul>
+      </div>
+
+      <div class="panel">
+        <h4>Needs Some Of</h4>
+        <ul class="list blue">
+          <li>Time to reflect &amp; room for introspection</li>
+          <li>Freedom from office politics &amp; rigid structure</li>
+          <li>Encouragement, reassurance &amp; harmony</li>
+          <li>Freedom of expression; ability to delegate detail</li>
+        </ul>
+      </div>
+
+      <div class="panel" style="grid-column:1 / -1;">
+        <h4>Job Fit vs. Electrician Target</h4>
+        <div class="fit-row">
+          <div class="fit-item align">
+            <div class="fit-label">Naturally Aligning</div>
+            <p>Takes time to reflect before acting; comfortably flexes between strict and informal procedures depending on the situation.</p>
+          </div>
+          <div class="fit-item misalign">
+            <div class="fit-label">Potential Misalignment</div>
+            <p>May struggle making independent decisions on the spot; prefers a steady pace over high-volume churn. Objectivity shifts situationally between objective and subjective.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 4. PERFORMANCE RECORD -->
+  <section>
+    <div class="section-title"><span class="num">3</span> Performance Record</div>
+    <div class="perf-grid">
+      <div class="panel">
+        <h4>Production — Mister Sparky Birmingham</h4>
+        <div class="perf-stat"><span class="k">Annual revenue (avg)</span><span class="v accent">~$1.1M / year</span></div>
+        <div class="perf-stat"><span class="k">Monthly average</span><span class="v">~$82K (sold + installed by self)</span></div>
+        <div class="perf-stat"><span class="k">Company ranking</span><span class="v accent">#1 or #2 every month</span></div>
+        <div class="perf-stat"><span class="k">Conversion rate</span><span class="v">80% (self-reported)</span></div>
+        <div class="perf-stat"><span class="k">Google reviews</span><span class="v">#1 in company</span></div>
+        <div class="perf-stat"><span class="k">Soft start kits</span><span class="v">First in company to sell</span></div>
+      </div>
+
+      <div class="panel">
+        <h4>Work History</h4>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="role">Arm Electric</div>
+            <div class="meta">5 years · Residential Electrician</div>
+            <div class="desc">Started as an apprentice and worked up to running crews independently.</div>
+          </div>
+          <div class="tl-item">
+            <div class="role">Mister Sparky — Birmingham</div>
+            <div class="meta">3 years · In-Truck Technician</div>
+            <div class="desc">Placed in-truck immediately on hire — no ramp period. Top producer throughout tenure.</div>
+          </div>
+        </div>
+        <div style="margin-top:16px; padding-top:14px; border-top:1px solid var(--border);">
+          <h4 style="margin-bottom:8px;">Review-Building Behavior</h4>
+          <ul class="list green">
+            <li>Proactively collected reviews even on non-converted calls</li>
+            <li>Helped older customers create accounts to leave reviews</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. INTERVIEW HIGHLIGHTS -->
+  <section>
+    <div class="section-title"><span class="num">4</span> Interview Highlights</div>
+    <div class="highlights">
+      <div class="hl"><strong>Customer rapport</strong>A 16-year-old he met on a job called him a month later asking how to become an electrician.</div>
+      <div class="hl"><strong>Upsell through trust</strong>Turned a $300 call into a $3,000 job by building rapport in person while doing the install — not via a separate sales rep.</div>
+      <div class="hl"><strong>Decisive under pressure</strong>Authorized a $5,400 emergency surgery to save his German Shepherd (stomach torsion) — financial responsibility &amp; quick judgment.</div>
+      <div class="hl"><strong>Tech-comfortable</strong>Used ChatGPT to help navigate the dog emergency; clearly at ease with modern tools.</div>
+      <div class="hl"><strong>Integrity over the pitch</strong>Uncomfortable selling cross-trade HVAC products — "I don't like lying to people. Confidence is everything."</div>
+      <div class="hl"><strong>Model critique</strong>Views the dedicated non-working "comfort advisor" role as ineffective for building genuine customer trust.</div>
+    </div>
+
+    <div class="two-col" style="margin-top:18px;">
+      <div class="obs-card good">
+        <h4>Strengths Observed</h4>
+        <ul class="list green">
+          <li>Proven, consistent top-tier producer</li>
+          <li>Authentic, trust-first selling style</li>
+          <li>Strong customer rapport &amp; review generation</li>
+          <li>Honest and direct — no pretense or dancing around</li>
+          <li>Engaged, relaxed, good sense of humor throughout</li>
+        </ul>
+      </div>
+      <div class="obs-card warn">
+        <h4>Concerns / Open Items</h4>
+        <ul class="list red">
+          <li>No current Texas license; must retake AL journeyman exam</li>
+          <li>80% conversion needs KPI validation (Service Titan numbers can mislead)</li>
+          <li>Interest in DFW driven partly by fewer techs = more call volume — align with "don't burn customers" philosophy</li>
+          <li>Prefers DFW; company prefers Houston (year-one mentorship proximity)</li>
+          <li>Relocation package requested — possible but performance-contingent</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. CULTURE FIT -->
+  <section>
+    <div class="section-title"><span class="num">5</span> Culture Fit Assessment</div>
+    <div class="panel">
+      <ul class="list green">
+        <li><strong style="color:var(--text);">Stay in your lane:</strong> Disliked selling other trades' products — directly aligned with company philosophy.</li>
+        <li><strong style="color:var(--text);">"Legendary" core value:</strong> Responded enthusiastically and volunteered his own story unprompted (the 16-year-old who wanted to become an electrician).</li>
+        <li><strong style="color:var(--text);">Straightforward &amp; genuine:</strong> Openly told Rich he wasn't sure on relocation preference rather than telling him what he wanted to hear.</li>
+        <li><strong style="color:var(--text);">Connected with the coaching style:</strong> Liked Rich's analogies — the bar, trailer-towing, and sailboat analogies all landed.</li>
+        <li><strong style="color:var(--text);">Engaged throughout:</strong> Relaxed, good humor, genuinely interested in the values and culture conversation.</li>
+      </ul>
+    </div>
+    <div class="quote">
+      "I don't like lying to people. Confidence is everything."
+      <span class="who">— Matthew Worrell, on why he avoids cross-trade selling</span>
+    </div>
+  </section>
+
+  <!-- 7. NEXT STEPS -->
+  <section>
+    <div class="section-title"><span class="num">6</span> Open Items &amp; Next Steps</div>
+    <div class="steps">
+      <div class="step">
+        <div class="n"></div>
+        <div class="body">
+          <strong>Confirm licensing path</strong>
+          <p>Retake the Alabama journeyman exam (failed once by 2 points; all hours complete). Verify AL → TX reciprocity per Albert's note.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="n"></div>
+        <div class="body">
+          <strong>Validate KPIs</strong>
+          <p>Cross-check the self-reported 80% conversion and revenue figures against verifiable records; account for Service Titan reporting differences.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="n"></div>
+        <div class="body">
+          <strong>Align on location</strong>
+          <p>Discuss Houston-first (year one, mentorship proximity) with a possible DFW transfer later. Address his volume motivation vs. the "don't burn customers" standard.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="n"></div>
+        <div class="body">
+          <strong>Define relocation terms</strong>
+          <p>Outline the performance-contingent relocation package and confirm mutual expectations before an offer.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. RECOMMENDATION -->
+  <div class="rec">
+    <div class="rec-head">
+      <div class="rec-icon">&#10003;</div>
+      <h3>Recommendation</h3>
+    </div>
+    <p>Strong candidate. A proven top producer with an authentic, trust-first selling style that maps cleanly onto company culture and core values. The behavioral profile (Operator) suits a stable, quality-focused in-truck role — pending licensing, KPI validation, and location alignment.</p>
+    <div class="rec-quote">
+      "If you were my son, I'd recommend starting in Houston — more mentorship, more down-to-earth culture vs. plasticky DFW. Work here a year, then transfer if you want."
+      <span class="who">— Rich Hodge, during the interview</span>
+    </div>
+  </div>
+
+  <footer>
+    Confidential — prepared for internal hiring use only · Mister Sparky · June 17, 2026
+  </footer>
+
+</div>
+</body>
+</html>
