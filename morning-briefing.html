@@ -3,334 +3,298 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Morning Briefing — Tuesday, June 30, 2026</title>
+<title>Morning Briefing — July 1, 2026</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: #FFF8F0; font-family: Georgia, 'Times New Roman', serif; color: #1a1a1a; max-width: 860px; margin: 0 auto; padding: 16px; font-size: 15px; line-height: 1.6; }
-  header { border-bottom: 3px solid #1a1a1a; padding-bottom: 10px; margin-bottom: 18px; }
-  header h1 { font-size: 28px; font-weight: bold; letter-spacing: -0.5px; }
-  header .dateline { font-size: 12px; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
-  section { margin-bottom: 24px; border-bottom: 1px solid #ddd; padding-bottom: 18px; }
-  section:last-child { border-bottom: none; }
-  h2 { font-size: 13px; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; color: #666; margin-bottom: 10px; }
-  h3 { font-size: 16px; font-weight: bold; margin-bottom: 4px; }
-  .hit-list { list-style: none; counter-reset: hitcounter; }
-  .hit-list li { counter-increment: hitcounter; display: flex; gap: 10px; margin-bottom: 10px; padding: 10px 12px; background: #fff; border-left: 3px solid #C41E3A; border-radius: 2px; }
-  .hit-list li::before { content: counter(hitcounter); font-weight: bold; color: #C41E3A; min-width: 18px; font-size: 16px; }
-  .hit-list li .text { flex: 1; }
+  body { background: #FFF8F0; font-family: Georgia, 'Times New Roman', serif; color: #1a1a1a; max-width: 900px; margin: 0 auto; padding: 16px; font-size: 15px; line-height: 1.6; }
+  .masthead { text-align: center; border-top: 3px solid #1a1a1a; border-bottom: 3px solid #1a1a1a; padding: 12px 0; margin-bottom: 20px; }
+  .masthead h1 { font-size: 28px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; }
+  .masthead .dateline { font-size: 12px; color: #555; margin-top: 4px; letter-spacing: 1px; text-transform: uppercase; }
+  .section { border-bottom: 1px solid #ddd; padding: 16px 0; }
+  .section:last-child { border-bottom: none; }
+  .section-title { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #888; font-family: Arial, sans-serif; margin-bottom: 10px; font-weight: bold; }
+  .hit-list { list-style: none; }
+  .hit-list li { padding: 9px 12px; border-left: 3px solid #C41E3A; background: #fff; margin-bottom: 8px; border-radius: 2px; font-size: 14px; }
+  .hit-num { font-weight: bold; color: #C41E3A; margin-right: 8px; font-family: Arial, sans-serif; font-size: 16px; }
   .urgent { color: #C41E3A; font-weight: bold; }
   .win { color: #2E7D32; font-weight: bold; }
-  .neutral { color: #1565C0; }
   a { color: #1565C0; text-decoration: none; }
   a:hover { text-decoration: underline; }
-  .ticker-block { background: #fff; border: 1px solid #ddd; border-radius: 4px; padding: 12px 14px; margin-bottom: 12px; }
+  .ticker-block { background: #fff; border: 1px solid #ddd; border-radius: 4px; padding: 12px 14px; margin-bottom: 10px; }
   .ticker-block.alert { border-left: 4px solid #C41E3A; }
-  .ticker-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 6px; flex-wrap: wrap; }
-  .ticker-symbol { font-size: 18px; font-weight: bold; }
-  .ticker-price { font-size: 18px; }
-  .change-up { color: #2E7D32; font-weight: bold; }
-  .change-down { color: #C41E3A; font-weight: bold; }
-  .ticker-meta { font-size: 12px; color: #777; margin-bottom: 6px; }
-  .ticker-news { margin-top: 6px; }
-  .ticker-news li { font-size: 13px; margin-bottom: 4px; padding-left: 12px; position: relative; list-style: none; }
-  .ticker-news li::before { content: "›"; position: absolute; left: 0; color: #999; }
-  .ticker-catalysts { font-size: 12px; color: #555; margin-top: 6px; background: #FFF8F0; padding: 6px 8px; border-radius: 2px; }
-  .siren { font-size: 14px; }
-  table.asana { width: 100%; border-collapse: collapse; font-size: 13px; }
-  table.asana th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #999; border-bottom: 1px solid #ddd; padding: 4px 6px; }
-  table.asana td { padding: 6px 6px; border-bottom: 1px solid #f0f0f0; vertical-align: top; }
-  table.asana tr:last-child td { border-bottom: none; }
-  .overdue { color: #C41E3A; font-size: 11px; font-weight: bold; }
-  .no-due { color: #999; font-size: 11px; }
-  .text-row { background: #fff; border: 1px solid #eee; border-radius: 3px; padding: 8px 10px; margin-bottom: 7px; }
-  .text-meta { font-size: 11px; color: #888; margin-bottom: 2px; }
-  .weather-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .weather-card { background: #fff; border: 1px solid #ddd; border-radius: 4px; padding: 12px; }
-  .weather-card h4 { font-size: 13px; font-weight: bold; color: #555; margin-bottom: 6px; }
-  .weather-temp { font-size: 28px; font-weight: bold; }
-  .weather-feels { font-size: 12px; color: #777; }
-  .weather-detail { font-size: 13px; margin-top: 6px; }
-  .bond-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
-  .bond-card { background: #fff; border: 1px solid #ddd; border-radius: 3px; padding: 8px 10px; }
-  .bond-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
-  .bond-rate { font-size: 22px; font-weight: bold; }
-  .bond-change { font-size: 12px; }
-  .ai-item { padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
-  .ai-item:last-child { border-bottom: none; }
-  .ai-item h4 { font-size: 14px; font-weight: bold; margin-bottom: 2px; }
-  .ai-item p { font-size: 13px; color: #444; }
-  .news-item { padding: 6px 0; border-bottom: 1px solid #f0f0f0; font-size: 13px; }
-  .news-item:last-child { border-bottom: none; }
-  .alert-banner { background: #fff3cd; border: 1px solid #ffc107; border-radius: 4px; padding: 8px 12px; font-size: 12px; margin-bottom: 12px; }
+  .ticker-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 5px; flex-wrap: wrap; }
+  .ticker-name { font-size: 18px; font-weight: bold; font-family: Arial, sans-serif; }
+  .ticker-price { font-size: 17px; font-family: Arial, sans-serif; }
+  .chg-pos { color: #2E7D32; font-family: Arial, sans-serif; font-size: 13px; font-weight: bold; }
+  .chg-neg { color: #C41E3A; font-family: Arial, sans-serif; font-size: 13px; font-weight: bold; }
+  .ticker-meta { font-size: 12px; color: #777; font-family: Arial, sans-serif; margin-bottom: 5px; }
+  .ticker-news { font-size: 13px; padding-left: 14px; margin-top: 5px; }
+  .ticker-news li { margin-bottom: 4px; }
+  .ticker-catalyst { font-size: 12px; color: #444; margin-top: 6px; background: #FFF8F0; padding: 6px 8px; border-radius: 2px; }
+  .task-list { list-style: none; }
+  .task-list li { padding: 5px 0; border-bottom: 1px dotted #eee; font-size: 14px; display: flex; gap: 10px; align-items: baseline; }
+  .task-list li:last-child { border-bottom: none; }
+  .task-due { font-family: Arial, sans-serif; font-size: 11px; color: #C41E3A; white-space: nowrap; min-width: 75px; font-weight: bold; }
+  .task-due.ok { color: #999; font-weight: normal; }
+  .msg-item { background: #fff; border: 1px solid #eee; border-radius: 3px; padding: 8px 10px; margin-bottom: 7px; }
+  .msg-from { font-family: Arial, sans-serif; font-size: 11px; color: #888; margin-bottom: 3px; }
+  .credit-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 9px; margin-top: 8px; }
+  .credit-cell { background: #fff; border: 1px solid #ddd; border-radius: 4px; padding: 8px 10px; font-family: Arial, sans-serif; }
+  .credit-label { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+  .credit-val { font-size: 17px; font-weight: bold; margin-top: 2px; }
+  .credit-chg { font-size: 11px; margin-top: 1px; }
+  .weather-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; }
+  .weather-cell { background: #fff; border: 1px solid #ddd; border-radius: 4px; padding: 12px 14px; }
+  .weather-loc { font-size: 11px; color: #888; font-family: Arial, sans-serif; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .weather-temp { font-size: 30px; font-weight: bold; font-family: Arial, sans-serif; }
+  .weather-desc { font-size: 13px; color: #555; margin-top: 4px; }
   @media (max-width: 600px) {
+    .masthead h1 { font-size: 20px; }
+    .credit-grid { grid-template-columns: 1fr 1fr; }
     .weather-grid { grid-template-columns: 1fr; }
-    .bond-grid { grid-template-columns: 1fr 1fr; }
-    header h1 { font-size: 22px; }
-    .ticker-header { gap: 8px; }
+    .ticker-header { flex-direction: column; gap: 4px; }
   }
 </style>
 </head>
 <body>
 
-<header>
+<div class="masthead">
+  <div class="dateline">Wednesday, July 1, 2026 &nbsp;&middot;&nbsp; Houston, TX &nbsp;&middot;&nbsp; 7:00 AM CDT</div>
   <h1>Morning Briefing</h1>
-  <div class="dateline">Tuesday, June 30, 2026 &nbsp;&middot;&nbsp; 7:00 AM Central &nbsp;&middot;&nbsp; Houston</div>
-</header>
+  <div class="dateline">Prepared by Dude &middot; <a href="https://hodger07.github.io/pages/morning-briefing.html" style="color:#555;">hodger07.github.io/pages/morning-briefing.html</a></div>
+</div>
 
-<section>
-  <h2>&#127919; Hit List &mdash; Top 5</h2>
+<div class="section">
+  <div class="section-title">&#127919; Hit List &mdash; Top 5 Actions</div>
   <ol class="hit-list">
-    <li>
-      <span class="text"><strong class="urgent">&#128680; STRC ripped +12.20% yesterday to $83.67</strong> &mdash; near 52-wk high $100.42, volume 2x avg. Your Strategy Variable Rate Preferred. Pre-market -1.40% cooling off. Ex-div was June 15. Decide: trim into strength or hold for 13.73% yield?</span>
-    </li>
-    <li>
-      <span class="text"><strong class="urgent">&#128680; TSLA +8.46% yesterday to $411.84</strong> &mdash; SpaceX/Tesla merger speculation (Musk $1T SpaceX comment) driving the move. Earnings July 22. Pre-market -0.94%. Assess position before earnings vol kicks in.</span>
-    </li>
-    <li>
-      <span class="text"><strong class="urgent">&#9888;&#65039; BTC testing 52-week low at $59,195</strong> &mdash; CoinDesk: "tight $59K-$60K range looks dangerous, break could target $40K." Down 5.4% past week, 52-wk low is $58,076. Review your stop level today.</span>
-    </li>
-    <li>
-      <span class="text"><strong>&#128203; Overdue Asana pile needs triage</strong> &mdash; Finish Jon task (this week), Ed Covington Letter (overdue May 1), Get back with Prolific (April 13), Microsoft Graph API with Michelle (April 9). Weeks to months behind.</span>
-    </li>
-    <li>
-      <span class="text"><strong>&#128242; Appointment this afternoon confirmed</strong> &mdash; +713-301-8379 confirmed "tomorrow afternoon" (today). Also: Saturday Cirrus trip with Tony not yet confirmed &mdash; follow up today if you want to lock it in.</span>
-    </li>
+    <li><span class="hit-num">1</span><strong class="urgent">&#128680; BTC at 52-week low ($58,536)</strong> &mdash; Bitcoin pinned to yearly floor ($58,046 low). ETF monthly outflows reportedly worst on record. Decide today: add on capitulation signal or cut before the floor breaks.</li>
+    <li><span class="hit-num">2</span><strong>TSLA earnings July 22 &mdash; 21 days out.</strong> Pre-market soft at $419 (-0.38%). Volume running 25% below avg. Frame Q2 expectations and position size <em>before</em> earnings vol premium builds.</li>
+    <li><span class="hit-num">3</span><strong>Asana backlog critical:</strong> 12+ tasks overdue since March&ndash;May. Ed Covington Letter, Microsoft Graph API with Michelle, draft goals approval, Get back with Prolific. Do a 15-min triage today.</li>
+    <li><span class="hit-num">4</span><strong>Fed sent warning to markets:</strong> Yahoo Finance flagging Federal Reserve communication that "history says a big drop could follow." S&amp;P closed strong (+0.79%) but VIX at 16.45 = complacent. Watch for July pullback.</li>
+    <li><span class="hit-num">5</span><strong>STRC preferred at $85.27 pre-market (13.55% yield).</strong> Volume 28% above avg. Ex-div was June 15. Confirm next ex-date and watch for any Strategy Inc rate adjustment or redemption notice ahead of Aug 5 earnings.</li>
   </ol>
-</section>
+</div>
 
-<section>
-  <h2>&#128203; Asana Tasks</h2>
-  <h3 style="font-size:13px;font-weight:bold;margin-bottom:6px;color:#333;">RJH Structured Holdings</h3>
-  <table class="asana" style="margin-bottom:14px;">
-    <thead><tr><th>Task</th><th>Due</th><th>Project</th></tr></thead>
-    <tbody>
-      <tr><td>Today plan &mdash; Non-negotiables + defer list</td><td><span class="no-due">&mdash;</span></td><td>&mdash;</td></tr>
-      <tr><td><strong>Finish Jon task (early this week)</strong></td><td><span class="urgent">This week</span></td><td>&mdash;</td></tr>
-      <tr><td>Update warranties</td><td><span class="no-due">&mdash;</span></td><td>&mdash;</td></tr>
-      <tr><td>Ed Covington Letter</td><td><span class="overdue">May 1 OVERDUE</span></td><td>Personal</td></tr>
-      <tr><td>Get back with Prolific</td><td><span class="overdue">Apr 13 OVERDUE</span></td><td>Michelle &amp; Richard Collab</td></tr>
-      <tr><td>Set up Microsoft Graph API with Michelle (email to OpenClaw)</td><td><span class="overdue">Apr 9 OVERDUE</span></td><td>&mdash;</td></tr>
-      <tr><td>Richard &amp; Van to Implement</td><td><span class="overdue">Apr 28 OVERDUE</span></td><td>&mdash;</td></tr>
-      <tr><td>Review + Approve draft goals with team</td><td><span class="overdue">Apr 29 / May 1 OVERDUE</span></td><td>&mdash;</td></tr>
-      <tr><td>Caulk gate / Paint gate trim / Follow up on plants</td><td><span class="overdue">Mar 16 OVERDUE</span></td><td>Christian Limas</td></tr>
-    </tbody>
-  </table>
-  <h3 style="font-size:13px;font-weight:bold;margin-bottom:6px;color:#333;">Novus Global</h3>
-  <table class="asana">
-    <thead><tr><th>Task</th><th>Notes</th></tr></thead>
-    <tbody>
-      <tr><td>System B SFD &mdash; Rich is working on it</td><td><span class="no-due">In progress</span></td></tr>
-      <tr><td>Identify 2-3 action items next 7 days (System B productivity)</td><td><span class="no-due">Open</span></td></tr>
-      <tr><td>Review notes from session 2, respond where called</td><td><span class="no-due">Open</span></td></tr>
-      <tr><td>Daily commitments: "what system am I running?", noon check-in, re-read System B, EOD review</td><td><span class="win">Ongoing</span></td></tr>
-    </tbody>
-  </table>
-</section>
+<div class="section">
+  <div class="section-title">&#128203; Asana &mdash; Open Tasks</div>
+  <div style="font-size:11px;color:#888;font-family:Arial,sans-serif;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">RJH Structured Holdings</div>
+  <ul class="task-list">
+    <li><span class="task-due">OVERDUE</span> Ed Covington Letter <span style="font-size:12px;color:#aaa;">(due May 1)</span></li>
+    <li><span class="task-due">OVERDUE</span> Approve draft goals &mdash; Reassign to approver <span style="font-size:12px;color:#aaa;">(due May 1)</span></li>
+    <li><span class="task-due">OVERDUE</span> Publish approved goals to Asana Goals <span style="font-size:12px;color:#aaa;">(due May 3)</span></li>
+    <li><span class="task-due">OVERDUE</span> Review draft goals with your team <span style="font-size:12px;color:#aaa;">(due Apr 29)</span></li>
+    <li><span class="task-due">OVERDUE</span> Richard &amp; Van to Implement <span style="font-size:12px;color:#aaa;">(due Apr 28)</span></li>
+    <li><span class="task-due">OVERDUE</span> Get back with Prolific <span style="font-size:12px;color:#aaa;">(due Apr 13)</span></li>
+    <li><span class="task-due">OVERDUE</span> Set up Microsoft Graph API with Michelle (OpenClaw email) <span style="font-size:12px;color:#aaa;">(due Apr 9)</span></li>
+    <li><span class="task-due">OVERDUE</span> Ping John for list for bus <span style="font-size:12px;color:#aaa;">(due Mar 16)</span></li>
+    <li><span class="task-due">OVERDUE</span> Share plans to fix concept <span style="font-size:12px;color:#aaa;">(due Mar 16)</span></li>
+    <li><span class="task-due ok">No date</span> Today plan &mdash; Non-negotiables + defer list</li>
+    <li><span class="task-due ok">No date</span> Finish Jon task (early this week)</li>
+    <li><span class="task-due ok">No date</span> Update warranties &nbsp;|&nbsp; Watch winder &nbsp;|&nbsp; Wave runners</li>
+    <li><span class="task-due ok">No date</span> Caulk gate &nbsp;/&nbsp; Paint gate trim</li>
+    <li><span class="task-due ok">No date</span> How to price job with customer-furnished materials</li>
+  </ul>
+  <div style="font-size:11px;color:#888;font-family:Arial,sans-serif;letter-spacing:1px;text-transform:uppercase;margin:12px 0 6px;">Novus Global</div>
+  <ul class="task-list">
+    <li><span class="task-due ok">No date</span> Daily commitments &mdash; "what system am I running?" awareness check</li>
+    <li><span class="task-due ok">No date</span> System B SFD (Rich working on it)</li>
+    <li><span class="task-due ok">No date</span> Identify 2&ndash;3 action items for next 7 days</li>
+    <li><span class="task-due ok">No date</span> Review notes from session 2, respond where called</li>
+  </ul>
+</div>
 
-<section>
-  <h2>&#128200; Market Dashboard</h2>
-  <div class="alert-banner">S&amp;P 500 closed 7,440 (+1.18%) June 29. Semis ripped: AMAT +10.82%, KLAC +11.97%, PANW +9.14%.</div>
-
-  <div class="ticker-block alert">
-    <div class="ticker-header">
-      <span class="siren">&#128680;</span>
-      <span class="ticker-symbol">TSLA</span>
-      <span class="ticker-price"><strong>$411.84</strong></span>
-      <span class="change-up">+$32.13 (+8.46%) Jun 29 close</span>
-    </div>
-    <div class="ticker-meta">Pre-market: $407.95 (-0.94%) &nbsp;&middot;&nbsp; 52-wk: $288.77&ndash;$498.83 &nbsp;&middot;&nbsp; Vol Jun 29: 57.2M (~avg) &nbsp;&middot;&nbsp; YTD: +8.42% &nbsp;&middot;&nbsp; Analyst avg target: $421 &nbsp;&middot;&nbsp; Piper Sandler: Overweight</div>
-    <ul class="ticker-news">
-      <li><strong>SpaceX/Tesla merger speculation</strong> &mdash; Musk's "$1T SpaceX" comment fueling reports that a Tesla-SpaceX merger is being telegraphed. Would dramatically reprice TSLA if it materializes.</li>
-      <li><strong>SpaceX secondary market prices dropped</strong> &mdash; Makes a TSLA absorbing SpaceX narrative more compelling to market participants.</li>
-      <li><strong>Toyota EVs +170% YoY</strong> (Electrek) &mdash; Competitor surge validates EV growth market; positive for TSLA's category.</li>
-    </ul>
-    <div class="ticker-catalysts">&#128197; Catalysts: Q2 Earnings est. July 22, 2026 &nbsp;&middot;&nbsp; FSD / robotaxi regulatory decisions &nbsp;&middot;&nbsp; Cybertruck production ramp &nbsp;&middot;&nbsp; Energy storage revenue</div>
-  </div>
-
-  <div class="ticker-block alert">
-    <div class="ticker-header">
-      <span class="siren">&#9888;&#65039;</span>
-      <span class="ticker-symbol">BTC</span>
-      <span class="ticker-price"><strong>$59,195</strong></span>
-      <span class="change-down">&minus;$669 (&minus;1.12%) 24h</span>
-    </div>
-    <div class="ticker-meta">7d: <span class="change-down">-5.4%</span> ($62,451 &rarr; $59,195) &nbsp;&middot;&nbsp; 52-wk: $58,076&ndash;$126,198 &nbsp;&middot;&nbsp; Mkt cap: $1.19T &nbsp;&middot;&nbsp; Vol 24h: $31.1B &nbsp;&middot;&nbsp; 20.05M / 21M max supply</div>
-    <ul class="ticker-news">
-      <li><strong>CoinDesk: "$59K&ndash;$60K range looks dangerous"</strong> &mdash; Tight consolidation below support echoes 2024 pattern; breakdown could target $40K. Most urgent risk flag in the portfolio today.</li>
-      <li><strong>Near 52-week low</strong> &mdash; Only $1,119 above the 52-wk low of $58,076. All-time high was $126,198. This is a critical support level.</li>
-    </ul>
-    <div class="ticker-catalysts">&#128197; Catalysts: ETF weekly flow data (Thursdays) &nbsp;&middot;&nbsp; Fed meeting July 29-30 &nbsp;&middot;&nbsp; Watch whale on-chain moves at $58K support</div>
-  </div>
+<div class="section">
+  <div class="section-title">&#128200; Market Dashboard</div>
 
   <div class="ticker-block">
     <div class="ticker-header">
-      <span class="ticker-symbol">LINK</span>
-      <span class="ticker-price"><strong>$7.25</strong></span>
-      <span class="change-down">&minus;0.64% 24h &nbsp;&middot;&nbsp; &minus;4.7% 7d</span>
+      <span class="ticker-name">TSLA</span>
+      <span class="ticker-price">$420.60 <em style="font-size:12px;color:#aaa;">close Jun 30</em></span>
+      <span class="chg-pos">&#9650; +$8.76 (+2.13%)</span>
+      <span style="font-family:Arial,sans-serif;font-size:12px;color:#C41E3A;">Pre-mkt $419.00 &#9660; -0.38%</span>
     </div>
-    <div class="ticker-meta">Vol 24h: $237M &nbsp;&middot;&nbsp; 7d: $7.60 &rarr; $7.25 &nbsp;&middot;&nbsp; Tracking broad crypto weakness</div>
+    <div class="ticker-meta">52-wk: $288.77&ndash;$498.83 &nbsp;&middot;&nbsp; Vol: 41.8M vs avg 55.9M <strong style="color:#C41E3A;">(25% below avg)</strong> &nbsp;&middot;&nbsp; Mkt Cap $1.58T &nbsp;&middot;&nbsp; P/E 385x &nbsp;&middot;&nbsp; YTD +6.48%</div>
     <ul class="ticker-news">
-      <li><strong>Following BTC lower</strong> &mdash; LINK's -4.7% 7d mirrors BTC's -5.4%, suggesting macro risk-off rather than LINK-specific news.</li>
-      <li><strong>No breaking LINK news</strong> &mdash; Monitor for CCIP adoption announcements, new oracle integrations, or Chainlink staking updates.</li>
+      <li>Jun 30 rally on low volume (41.8M vs 55.9M avg) &mdash; thin conviction; not a strong institutional buy signal ahead of earnings.</li>
+      <li>GLJ Research reiterated <strong style="color:#C41E3A;">Sell</strong> at $24.86 target (Jun 12) &mdash; extreme bear outlier; consensus analyst target is $421.16, meaning stock is exactly at consensus today.</li>
+      <li>Piper Sandler: <strong style="color:#2E7D32;">Overweight</strong>. Bull/bear range: $123&ndash;$600. Analyst split remains wide.</li>
     </ul>
-    <div class="ticker-catalysts">&#128197; Catalysts: CCIP enterprise partnership announcements &nbsp;&middot;&nbsp; Staking v0.2 updates &nbsp;&middot;&nbsp; DeFi protocol integrations</div>
-  </div>
-
-  <div class="ticker-block">
-    <div class="ticker-header">
-      <span class="ticker-symbol">NRRSF</span>
-      <span class="ticker-price" style="color:#999;">No quote available</span>
-    </div>
-    <div class="ticker-meta">OTC Pink Sheet &mdash; extremely low liquidity &nbsp;&middot;&nbsp; No active quote retrieved from Yahoo Finance or OTC Markets today</div>
-    <ul class="ticker-news">
-      <li><strong>Quote unavailable</strong> &mdash; Check <a href="https://www.otcmarkets.com/stock/NRRSF/quote" target="_blank">OTC Markets NRRSF</a> directly for most recent print. OTC Markets site requires JavaScript rendering.</li>
-      <li><strong>No fundamental news detected</strong> &mdash; No press releases or filings surfaced. Check OTC filings for recent company updates.</li>
-    </ul>
-    <div class="ticker-catalysts">&#128197; Check OTC Markets for latest filing dates &amp; disclosure tier status</div>
-  </div>
-
-  <div class="ticker-block">
-    <div class="ticker-header">
-      <span class="ticker-symbol">VCX</span>
-      <span class="ticker-price"><strong>$100.51</strong></span>
-      <span class="change-up">+1.36%</span>
-      <span style="color:#C41E3A; font-size:12px; font-weight:bold;">&#9888; Stale &mdash; last trade June 18</span>
-    </div>
-    <div class="ticker-meta">Fundrise Growth Tech Fund, LLC (NYSE) &nbsp;&middot;&nbsp; 52-wk: $31.21&ndash;$575.00 &nbsp;&middot;&nbsp; YTD: <span class="win">+221.63%</span> &nbsp;&middot;&nbsp; Avg vol: 433K &nbsp;&middot;&nbsp; Very illiquid / irregular price discovery</div>
-    <ul class="ticker-news">
-      <li><strong>Confirmed: VCX = Fundrise Growth Tech Fund, LLC</strong> &mdash; Not VeChain. Closed-end fund investing in private tech. Quote 12 days stale; price not actively traded.</li>
-      <li><strong>Extraordinary YTD run (+221.63%)</strong> &mdash; 52-wk range $31&ndash;$575 reflects NAV repricing events. Last print $100.51 is middle of that range.</li>
-    </ul>
-    <div class="ticker-catalysts">&#128197; Watch for NAV update or distribution announcement from Fundrise &nbsp;&middot;&nbsp; No standard earnings cycle</div>
+    <div class="ticker-catalyst">&#9889; <strong>Catalyst: Q2 Earnings est. July 22, 2026.</strong> Q1 revenue was $22.4B. Watch: Cybertruck ramp, gross margin recovery, FSD expansion timeline. Robotaxi deployment news = multiple re-rating event.</div>
   </div>
 
   <div class="ticker-block alert">
     <div class="ticker-header">
-      <span class="siren">&#128680;</span>
-      <span class="ticker-symbol">STRC</span>
-      <span class="ticker-price"><strong>$83.67</strong></span>
-      <span class="change-up">+$9.10 (+12.20%) Jun 29 close</span>
+      <span class="ticker-name" style="color:#f7931a;">&#128680; BTC</span>
+      <span class="ticker-price">$58,536</span>
+      <span class="chg-neg">&#9660; -0.76% (24hr)</span>
     </div>
-    <div class="ticker-meta"><strong>Strategy Variable Rate Series A Perpetual Preferred</strong> (MSTR-family &mdash; NOT MSTR common) &nbsp;&middot;&nbsp; Pre-market: $82.50 (-1.40%) &nbsp;&middot;&nbsp; 52-wk: $71.25&ndash;$100.42 &nbsp;&middot;&nbsp; Vol: 7.49M (2x avg 3.99M) &nbsp;&middot;&nbsp; Fwd Div: $11.50 &nbsp;&middot;&nbsp; Yield: 13.73% &nbsp;&middot;&nbsp; Ex-Div: Jun 15</div>
+    <div class="ticker-meta">52-wk: $58,046&ndash;$126,198 &nbsp;&middot;&nbsp; <strong style="color:#C41E3A;">Near 52-week LOW</strong> &nbsp;&middot;&nbsp; Mkt Cap $1.17T &nbsp;&middot;&nbsp; Vol 24hr $34.4B &nbsp;&middot;&nbsp; Down 54% from ATH</div>
     <ul class="ticker-news">
-      <li><strong>+12.20% single-day surge</strong> &mdash; Volume doubled. Pre-market -1.40% suggests profit-taking. Now 17% below 52-wk high of $100.42. This is preferred stock, not MSTR common &mdash; tracking preferred dynamics separately.</li>
-      <li><strong>Post ex-dividend recovery</strong> &mdash; Ex-div was June 15; post-ex recovery rally may explain part of the move. You already captured the upcoming dividend at $11.50 / 13.73% annualized.</li>
-      <li><strong>BTC headwind for preferred</strong> &mdash; Strategy's BTC holdings (~$59K BTC level) are primary risk driver. Monitor for variable rate resets or redemption notices in preferred prospectus.</li>
+      <li>&#128680; <strong>Bitcoin ETFs saw worst monthly outflows</strong> (Yahoo Finance, today) &mdash; institutional selling pressure persisting into July. Primary near-term headwind.</li>
+      <li>Matt Corallo urging Bitcoin projects to exit GitHub (Bitcoin Magazine, Jun 30) &mdash; decentralization/censorship concern in dev community.</li>
+      <li>Retail media running contrarian "just buy Bitcoin" framing &mdash; potential capitulation signal, not yet confirmed.</li>
     </ul>
-    <div class="ticker-catalysts">&#128197; Catalysts: Strategy (MSTR) earnings est. Aug 5, 2026 &nbsp;&middot;&nbsp; Variable rate reset schedule &nbsp;&middot;&nbsp; BTC price vs. preferred coverage ratio &nbsp;&middot;&nbsp; Any redemption / conversion notices</div>
+    <div class="ticker-catalyst">&#9889; Key floor: $58,046 (52-wk low). A daily close below is technically significant and would target $50K&ndash;$52K range. ETF weekly flow data is the leading indicator. Fed rate timeline critical for risk-on recovery.</div>
   </div>
-</section>
 
-<section>
-  <h2>&#128242; Text Messages &mdash; Last 24 hrs</h2>
-  <div class="text-row">
-    <div class="text-meta">+1 (713) 301-8379 &nbsp;&middot;&nbsp; 10:32 PM &mdash; 9:04 PM</div>
-    <div>"Ok, we'll do <strong>tomorrow afternoon</strong>" &mdash; plans confirmed for today. Also: "SAT is probably Cirrus" / "Checking with Tony...might be a SAT trip." <strong>Saturday Cirrus trip with Tony is unconfirmed &mdash; follow up.</strong></div>
-  </div>
-  <div class="text-row">
-    <div class="text-meta">+1 (979) 221-7038 &nbsp;&middot;&nbsp; 8:39 PM</div>
-    <div>"Made it home safe! I love you" &mdash; family check-in.</div>
-  </div>
-  <div class="text-row">
-    <div class="text-meta">+1 (713) 213-0672 &nbsp;&middot;&nbsp; 8:16 PM</div>
-    <div>"Hey there! Just checking in for tomorrow" / "Sounds good. See you then." &mdash; someone confirmed a meetup today.</div>
-  </div>
-  <div class="text-row">
-    <div class="text-meta">+1 (816) 210-2375 &nbsp;&middot;&nbsp; 6:14&ndash;6:48 PM</div>
-    <div>Coordinating a visit to <strong>Jessica</strong> &mdash; "Is Jessica / your family up for a short visit?" Discussing flying down together, hotel nearby, taking turns. Kim is involved. Worth following up on logistics.</div>
-  </div>
-  <div class="text-row">
-    <div class="text-meta">+1 (281) 914-1185 &nbsp;&middot;&nbsp; 5:30 PM</div>
-    <div>Pizza order at <a href="https://goldtoothtonys.com/" target="_blank">Gold Tooth Tony's</a>: "Houston 181 Heights + whipped ricotta" (you) / "Houston supreme" (Charlie).</div>
-  </div>
-</section>
-
-<section>
-  <h2>&#127968; Credit Markets</h2>
-  <div class="bond-grid">
-    <div class="bond-card">
-      <div class="bond-label">13-Week T-Bill</div>
-      <div class="bond-rate">3.68%</div>
-      <div class="bond-change change-up">+0.017</div>
+  <div class="ticker-block">
+    <div class="ticker-header">
+      <span class="ticker-name" style="color:#2a5ada;">LINK</span>
+      <span class="ticker-price">$7.21</span>
+      <span class="chg-neg">&#9660; -0.50% (24hr)</span>
     </div>
-    <div class="bond-card">
-      <div class="bond-label">5-Year Treasury</div>
-      <div class="bond-rate">4.144%</div>
-      <div class="bond-change change-up">+0.014</div>
-    </div>
-    <div class="bond-card">
-      <div class="bond-label">10-Year Treasury</div>
-      <div class="bond-rate">4.374%</div>
-      <div class="bond-change" style="color:#888;">+0.002 (flat)</div>
-    </div>
-    <div class="bond-card">
-      <div class="bond-label">30-Year Treasury</div>
-      <div class="bond-rate">4.86%</div>
-      <div class="bond-change change-down">&minus;0.004</div>
-    </div>
+    <div class="ticker-meta">Source: CoinGecko live &nbsp;&middot;&nbsp; ERC-20 / multi-chain oracle &nbsp;&middot;&nbsp; Tracking broad crypto weakness</div>
+    <ul class="ticker-news">
+      <li>Soft inline with BTC weakness &mdash; oracle sector dragged by macro risk-off.</li>
+      <li>No confirmed CCIP or major partnership news in last 24hrs. Cointelegraph paywalled; core thesis intact.</li>
+      <li>Historically outperforms BTC on risk-on reversals &mdash; asymmetric upside if macro turns.</li>
+    </ul>
+    <div class="ticker-catalyst">&#9889; Watch for Smart Con conference announcement + CCIP volume metrics + new enterprise integrations. These are the re-rating catalysts.</div>
   </div>
-  <div style="margin-top:10px;font-size:13px;color:#555;">
-    <strong>Context:</strong> 10Y at 4.374% holding near recent range. Yield curve still partially inverted (13W elevated). Market pricing 1&ndash;2 Fed cuts in H2 2026. ECB Euro Short Term Rate 2.18% (easing cycle ongoing). IG/HY credit spreads: check Bloomberg CDX for live levels (not available from direct feeds today).
-  </div>
-</section>
 
-<section>
-  <h2>&#129302; AI &amp; OpenClaw Intel</h2>
-  <div class="ai-item">
-    <h4>AI infrastructure stocks ripping</h4>
-    <p>AMAT +10.82%, KLAC +11.97%, PANW +9.14% on June 29. US's largest transformer factory announced for AI power demand. Micron reportedly +800% YoY with unanimous Street "Strong Buy." AI buildout accelerating.</p>
+  <div class="ticker-block">
+    <div class="ticker-header">
+      <span class="ticker-name">NRRSF</span>
+      <span style="font-family:Arial,sans-serif;font-size:13px;color:#C41E3A;">&#9888;&#65039; Price unavailable &mdash; OTC Pink</span>
+    </div>
+    <div class="ticker-meta">Low-liquidity OTC. Yahoo returned 404. OTC Markets requires JS rendering. Check <a href="https://www.otcmarkets.com/stock/NRRSF/quote">otcmarkets.com/stock/NRRSF/quote</a> or your brokerage directly.</div>
+    <ul class="ticker-news">
+      <li>No live price data retrievable via server-side fetch today. Verify via brokerage.</li>
+      <li>Given OTC illiquidity, primary price catalysts are fundamental news, filings, or earnings &mdash; not technicals.</li>
+    </ul>
   </div>
-  <div class="ai-item">
-    <h4>New models for Mac Studio M3 Ultra 512GB</h4>
-    <p>Current Claude lineup: <strong>Opus 4.8</strong> (most capable), <strong>Sonnet 4.6</strong> (current OpenClaw session model), <strong>Haiku 4.5</strong> (fast/cheap). For local inference on 512GB unified memory: Llama 3.3 70B and Mistral Large 2 run natively via <a href="https://github.com/ml-explore/mlx" target="_blank">MLX framework</a>. With 512GB you can fit 70B models in full BF16 with room to spare; 180B+ quantized is also feasible.</p>
-  </div>
-  <div class="ai-item">
-    <h4>Action needed: Perplexity credits depleted</h4>
-    <p>Perplexity Sonar Pro returned 402 errors this morning &mdash; credits exhausted. Add credits at <a href="https://openrouter.ai/settings/credits" target="_blank">openrouter.ai/settings/credits</a> to restore full web search for tomorrow's briefing.</p>
-  </div>
-  <div class="ai-item">
-    <h4>Grantham warning: "Don't own US stocks"</h4>
-    <p>Jeremy Grantham warning of 70% stock market crash. S&amp;P at 7,440 is 97% of 52-wk high 7,621. Worth monitoring given TSLA and STRC concentration.</p>
-  </div>
-</section>
 
-<section>
-  <h2>&#128240; Local News</h2>
-  <div class="news-item"><strong>Houston:</strong> No breaking local news retrieved &mdash; direct feeds returned minimal content this morning. Check <a href="https://www.click2houston.com/" target="_blank">Click2Houston</a> or <a href="https://www.chron.com/" target="_blank">Houston Chronicle</a> for live updates.</div>
-  <div class="news-item"><strong>Piney Point Village:</strong> No village-specific items surfaced. For council/permit updates: <a href="https://www.pineypoint.org" target="_blank">pineypoint.org</a>.</div>
-  <div class="news-item"><strong>Galveston / Tiki Island:</strong> Clear morning, low rain (7%), calm Gulf. Good conditions for a weekend trip (see weather below).</div>
-</section>
+  <div class="ticker-block">
+    <div class="ticker-header">
+      <span class="ticker-name">VCX</span>
+      <span class="ticker-price">$100.51 <em style="font-size:12px;color:#aaa;">Jun 18 &mdash; stale</em></span>
+      <span class="chg-pos">YTD +221.63%</span>
+    </div>
+    <div class="ticker-meta"><strong>Fundrise Growth Tech Fund, LLC</strong> (NYSE) &nbsp;&middot;&nbsp; Private tech growth fund &mdash; NOT VeChain &nbsp;&middot;&nbsp; Vol 187K vs avg 433K &nbsp;&middot;&nbsp; 52-wk $31.21&ndash;$575.00</div>
+    <ul class="ticker-news">
+      <li>Last confirmed trade was June 18 (13 days ago) &mdash; extremely illiquid, infrequent price discovery.</li>
+      <li>Wide spread ($99.40 bid / $100.55 ask). YTD +221% reflects private tech NAV appreciation, not active trading.</li>
+      <li>No news events; fundamental updates driven by Fundrise quarterly NAV reports.</li>
+    </ul>
+    <div class="ticker-catalyst">&#9889; Watch for Fundrise quarterly NAV report. Exit liquidity risk is the primary concern for this position.</div>
+  </div>
 
-<section>
-  <h2>&#127780;&#65039; Weather</h2>
+  <div class="ticker-block">
+    <div class="ticker-header">
+      <span class="ticker-name" style="color:#7b2d8b;">STRC</span>
+      <span class="ticker-price">$84.86 <em style="font-size:12px;color:#aaa;">close Jun 30</em></span>
+      <span class="chg-pos">&#9650; +$1.19 (+1.42%)</span>
+      <span style="font-family:Arial,sans-serif;font-size:12px;color:#2E7D32;">Pre-mkt $85.27 &#9650; +0.48%</span>
+    </div>
+    <div class="ticker-meta"><strong>Strategy Inc &mdash; Variable Rate Series A Perpetual Preferred</strong> (NASDAQ) &nbsp;&middot;&nbsp; NOT MSTR common &nbsp;&middot;&nbsp; Div $11.50/yr = <strong style="color:#2E7D32;">13.55% yield</strong> &nbsp;&middot;&nbsp; Ex-div Jun 15, 2026 &nbsp;&middot;&nbsp; Vol 5.2M vs avg 4.1M <strong style="color:#2E7D32;">(+28% above avg)</strong></div>
+    <ul class="ticker-news">
+      <li>Volume 28% above 30-day average &mdash; elevated institutional interest in the preferred yield play today.</li>
+      <li>BTC weakness (52-wk low) is a watch item: Strategy Inc parent holds BTC treasury; preferred dividend sustainability is indirectly linked to parent balance sheet health.</li>
+      <li>52-wk range $71.25&ndash;$100.42; at $84.86 mid-range. 13.55% yield attractive vs investment-grade corporates.</li>
+    </ul>
+    <div class="ticker-catalyst">&#9889; <strong>Earnings est. Aug 5, 2026.</strong> Confirm next ex-dividend date (likely Sep 15). Watch for any rate adjustment or redemption notice from Strategy Inc. MSTR common BTC update will move this preferred.</div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">&#128172; Text Messages &mdash; Last 24 Hours</div>
+  <div class="msg-item">
+    <div class="msg-from">+1 (281) 914-1185 &nbsp;&middot;&nbsp; multiple times 4&ndash;9 PM</div>
+    Family coordination re: staying at mom's &mdash; upstairs room for Charlie (animal allergies), who's covering when, Kenny handles at 11 PM, your coverage until 10:30. Checked your Tesla location to see if you were home. Multiple "Liked" and "Loved" reactions to your updates.
+  </div>
+  <div class="msg-item">
+    <div class="msg-from">+1 (949) 306-8363 &nbsp;&middot;&nbsp; 8:55&ndash;8:57 PM</div>
+    Sheets stripped from upstairs bed &mdash; need new set before next visit. Comforter ready. Tiger #2 bro banter about allergies situation.
+  </div>
+  <div class="msg-item">
+    <div class="msg-from">+1 (713) 301-8379 &nbsp;&middot;&nbsp; 7:19 &amp; 7:45 PM</div>
+    "Honda's back &#128076;" &mdash; XM radio went out in flight, came back on when engines shut down. Rich noticed it. (Likely avionics/antenna intermittent fault &mdash; worth a squawk if recurring.)
+  </div>
+  <div class="msg-item">
+    <div class="msg-from">+1 (816) 210-2375 &nbsp;&middot;&nbsp; 8:39 PM</div>
+    Probably August for visit. Wants to coordinate timing &mdash; trade off hours or come separately.
+  </div>
+  <div class="msg-item">
+    <div class="msg-from">+1 (979) 221-7038 &nbsp;&middot;&nbsp; 5:25 PM &nbsp;&middot;&nbsp; +1 (281) 433-8459 &nbsp;&middot;&nbsp; 4:07&ndash;4:16 PM</div>
+    "Approved" (task/project sign-off). Registration "doesn't come out till tomorrow on it" (vehicle or vessel).
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">&#127970; Credit Markets &amp; Macro &mdash; Jun 30 Close</div>
+  <div class="credit-grid">
+    <div class="credit-cell"><div class="credit-label">S&amp;P 500</div><div class="credit-val">7,499</div><div class="credit-chg chg-pos">&#9650; +0.79%</div></div>
+    <div class="credit-cell"><div class="credit-label">NASDAQ</div><div class="credit-val">26,214</div><div class="credit-chg chg-pos">&#9650; +1.52%</div></div>
+    <div class="credit-cell"><div class="credit-label">Dow Jones</div><div class="credit-val">52,319</div><div class="credit-chg chg-pos">&#9650; +0.26%</div></div>
+    <div class="credit-cell"><div class="credit-label">VIX (Fear)</div><div class="credit-val">16.45</div><div class="credit-chg chg-neg">&#9660; -6.80% (complacent)</div></div>
+    <div class="credit-cell"><div class="credit-label">Russell 2000</div><div class="credit-val">3,024</div><div class="credit-chg chg-pos">&#9650; +0.46%</div></div>
+    <div class="credit-cell"><div class="credit-label">DAX</div><div class="credit-val">24,996</div><div class="credit-chg chg-pos">&#9650; +1.50%</div></div>
+    <div class="credit-cell"><div class="credit-label">Nikkei 225</div><div class="credit-val">70,521</div><div class="credit-chg chg-pos">&#9650; +0.65%</div></div>
+    <div class="credit-cell"><div class="credit-label">10Y Treasury</div><div class="credit-val" style="font-size:14px;">~4.4&ndash;4.6%</div><div class="credit-chg" style="color:#aaa;">Live feed unavailable</div></div>
+  </div>
+  <p style="font-size:13px;margin-top:10px;color:#444;"><strong>Key macro signal:</strong> Federal Reserve reportedly delivered "bad news" to investors &mdash; historical data suggests potential equity pullback may follow (Motley Fool/Yahoo, today). Markets closed strong on June 30 but VIX at 16.45 = market is not pricing in the risk. IG/HY spread data unavailable today (Perplexity credits exhausted &mdash; check Bloomberg directly).</p>
+</div>
+
+<div class="section">
+  <div class="section-title">&#129302; AI &amp; OpenClaw Intel</div>
+  <ul style="font-size:14px;padding-left:16px;line-height:1.9;">
+    <li><strong>OpenClaw updates:</strong> No public release announcements found in last 7 days. Check <a href="https://github.com/openclaw/openclaw">github.com/openclaw/openclaw</a> for latest commits.</li>
+    <li><strong>Top local models for Mac Studio M3 Ultra 512GB (July 2026):</strong>
+      <ul style="padding-left:14px;margin-top:3px;">
+        <li><strong>Llama 3.3 70B / 405B</strong> (Meta) &mdash; 70B at full BF16; 405B at Q4 quantization, both fit comfortably</li>
+        <li><strong>DeepSeek V3</strong> (236B MoE) &mdash; exceptional coding + reasoning, fits at Q6</li>
+        <li><strong>Qwen 2.5 72B</strong> &mdash; strong multilingual/code, fine at Q8</li>
+        <li><strong>Mistral Large 2</strong> &mdash; fast inference, solid instructions</li>
+        <li><strong>Gemma 3 27B</strong> &mdash; Google's best small model for quick tasks</li>
+        <li>All run fastest via <strong>MLX</strong> (Apple's inference framework for Apple Silicon)</li>
+      </ul>
+    </li>
+    <li style="margin-top:5px;"><strong>EV/AV note:</strong> Rivian R2 spotted with integrated LiDAR near HQ (Electrek, Jul 1) &mdash; adds competitive pressure on Tesla's camera-only FSD approach.</li>
+    <li><strong class="urgent">Action needed:</strong> Perplexity search credits exhausted &mdash; recharge at openrouter.ai/settings/credits for full briefing capability tomorrow.</li>
+  </ul>
+</div>
+
+<div class="section">
+  <div class="section-title">&#128205; Local News &mdash; Houston / Piney Point / Galveston</div>
+  <ul style="font-size:14px;padding-left:16px;line-height:1.9;">
+    <li><strong>&#9928;&#65039; Severe weather &mdash; Texas:</strong> Hail up to 1.5 inches possible in Texas Panhandle today. Houston metro not in direct path; Gulf Coast instability elevated mid-summer &mdash; monitor for weekend storms.</li>
+    <li><strong>Galveston &mdash; UTMB Equal Pay lawsuit:</strong> UT Medical Branch Galveston hit with federal EEOC Equal Pay Act complaint. Story developing &mdash; watch for institutional impact if you have Galveston/Tiki Island ties.</li>
+    <li><strong>SCOTUS &mdash; Birthright citizenship ruling:</strong> Supreme Court ruling prompting Texas Republican reaction today. Major state + national political story with potential downstream policy effects in Texas.</li>
+    <li><strong>Houston real estate:</strong> Cypress/Bridgeland (NW Houston) expanding further &mdash; new homes from mid-$300Ks. Suburban growth market remains active.</li>
+    <li><strong>Piney Point Village:</strong> No specific incidents flagged. Quiet.</li>
+    <li><strong>&#127881; July 4th weekend:</strong> Thursday is Independence Day. Galveston/Tiki Island expect heavy crowds Friday&ndash;Sunday. Plan boat/water activities accordingly.</li>
+  </ul>
+</div>
+
+<div class="section">
+  <div class="section-title">&#9728;&#65039; Weather &mdash; July 1, 2026</div>
   <div class="weather-grid">
-    <div class="weather-card">
-      <h4>Houston &mdash; 77024</h4>
-      <div class="weather-temp">79&deg;F</div>
-      <div class="weather-feels">Feels like 86&deg;F &nbsp;&middot;&nbsp; Misty</div>
-      <div class="weather-detail">
-        <strong>High:</strong> 101&deg;F &nbsp;&middot;&nbsp; <strong>Low:</strong> 79&deg;F<br>
-        <strong>Rain:</strong> 3% chance<br>
-        <em>Hot and humid. Typical late-June Houston.</em>
+    <div class="weather-cell">
+      <div class="weather-loc">77024 &middot; Piney Point Village</div>
+      <div class="weather-temp">81&deg;F</div>
+      <div class="weather-desc">
+        &#127787;&#65039; Misty &nbsp;&middot;&nbsp; Feels like 91&deg;F<br>
+        Humidity 89% &nbsp;&middot;&nbsp; Wind: S 3 mph<br>
+        Avg high today: ~88&deg;F<br>
+        Sunrise 6:25 AM &nbsp;&middot;&nbsp; Sunset 8:26 PM
       </div>
     </div>
-    <div class="weather-card">
-      <h4>Tiki Island / Galveston &mdash; 77554</h4>
+    <div class="weather-cell">
+      <div class="weather-loc">77554 &middot; Galveston / Tiki Island</div>
       <div class="weather-temp">82&deg;F</div>
-      <div class="weather-feels">Feels like 89&deg;F &nbsp;&middot;&nbsp; Clear</div>
-      <div class="weather-detail">
-        <strong>High:</strong> 89&deg;F &nbsp;&middot;&nbsp; <strong>Low:</strong> 79&deg;F<br>
-        <strong>Rain:</strong> 7% chance<br>
-        <em>Good day on the water. Clear skies.</em>
+      <div class="weather-desc">
+        &#9728;&#65039; Sunny &nbsp;&middot;&nbsp; Clear<br>
+        Warmer and clearer than Houston<br>
+        Good beach and water conditions<br>
+        July 4th weekend &mdash; expect heavy crowds
       </div>
     </div>
   </div>
-</section>
+</div>
 
-<footer style="text-align:center;font-size:11px;color:#aaa;padding-top:12px;margin-top:8px;border-top:1px solid #ddd;">
-  Generated by OpenClaw &nbsp;&middot;&nbsp; Tuesday June 30, 2026 &nbsp;&middot;&nbsp; 7:00 AM Central<br>
-  <a href="https://hodger07.github.io/pages/morning-briefing.html" style="color:#aaa;">hodger07.github.io/pages/morning-briefing.html</a>
-</footer>
+<div style="text-align:center;padding:16px 0 8px;font-size:11px;color:#ccc;font-family:Arial,sans-serif;border-top:1px solid #ddd;margin-top:12px;">
+  Generated by Dude &middot; AI Chief of Staff &middot; July 1, 2026 7:00 AM CDT
+</div>
 
 </body>
 </html>
