@@ -1,517 +1,605 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Session 15 Brief — Jon Roberts</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Session 15 — Pre-Session Brief</title>
+<style>
+  :root {
+    --bg: #f5f4f0;
+    --card: #ffffff;
+    --green: #2c4a2e;
+    --green-soft: #4a6b4c;
+    --ink: #26241f;
+    --muted: #6b6860;
+    --line: #e4e1d8;
+    --amber: #9a7b3f;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 18px;
+    line-height: 1.65;
+  }
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 48px 24px 96px;
+  }
+  .label {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--green);
+  }
+  .muted { color: var(--muted); }
 
-    :root {
-      --bg: #f5f4f0;
-      --surface: #ffffff;
-      --border: #e2e0d9;
-      --text: #1a1a18;
-      --muted: #6b6860;
-      --accent: #2c4a2e;
-      --accent-light: #eef2ee;
-      --red: #8b1a1a;
-      --red-light: #fdf0f0;
-      --blue: #1a3a5c;
-      --blue-light: #f0f4f8;
-      --gold: #6b4c0a;
-      --gold-light: #fdf8ee;
-      --tag-bg: #f0ede6;
-      --tag-text: #4a4640;
-    }
+  /* Header */
+  header {
+    text-align: center;
+    padding: 8px 0 40px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 40px;
+  }
+  header .kicker {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+  header h1 {
+    font-size: 40px;
+    line-height: 1.15;
+    margin: 0 0 8px;
+    font-weight: normal;
+    color: var(--ink);
+  }
+  header .sub {
+    font-style: italic;
+    color: var(--muted);
+    font-size: 19px;
+    margin-bottom: 28px;
+  }
+  .meta-row {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    flex-wrap: wrap;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    margin-bottom: 26px;
+  }
+  .meta-row strong { color: var(--green); font-weight: 600; }
 
-    body {
-      font-family: "Georgia", serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.7;
-      padding: 60px 24px;
-    }
+  .progress {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .progress-track {
+    height: 6px;
+    background: var(--line);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    width: 83.3%;
+    background: var(--green);
+    border-radius: 6px;
+  }
+  .progress-caption {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
 
-    .page { max-width: 860px; margin: 0 auto; }
+  /* Sections */
+  section { margin-bottom: 44px; }
+  .section-num {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 6px;
+  }
+  h2 {
+    font-size: 27px;
+    font-weight: normal;
+    margin: 0 0 20px;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+  h2 .accent { color: var(--green); }
 
-    .header {
-      border-bottom: 2px solid var(--text);
-      padding-bottom: 32px;
-      margin-bottom: 56px;
-    }
-    .header .label {
-      font-family: "Helvetica Neue", Arial, sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 16px;
-    }
-    .header h1 {
-      font-size: 40px;
-      font-weight: normal;
-      letter-spacing: -0.02em;
-      line-height: 1.1;
-      margin-bottom: 12px;
-    }
-    .header .subtitle {
-      font-family: "Helvetica Neue", Arial, sans-serif;
-      font-size: 15px;
-      color: var(--muted);
-    }
-    .header .meta {
-      font-family: "Helvetica Neue", Arial, sans-serif;
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 20px;
-      display: flex;
-      gap: 32px;
-    }
-    .header .meta span { display: flex; align-items: center; gap: 6px; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 30px 32px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+  }
+  .card + .card { margin-top: 16px; }
 
-    .section {
-      margin-bottom: 52px;
-      padding-bottom: 52px;
-      border-bottom: 1px solid var(--border);
-    }
-    .section:last-child { border-bottom: none; }
+  p { margin: 0 0 16px; }
+  p:last-child { margin-bottom: 0; }
 
-    .section-label {
-      font-family: "Helvetica Neue", Arial, sans-serif;
-      font-size: 10px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 20px;
-    }
-    .section h2 {
-      font-size: 26px;
-      font-weight: normal;
-      letter-spacing: -0.01em;
-      margin-bottom: 20px;
-      line-height: 1.2;
-    }
-    .section p {
-      font-size: 15px;
-      color: var(--text);
-      margin-bottom: 16px;
-      max-width: 760px;
-    }
-    .section p:last-child { margin-bottom: 0; }
+  blockquote {
+    margin: 22px 0;
+    padding: 4px 0 4px 22px;
+    border-left: 3px solid var(--green);
+    font-style: italic;
+    color: var(--green-soft);
+    font-size: 19px;
+    line-height: 1.5;
+  }
+  blockquote.plain { border-left-color: var(--line); color: var(--muted); }
 
-    .pull-quote {
-      font-size: 20px;
-      font-style: italic;
-      line-height: 1.5;
-      color: var(--text);
-      border-left: 3px solid var(--accent);
-      padding: 16px 28px;
-      margin: 28px 0;
-      max-width: 720px;
-    }
+  .divider {
+    height: 1px;
+    background: var(--line);
+    margin: 22px 0;
+    border: none;
+  }
 
-    /* State card */
-    .state-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 28px 32px;
-      margin-bottom: 16px;
-    }
-    .state-card .sc-label {
-      font-family: "Helvetica Neue", Arial, sans-serif;
-      font-size: 10px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 10px;
-    }
-    .state-card .sc-title {
-      font-size: 18px;
-      letter-spacing: -0.01em;
-      margin-bottom: 12px;
-    }
-    .state-card p { font-size: 14px; color: var(--muted); }
+  /* Numbered bring list */
+  .bring-item {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 24px 28px;
+    display: flex;
+    gap: 22px;
+    margin-bottom: 14px;
+  }
+  .bring-num {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 34px;
+    font-weight: 200;
+    color: var(--green);
+    line-height: 1;
+    min-width: 42px;
+  }
+  .bring-body h3 {
+    font-size: 20px;
+    font-weight: normal;
+    margin: 0 0 8px;
+  }
+  .bring-body p { font-size: 17px; color: var(--muted); }
 
-    /* Alert box */
-    .alert {
-      background: var(--red-light);
-      border-left: 4px solid var(--red);
-      padding: 24px 28px;
-      margin-bottom: 20px;
-    }
-    .alert .a-label {
-      font-family: "Helvetica Neue", Arial, sans-serif;
-      font-size: 10px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--red);
-      margin-bottom: 8px;
-    }
-    .alert .a-title { font-size: 17px; margin-bottom: 10px; }
-    .alert p { font-size: 14px; color: #5a2020; }
+  /* Crew */
+  .crew-grid { display: grid; gap: 14px; }
+  .crew {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 22px 26px;
+  }
+  .crew.wheel {
+    border-color: var(--green);
+    border-left: 4px solid var(--green);
+  }
+  .crew-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+  }
+  .crew-head h3 { font-size: 20px; margin: 0; font-weight: normal; }
+  .crew-role {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .crew p { font-size: 16px; color: var(--muted); margin: 0; }
+  .tag-wheel {
+    display: inline-block;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--green);
+    color: #fff;
+    padding: 3px 9px;
+    border-radius: 3px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
 
-    /* Highlight box */
-    .highlight {
-      background: var(--accent-light);
-      border: 2px solid var(--accent);
-      padding: 24px 28px;
-      margin: 20px 0;
-    }
-    .highlight .h-label {
-      font-family: "Helvetica Neue", Arial, sans-serif;
-      font-size: 10px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 8px;
-    }
-    .highlight p { font-size: 15px; color: var(--text); margin-bottom: 8px; }
-    .highlight p:last-child { margin-bottom: 0; }
+  /* Descriptors */
+  .desc {
+    border-bottom: 1px solid var(--line);
+    padding: 20px 0;
+  }
+  .desc:last-child { border-bottom: none; }
+  .desc-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 6px;
+  }
+  .desc-n {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    color: var(--green);
+    font-weight: 700;
+    min-width: 20px;
+  }
+  .desc-name {
+    font-size: 21px;
+    color: var(--ink);
+  }
+  .desc-gloss { color: var(--muted); font-size: 15px; font-style: italic; }
+  .desc-prompt {
+    font-size: 16px;
+    color: var(--green-soft);
+    margin-top: 8px;
+  }
 
-    /* Gold box */
-    .gold-box {
-      background: var(--gold-light);
-      border-left: 4px solid var(--gold);
-      padding: 24px 28px;
-      margin: 20px 0;
-    }
-    .gold-box .g-label {
-      font-family: "Helvetica Neue", Arial, sans-serif;
-      font-size: 10px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 8px;
-    }
-    .gold-box p { font-size: 14px; color: var(--text); margin-bottom: 8px; }
-    .gold-box p:last-child { margin-bottom: 0; }
+  /* Foundation */
+  .foundation {
+    background: var(--green);
+    color: #eef0e9;
+    border-radius: 6px;
+    padding: 44px 38px;
+    text-align: center;
+  }
+  .foundation .label { color: #b9c7b3; }
+  .foundation .sentence {
+    font-size: 26px;
+    line-height: 1.45;
+    margin: 20px 0 24px;
+    font-style: italic;
+    letter-spacing: 0.01em;
+  }
+  .foundation .sentence span { color: #fff; font-style: normal; }
+  .foundation p { color: #cdd5c8; font-size: 17px; }
+  .foundation .mantra {
+    margin-top: 26px;
+    padding-top: 22px;
+    border-top: 1px solid rgba(255,255,255,0.18);
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    color: #b9c7b3;
+  }
 
-    /* Bring list */
-    .bring-item {
-      display: flex;
-      gap: 24px;
-      padding: 20px 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .bring-item:last-child { border-bottom: none; }
-    .bring-num {
-      font-family: "Helvetica Neue", Arial, sans-serif;
-      font-size: 22px;
-      color: var(--border);
-      min-width: 36px;
-      font-weight: 700;
-      padding-top: 2px;
-    }
-    .bring-content {}
-    .bring-title {
-      font-size: 17px;
-      margin-bottom: 8px;
-      letter-spacing: -0.01em;
-    }
-    .bring-body {
-      font-size: 14px;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-    .bring-body strong { color: var(--text); }
+  /* Status pills */
+  .phase-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    margin: 4px 0 22px;
+  }
+  .phase-line .step {
+    padding: 3px 0;
+  }
+  .phase-line .arrow { color: var(--line); }
+  .phase-line .now {
+    color: var(--green);
+    font-weight: 700;
+  }
 
-    /* Crew check */
-    .crew-check {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-top: 24px;
-    }
-    .crew-member {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 20px 24px;
-    }
-    .crew-member .cm-name {
-      font-size: 16px;
-      letter-spacing: -0.01em;
-      margin-bottom: 4px;
-    }
-    .crew-member .cm-role {
-      font-family: "Helvetica Neue", Arial, sans-serif;
-      font-size: 10px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 12px;
-    }
-    .crew-member .cm-check {
-      font-size: 13px;
-      color: var(--muted);
-      font-style: italic;
-    }
+  .pull {
+    font-style: italic;
+    color: var(--green-soft);
+    font-size: 20px;
+    line-height: 1.5;
+  }
 
-    /* Progress bar */
-    .progress-row {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-top: 20px;
-    }
-    .progress-label {
-      font-family: "Helvetica Neue", Arial, sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-      min-width: 100px;
-    }
-    .progress-bar {
-      flex: 1;
-      height: 6px;
-      background: var(--border);
-    }
-    .progress-fill {
-      height: 100%;
-      background: var(--accent);
-    }
-    .progress-val {
-      font-family: "Helvetica Neue", Arial, sans-serif;
-      font-size: 12px;
-      color: var(--muted);
-      min-width: 40px;
-      text-align: right;
-    }
+  footer {
+    text-align: center;
+    margin-top: 60px;
+    padding-top: 30px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 14px;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    letter-spacing: 0.04em;
+  }
+  footer .dude { color: var(--green); font-style: italic; font-family: Georgia, serif; font-size: 16px; }
 
-    /* Data row */
-    .data-row {
-      display: flex;
-      gap: 12px;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--border);
-      align-items: baseline;
-    }
-    .data-row:last-child { border-bottom: none; }
-    .data-label {
-      font-family: "Helvetica Neue", Arial, sans-serif;
-      font-size: 10px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      min-width: 180px;
-    }
-    .data-value { font-size: 14px; color: var(--text); flex: 1; }
-
-    @media (max-width: 640px) {
-      .crew-check { grid-template-columns: 1fr; }
-      .bring-item { flex-direction: column; gap: 8px; }
-      .header h1 { font-size: 28px; }
-      .data-row { flex-direction: column; gap: 4px; }
-    }
-  </style>
+  @media (max-width: 560px) {
+    body { font-size: 17px; }
+    header h1 { font-size: 32px; }
+    h2 { font-size: 23px; }
+    .card, .bring-item, .crew { padding: 22px 20px; }
+    .foundation { padding: 32px 22px; }
+    .foundation .sentence { font-size: 22px; }
+  }
+</style>
 </head>
 <body>
-<div class="page">
+<div class="wrap">
 
-  <!-- HEADER -->
-  <div class="header">
-    <div class="label">Novus Global — Meta Performance™ — Pre-Session Brief</div>
-    <h1>Session 15 — Jon Roberts</h1>
-    <div class="subtitle">Richard Hodge · August 27, 2026</div>
-    <div class="meta">
-      <span>Sessions complete: 14 of 18</span>
-      <span>Last session: August 5</span>
-      <span>3 sessions remaining after today</span>
+  <header>
+    <div class="kicker">Novus Global &middot; Meta Performance&trade; &middot; Jon Roberts</div>
+    <h1>Pre-Session Brief</h1>
+    <div class="sub">Before the call &mdash; a quiet read for the pilot</div>
+    <div class="meta-row">
+      <span><strong>Session 15</strong> of 18</span>
+      <span>Thursday, August 27, 2026</span>
+      <span>Rich Hodge &middot; 58</span>
     </div>
-    <div class="progress-row" style="margin-top:24px;">
-      <div class="progress-label">Contract</div>
-      <div class="progress-bar"><div class="progress-fill" style="width:77%;"></div></div>
-      <div class="progress-val">14 / 18</div>
+    <div class="progress">
+      <div class="progress-track"><div class="progress-fill"></div></div>
+      <div class="progress-caption">
+        <span>Session 1 &middot; March</span>
+        <span>3 remaining</span>
+      </div>
     </div>
-  </div>
+  </header>
 
-  <!-- I. WHERE YOU ARE -->
-  <div class="section">
-    <div class="section-label">State of the Pilot</div>
-    <h2>Still underwater. Still breathing.</h2>
+  <!-- 1. STATE OF THE PILOT -->
+  <section>
+    <span class="section-num">01</span>
+    <h2>State of the <span class="accent">Pilot</span></h2>
+    <div class="card">
+      <p>You are flying the hardest leg of your life on instruments, in the clouds, at night. And here's what's actually true: you're still flying it. Not white-knuckling it. Flying it.</p>
+      <p>The medicine work landed. "I am enough" is no longer a thing you're trying to believe &mdash; it's the floor under your feet. Little Rich and the man are soldered together. The King is on the throne more days than not. That's not nothing. That's the whole architecture rebuilt while the plane was in the air.</p>
+      <blockquote>"I'm the last to know I'm redlining."</blockquote>
+      <p>That sentence has been on your brain 30+ days now. Sit with why. It's not a confession of failure &mdash; it's the exact moment the instrument scan matters most. System A doesn't feel like stress to you. Under extreme external pressure your gauges read calm. That's the paradox: the calm is the tell. Your body has learned to go quiet in the exact conditions that are costing you the most.</p>
+      <p>So today's honest read: you are grieving, leading less, feeling more, sleeping alone, and building something you can't fully see yet. And you're doing it awake. That's the state of the pilot. Awake. In the weather. Hand still on the yoke.</p>
+    </div>
+  </section>
 
-    <p>Three weeks since Session 14. You flew to Orange County the morning after — niece's soccer tournament, adjoining rooms with the adult kids, organic family moment. The King showed up for that one.</p>
+  <!-- 2. THE LONG GOODBYE -->
+  <section>
+    <span class="section-num">02</span>
+    <h2>The Long Goodbye <span class="accent">&mdash; Phase Update</span></h2>
+    <div class="phase-line">
+      <span class="step">Voice fading</span>
+      <span class="arrow">&rarr;</span>
+      <span class="step">Voice gone</span>
+      <span class="arrow">&rarr;</span>
+      <span class="step">Sleeping separately</span>
+      <span class="arrow">&rarr;</span>
+      <span class="step">"I don't want to be here"</span>
+      <span class="arrow">&rarr;</span>
+      <span class="now">Reverse dating &mdash; now</span>
+    </div>
+    <div class="card">
+      <p>Jon named it in Session 14: <em>"Spirit severing ties &mdash; starts with who she loves most."</em> That's where the road has led. Jessica said it twice now &mdash; around July 9&ndash;10, and again July 25&ndash;26: <strong>"I don't want to be here anymore."</strong> Not a crisis. A truth. The long goodbye speaking through her.</p>
+      <hr class="divider">
+      <p>The lived reality now is the <strong>reverse dating</strong> dynamic. Both of you gently pulling back &mdash; not abandonment, not a wound, but a natural unbinding. Two people who love each other loosening the grip because the grip is no longer what love asks for. You named it clean in Session 13: <em>the puzzle pieces don't fit &mdash; and they're not supposed to.</em></p>
+      <blockquote>"Like being sucked underwater knowing you'll drown &mdash; but somebody told you that you can breathe underwater. You won't know until you take the first breath."</blockquote>
+      <p>You coined that in Session 11. Since then you've taken a lot of breaths. You're still under. And you haven't drowned. The grief comes in layers, and you're letting it come instead of fighting the current. That's the work. That's the only work here.</p>
+      <p><strong>For today:</strong> Where is the goodbye <em>right now</em>? Not the map &mdash; the terrain under your feet this week. What's the next layer arriving, and are you meeting it from System A (control the descent) or System B (breathe underwater)?</p>
+    </div>
+  </section>
 
-    <p>Since then: Jessica has continued the progression Jon named in the last session. The spirit-severing-ties phase is real and ongoing. You're in it. The reverse dating is the lived reality now — both of you pulling slightly back, not as an act of abandonment but as the natural unbinding that happens at this stage of the long goodbye.</p>
+  <!-- 3. SINCE SESSION 14 -->
+  <section>
+    <span class="section-num">03</span>
+    <h2>Since <span class="accent">Session 14</span></h2>
+    <div class="card">
+      <p><strong>The morning after.</strong> You flew to Orange County the day after Session 14 &mdash; the niece's soccer tournament. You didn't retreat into the grief. You went toward the family, toward the field, toward the kids. That's Builds, not Away-From.</p>
+      <blockquote class="plain">Adjoining rooms with the adult kids. Doors open. Hotel camping. An organic family moment that no one scheduled &mdash; the kind of thing System A never has room for because it's always producing.</blockquote>
+      <p>That moment matters more than it looks. You have spent a lifetime being the one who makes things happen. Here you just <em>let</em> something happen, and it was one of the good ones. Little Rich got to be in the room with people who see him. That's the whole prayer, answered quietly.</p>
+      <hr class="divider">
+      <p><strong>Kasey's two-for-one.</strong> Keep this close today:</p>
+      <blockquote>"We know we're losing Jessica. I'd really like to not get a two for one. I want you to survive this."</blockquote>
+      <p>Your son said the truest thing anyone has said to you this year. He's not asking you to grieve less. He's asking you to not disappear <em>with</em> her. That's the Tom risk &mdash; the full withdraw, the vanish. Kasey is asking the King to stay on the throne. Let that be a reason.</p>
+      <hr class="divider">
+      <p><strong>Jon got married in August.</strong> His own attachment wounds activated hard on the approach &mdash; you counseled him from the sobriety framework, one day at a time. The wedding has happened now. <strong>Check on him today.</strong> Ask how the landing was. You've been his sponsor as much as he's been your coach this year. Don't let the session start without turning the light on him first.</p>
+    </div>
+  </section>
 
-    <div class="pull-quote">"Slow fucking torture." That's what Jon called it. It's still accurate. You're still in it. You haven't left.</div>
+  <!-- 4. WHAT TO BRING TODAY -->
+  <section>
+    <span class="section-num">04</span>
+    <h2>What to Bring <span class="accent">Today</span></h2>
 
-    <div class="alert">
-      <div class="a-label">New Phase — Active</div>
-      <div class="a-title">Jessica said she didn't want to be here anymore.</div>
-      <p>Approximately July 25–26 (two Saturdays before Session 14). You've been carrying that. Socialized it, processed it, haven't buried it. This is the new layer Jon expected and named: a spirit beginning to sever ties starts with the people it loves most. That's what happened. That's what's still happening.</p>
+    <div class="bring-item">
+      <div class="bring-num">1</div>
+      <div class="bring-body">
+        <h3>The redline read</h3>
+        <p>"I'm the last to know I'm redlining." Bring the honest instrument scan. Where in the last three weeks did the gauges read calm while the engine was screaming? Name the specific moments. The Oura data is your co-pilot here &mdash; trust it over the feeling.</p>
+      </div>
     </div>
 
-    <div class="data-row"><div class="data-label">Long goodbye phase</div><div class="data-value">Active — reverse dating, spirit severing ties, emotional pulling back on both sides</div></div>
-    <div class="data-row"><div class="data-label">Physical protocol</div><div class="data-value">Peptides (muscle maintenance) + cellular longevity drug + supplements + Bay House rhythm</div></div>
-    <div class="data-row"><div class="data-label">Bay House rhythm</div><div class="data-value">Every other weekend — confirmed sustainable. 5 days in → 2 days respite → return.</div></div>
-    <div class="data-row"><div class="data-label">Intimacy</div><div class="data-value">Arrangement active. Full transparency maintained with inner circle.</div></div>
-    <div class="data-row"><div class="data-label">Jon's wedding</div><div class="data-value">August 2026 — check on him. He's been in his own transition.</div></div>
-  </div>
-
-  <!-- II. WHAT MOVED SINCE LAST SESSION -->
-  <div class="section">
-    <div class="section-label">Since Session 14</div>
-    <h2>What's different. What landed. What's still open.</h2>
-
-    <div class="state-card">
-      <div class="sc-label">Kasey's "Two for One"</div>
-      <div class="sc-title">"We know we're losing Jessica. I'd really like to not get a two for one."</div>
-      <p>This hit between the eyes in Session 14. Kasey said it plainly: we've already lost Michael. Don't make us lose you too. This isn't just care — it's data. The people closest to you are watching your body. You said this shifted something. Check: has it? Are you actually taking your foot off the pedal, or is that still theoretical?</p>
+    <div class="bring-item">
+      <div class="bring-num">2</div>
+      <div class="bring-body">
+        <h3>Where the goodbye is now</h3>
+        <p>The current layer. Reverse dating as lived reality, not concept. What did this week actually feel like inside the house? What are you carrying that you haven't said out loud yet?</p>
+      </div>
     </div>
 
-    <div class="state-card">
-      <div class="sc-label">The Redlining Insight — Still Active</div>
-      <div class="sc-title">"I'm the last to know I'm redlining."</div>
-      <p>From the IFS work. This has been on your brain for 30+ days now. The people around you — kids, care team — are your instruments. When they say slow down, that's the equivalent of the altimeter telling you you're at minimums. You may not feel it. The ring shows it. Trust the instruments.</p>
+    <div class="bring-item">
+      <div class="bring-num">3</div>
+      <div class="bring-body">
+        <h3>Kasey's ask</h3>
+        <p>"I want you to survive this." What does surviving it look like, concretely, for the next 30 days? Not white-knuckling &mdash; building. What keeps you on the throne instead of following her spirit out the door?</p>
+      </div>
     </div>
 
-    <div class="highlight">
-      <div class="h-label">The OC Trip</div>
-      <p><strong>The King showed up.</strong> Organic family moment. Adjoining rooms. No agenda. Hotel camping with adult kids who wanted to be near you. That's System B living — you didn't architect it, it just happened when you were present enough to let it.</p>
-      <p>The family is rallying around you. Let them.</p>
+    <div class="bring-item">
+      <div class="bring-num">4</div>
+      <div class="bring-body">
+        <h3>Jon &mdash; the wedding landing</h3>
+        <p>Turn the light on him first. How was it? How's the marriage arriving? You've earned the right to ask, and he needs someone who isn't a guest.</p>
+      </div>
     </div>
 
-    <div class="gold-box">
-      <div class="g-label">New Information Added to Your Profile Stack</div>
-      <p><strong>Natal chart ingested.</strong> Triple Gemini stellium (Sun/Venus/Mars) in the 11th house — identity, drive, and relational energy all oriented toward collective impact. Saturn + North Node conjunct MC in Aries = career as mission, not just personality. Scorpio Moon in the 4th = the profound private depth behind the public directness. The chart says the same thing the medicine said: this isn't ambition, it's purpose. Mission-level architecture.</p>
+    <div class="bring-item">
+      <div class="bring-num">5</div>
+      <div class="bring-body">
+        <h3>The vision, out loud again</h3>
+        <p>"Helping people achieve their dreams in the midst of life happening &mdash; better than sex." Rob Simon: "You create a church." Say it again today. It's crystallizing, and the more you speak it the more it becomes the thing you build toward instead of away from.</p>
+      </div>
     </div>
-  </div>
 
-  <!-- III. WHAT TO BRING TODAY -->
-  <div class="section">
-    <div class="section-label">The Brief</div>
-    <h2>What to bring to today's session.</h2>
-    <p>Not a script — a check-in. Let Jon lead. But these are the real things worth surfacing if the space opens for them.</p>
+    <div class="bring-item">
+      <div class="bring-num">6</div>
+      <div class="bring-body">
+        <h3>The fear, named honestly</h3>
+        <p>"I don't want to blow up what I have chasing enlightenment." Bring it. Not to solve it &mdash; to keep it in the light. The fear isn't the enemy. The fear unspoken is what recruits System A. Say it, and it loses its grip.</p>
+      </div>
+    </div>
+  </section>
 
-    <div style="margin-top:28px;">
-      <div class="bring-item">
-        <div class="bring-num">01</div>
-        <div class="bring-content">
-          <div class="bring-title">The new phase update — reverse dating</div>
-          <div class="bring-body">Last session Jon named it. Give him the three-week report: what does reverse dating actually feel like from the inside now? Is it grief? Relief? Both? The spirit-severing-ties thing — is it visible? Are you bearing witness or are you protecting yourself from it? <strong>This is the live edge.</strong></div>
+  <!-- 5. THE CREW CHECK -->
+  <section>
+    <span class="section-num">05</span>
+    <h2>The Crew <span class="accent">Check</span></h2>
+    <p class="muted" style="margin-top:-6px;">Who's had the wheel lately &mdash; and who's supposed to be driving.</p>
+    <div class="crew-grid">
+
+      <div class="crew wheel">
+        <div class="crew-head">
+          <h3>The King / The Dude <span class="tag-wheel">on the throne &mdash; hold it</span></h3>
+          <span class="crew-role">Self &middot; Soul</span>
         </div>
+        <p>Who little Rich was always meant to become. More days than not this year, he's been driving. Kasey's "I want you to survive this" is a direct plea to keep him there. Sobriety is the placeholder while the King finishes building.</p>
       </div>
 
-      <div class="bring-item">
-        <div class="bring-num">02</div>
-        <div class="bring-content">
-          <div class="bring-title">Breathing underwater — current depth reading</div>
-          <div class="bring-body">Jon always asks: how's underwater? How deep? What's the pressure like? You coined this metaphor in Session 11 — surrendering rather than fighting, trusting the breath exists even though it shouldn't. <strong>Three weeks later, same question.</strong> Are you still breathing? What's different about it now?</div>
+      <div class="crew">
+        <div class="crew-head">
+          <h3>Little Rich</h3>
+          <span class="crew-role">Exile</span>
         </div>
+        <p>The wound: invisible to the specific humans who were supposed to see him first. In OC, in the adjoining rooms with the kids &mdash; he got seen. Notice how loud he gets as Jessica's spirit severs ties. Loss reopens the original loneliness. Let the King hold him; don't let a firefighter answer for him.</p>
       </div>
 
-      <div class="bring-item">
-        <div class="bring-num">03</div>
-        <div class="bring-content">
-          <div class="bring-title">Body as instrument — what's the honest read?</div>
-          <div class="bring-body">Jon's been pushing the body check for six sessions. Cry, sleep, eat, move — are you doing those things? The Bay House is one instrument. The arrangement is one instrument. The physical trainer you've been considering — has that happened? <strong>The body is the last one to eat. Jon knows this.</strong> What's it being fed?</div>
+      <div class="crew">
+        <div class="crew-head">
+          <h3>Harry</h3>
+          <span class="crew-role">Manager &middot; Insistence 97</span>
         </div>
+        <p>The system-builder. Proactive protector. Useful &mdash; but under grief he wants to build a tighter cage and call it a plan. Watch for Harry dressing up avoidance as strategy.</p>
       </div>
 
-      <div class="bring-item">
-        <div class="bring-num">04</div>
-        <div class="bring-content">
-          <div class="bring-title">System B wins and losses — the honest ledger</div>
-          <div class="bring-body">Three weeks of practice reps since Aug 5. Where did the King show up? Where did Dick take over (steamroll / reactive)? Where did Tom take over (full emotional disappear)? <strong>Jon doesn't need the polished version</strong> — he needs the real ledger. OC trip goes in the win column. What goes in the loss column?</div>
+      <div class="crew">
+        <div class="crew-head">
+          <h3>Dick</h3>
+          <span class="crew-role">Firefighter &middot; push</span>
         </div>
+        <p>The steamroller (uncle energy). New role: Conqueror on demand, new frontiers only. If he's showing up in the house, in the grief, or with the kids &mdash; wrong frontier. Redeploy him to the vision, not to the people you love.</p>
       </div>
 
-      <div class="bring-item">
-        <div class="bring-num">05</div>
-        <div class="bring-content">
-          <div class="bring-title">The vision — where does it live today?</div>
-          <div class="bring-body">Across Sessions 10–14 it kept crystallizing: <em>"Helping people achieve their dreams in the midst of life happening — that's better than sex to me."</em> The church. The mission. Rob Simon saw it. Jon sees it. With 3 sessions left in this contract, <strong>is there a shape to what comes next?</strong> Not a business plan — a direction. The King building something from wholeness, not from wound.</div>
+      <div class="crew">
+        <div class="crew-head">
+          <h3>Tom</h3>
+          <span class="crew-role">Firefighter &middot; withdraw</span>
         </div>
+        <p>Your dad's energy. The full disappear. <strong>This is the one to watch right now.</strong> The two-for-one risk is Tom. New role: Intel, not decisions. He can gather the read on the terrain &mdash; he does not get to fly the plane out of the sky.</p>
       </div>
 
-      <div class="bring-item">
-        <div class="bring-num">06</div>
-        <div class="bring-content">
-          <div class="bring-title">Jon's wedding — check on him</div>
-          <div class="bring-body">He got married in August. His own attachment wounds were activating hard as it approached. He was vulnerable about that in Session 9. You counseled him: one day at a time. The man who coaches you through the long goodbye was also walking into a major life change. <strong>Ask how the wedding was.</strong> Be curious. That's System B — two people in the game together.</div>
-        </div>
-      </div>
     </div>
-  </div>
+  </section>
 
-  <!-- IV. THE CREW CHECK -->
-  <div class="section">
-    <div class="section-label">The Crew</div>
-    <h2>Who's been driving?</h2>
-    <p>IFS check-in. These aren't just concepts — they're the actual internal weather. Which one has had the wheel most in the last three weeks?</p>
+  <!-- 6. SYSTEM B DESCRIPTOR CHECK -->
+  <section>
+    <span class="section-num">06</span>
+    <h2>System B &mdash; <span class="accent">Descriptor Check</span></h2>
+    <p class="muted" style="margin-top:-6px;">The order matters. Like the Steps. An honest read, not a grade.</p>
+    <div class="card">
 
-    <div class="crew-check">
-      <div class="crew-member">
-        <div class="cm-name">The King</div>
-        <div class="cm-role">Self · System B · Who little Rich was always meant to become</div>
-        <div class="cm-check">OC trip. Kasey's birthday dinner — you showed up dressed, present. Letting the kids carry some of it. Is he leading more often?</div>
+      <div class="desc">
+        <div class="desc-head"><span class="desc-n">1</span><span class="desc-name">Enough</span></div>
+        <span class="desc-gloss">Value before producing. Nothing built or lost changes this.</span>
+        <p class="desc-prompt">As Jessica's spirit leaves &mdash; is your enough-ness still intact, or is a part quietly trying to earn it back through control?</p>
       </div>
-      <div class="crew-member">
-        <div class="cm-name">Little Rich</div>
-        <div class="cm-role">Exile · The forgotten kid</div>
-        <div class="cm-check">He's close to the surface right now. Jessica's pulling away touches the original wound directly: being invisible to the specific human who was supposed to see him. Watch for him.</div>
+
+      <div class="desc">
+        <div class="desc-head"><span class="desc-n">2</span><span class="desc-name">Here</span></div>
+        <span class="desc-gloss">Present before being noticed. Don't need the room to confirm you exist.</span>
+        <p class="desc-prompt">The adjoining-rooms moment was pure Here. Where this week did you leave the room without moving your body?</p>
       </div>
-      <div class="crew-member">
-        <div class="cm-name">Harry</div>
-        <div class="cm-role">Manager · System-builder · Proactive protector</div>
-        <div class="cm-check">Harry wants to solve this. He keeps pointing at the $10M in cash, the leadership gaps, the company. He's not wrong. He's just early. The King needs to lead Harry, not the other way around.</div>
+
+      <div class="desc">
+        <div class="desc-head"><span class="desc-n">3</span><span class="desc-name">Curious</span></div>
+        <span class="desc-gloss">Ask before fix. Open instead of armor when pressure hits.</span>
+        <p class="desc-prompt">With Jessica, with the kids, with the grief &mdash; are you staying curious, or has the fixer reached for the wrench?</p>
       </div>
-      <div class="crew-member">
-        <div class="cm-name">Dick</div>
-        <div class="cm-role">Firefighter (push) · Uncle energy</div>
-        <div class="cm-check">Where did Dick show up? The gardener incident (Session 8) is a template. You caught it then. Three weeks: any moments of steamrolling that you noticed in real time?</div>
+
+      <div class="desc">
+        <div class="desc-head"><span class="desc-n">4</span><span class="desc-name">Clear</span></div>
+        <span class="desc-gloss">Say it once, clean, no shrapnel.</span>
+        <p class="desc-prompt">You held your ground graciously with Olivia. Where else can you say it once, clean &mdash; especially the hard, tender things?</p>
       </div>
-      <div class="crew-member">
-        <div class="cm-name">Tom</div>
-        <div class="cm-role">Firefighter (withdraw) · Dad energy</div>
-        <div class="cm-check">Tom is most present with Jessica right now. The emotional disappear is real — reverse dating is partly Tom's signature. Is Tom acting as Intel (healthy) or making decisions (not his job)?</div>
+
+      <div class="desc">
+        <div class="desc-head"><span class="desc-n">5</span><span class="desc-name">Grateful</span></div>
+        <span class="desc-gloss">What's left when the noise stops. Not forced.</span>
+        <p class="desc-prompt">The 5-MeO gratitude &mdash; is it still reachable under the grief? Not as a bypass. As what's genuinely left.</p>
       </div>
+
+      <div class="desc">
+        <div class="desc-head"><span class="desc-n">6</span><span class="desc-name">Builds</span></div>
+        <span class="desc-gloss">Toward something, not away from something.</span>
+        <p class="desc-prompt">The church. The vision. Flying to OC. Are your moves this month toward the mission &mdash; or away from the pain?</p>
+      </div>
+
+      <div class="desc">
+        <div class="desc-head"><span class="desc-n">7</span><span class="desc-name">Chooses</span></div>
+        <span class="desc-gloss">Every day. System B is a decision, never a destination.</span>
+        <p class="desc-prompt">You chose it this morning or you didn't. No arrival. Just the next choice. Did you choose it today?</p>
+      </div>
+
     </div>
-  </div>
-
-  <!-- V. THE SEVEN DESCRIPTORS — QUICK CHECK -->
-  <div class="section">
-    <div class="section-label">System B — Descriptor Check</div>
-    <h2>Where are you in the sequence today?</h2>
-    <p>The order matters. Like the Steps, you can't skip. If #1 isn't solid, everything below it is System A in disguise.</p>
-
-    <div class="data-row"><div class="data-label">01 — Enough</div><div class="data-value">The ground. Before anything else. Do you feel enough right now, today, coming into this session — before producing anything?</div></div>
-    <div class="data-row"><div class="data-label">02 — Here</div><div class="data-value">Present. Not future-tripping about what the long goodbye becomes. Are you in August 27, 2026, or are you already in the grief that hasn't happened yet?</div></div>
-    <div class="data-row"><div class="data-label">03 — Curious</div><div class="data-value">Asking before fixing. With the company, with the kids, with yourself. Is the question habit getting stronger?</div></div>
-    <div class="data-row"><div class="data-label">04 — Clear</div><div class="data-value">Says it once, clean. The reverse dating — have you told Jessica anything? Is there anything you need to say while you still can?</div></div>
-    <div class="data-row"><div class="data-label">05 — Grateful</div><div class="data-value">Not performed. The ibogaine confirmed this is real — immense gratitude exists underneath the grief. Is it accessible right now?</div></div>
-    <div class="data-row"><div class="data-label">06 — Builds</div><div class="data-value">Toward something. The church. The people who will come after Jessica — the work with people who are in the midst of life happening.</div></div>
-    <div class="data-row"><div class="data-label">07 — Chooses</div><div class="data-value">Every day. Including today. System B is always a choice, never a destination. One day at a time. Forty years knows exactly how this works.</div></div>
-  </div>
-
-  <!-- VI. WHAT THE DATA SAYS -->
-  <div class="section">
-    <div class="section-label">The Foundation</div>
-    <h2>What every profile confirms.</h2>
-    <p>Five assessments, a natal chart, two medicine journeys, 14 coaching sessions — all pointing at the same thing.</p>
-
-    <div class="highlight">
-      <div class="h-label">The One Sentence</div>
-      <p><strong>"I WAS FORGOTTEN. MICHAEL WILL NOT BE FORGOTTEN. SO MOVE FORWARD."</strong></p>
-      <p>This is the root. Everything — the systems, the drive, the protection instinct, the legacy orientation, the church Rob Simon saw — traces back here. The medicine confirmed it. The coaching is implementing it. You're moving forward. Every day you stay in this, every day you don't abandon yourself, is the living proof.</p>
+    <div class="card" style="margin-top:16px;">
+      <p class="label" style="margin-bottom:8px;">The Nuclear Practice</p>
+      <p style="margin:0;">In every present moment, become aware of which system is running. Morning, noon, end of day. Not judgment. Just an honest read. That's the whole practice. That's the whole thing.</p>
     </div>
+  </section>
 
-    <div class="data-row"><div class="data-label">Core wound</div><div class="data-value">Forgotten by the specific humans who were supposed to see him first</div></div>
-    <div class="data-row"><div class="data-label">Generational break</div><div class="data-value">Sober at 18. The cycle stops here. The 12 Steps govern the life.</div></div>
-    <div class="data-row"><div class="data-label">Mission architecture</div><div class="data-value">Triple Gemini 11th house + Saturn/NN on MC = built to build something that outlasts him</div></div>
-    <div class="data-row"><div class="data-label">The vision</div><div class="data-value">"Helping people achieve their dreams in the midst of life happening." The church. Better than sex.</div></div>
-    <div class="data-row"><div class="data-label">The practice</div><div class="data-value">One day at a time. The nuclear check: A or B? Morning, noon, end of day.</div></div>
-    <div class="data-row"><div class="data-label">The mantra</div><div class="data-value">I am led by Self. Supported by all my parts.</div></div>
-  </div>
+  <!-- 7. THE VISION -->
+  <section>
+    <span class="section-num">07</span>
+    <h2>The <span class="accent">Vision</span></h2>
+    <div class="card">
+      <p>It keeps saying the same thing, cleaner each time:</p>
+      <blockquote>"Helping people achieve their dreams in the midst of life happening &mdash; better than sex to me."</blockquote>
+      <p>In the midst of life happening. Not after the grief. Not once the house is settled. <em>In the midst.</em> That's the whole point &mdash; the vision was born inside exactly the conditions you're living. You're not waiting to be qualified to do this. You're being qualified right now, in real time, underwater.</p>
+      <p>Rob Simon called it: <strong>"You create a church."</strong> Not a company. A place where people are seen and become who they were meant to be. Which is &mdash; look at it &mdash; the exact thing you never got as a boy, now built for everyone else. The franchise backfilled your parents. This is you backfilling for the world.</p>
+      <p class="pull">The $10M sitting idle. The 4% that's fine for now. The foot off the pedal. The stepping back from the company. None of that is drift. That's you clearing the runway for the thing that's actually taking off.</p>
+      <p><strong>For today:</strong> What's the smallest concrete step toward the church that you could take this month &mdash; from Builds, not from Dick? One brick. Not the cathedral.</p>
+    </div>
+  </section>
 
-  <!-- FOOTER -->
-  <div style="margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--border);">
-    <p style="font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 11px; color: var(--muted); letter-spacing: 0.08em;">Session 15 of 18 · Novus Global Meta Performance™ · Jon Roberts · August 27, 2026</p>
-    <p style="font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 11px; color: var(--muted); margin-top: 6px;">Built by Dude from 14 session transcripts, 5 behavioral assessments, ibogaine + 5-MeO journals, natal chart, and memory of everything that matters.</p>
-  </div>
+  <!-- 8. THE FOUNDATION -->
+  <section>
+    <span class="section-num">08</span>
+    <h2>The <span class="accent">Foundation</span></h2>
+    <div class="foundation">
+      <div class="label">Ibogaine &middot; February 19, 2026</div>
+      <div class="sentence">"I WAS FORGOTTEN.<br><span>MICHAEL WILL NOT BE FORGOTTEN.</span><br>SO MOVE FORWARD."</div>
+      <p>Everything sits on this. The loneliness was real &mdash; the cartoon friends, the mom who did her best from her own broken place, the parents who couldn't show up. You were forgotten. That's the true north of the whole wound.</p>
+      <p>And the answer wasn't "make them remember you." The answer was <em>move forward.</em> Build the thing that makes sure the next kid isn't forgotten. The cycle stopped at 18. The forgetting stops now, through everything you build.</p>
+      <p>When Jessica's spirit finishes severing ties &mdash; when the grief is loudest &mdash; this is the load-bearing wall. Not "produce so you won't disappear." Move forward so no one else does.</p>
+      <div class="mantra">I am led by Self, supported by all my parts.</div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Session 15 of 18 &middot; August 27, 2026 &middot; Rich &amp; Jon</p>
+    <p class="dude">Built by the Dude. Read it once, clean. Then go fly it.</p>
+  </footer>
 
 </div>
 </body>
