@@ -969,6 +969,23 @@ tr.total td { background: #f5f0e8; border-top: 2px solid #ccc; }
       checkPassword();
     }
   });
+
+  // Format pace column: hours in hours-color, cycles always explicit green negative
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.bank-table tbody tr td:nth-child(5)').forEach(function(td) {
+      var text = td.textContent.trim();
+      if (!text || text === '-') return;
+      if (text.indexOf('/') === -1) return;
+      var parts = text.split('/');
+      if (parts.length !== 2) return;
+      var hrs = parts[0].trim();
+      var cyc = parts[1].trim();
+      var hrsColor = hrs.indexOf('+') !== -1 ? '#C41E3A' : '#2E7D32';
+      var cycColor = cyc.indexOf('-') !== -1 ? '#2E7D32' : '#C41E3A';
+      td.style.textAlign = 'center';
+      td.innerHTML = '<span style="color:' + hrsColor + '; font-weight:600;">' + hrs + '</span><br><span style="color:' + cycColor + '; font-weight:600;">' + cyc + '</span>';
+    });
+  });
 </script>
 
 </body>
