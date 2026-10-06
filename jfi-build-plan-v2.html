@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JFI Platform — AI-First Development Plan v2</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0f172a;color:#e5e7eb;font-family:'Inter',system-ui,-apple-system,sans-serif;line-height:1.6;padding:2rem 1rem}
+.wrap{max-width:760px;margin:0 auto}
+h1{font-size:2rem;color:#93c5fd;margin-bottom:.25rem;letter-spacing:-.02em}
+h2{font-size:1.5rem;color:#93c5fd;margin:2.5rem 0 .75rem;border-bottom:2px solid #1e3a5f;padding-bottom:.5rem}
+h3{font-size:1.15rem;color:#60a5fa;margin:1.5rem 0 .5rem}
+h4{font-size:.95rem;color:#93c5fd;margin:1rem 0 .25rem}
+p,li{font-size:.9rem;color:#cbd5e1}
+.subtitle{color:#64748b;font-size:1rem;margin-bottom:2rem}
+.highlight{color:#facc15}
+.tag-ai{background:#7c3aed;color:#fff;padding:1px 7px;border-radius:4px;font-size:.75rem;font-weight:600}
+.tag-human{background:#059669;color:#fff;padding:1px 7px;border-radius:4px;font-size:.75rem;font-weight:600}
+.tag-risk{background:#dc2626;color:#fff;padding:1px 7px;border-radius:4px;font-size:.75rem;font-weight:600}
+.tag-gray{background:#475569;color:#e2e8f0;padding:1px 7px;border-radius:4px;font-size:.75rem;font-weight:600}
+.tag-front{background:#2563eb;color:#fff;padding:1px 7px;border-radius:4px;font-size:.75rem;font-weight:600}
+.tag-middle{background:#d97706;color:#fff;padding:1px 7px;border-radius:4px;font-size:.75rem;font-weight:600}
+.tag-back{background:#059669;color:#fff;padding:1px 7px;border-radius:4px;font-size:.75rem;font-weight:600}
+.tag-engine{background:#dc2626;color:#fff;padding:1px 7px;border-radius:4px;font-size:.75rem;font-weight:600}
+.tag-mvp{background:#f59e0b;color:#000;padding:1px 7px;border-radius:4px;font-size:.75rem;font-weight:700}
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.82rem}
+th{background:#1e293b;color:#93c5fd;text-align:left;padding:8px 10px;font-weight:600;border-bottom:2px solid #2563eb}
+td{padding:7px 10px;border-bottom:1px solid #1e3a5f;color:#cbd5e1;vertical-align:top}
+tr:hover td{background:#1e293b}
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0}
+.summary-card{background:#1e293b;border:1px solid #1e3a5f;border-radius:8px;padding:1rem}
+.summary-card .label{color:#64748b;font-size:.75rem;text-transform:uppercase;letter-spacing:.05em}
+.summary-card .value{color:#93c5fd;font-size:1.5rem;font-weight:700}
+.summary-card .sub{color:#94a3b8;font-size:.8rem}
+.phase-bar{display:flex;gap:2px;margin:1rem 0;height:28px;border-radius:6px;overflow:hidden}
+.phase-bar div{display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:600;color:#fff}
+ul{margin:.5rem 0 .5rem 1.2rem}
+li{margin-bottom:.25rem}
+.risk-box{background:#1a0a0a;border-left:3px solid #dc2626;padding:.75rem 1rem;margin:.75rem 0;border-radius:0 6px 6px 0}
+.dep-box{background:#0a1a1a;border-left:3px solid #059669;padding:.75rem 1rem;margin:.75rem 0;border-radius:0 6px 6px 0}
+.ai-box{background:#1a0a2e;border-left:3px solid #7c3aed;padding:.75rem 1rem;margin:.75rem 0;border-radius:0 6px 6px 0}
+.warn-box{background:#1a1a0a;border-left:3px solid #f59e0b;padding:.75rem 1rem;margin:.75rem 0;border-radius:0 6px 6px 0}
+.divider{border:0;border-top:1px solid #1e3a5f;margin:2rem 0}
+.footer{text-align:center;color:#475569;font-size:.75rem;margin-top:3rem;padding-top:1rem;border-top:1px solid #1e3a5f}
+.toc a{color:#60a5fa;text-decoration:none;font-size:.85rem;display:block;padding:2px 0}
+.toc a:hover{text-decoration:underline}
+.milestone-label{display:inline-block;background:#2563eb;color:#fff;font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:3px;margin-right:6px}
+.backlog-label{display:inline-block;background:#475569;color:#e2e8f0;font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:3px;margin-right:6px}
+.diagram{background:#0d1117;border:1px solid #1e3a5f;border-radius:8px;padding:1.25rem;margin:1.5rem 0;font-family:'Courier New',monospace;font-size:.78rem;line-height:1.5;color:#93c5fd;overflow-x:auto;white-space:pre}
+.triangle-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin:1.5rem 0}
+.tri-card{background:#1e293b;border:1px solid #1e3a5f;border-radius:8px;padding:1rem;text-align:center}
+.tri-card .tri-icon{font-size:2rem;margin-bottom:.5rem}
+.tri-card .tri-title{color:#93c5fd;font-size:.9rem;font-weight:700}
+.tri-card .tri-sub{color:#94a3b8;font-size:.78rem;margin-top:.25rem}
+.opinion-box{background:#0f1d2e;border-left:3px solid #2563eb;padding:.75rem 1rem;margin:.75rem 0;border-radius:0 6px 6px 0}
+@media(max-width:600px){
+  .summary-grid,.triangle-grid{grid-template-columns:1fr}
+  .diagram{font-size:.65rem;padding:.75rem}
+  h1{font-size:1.5rem}
+  h2{font-size:1.25rem}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>JFI Platform — AI-First Development Plan</h1>
+<p class="subtitle">AI-Powered Business Operating System &nbsp;|&nbsp; v2 — Feb 2026</p>
+
+<!-- ============================================== -->
+<!-- EXECUTIVE SUMMARY -->
+<!-- ============================================== -->
+<h2 id="exec">Executive Summary</h2>
+<p>$650K invested. 88K LOC across 6 repos. Phase 2 is ~18% complete. <strong>v1 got the modules right but the philosophy wrong.</strong> It treated AI as M3 enhancements bolted onto traditional software. That's backwards.</p>
+
+<p style="margin-top:.75rem"><strong>This platform is an AI-powered business operating system.</strong> Every call recorded, every tech visit analyzed, every review correlated, every dollar optimized. AI isn't a feature layer — it's the spine. The feedback loop from Front (call intake) → Middle (tech onsite) → Back (reviews & results) → Optimize is the product. The CRUD screens are just the UI on top of a continuous intelligence engine.</p>
+
+<div class="summary-grid">
+<div class="summary-card">
+<div class="label">Without AI</div>
+<div class="value">14,680 hrs</div>
+<div class="sub">$1,761,600 &nbsp;·&nbsp; ~18 months</div>
+</div>
+<div class="summary-card">
+<div class="label">With AI Assist</div>
+<div class="value">8,820 hrs</div>
+<div class="sub"><span class="highlight">$1,058,400</span> &nbsp;·&nbsp; ~11 months</div>
+</div>
+<div class="summary-card">
+<div class="label">MVP to Kill ST + Full AI</div>
+<div class="value">1,808 hrs</div>
+<div class="sub"><span class="highlight">$216,960</span> &nbsp;·&nbsp; ~8 months</div>
+</div>
+<div class="summary-card">
+<div class="label">Design-to-Code Gap</div>
+<div class="value">900–1,200 hrs</div>
+<div class="sub">Figma → Prod across all surfaces</div>
+</div>
+</div>
+
+<h3>Phase Timeline</h3>
+<div class="phase-bar">
+<div style="flex:2;background:#2563eb">P1</div>
+<div style="flex:2;background:#1d4ed8">P2</div>
+<div style="flex:3;background:#7c3aed">P3/4</div>
+<div style="flex:1;background:#9333ea">P5</div>
+<div style="flex:2.5;background:#059669">P6/7</div>
+</div>
+<table>
+<tr><th>Phase</th><th>Module</th><th>Duration</th><th>Months</th></tr>
+<tr><td>1</td><td>Call Intake + Global Foundation + <span class="tag-engine">AI Event Bus</span></td><td>Wk 1–8</td><td>Mar–Apr '26</td></tr>
+<tr><td>2</td><td>Dispatch</td><td>Wk 5–14</td><td>Apr–Jun '26</td></tr>
+<tr><td>3/4</td><td>Tech Mobile + Pricebook</td><td>Wk 10–24</td><td>Jun–Sep '26</td></tr>
+<tr><td>5</td><td>Permits (baked into Dispatch M2)</td><td>Wk 14–18</td><td>Jul–Aug '26</td></tr>
+<tr><td>6/7</td><td>Accounting + Customer Mobile + Marketing</td><td>Wk 20–36</td><td>Sep–Dec '26</td></tr>
+</table>
+
+<hr class="divider">
+
+<!-- ============================================== -->
+<!-- THE AI SPINE -->
+<!-- ============================================== -->
+<h2 id="spine">🧠 The AI Spine — Not a Feature, the Architecture</h2>
+
+<p>v1 put AI in M3 boxes. v2 makes AI the central nervous system. Every human interaction — every call, every tech visit, every review — is captured, analyzed, and fed back into optimization. This is the core product differentiation from ServiceTitan.</p>
+
+<h3><span class="tag-front">FRONT</span> Call Intake AI</h3>
+<div class="ai-box">
+<strong>Every call recorded</strong> via Dialpad integration<br>
+<strong>Real-time transcription</strong> + Own LLM coaching for CSRs during calls<br>
+<strong>Post-call analysis:</strong> sentiment, objection handling, booking conversion rate, upsell opportunity detection<br>
+<strong>AI scores every call</strong> → identifies CSR training gaps → suggests script improvements<br>
+<strong>Results feed back:</strong> CSR coaching → call routing → script optimization → better conversion
+</div>
+
+<h3><span class="tag-middle">MIDDLE</span> Tech Onsite AI</h3>
+<div class="ai-box">
+<strong>Every tech visit recorded</strong> via Whisper/LLM on tech mobile app<br>
+<strong>Real-time coaching:</strong> upsell prompts, safety reminders, procedure compliance checks<br>
+<strong>Photo/video analysis:</strong> AI validates inspection completeness, identifies missed issues<br>
+<strong>Estimate optimization:</strong> AI suggests line items from photos + history + pricebook margins<br>
+<strong>Results feed back:</strong> tech training → dispatch optimization → pricebook adjustments → higher ticket
+</div>
+
+<h3><span class="tag-back">BACK</span> Reviews & Results AI</h3>
+<div class="ai-box">
+<strong>Reviews auto-ingested</strong> and analyzed (sentiment, themes, tech attribution)<br>
+<strong>Full correlation:</strong> which tech, which CSR booked, what was sold, what was the margin<br>
+<strong>Pattern detection:</strong> "Tech X gets 4.9★ when he explains the work, 3.2★ when he rushes"<br>
+<strong>Financial optimization:</strong> job profitability by type/tech/zone → pricing & staffing recommendations<br>
+<strong>Employee development:</strong> AI generates individualized coaching plans from recorded interactions
+</div>
+
+<h3><span class="tag-engine">ENGINE</span> The Optimization Layer</h3>
+
+<div class="triangle-grid">
+<div class="tri-card">
+<div class="tri-icon">👤</div>
+<div class="tri-title">Customer P&L</div>
+<div class="tri-sub">Revenue per customer, LTV, service frequency, satisfaction trajectory → optimize retention + revenue</div>
+</div>
+<div class="tri-card">
+<div class="tri-icon">📊</div>
+<div class="tri-title">Company P&L</div>
+<div class="tri-sub">Job margins, tech efficiency, material costs, callback rates → optimize profitability</div>
+</div>
+<div class="tri-card">
+<div class="tri-icon">🧑‍🔧</div>
+<div class="tri-title">Employee Dev</div>
+<div class="tri-sub">Call scores, onsite scores, review scores, conversion rates → optimize performance + retention</div>
+</div>
+</div>
+
+<hr class="divider">
+
+<!-- ============================================== -->
+<!-- DESIGN-TO-CODE GAP -->
+<!-- ============================================== -->
+<h2 id="gap">Design-to-Code Gap Analysis</h2>
+<p>Based on 25+ Figma screenshots Rich provided. The design investment is <strong>far ahead</strong> of where the code is. This is both good news (clarity of vision) and a warning (the build is bigger than v1 estimated).</p>
+
+<h3>Client Booking Flow — ~30 Unique Screens</h3>
+<table>
+<tr><th>Screen Group</th><th>Count</th><th>Status</th></tr>
+<tr><td>Calls / Call Queue (active calls, agent assignment, recording, TAKE OVER)</td><td>3+</td><td><span class="tag-ai">Designed</span></td></tr>
+<tr><td>Customer Search (By Address, Search, Not Found, Recognized)</td><td>4</td><td><span class="tag-ai">Designed</span> — partial in code</td></tr>
+<tr><td>Address (auto-populate, billing confirmation, 7 variants)</td><td>7</td><td><span class="tag-ai">Designed</span></td></tr>
+<tr><td>Job Details, Property Details</td><td>2</td><td><span class="tag-ai">Designed</span></td></tr>
+<tr><td>Membership (HVAC/Electrical × Choose/No/Has, Commercial)</td><td>6</td><td><span class="tag-ai">Designed</span></td></tr>
+<tr><td>Payment (base, Update/New Email, Confirmation, Emergency)</td><td>5</td><td><span class="tag-ai">Designed</span></td></tr>
+<tr><td>Scheduling, Referral</td><td>2</td><td><span class="tag-ai">Designed</span></td></tr>
+<tr><td>AI Chat Copilot sidebar (present on every screen)</td><td>1</td><td><span class="tag-ai">Designed</span></td></tr>
+<tr style="font-weight:700"><td>Code Coverage (jfi-web)</td><td></td><td style="color:#ef4444">~30-40% built · Gap: 7/10</td></tr>
+</table>
+
+<h3>Tech App — ~20+ Screens</h3>
+<table>
+<tr><th>Screen Group</th><th>Count</th><th>Status</th></tr>
+<tr><td>6 Pages: Dashboard, Job-Details, Inspection, Estimates, Forms, History</td><td>6</td><td><span class="tag-ai">Designed</span></td></tr>
+<tr><td>12 Layer Modules: Feed, Payroll, Follow Up, Forms, All Jobs, Chat, Profile, etc.</td><td>12</td><td><span class="tag-ai">Designed</span></td></tr>
+<tr><td>Schedule view (tablet + mobile, job cards, calendar)</td><td>2</td><td><span class="tag-ai">Designed</span></td></tr>
+<tr><td>Dynamic form engine (30-point van inspection, tri-color, comments)</td><td>3+</td><td><span class="tag-ai">Designed</span></td></tr>
+<tr><td>Follow Up with estimates (BEST/ESSENTIALS options, real pricing)</td><td>2+</td><td><span class="tag-ai">Designed</span></td></tr>
+<tr><td>Light + dark themes, Style Guide + Atom design system</td><td>—</td><td><span class="tag-ai">Designed</span> — "Ready for dev" × 4</td></tr>
+<tr style="font-weight:700"><td>Code Coverage (jfi-tech-mobile: 3K LOC prototype)</td><td></td><td style="color:#ef4444">~5% built · Gap: 9/10</td></tr>
+</table>
+
+<h3>Customer Mobile — 37+ Screens</h3>
+<table>
+<tr><th>Screen Group</th><th>Count</th><th>Status</th></tr>
+<tr><td>V1 + V2 wireframes, all core flows</td><td>37+</td><td><span class="tag-ai">Designed</span> (wireframe + hi-fi)</td></tr>
+<tr><td>Light + dark themes</td><td>—</td><td><span class="tag-ai">Designed</span></td></tr>
+<tr style="font-weight:700"><td>Code Coverage (jfi-mobile: 35K LOC, most mature)</td><td></td><td style="color:#f59e0b">~60% built · Gap: 5/10 (no offline)</td></tr>
+</table>
+
+<h3>Planning Boards — 10+ Boards</h3>
+<table>
+<tr><th>Board</th><th>Color Coding</th></tr>
+<tr><td>Call Intake, Dispatch (6 cols), Tech Mobile (8 modules), Pricebook (5 cols)</td><td><span style="color:#22c55e">GREEN</span>=Worker &nbsp; <span style="color:#a855f7">PURPLE</span>=Automation &nbsp; <span style="color:#ef4444">RED</span>=AI &nbsp; <span style="color:#94a3b8">GRAY</span>=Backlog</td></tr>
+<tr><td>Accounting (4 areas), Global Features, Marketing, Customer Mobile</td><td>All with M1/M2/M3 + Backlog structure</td></tr>
+<tr><td>Master Architecture (7-phase), Customer Journey, Vision, Enhanced Features</td><td>Strategic boards</td></tr>
+</table>
+
+<div class="warn-box">
+<strong>⚠️ Design Hours Revised:</strong> Previous estimate was 360–550 hours. Based on actual Figma surface area: <strong>900–1,200 hours</strong> to bring all designs to production code. This is a 2–3× increase that must be reflected in the build plan.
+</div>
+
+<hr class="divider">
+
+<!-- ============================================== -->
+<!-- CHALLENGE THE BUILD -->
+<!-- ============================================== -->
+<h2 id="arch">Architecture: Challenge Everything</h2>
+
+<p>v1 assumed Laravel monolith + React Native. That was the safe answer. For an AI-heavy platform with recording pipelines, real-time coaching, and continuous analysis, we need to question that assumption.</p>
+
+<h3>The Core Question: Monolith or Services?</h3>
+
+<table>
+<tr><th>Approach</th><th>Pros</th><th>Cons</th></tr>
+<tr><td><strong>Laravel Monolith</strong> (current)</td><td>Existing code, team knows it, fast CRUD, single deploy</td><td>AI/ML pipelines don't fit PHP. Recording analysis needs Python/Go. Scaling AI independently = impossible.</td></tr>
+<tr><td><strong>Full Microservices</strong></td><td>Independent scaling, right-tool-per-job</td><td>Massive ops overhead for a 7-person team. Distributed debugging hell. Over-engineered for year 1.</td></tr>
+<tr><td><strong style="color:#93c5fd">Modular Monolith + AI Sidecar</strong></td><td>Laravel handles CRUD/business logic. Python/FastAPI sidecar handles all AI/ML. Event bus connects them.</td><td>Two codebases to maintain. Need clear API contract.</td></tr>
+</table>
+
+<div class="opinion-box">
+<strong>🎯 Recommendation: Modular Monolith + AI Sidecar</strong><br><br>
+<strong>Keep Laravel</strong> for what it's good at: CRUD, auth, multi-tenant, business rules, API layer. Don't rewrite 88K LOC.<br><br>
+<strong>Add a Python/FastAPI AI service</strong> for everything ML: transcription processing, sentiment analysis, coaching recommendations, predictive pricing, performance scoring. Python owns the AI/ML ecosystem — fighting that in PHP is swimming upstream.<br><br>
+<strong>Connect them with an event bus</strong> (Redis Streams or NATS — not Kafka, too heavy for this team size). Events: <code>call.recorded</code>, <code>visit.completed</code>, <code>review.received</code>, <code>estimate.created</code>. The AI service subscribes, processes, publishes results back.<br><br>
+<strong>Mobile: Stay React Native</strong> but consider Expo for faster iteration. Flutter is better for offline but the team knows RN and jfi-mobile is 35K LOC. Switching frameworks = 3-month tax. Not worth it. Invest that time in a solid offline sync layer (WatermelonDB or PowerSync).<br><br>
+<strong>Tradeoff accepted:</strong> Two languages (PHP + Python) means broader hiring needs. Mitigated by: AI sidecar is a focused service with clear boundaries, and AI/ML engineers expect Python anyway.
+</div>
+
+<h3>Event-Driven Architecture for the AI Loop</h3>
+<div class="diagram">┌─────────────┐    ┌──────────────┐    ┌──────────────────┐
+│  LARAVEL     │    │  EVENT BUS   │    │  AI SIDECAR      │
+│  Monolith    │───▶│  (Redis/NATS)│───▶│  (Python/FastAPI) │
+│              │◀───│              │◀───│                   │
+│ • CRUD/API   │    │ Events:      │    │ • Transcription   │
+│ • Auth/RBAC  │    │ call.recorded│    │ • Sentiment       │
+│ • Business   │    │ visit.done   │    │ • Scoring         │
+│   Logic      │    │ review.new   │    │ • Predictions     │
+│ • GraphQL    │    │ estimate.new │    │ • Coaching Recs   │
+│ • Websockets │    │ score.ready  │    │ • ML Models       │
+└─────────────┘    └──────────────┘    └──────────────────┘
+       │                                        │
+       ▼                                        ▼
+┌─────────────┐                        ┌──────────────────┐
+│  DATABASES   │                        │  EXTERNAL AI     │
+│ • PostgreSQL │                        │ • Own LLM API   │
+│ • Redis      │                        │ • OpenAI GPT-4o  │
+│ • S3 (media) │                        │ • Dialpad API    │
+└─────────────┘                        └──────────────────┘</div>
+
+<hr class="divider">
+
+<!-- ============================================== -->
+<!-- CONTINUOUS INTELLIGENCE -->
+<!-- ============================================== -->
+<h2 id="intelligence">Continuous Intelligence Engine</h2>
+
+<p>This is how the AI feedback loop works across the entire platform. Not a feature — the operating system.</p>
+
+<div class="diagram">
+THE LOOP: Every interaction → captured → analyzed → improved
+
+  ┌──────────────────────────────────────────────────────────┐
+  │                                                          │
+  ▼                                                          │
+📞 CALL ──▶ 🎙️ RECORD ──▶ 📝 TRANSCRIBE ──▶ 🧠 ANALYZE     │
+  │                                                          │
+  │  sentiment · objections · conversion · upsell signals    │
+  │                                                          │
+  ▼                                                          │
+📊 SCORE ──▶ 🎯 COACH ──▶ 📋 UPDATE SCRIPTS ────────────────┘
+  │                           │
+  │                           ▼
+  │                    ✅ BETTER BOOKING
+  │                           │
+  │                           ▼
+  │              🔧 TECH ONSITE ──▶ 🎙️ RECORD ──▶ 🧠 ANALYZE
+  │                           │
+  │              coaching · compliance · upsell · photo AI
+  │                           │
+  │                           ▼
+  │                    ✅ BETTER EXECUTION
+  │                           │
+  │                           ▼
+  │              ⭐ REVIEW ──▶ 🧠 ANALYZE ──▶ 📊 CORRELATE
+  │                           │
+  │              tech attribution · margin · satisfaction
+  │                           │
+  │                           ▼
+  │                    ✅ BETTER RESULTS ──▶ 💰 HIGHER MARGINS
+  │                                               │
+  └───────────────────────────────────────────────┘
+</div>
+
+<h3>Three Optimization Targets</h3>
+<div class="triangle-grid">
+<div class="tri-card" style="border-top:3px solid #2563eb">
+<div class="tri-icon">👤</div>
+<div class="tri-title">Customer P&L</div>
+<div class="tri-sub">LTV tracking · Satisfaction trajectory · Service frequency optimization · Retention scoring · Revenue per customer · Churn prediction</div>
+</div>
+<div class="tri-card" style="border-top:3px solid #059669">
+<div class="tri-icon">🏢</div>
+<div class="tri-title">Company P&L</div>
+<div class="tri-sub">Job margin analysis · Tech efficiency ratios · Material cost tracking · Callback rate reduction · Zone profitability · Pricing optimization</div>
+</div>
+<div class="tri-card" style="border-top:3px solid #7c3aed">
+<div class="tri-icon">🧑‍🔧</div>
+<div class="tri-title">Employee Development</div>
+<div class="tri-sub">Call scores → coaching plans · Onsite scores → training · Review attribution → recognition · Conversion rates → incentives · Individualized growth paths</div>
+</div>
+</div>
+
+<hr class="divider">
+
+<!-- ============================================== -->
+<!-- VISION MAPPING -->
+<!-- ============================================== -->
+<h2 id="vision">🎯 Vision → Build Mapping <span class="new-badge">New in v2</span></h2>
+<p>The Figma vision boards defined the platform's DNA. Here's how every layer maps to the build plan.</p>
+
+<h3>"Manage Customers Not Systems" — Application Layers</h3>
+<table>
+<tr><th>Vision Layer</th><th>Build Plan Module</th><th>Key Features</th></tr>
+<tr><td style="color:#60a5fa"><strong>External</strong></td><td>Customer Mobile (Module 8)</td><td>Job status, estimates, financing, self-service scheduling, review submission</td></tr>
+<tr><td style="color:#60a5fa"><strong>App</strong></td><td>Call Intake + Dispatch + Accounting + Pricebook (Modules 1,2,4,5)</td><td>jfi-web: booking, dispatch board, invoice management, pricebook admin</td></tr>
+<tr><td style="color:#a78bfa"><strong>Mobile</strong></td><td>Tech Mobile (Module 3) — 8 sub-modules</td><td>Job execution, inspection, estimation, van mgmt, timesheet, forms</td></tr>
+<tr><td style="color:#60a5fa"><strong>API</strong></td><td>Global Features → Integrations (Module 6)</td><td>QB, OnPay, Dialpad, Contractor Commerce, Google Maps, Smart Scout, vendor APIs</td></tr>
+<tr><td style="color:#a78bfa"><strong>Automation</strong></td><td>Every purple card across all 8 swimlanes → Event Bus (Redis)</td><td>Auto-split comp, PO alerts, invoice triggers, geolocation status, notification engine</td></tr>
+<tr><td style="color:#ef4444"><strong>AI / Training</strong></td><td>AI Engine (Python/FastAPI sidecar)</td><td>Whisper/LLM coaching, GPT prompting, scoring, predictive pricing, estimate generation</td></tr>
+<tr><td style="color:#fbbf24"><strong>Geo Track</strong></td><td>Dispatch M2 + Tech Mobile M2</td><td>Geolocation tracking, arrival messages, dispatch status, drive-by routing, proof-of-work</td></tr>
+</table>
+
+<h3>Communication Layers → AI Feedback Loop</h3>
+<table>
+<tr><th>Communication Layer</th><th>AI Spine Stage</th><th>Data Source</th></tr>
+<tr><td><strong>Customers</strong></td><td>Back End — Reviews analyzed, sentiment, attribution</td><td>Google Reviews, direct surveys, sentiment API</td></tr>
+<tr><td><strong>CX</strong></td><td>Front End — Calls recorded, transcribed, scored, coached</td><td>Dialpad → Own LLM</td></tr>
+<tr><td><strong>Dispatch</strong></td><td>Optimization — Smart routing, geolocation, windowless</td><td>Google Maps, job history, tech GPS</td></tr>
+<tr><td><strong>Techs</strong></td><td>Middle End — Onsite recorded, coached, estimates optimized</td><td>Whisper mobile recording, photo AI, pricebook</td></tr>
+<tr><td><strong>Operations</strong></td><td>Optimization Engine — Gated controls, auto-adjusting pricebook</td><td>QuickBooks actuals, job margins, callback rates</td></tr>
+<tr><td><strong>Materials</strong></td><td>Optimization — PO tracking, vendor selection, cost prediction</td><td>Contractor Commerce API, PO history, Databricks</td></tr>
+<tr><td><strong>PowerBI</strong></td><td>Reporting — Everything flows here (ALREADY EXISTS)</td><td>Databricks warehouse (ALREADY EXISTS)</td></tr>
+</table>
+
+<h3>Enhanced Features Surface → 4 AI Workflows</h3>
+<table>
+<tr><th>Workflow</th><th>External</th><th>App</th><th>Automate</th><th>AI</th></tr>
+<tr><td style="color:#60a5fa"><strong>Customer Continuity</strong></td><td>Customer-facing updates</td><td>Intake Prompts (curate)</td><td>Dialpad (assist)</td><td>GPT AI (prompt)</td></tr>
+<tr><td style="color:#a78bfa"><strong>ETC Driven Booking</strong></td><td>Boundless booking</td><td>Recommend</td><td>Dispatch (recommend)</td><td>Service AI (optimize)</td></tr>
+<tr><td style="color:#6ee7b7"><strong>Generated Job Notes</strong></td><td>Daily summaries</td><td>Summarize</td><td>Dispatch (summarize)</td><td>GPT AI (generate)</td></tr>
+<tr><td style="color:#fbbf24"><strong>Billable Efficiency</strong></td><td>Smart ETC tracking</td><td>Track</td><td>Dispatch (track)</td><td>PowerBI (analyze)</td></tr>
+</table>
+
+<h3>Customer Journey: Today → Future</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0">
+<div style="background:#1a0a0a;border:1px solid #dc2626;border-radius:8px;padding:1rem">
+<strong style="color:#ef4444">TODAY</strong><br>
+<span style="font-size:.85rem;color:#94a3b8">Fragmented. Dashed lines everywhere. CX ↔ Dispatch ↔ Techs ↔ Ops all cross-wired. Teams manage ServiceTitan to support the customer journey. Tool-centric, not customer-centric.</span>
+</div>
+<div style="background:#0a1a0a;border:1px solid #059669;border-radius:8px;padding:1rem">
+<strong style="color:#6ee7b7">FUTURE</strong><br>
+<span style="font-size:.85rem;color:#94a3b8">Linear. Customer → Intake → Coordinate → Execute → Complete → Review. All 4 teams connected through one AI layer. Teams manage the customer, not the system. Every interaction feeds the intelligence loop.</span>
+</div>
+</div>
+
+<div class="ai-box">
+<strong>The 8 swimlane boards ARE the build spec.</strong> Green cards = human dev work. Purple cards = automation layer (event bus). Red/AI cards = AI engine features. Gray cards = backlog (post-MVP). The vision boards show how they connect. This plan builds exactly that.
+</div>
+
+<hr class="divider">
+
+<!-- ============================================== -->
+<!-- MVP PATH -->
+<!-- ============================================== -->
+<h2 id="mvp">MVP: Day 1 Without ServiceTitan</h2>
+
+<p>Not everything needs to be built to turn off ST. Here's the minimum viable replacement — the "Day 1" feature set.</p>
+
+<h3>Must Have (MVP) — <span class="tag-mvp">MVP</span></h3>
+<table>
+<tr><th>Module</th><th>MVP Scope</th><th>Human Hrs</th><th>AI Hrs</th></tr>
+<tr><td>Global Foundation</td><td>Auth, multi-tenant, notifications, user management</td><td>220</td><td>96</td></tr>
+<tr><td>Call Intake M1+M2</td><td>Customer search, booking, scheduling, Dialpad, call queue</td><td>328</td><td>188</td></tr>
+<tr><td>Dispatch M1</td><td>Job board, lifecycle, tech roster, manual assignment, map</td><td>216</td><td>92</td></tr>
+<tr><td>Tech Mobile M1</td><td>Job execution, inspection forms, photo capture, offline</td><td>224</td><td>112</td></tr>
+<tr><td>Pricebook M1+M2+M3</td><td>Pricebook CRUD, materials, pricing rules, POs, <strong>predictive pricing + auto-adjust</strong></td><td>368</td><td>224</td></tr>
+<tr><td>Accounting M1+M3</td><td>Invoicing, QuickBooks sync, OnPay, <strong>revenue forecasting, financial reporting, anomaly detection</strong></td><td>252</td><td>132</td></tr>
+<tr><td>AI Event Bus + Optimization Engine</td><td>Event infrastructure, Whisper pipeline, scoring, <strong>3 P&L optimization (Customer/Company/Employee), pattern detection, coaching recommendations</strong></td><td>200</td><td>80</td></tr>
+<tr style="background:#1e293b;font-weight:700">
+<td>MVP TOTAL</td><td></td><td>1,808</td><td>928</td>
+</tr>
+</table>
+
+<div class="summary-grid">
+<div class="summary-card">
+<div class="label">MVP Human Hours</div>
+<div class="value">1,808</div>
+<div class="sub">$216,960 @ $120/hr</div>
+</div>
+<div class="summary-card">
+<div class="label">MVP Timeline</div>
+<div class="value">~8 months</div>
+<div class="sub">4-person team · Mar–Oct '26</div>
+</div>
+</div>
+
+<h3>Already Built — Not in Scope</h3>
+<table>
+<tr><th>Module</th><th>Status</th></tr>
+<tr><td>Customer Mobile App</td><td style="color:#6ee7b7">✅ Exists — jfi-mobile, 35K LOC React Native. Extend, don't rebuild.</td></tr>
+<tr><td>Marketing / Attribution</td><td style="color:#6ee7b7">✅ Exists — jfi-attribution (Django/Databricks) + customer app. Enhance, don't rebuild.</td></tr>
+<tr><td>PowerBI Reporting</td><td style="color:#6ee7b7">✅ Exists — already connected. AI feeds data in, PowerBI visualizes.</td></tr>
+</table>
+
+<h3>Can Come Later (Post-ST Kill)</h3>
+<table>
+<tr><th>Module</th><th>Why Deferrable</th></tr>
+<tr><td>Smart Routing (Dispatch M3)</td><td>Manual dispatch works. Optimize after you're off ST and have route data.</td></tr>
+<tr><td>Real-time In-Ear Coaching</td><td>Post-call analysis in MVP covers 90% of value. Live coaching is Phase 2.</td></tr>
+<tr><td>Geolocation Tracking</td><td>Nice-to-have. Techs call in status for now. Add when mobile app is stable.</td></tr>
+<tr><td>Drive-by Recommendations</td><td>Requires geolocation + property data API. Build after core is solid.</td></tr>
+</table>
+
+<h3>What the Optimization Engine Actually Does</h3>
+<div class="ai-box">
+<p style="margin-bottom:.75rem"><strong>In plain English:</strong> It watches every number in your business — from QuickBooks, from calls, from reviews, from job data — and tells you what to fix before you know it's broken.</p>
+<ul>
+<li><strong>"Tech A did $48K, Tech B did $31K — why?"</strong> → Engine correlates call scores: A explains well (8.2), B rushes (5.1). Auto-generates coaching plan for B.</li>
+<li><strong>"Water heater installs: 42% margin in Katy, 28% in Spring — why?"</strong> → Engine finds Spring pricing is $400 below market. Pricebook auto-suggests adjustment.</li>
+<li><strong>"Customer retention dropped 12% in Q4 — why?"</strong> → Callback rate spiked on Friday PM jobs. Techs rushing to finish the week. Recommendation: no installs Friday PM, or add QA gate.</li>
+<li><strong>"You'll need 2 more techs by June"</strong> → Lead volume up 15%, techs at 92% utilization. Historical pattern: capacity breaks at 95%. Hire now or lose revenue in 60 days.</li>
+</ul>
+<p style="margin-top:.75rem"><strong>Revenue Forecasting:</strong> 30/60/90 day projections with confidence ranges. <em>"March: $1.2M ± $80K. Trending 8% below last March — here's why: 2 fewer techs, 15% fewer leads from this zip code."</em></p>
+<p style="margin-top:.5rem"><strong>All from data you already generate.</strong> QB has the money. Calls have the behavior. Reviews have the outcomes. The engine just connects the dots.</p>
+</div>
+
+<div class="warn-box">
+<strong>Day 1 Without ST Feature Set:</strong> Book a call → create a customer → schedule a job → dispatch a tech → tech executes with mobile app (offline) → generate invoice → sync to QuickBooks → get paid → AI scores every interaction → pricebook auto-adjusts → revenue forecast updates. That's the heartbeat. <strong>Your Moneyball for HVAC.</strong>
+</div>
+
+<hr class="divider">
+
+<!-- ============================================== -->
+<!-- AI TOOLING STACK -->
+<!-- ============================================== -->
+<h2 id="tools">AI Tooling Stack</h2>
+<div class="ai-box">
+<strong>Code Generation:</strong> Cursor / Copilot for CRUD, migrations, resolvers, React components, tests<br>
+<strong>Testing:</strong> AI-generated unit/integration tests (Copilot), property-based test generation<br>
+<strong>NLP/Conversational:</strong> OpenAI GPT-4o for call intake AI, virtual agent, coaching prompts<br>
+<strong>Call Intelligence:</strong> Whisper (local/API) for transcription + custom LLM for analysis, coaching, scoring<br>
+<strong>Routing/Optimization:</strong> Google OR-Tools + custom ML for smart dispatch routing<br>
+<strong>Data/Analytics:</strong> Databricks (existing jfi-attribution), PowerBI embedding<br>
+<strong>Pricing ML:</strong> Scikit-learn/XGBoost for predictive cost analysis, auto-pricing<br>
+<strong>Document Processing:</strong> GPT-4o Vision for permit docs, invoice OCR, inspection photo analysis<br>
+<strong>Phone/CRM:</strong> Dialpad API + AI transcription<br>
+<strong>Event Bus:</strong> Redis Streams or NATS (lightweight, team-appropriate)<br>
+<strong>AI Sidecar:</strong> Python/FastAPI — transcription pipelines, sentiment analysis, ML models<br>
+<strong>DevOps:</strong> AI-assisted CI/CD config, Terraform generation, monitoring rules
+</div>
+
+<hr class="divider">
+
+<!-- ============================================== -->
+<!-- MODULES -->
+<!-- ============================================== -->
+<h2>Modules</h2>
+<div class="toc">
+<a href="#m1">1. Call Intake (Phase 1) <span class="tag-mvp">MVP</span></a>
+<a href="#m2">2. Dispatch (Phase 2) <span class="tag-mvp">MVP</span></a>
+<a href="#m3">3. Tech Mobile (Phase 3/4) <span class="tag-mvp">MVP</span></a>
+<a href="#m4">4. Pricebook (Phase 3/4) <span class="tag-mvp">MVP</span></a>
+<a href="#m5">5. Accounting (Phase 6/7) <span class="tag-mvp">MVP</span></a>
+<a href="#m6">6. Global Features &amp; Settings (Phase 1 foundation, ongoing) <span class="tag-mvp">MVP</span></a>
+<a href="#m7">7. Marketing (Phase 6/7)</a>
+<a href="#m8">8. Customer Mobile (Phase 6/7)</a>
+</div>
+
+<hr class="divider">
+
+<!-- MODULE 1: CALL INTAKE -->
+<h2 id="m1">1. Call Intake — Customer Intake Module</h2>
+<p><strong>Phase 1</strong> &nbsp;·&nbsp; Weeks 1–8 &nbsp;·&nbsp; <span class="tag-mvp">MVP</span> M1+M2 &nbsp;·&nbsp; <span class="tag-front">FRONT END AI</span> starts here</p>
+
+<h4>Remediation Required</h4>
+<ul>
+<li>Resolve 15+ GraphQL resolver stubs in jfi-backend related to customer/booking flows</li>
+<li>Migrate partial jfi-web booking UI to consistent component library</li>
+<li>Add test coverage (currently near-zero on intake flows)</li>
+</ul>
+
+<h4>AI Spine Integration</h4>
+<div class="ai-box">
+Every call is an AI event. From M1: <code>call.started</code>, <code>call.ended</code>, <code>booking.created</code> events fire into the event bus. From M2: Dialpad recordings feed to the AI sidecar for transcription. From M3: full coaching loop — real-time prompts, post-call scoring, script optimization. <strong>The AI loop starts recording from Day 1, even if analysis comes later.</strong>
+</div>
+
+<h3><span class="milestone-label">M1</span> Call Intake Basics</h3>
+<table>
+<tr><th>Feature</th><th>Human Hrs</th><th>AI Hrs</th><th>AI Role</th><th>Acceptance</th></tr>
+<tr><td>Customer search &amp; lookup</td><td>24</td><td>16</td><td><span class="tag-ai">Codegen</span> GraphQL resolvers, search indexing</td><td>Search by name/phone/address &lt;200ms, fuzzy match</td></tr>
+<tr><td>New customer creation</td><td>16</td><td>12</td><td><span class="tag-ai">Codegen</span> CRUD + validation + form gen</td><td>Full CRUD, address verification via Google Places</td></tr>
+<tr><td>Service request creation</td><td>32</td><td>20</td><td><span class="tag-ai">Codegen</span> Forms, state machine logic</td><td>Service type selection, urgency, notes, photo upload</td></tr>
+<tr><td>Scheduling engine (basic)</td><td>60</td><td>24</td><td><span class="tag-human">Human-led</span> — domain logic; AI assists with slot algorithm</td><td>Available slot calculation, tech availability, conflict detection</td></tr>
+<tr><td>Call logging &amp; history</td><td>20</td><td>16</td><td><span class="tag-ai">Codegen</span> Models, UI, timeline component</td><td>Full call history per customer, timestamped, searchable</td></tr>
+<tr><td>Remediation: Stub resolvers</td><td>24</td><td>8</td><td><span class="tag-ai">Codegen</span> Complete resolver implementations from schema</td><td>All customer-facing resolvers functional with tests</td></tr>
+<tr><td>Test suite (M1)</td><td>16</td><td>24</td><td><span class="tag-ai">Testing</span> Generate unit + integration tests</td><td>80%+ coverage on intake flows</td></tr>
+<tr><th>M1 Subtotal</th><th>192</th><th>120</th><th></th><th></th></tr>
+</table>
+
+<h3><span class="milestone-label">M2</span> Outbounding &amp; Agent Flows</h3>
+<table>
+<tr><th>Feature</th><th>Human Hrs</th><th>AI Hrs</th><th>AI Role</th><th>Acceptance</th></tr>
+<tr><td>Outbound call queue &amp; management</td><td>40</td><td>20</td><td><span class="tag-ai">Codegen</span> Queue UI, Dialpad API integration scaffolding</td><td>Prioritized queue, auto-dial via Dialpad, call status tracking</td></tr>
+<tr><td>Agent review &amp; QA flows</td><td>32</td><td>16</td><td><span class="tag-ai">Codegen</span> Review forms, scoring UI</td><td>Supervisor can review/score calls, flag for coaching</td></tr>
+<tr><td>Follow-up automation</td><td>24</td><td>20</td><td><span class="tag-ai">Automation</span> Scheduled job engine, email/SMS templates</td><td>Auto follow-up sequences triggered by call outcome</td></tr>
+<tr><td>Dialpad integration (core)</td><td>40</td><td>12</td><td><span class="tag-human">Human-led</span> — API integration; AI generates client SDK</td><td>Click-to-call, call recording, transcript sync</td></tr>
+<tr><td>Call recording → Event Bus</td><td>24</td><td>16</td><td><span class="tag-ai">Codegen</span> Event pipeline, S3 storage, metadata extraction</td><td>Every call recording stored, <code>call.recorded</code> event fired</td></tr>
+<tr><th>M2 Subtotal</th><th>160</th><th>84</th><th></th><th></th></tr>
+</table>
+
+<h3><span class="milestone-label">M3</span> AI Coaching Loop</h3>
+<table>
+<tr><th>Feature</th><th>Human Hrs</th><th>AI Hrs</th><th>AI Role</th><th>Acceptance</th></tr>
+<tr><td>Own LLM integration — real-time call coaching</td><td>48</td><td>32</td><td><span class="tag-ai">NLP</span> Whisper transcription + custom LLM coaching model trained on your call data</td><td>Real-time coaching prompts during calls, post-call analysis</td></tr>
+<tr><td>Post-call scoring &amp; analysis</td><td>32</td><td>28</td><td><span class="tag-ai">ML</span> Sentiment analysis, objection detection, conversion scoring</td><td>Every call scored on 5 dimensions, trends tracked per CSR</td></tr>
+<tr><td>Script optimization engine</td><td>24</td><td>24</td><td><span class="tag-ai">NLP</span> GPT-4o analyzes top-performing calls, suggests script updates</td><td>Weekly script recommendations based on conversion data</td></tr>
+<tr><td>CSR coaching dashboard</td><td>20</td><td>16</td><td><span class="tag-ai">Codegen</span> Dashboard UI, performance trends</td><td>Per-CSR performance trends, coaching recommendations, comparison</td></tr>
+<tr><th>M3 Subtotal</th><th>124</th><th>100</th><th></th><th></th></tr>
+</table>
+
+<h3><span class="backlog-label">BACKLOG</span></h3>
+<table>
+<tr><th>Feature</th><th>Est. Hrs</th><th>Notes</th></tr>
+<tr><td>AI-powered IVR / voice bot</td><td>80</td><td>GPT-4o Realtime API — defer until M3 proven</td></tr>
+<tr><td>Multi-language support</td><td>32</td><td>i18n framework + AI translation</td></tr>
+</table>
+
+<div class="summary-grid">
+<div class="summary-card"><div class="label">Total Human Hours</div><div class="value">476</div><div class="sub">$57,120</div></div>
+<div class="summary-card"><div class="label">Without AI Estimate</div><div class="value">840</div><div class="sub">$100,800 — <span class="highlight">43% savings</span></div></div>
+</div>
+
+<div class="risk-box">
+<strong>⚠️ Risks:</strong> Custom LLM training needs 500+ labeled calls for quality coaching output. Dialpad integration complexity depends on their API tier. Scheduling engine is high-complexity domain logic — AI can scaffold but human architect must own.
+</div>
+<div class="dep-box">
+<strong>→ Dependencies:</strong> Global Features (auth, multi-tenant) must be started in parallel. Dialpad account &amp; API credentials required by M2. AI Sidecar infrastructure needed for M3.
+</div>
+
+<hr class="divider">
+
+<!-- MODULE 2: DISPATCH -->
+<h2 id="m2">2. Dispatch</h2>
+<p><strong>Phase 2</strong> &nbsp;·&nbsp; Weeks 5–14 &nbsp;·&nbsp; <span class="tag-mvp">MVP</span> M1 &nbsp;·&nbsp; 6 feature columns</p>
+
+<h4>Remediation Required</h4>
+<ul>
+<li>ServiceTitan sync layer in jfi-backend needs migration path — currently tightly coupled</li>
+<li>Job model incomplete (status machine, assignment logic stubs)</li>
+</ul>
+
+<h3><span class="milestone-label">M1</span> Manage Jobs &amp; Manage Techs</h3>
+<table>
+<tr><th>Feature</th><th>Human Hrs</th><th>AI Hrs</th><th>AI Role</th><th>Acceptance</th></tr>
+<tr><td>Job board (list, filter, detail)</td><td>40</td><td>24</td><td><span class="tag-ai">Codegen</span> Table UI, GraphQL queries, filters</td><td>Filterable by status/tech/date/zone, real-time updates</td></tr>
+<tr><td>Job lifecycle state machine</td><td>48</td><td>12</td><td><span class="tag-human">Human-led</span> — complex domain; AI generates state diagram + tests</td><td>Created→Assigned→En Route→On Site→Complete→Invoiced</td></tr>
+<tr><td>Tech roster &amp; availability</td><td>32</td><td>20</td><td><span class="tag-ai">Codegen</span> CRUD, calendar component, availability API</td><td>Manage tech skills, zones, schedules, PTO</td></tr>
+<tr><td>Manual job assignment</td><td>24</td><td>12</td><td><span class="tag-ai">Codegen</span> Drag-drop UI, assignment API</td><td>Drag tech to job, conflict warnings, confirmation</td></tr>
+<tr><td>Map view (basic)</td><td>32</td><td>16</td><td><span class="tag-ai">Codegen</span> Google Maps integration scaffold</td><td>View all jobs/techs on map, click for detail</td></tr>
+<tr><td>Remediation: ST decoupling</td><td>40</td><td>8</td><td><span class="tag-ai">Codegen</span> Generate adapter pattern from existing ST calls</td><td>All ST dependencies behind interface layer, toggleable</td></tr>
+<tr><th>M1 Subtotal</th><th>216</th><th>92</th><th></th><th></th></tr>
+</table>
+
+<h3><span class="milestone-label">M2</span> Permits, Invoice Coaching, Materials</h3>
+<table>
+<tr><th>Feature</th><th>Human Hrs</th><th>AI Hrs</th><th>AI Role</th><th>Acceptance</th></tr>
+<tr><td>Permit tracking &amp; workflow</td><td>48</td><td>20</td><td><span class="tag-ai">Codegen</span> State machine, form gen; <span class="tag-ai">Vision</span> Permit doc OCR</td><td>Track permit status, upload docs, deadline alerts</td></tr>
+<tr><td>Invoice coaching prompts</td><td>32</td><td>24</td><td><span class="tag-ai">NLP</span> GPT-generated coaching tips based on job type + history</td><td>Context-aware upsell suggestions, margin alerts per job</td></tr>
+<tr><td>Materials tracking</td><td>36</td><td>20</td><td><span class="tag-ai">Codegen</span> Inventory CRUD, PO linkage</td><td>Track materials per job, link to POs, cost attribution</td></tr>
+<tr><td>Reporting (dispatch metrics)</td><td>24</td><td>20</td><td><span class="tag-ai">Codegen</span> Dashboard components; <span class="tag-ai">Data</span> Aggregation queries</td><td>Jobs/day, avg response time, tech utilization, zone heat map</td></tr>
+<tr><th>M2 Subtotal</th><th>140</th><th>84</th><th></th><th></th></tr>
+</table>
+
+<h3><span class="milestone-label">M3</span> AI — Smart Routing, Geolocation, Windowless</h3>
+<table>
+<tr><th>Feature</th><th>Human Hrs</th><th>AI Hrs</th><th>AI Role</th><th>Acceptance</th></tr>
+<tr><td>Smart routing engine</td><td>60</td><td>48</td><td><span class="tag-ai">ML</span> Google OR-Tools + custom optimization: travel time, skills, priority</td><td>Auto-optimize routes, 20%+ reduction in drive time vs manual</td></tr>
+<tr><td>Real-time geolocation tracking</td><td>40</td><td>16</td><td><span class="tag-human">Human-led</span> — mobile SDK + backend; AI generates tracking endpoints</td><td>Live tech positions on map, ETA calculation, geofence triggers</td></tr>
+<tr><td>Windowless dispatch</td><td>48</td><td>32</td><td><span class="tag-ai">ML</span> Predict arrival windows from historical data, traffic, job complexity</td><td>Dynamic ETAs replace fixed time windows, 85%+ accuracy</td></tr>
+<tr><th>M3 Subtotal</th><th>148</th><th>96</th><th></th><th></th></tr>
+</table>
+
+<div class="summary-grid">
+<div class="summary-card"><div class="label">Total Human Hours</div><div class="value">504</div><div class="sub">$60,480</div></div>
+<div class="summary-card"><div class="label">Without AI Estimate</div><div class="value">880</div><div class="sub">$105,600 — <span class="highlight">43% savings</span></div></div>
+</div>
+
+<div class="risk-box">
+<strong>⚠️ Risks:</strong> Smart routing is the hardest ML feature — needs real historical data to train. If data is thin, fall back to rule-based routing first. ST decoupling is a prerequisite for clean job management — don't skip.
+</div>
+<div class="dep-box">
+<strong>→ Dependencies:</strong> Call Intake M1 (jobs must be created). Global: auth, tenant context. Google Maps API key + billing. Tech Mobile (for geolocation feed).
+</div>
+
+<hr class="divider">
+
+<!-- MODULE 3: TECH MOBILE -->
+<h2 id="m3">3. Tech Mobile</h2>
+<p><strong>Phase 3/4</strong> &nbsp;·&nbsp; Weeks 10–24 &nbsp;·&nbsp; React Native &nbsp;·&nbsp; <span class="tag-mvp">MVP</span> M1 &nbsp;·&nbsp; <span class="tag-middle">MIDDLE END AI</span> starts here</p>
+
+<h4>Remediation Required</h4>
+<ul>
+<li>jfi-tech-mobile is 3K LOC prototype — essentially a rebuild</li>
+<li>Need offline-first architecture (tech works in basements/rural)</li>
+<li>Share React Native component library with jfi-mobile where possible</li>
+</ul>
+
+<h4>AI Spine Integration</h4>
+<div class="ai-box">
+Every tech visit is an AI event. <code>visit.started</code>, <code>inspection.completed</code>, <code>estimate.created</code>, <code>visit.completed</code> events fire into the bus. Whisper/LLM records onsite conversations. Photos analyzed by GPT-4o Vision. Estimates compared against pricebook margins. <strong>The tech app is a data collection machine that feeds the optimization engine.</strong>
+</div>
+
+<h3><span class="milestone-label">M1</span> Core Job Execution &amp; Inspection</h3>
+<table>
+<tr><th>Feature</th><th>Human Hrs</th><th>AI Hrs</th><th>AI Role</th><th>Acceptance</th></tr>
+<tr><td>Offline-first architecture</td><td>80</td><td>20</td><td><span class="tag-human">Human-led</span> — critical architecture; AI generates sync layer boilerplate</td><td>Full functionality offline, auto-sync on reconnect, conflict resolution</td></tr>
+<tr><td>Job detail &amp; execution flow</td><td>40</td><td>28</td><td><span class="tag-ai">Codegen</span> RN screens, GraphQL, state management</td><td>View job, checklist, notes, photos, status transitions</td></tr>
+<tr><td>Inspection forms (dynamic)</td><td>48</td><td>32</td><td><span class="tag-ai">Codegen</span> Dynamic form engine from JSON schema</td><td>Configurable inspection checklists per job type, photo capture, pass/fail</td></tr>
+<tr><td>Photo/document capture</td><td>24</td><td>16</td><td><span class="tag-ai">Codegen</span> Camera integration, upload pipeline</td><td>Before/after photos, markup, auto-compress, offline queue</td></tr>
+<tr><td>Remediation: RN shared components</td><td>32</td><td>16</td><td><span class="tag-ai">Codegen</span> Extract from jfi-mobile, create shared lib</td><td>Shared component library published, used by both apps</td></tr>
+<tr><th>M1 Subtotal</th><th>224</th><th>112</th><th></th><th></th></tr>
+</table>
+
+<h3><span class="milestone-label">M2</span> Materials, Van, Dispatch, Timesheet</h3>
+<table>
+<tr><th>Feature</th><th>Human Hrs</th><th>AI Hrs</th><th>AI Role</th><th>Acceptance</th></tr>
+<tr><td>Materials usage &amp; request</td><td>32</td><td>20</td><td><span class="tag-ai">Codegen</span> Barcode scanning, inventory lookup</td><td>Scan parts, log usage per job, request from warehouse</td></tr>
+<tr><td>Van inventory management</td><td>28</td><td>16</td><td><span class="tag-ai">Codegen</span> CRUD, min-stock alerts</td><td>Track van stock, restock alerts, transfer between techs</td></tr>
+<tr><td>Mobile dispatch view</td><td>24</td><td>16</td><td><span class="tag-ai">Codegen</span> Job queue, map, navigation</td><td>Next job, route preview, accept/decline, ETA update</td></tr>
+<tr><td>Timesheet &amp; clock in/out</td><td>24</td><td>16</td><td><span class="tag-ai">Codegen</span> Time tracking UI, geofence validation</td><td>Clock in/out with GPS verification, break tracking, approval flow</td></tr>
+<tr><td>Payroll dispute submission</td><td>16</td><td>8</td><td><span class="tag-ai">Codegen</span> Dispute form + workflow</td><td>Tech can dispute hours, attach evidence, track resolution</td></tr>
+<tr><th>M2 Subtotal</th><th>124</th><th>76</th><th></th><th></th></tr>
+</table>
+
+<h3><span class="milestone-label">M3</span> AI — Estimation, Coaching, Fleet</h3>
+<table>
+<tr><th>Feature</th><th>Human Hrs</th><th>AI Hrs</th><th>AI Role</th><th>Acceptance</th></tr>
+<tr><td>AI-assisted estimation</td><td>48</td><td>40</td><td><span class="tag-ai">ML/NLP</span> GPT-4o generates estimates from job photos + type + history</td><td>AI suggests line items &amp; pricing, tech reviews/adjusts, 75%+ acceptance rate</td></tr>
+<tr><td>Own LLM — tech onsite coaching</td><td>32</td><td>24</td><td><span class="tag-ai">NLP</span> Whisper recording on device, LLM analysis, coaching prompts from own trained model</td><td>In-ear coaching during customer interactions, post-visit scoring</td></tr>
+<tr><td>Photo/inspection AI analysis</td><td>28</td><td>24</td><td><span class="tag-ai">Vision</span> GPT-4o Vision validates completeness, flags missed issues</td><td>AI reviews inspection photos, flags 90%+ of obvious misses</td></tr>
+<tr><td>Geolocation &amp; fleet proof-of-work</td><td>32</td><td>16</td><td><span class="tag-ai">Codegen</span> Background location service + proof-of-work logging</td><td>Continuous tracking, arrival/departure auto-detect, drive time logs</td></tr>
+<tr><th>M3 Subtotal</th><th>140</th><th>104</th><th></th><th></th></tr>
+</table>
+
+<div class="summary-grid">
+<div class="summary-card"><div class="label">Total Human Hours</div><div class="value">488</div><div class="sub">$58,560</div></div>
+<div class="summary-card"><div class="label">Without AI Estimate</div><div class="value">860</div><div class="sub">$103,200 — <span class="highlight">43% savings</span></div></div>
+</div>
+
+<div class="risk-box">
+<strong>⚠️ Risks:</strong> Offline-first is architecturally complex — must be designed right at the start or it's a painful retrofit. 3K LOC prototype means this is essentially greenfield. React Native version pinning critical. AI estimation accuracy depends heavily on pricebook data quality.
+</div>
+<div class="dep-box">
+<strong>→ Dependencies:</strong> Dispatch M1 (job data). Pricebook (for estimation). Global: auth. Whisper pipeline deployed. AI Sidecar for photo analysis.
+</div>
+
+<hr class="divider">
+
+<!-- MODULE 4: PRICEBOOK -->
+<h2 id="m4">4. Pricebook</h2>
+<p><strong>Phase 3/4</strong> (parallel with Tech Mobile) &nbsp;·&nbsp; Weeks 10–20 &nbsp;·&nbsp; <span class="tag-mvp">MVP</span> M1+M2+M3 (predictive pricing)</p>
+
+<h3><span class="milestone-label">M1</span> Base Features &amp; Materials</h3>
+<table>
+<tr><th>Feature</th><th>Human Hrs</th><th>AI Hrs</th><th>AI Role</th><th>Acceptance</th></tr>
+<tr><td>Pricebook data model &amp; CRUD</td><td>40</td><td>24</td><td><span class="tag-ai">Codegen</span> Models, migrations, admin UI, GraphQL</td><td>Categories, items, pricing tiers, versioning</td></tr>
+<tr><td>Materials catalog</td><td>32</td><td>20</td><td><span class="tag-ai">Codegen</span> CRUD + import/export (CSV, API)</td><td>Full catalog with vendor, cost, markup, images</td></tr>
+<tr><td>Contractor Commerce API integration</td><td>48</td><td>16</td><td><span class="tag-human">Human-led</span> — API mapping; AI generates client + types</td><td>Real-time pricing sync, availability check, auto-PO</td></tr>
+<tr><td>Vendor management</td><td>24</td><td>16</td><td><span class="tag-ai">Codegen</span> Vendor CRUD, contact, terms</td><td>Vendor profiles, preferred vendor rules, payment terms</td></tr>
+<tr><th>M1 Subtotal</th><th>144</th><th>76</th><th></th><th></th></tr>
+</table>
+
+<h3><span class="milestone-label">M2</span> Service Pricing, Equipment, PO Tracking</h3>
+<table>
+<tr><th>Feature</th><th>Human Hrs</th><th>AI Hrs</th><th>AI Role</th><th>Acceptance</th></tr>
+<tr><td>Service pricing rules engine</td><td>48</td><td>16</td><td><span class="tag-human">Human-led</span> — pricing logic; AI scaffolds rule engine</td><td>Flat rate, T&amp;M, tiered, emergency markup, zone-based pricing</td></tr>
+<tr><td>Equipment catalog &amp; install pricing</td><td>28</td><td>16</td><td><span class="tag-ai">Codegen</span> CRUD, install package builder</td><td>Equipment + labor bundles, margin targets, comparison view</td></tr>
+<tr><td>PO tracking &amp; approval</td><td>32</td><td>16</td><td><span class="tag-ai">Codegen</span> PO workflow, approval chain</td><td>Create PO, approval routing, receipt matching, budget tracking</td></tr>
+<tr><td>Margin target enforcement</td><td>24</td><td>12</td><td><span class="tag-ai">Codegen</span> Alert rules, dashboard widgets</td><td>Alerts when estimates fall below margin targets</td></tr>
+<tr><th>M2 Subtotal</th><th>132</th><th>60</th><th></th><th></th></tr>
+</table>
+
+<h3><span class="milestone-label">M3</span> AI — Predictive Pricing &amp; Auto-Adjust</h3>
+<table>
+<tr><th>Feature</th><th>Human Hrs</th><th>AI Hrs</th><th>AI Role</th><th>Acceptance</th></tr>
+<tr><td>Predictive cost analysis</td><td>40</td><td>40</td><td><span class="tag-ai">ML</span> XGBoost model: predict material costs from market + seasonal + volume data</td><td>Cost predictions within 10% accuracy, weekly recalibration</td></tr>
+<tr><td>Auto-adjust pricing</td><td>32</td><td>28</td><td><span class="tag-ai">ML</span> Dynamic pricing rules based on demand, inventory, competitor signals</td><td>Suggested price adjustments, human approval required, audit trail</td></tr>
+<tr><td>Reporting &amp; analytics</td><td>20</td><td>20</td><td><span class="tag-ai">Data</span> PowerBI embedded dashboards, auto-generated insights</td><td>Margin trends, top items, vendor performance, cost variance</td></tr>
+<tr><th>M3 Subtotal</th><th>92</th><th>88</th><th></th><th></th></tr>
+</table>
+
+<div class="summary-grid">
+<div class="summary-card"><div class="label">Total Human Hours</div><div class="value">368</div><div class="sub">$44,160</div></div>
+<div class="summary-card"><div class="label">Without AI Estimate</div><div class="value">620</div><div class="sub">$74,400 — <span class="highlight">41% savings</span></div></div>
+</div>
+
+<div class="risk-box">
+<strong>⚠️ Risks:</strong> Contractor Commerce API docs may be incomplete — budget discovery sprint. Predictive pricing needs 6+ months historical data to train. Auto-adjust MUST have human approval gate — autonomous pricing changes are a liability risk.
+</div>
+<div class="dep-box">
+<strong>→ Dependencies:</strong> Global: multi-tenant, auth. Contractor Commerce API access. Accounting (for PO financial integration).
+</div>
+
+<hr class="divider">
+
+<!-- MODULE 5: ACCOUNTING -->
+<h2 id="m5">5. Accounting</h2>
+<p><strong>Phase 6/7</strong> &nbsp;·&nbsp; Weeks 20–32 &nbsp;·&nbsp; <span class="tag-mvp">MVP</span> M1+M3 (revenue forecasting + optimization)</p>
+
+<h3><span class="milestone-label">M1</span> Payroll &amp; Invoicing Core</h3>
+<table>
+<tr><th>Feature</th><th>Human Hrs</th><th>AI Hrs</th><th>AI Role</th><th>Acceptance</th></tr>
+<tr><td>Invoice generation engine</td><td>48</td><td>24</td><td><span class="tag-ai">Codegen</span> Invoice models, PDF generation, email delivery</td><td>Auto-generate from completed jobs, line items from pricebook, tax calc</td></tr>
+<tr><td>QuickBooks integration</td><td>60</td><td>16</td><td><span class="tag-human">Human-led</span> — OAuth + sync logic; AI generates QB API client</td><td>Bi-directional sync: invoices, payments, chart of accounts</td></tr>
+<tr><td>OnPay payroll integration</td><td>48</td><td>16</td><td><span class="tag-human">Human-led</span> — API integration; AI generates types + client</td><td>Time data → OnPay, payroll preview, sync pay stubs</td></tr>
+<tr><td>Payroll dashboard</td><td>24</td><td>16</td><td><span class="tag-ai">Codegen</span> Dashboard UI, aggregation queries</td><td>Pay period summary, tech earnings, overtime calc, disputes</td></tr>
+<tr><th>M1 Subtotal</th><th>180</th><th>72</th><th></th><th></th></tr>
+</table>
+
+<h3><span class="milestone-label">M2</span> PO, Disputes, Audit Trails</h3>
+<table>
+<tr><th>Feature</th><th>Human Hrs</th><th>AI Hrs</th><th>AI Role</th><th>Acceptance</th></tr>
+<tr><td>Purchase order financial flow</td><td>36</td><td>16</td><td><span class="tag-ai">Codegen</span> PO→Invoice→Payment pipeline</td><td>PO cost tracking, budget alerts, receipt matching</td></tr>
+<tr><td>Payroll dispute resolution</td><td>28</td><td>12</td><td><span class="tag-ai">Codegen</span> Dispute workflow, evidence attachment</td><td>File, review, approve/deny, adjust, audit log</td></tr>
+<tr><td>Auto-split compensations</td><td>32</td><td>12</td><td><span class="tag-human">Human-led</span> — comp rules complex; AI generates split calculator</td><td>Multi-tech job splits, commission tiers, spiff tracking</td></tr>
+<tr><td>Invoice audit trail</td><td>20</td><td>16</td><td><span class="tag-ai">Codegen</span> Event sourcing for invoice changes</td><td>Full history of edits, approvals, voids with user attribution</td></tr>
+<tr><td>DMR approval workflow</td><td>24</td><td>12</td><td><span class="tag-ai">Codegen</span> Approval chain, notification triggers</td><td>Demand maintenance request approval, routing, escalation</td></tr>
+<tr><th>M2 Subtotal</th><th>140</th><th>68</th><th></th><th></th></tr>
+</table>
+
+<h3><span class="milestone-label">M3</span> AI — Financial Intelligence &amp; <span class="tag-back">BACK END AI</span></h3>
+<table>
+<tr><th>Feature</th><th>Human Hrs</th><th>AI Hrs</th><th>AI Role</th><th>Acceptance</th></tr>
+<tr><td>Financial reporting suite</td><td>32</td><td>24</td><td><span class="tag-ai">Data</span> PowerBI embedding, report templates</td><td>P&L by job type, tech profitability, AR aging, cash flow</td></tr>
+<tr><td>Job profitability correlation engine</td><td>28</td><td>28</td><td><span class="tag-ai">ML</span> Correlate: tech + CSR + job type + zone → margin</td><td>Identify profitable patterns, flag money-losing combinations</td></tr>
+<tr><td>Review ingestion &amp; attribution</td><td>24</td><td>20</td><td><span class="tag-ai">NLP</span> Auto-ingest Google/Yelp reviews, attribute to tech/CSR</td><td>Reviews scored, attributed, trends per employee</td></tr>
+<tr><td>Revenue forecasting</td><td>24</td><td>24</td><td><span class="tag-ai">ML</span> Time-series forecasting from job pipeline + seasonal</td><td>30/60/90 day revenue projections, confidence intervals</td></tr>
+<tr><td>PO intervention alerts</td><td>16</td><td>12</td><td><span class="tag-ai">ML</span> Anomaly detection on PO patterns</td><td>Flag unusual POs, duplicate detection, budget breach alerts</td></tr>
+<tr><th>M3 Subtotal</th><th>124</th><th>108</th><th></th><th></th></tr>
+</table>
+
+<div class="summary-grid">
+<div class="summary-card"><div class="label">Total Human Hours</div><div class="value">444</div><div class="sub">$53,280</div></div>
+<div class="summary-card"><div class="label">Without AI Estimate</div><div class="value">760</div><div class="sub">$91,200 — <span class="highlight">42% savings</span></div></div>
+</div>
+
+<div class="risk-box">
+<strong>⚠️ Risks:</strong> QuickBooks API rate limits and sync failures are common — need robust retry/reconciliation. Financial data accuracy is non-negotiable — extensive human QA required. Comp split rules vary by client — needs configurable rule engine, not hardcoded logic.
+</div>
+<div class="dep-box">
+<strong>→ Dependencies:</strong> Pricebook (invoice line items). Dispatch (completed jobs). Tech Mobile (timesheets). QuickBooks &amp; OnPay accounts provisioned.
+</div>
+
+<hr class="divider">
+
+<!-- MODULE 6: GLOBAL FEATURES -->
+<h2 id="m6">6. Global Features &amp; Settings</h2>
+<p><strong>Phase 1 foundation, incremental through all phases</strong> &nbsp;·&nbsp; <span class="tag-mvp">MVP</span> M1 &nbsp;·&nbsp; Weeks 1–36</p>
+
+<h3><span class="milestone-label">M1</span> Multi-Tenant, Auth, Admin + AI Event Bus</h3>
+<table>
+<tr><th>Feature</th><th>Human Hrs</th><th>AI Hrs</th><th>AI Role</th><th>Acceptance</th></tr>
+<tr><td>Multi-tenant architecture</td><td>80</td><td>20</td><td><span class="tag-human">Human-led</span> — critical architecture; AI generates tenant middleware + scoping</td><td>Data isolation, tenant context in all queries, configurable branding</td></tr>
+<tr><td>Auth &amp; SSO (RBAC)</td><td>48</td><td>20</td><td><span class="tag-ai">Codegen</span> Auth scaffolding, role/permission CRUD, guards</td><td>JWT + refresh, role hierarchy, permission matrix, SSO ready</td></tr>
+<tr><td>User/group/employee management</td><td>32</td><td>24</td><td><span class="tag-ai">Codegen</span> Admin CRUD, bulk operations</td><td>Full user lifecycle, group assignment, employee profiles</td></tr>
+<tr><td>Notification engine</td><td>36</td><td>20</td><td><span class="tag-ai">Codegen</span> Multi-channel notification system (push, email, SMS, in-app)</td><td>Template-based, per-user preferences, delivery tracking</td></tr>
+<tr><td>Alert &amp; escalation rules</td><td>24</td><td>12</td><td><span class="tag-ai">Codegen</span> Rule engine, escalation chains</td><td>Configurable alert rules, escalation paths, acknowledgment tracking</td></tr>
+<tr><td><span class="tag-engine">AI Event Bus</span> infrastructure</td><td>48</td><td>16</td><td><span class="tag-human">Human-led</span> — architecture; AI generates event schemas + publishers</td><td>Redis Streams/NATS running, event schema registry, publisher SDK for Laravel</td></tr>
+<tr><td><span class="tag-engine">AI Sidecar</span> base deployment</td><td>32</td><td>12</td><td><span class="tag-ai">Codegen</span> FastAPI project scaffold, Docker, CI/CD</td><td>Python service deployed, consuming events, health checks, logging</td></tr>
+<tr><th>M1 Subtotal</th><th>300</th><th>124</th><th></th><th></th></tr>
+</table>
+
+<h3><span class="milestone-label">M2</span> Customer Journey, Dashboard, Integrations</h3>
+<table>
+<tr><th>Feature</th><th>Human Hrs</th><th>AI Hrs</th><th>AI Role</th><th>Acceptance</th></tr>
+<tr><td>Customer journey engine</td><td>48</td><td>20</td><td><span class="tag-human">Human-led</span> — domain logic; AI generates state machine + transitions</td><td>Automated phase transitions (lead→customer→active→dormant), gated fulfillment</td></tr>
+<tr><td>Dashboard framework</td><td>40</td><td>28</td><td><span class="tag-ai">Codegen</span> Widget system, role-contextualized views</td><td>Configurable dashboards per role, drag-drop widgets, real-time data</td></tr>
+<tr><td>Job priority queue</td><td>24</td><td>12</td><td><span class="tag-ai">Codegen</span> Priority engine + queue UI</td><td>Configurable priority rules, SLA tracking, escalation</td></tr>
+<tr><td>Integration hub (API gateway)</td><td>48</td><td>20</td><td><span class="tag-human">Human-led</span> — architecture; AI generates API client scaffold per vendor</td><td>Unified integration layer: Google Maps, Dialpad, QB, OnPay, Smart Scout, vendor APIs</td></tr>
+<tr><td>Attribution service enhancements</td><td>24</td><td>8</td><td><span class="tag-human">Human-led</span> — jfi-attribution is most mature, extend not rebuild</td><td>Enhanced attribution tracking, campaign source linking, conversion funnels</td></tr>
+<tr><th>M2 Subtotal</th><th>184</th><th>88</th><th></th><th></th></tr>
+</table>
+
+<h3><span class="milestone-label">M3</span> AI Prompting &amp; Smart Features</h3>
+<table>
+<tr><th>Feature</th><th>Human Hrs</th><th>AI Hrs</th><th>AI Role</th><th>Acceptance</th></tr>
+<tr><td>AI prompting layer (platform-wide)</td><td>40</td><td>32</td><td><span class="tag-ai">NLP</span> GPT-4o integration layer, prompt management, context injection</td><td>Any module can invoke AI: summaries, recommendations, natural language queries</td></tr>
+<tr><td>Smart search (global)</td><td>24</td><td>20</td><td><span class="tag-ai">NLP</span> Semantic search across jobs, customers, invoices, docs</td><td>Natural language search: "show me unpaid invoices over $5K from last month"</td></tr>
+<tr><th>M3 Subtotal</th><th>64</th><th>52</th><th></th><th></th></tr>
+</table>
+
+<div class="summary-grid">
+<div class="summary-card"><div class="label">Total Human Hours</div><div class="value">548</div><div class="sub">$65,760</div></div>
+<div class="summary-card"><div class="label">Without AI Estimate</div><div class="value">920</div><div class="sub">$110,400 — <span class="highlight">40% savings</span></div></div>
+</div>
+
+<div class="risk-box">
+<strong>⚠️ Risks:</strong> Multi-tenant is foundational — getting it wrong poisons everything downstream. Must be designed by a senior architect, not delegated to AI. Event bus choice (Redis Streams vs NATS) needs spike in Week 1. AI Sidecar adds operational complexity — need containerized deployment from Day 1.
+</div>
+<div class="dep-box">
+<strong>→ Dependencies:</strong> M1 (auth + tenant + event bus) blocks ALL other modules. Start this Week 1, no exceptions. jfi-attribution team alignment.
+</div>
+
+<hr class="divider">
+
+<!-- MODULE 7: MARKETING -->
+<h2 id="m7">7. Marketing</h2>
+<p><strong>Phase 6/7</strong> &nbsp;·&nbsp; Weeks 24–32 &nbsp;·&nbsp; <span style="color:#6ee7b7">✅ EXISTS</span> (jfi-attribution + Django) — enhance, don't rebuild</p>
+
+<h3><span class="milestone-label">M1</span> Campaigns &amp; Leads</h3>
+<table>
+<tr><th>Feature</th><th>Human Hrs</th><th>AI Hrs</th><th>AI Role</th><th>Acceptance</th></tr>
+<tr><td>Campaign management</td><td>32</td><td>20</td><td><span class="tag-ai">Codegen</span> Campaign CRUD, scheduling, channel config</td><td>Create/schedule campaigns, multi-channel (email, SMS, mailer), A/B test</td></tr>
+<tr><td>Lead management pipeline</td><td>28</td><td>16</td><td><span class="tag-ai">Codegen</span> Pipeline UI, lead scoring model scaffold</td><td>Lead capture, qualification stages, assignment rules, conversion tracking</td></tr>
+<tr><td>Dialpad CRM integration</td><td>32</td><td>12</td><td><span class="tag-human">Human-led</span> — API integration; AI generates sync layer</td><td>Call data → lead source, campaign attribution, rep activity</td></tr>
+<tr><th>M1 Subtotal</th><th>92</th><th>48</th><th></th><th></th></tr>
+</table>
+
+<h3><span class="milestone-label">M2</span> KPIs &amp; Attribution-Based Targeting</h3>
+<table>
+<tr><th>Feature</th><th>Human Hrs</th><th>AI Hrs</th><th>AI Role</th><th>Acceptance</th></tr>
+<tr><td>KPI dashboard</td><td>24</td><td>20</td><td><span class="tag-ai">Data</span> PowerBI, metric aggregation, auto-refresh</td><td>CAC, LTV, conversion rates, ROI by channel, campaign performance</td></tr>
+<tr><td>Attribution-based targeting</td><td>32</td><td>24</td><td><span class="tag-ai">ML/Data</span> Leverage jfi-attribution + Databricks for lookalike audiences</td><td>Target campaigns by attribution signals, automated audience segments</td></tr>
+<tr><td>Open estimate follow-ups</td><td>16</td><td>12</td><td><span class="tag-ai">Automation</span> Scheduled sequences, smart timing</td><td>Auto follow-up on open estimates, escalating cadence, opt-out</td></tr>
+<tr><td>Purge stale estimates</td><td>8</td><td>8</td><td><span class="tag-ai">Automation</span> Scheduled job + rules engine</td><td>Auto-archive estimates older than threshold, notification before purge</td></tr>
+<tr><th>M2 Subtotal</th><th>80</th><th>64</th><th></th><th></th></tr>
+</table>
+
+<h3><span class="milestone-label">M3</span> AI — Drive-By Recommendations</h3>
+<table>
+<tr><th>Feature</th><th>Human Hrs</th><th>AI Hrs</th><th>AI Role</th><th>Acceptance</th></tr>
+<tr><td>Drive-by recommendations</td><td>40</td><td>36</td><td><span class="tag-ai">ML</span> Geolocation + property data + service history → proactive outreach</td><td>When tech is in area, suggest nearby customers due for service. Opt-in only.</td></tr>
+<tr><td>Predictive campaign optimization</td><td>24</td><td>24</td><td><span class="tag-ai">ML</span> A/B test analysis, send-time optimization, channel recommendation</td><td>AI recommends optimal channel/time/message, human approves</td></tr>
+<tr><th>M3 Subtotal</th><th>64</th><th>60</th><th></th><th></th></tr>
+</table>
+
+<div class="summary-grid">
+<div class="summary-card"><div class="label">Total Human Hours</div><div class="value">236</div><div class="sub">$28,320</div></div>
+<div class="summary-card"><div class="label">Without AI Estimate</div><div class="value">420</div><div class="sub">$50,400 — <span class="highlight">44% savings</span></div></div>
+</div>
+
+<div class="risk-box">
+<strong>⚠️ Risks:</strong> Drive-by recommendations require property data API — cost and availability TBD. Attribution model quality depends on jfi-attribution data pipeline maturity. CAN-SPAM / TCPA compliance for automated outreach.
+</div>
+<div class="dep-box">
+<strong>→ Dependencies:</strong> jfi-attribution (data pipeline). Dialpad integration (from Call Intake). Customer Journey (from Global). Dispatch (for geolocation data in drive-by).
+</div>
+
+<hr class="divider">
+
+<!-- MODULE 8: CUSTOMER MOBILE -->
+<h2 id="m8">8. Customer Mobile</h2>
+<p><strong>Phase 6/7</strong> &nbsp;·&nbsp; Weeks 26–36 &nbsp;·&nbsp; <span style="color:#6ee7b7">✅ EXISTS</span> (jfi-mobile 35K LOC) — extend, don't rebuild</p>
+
+<h4>Remediation Required</h4>
+<ul>
+<li>jfi-mobile has no offline capability — add caching layer</li>
+<li>UI refresh to match new design system</li>
+<li>35K LOC is substantial — audit before extending</li>
+</ul>
+
+<h3><span class="milestone-label">M1</span> Job Status, Estimates, Documents</h3>
+<table>
+<tr><th>Feature</th><th>Human Hrs</th><th>AI Hrs</th><th>AI Role</th><th>Acceptance</th></tr>
+<tr><td>Real-time job status tracking</td><td>28</td><td>16</td><td><span class="tag-ai">Codegen</span> Status UI, push notifications, ETA display</td><td>Live status updates, tech location on map, ETA countdown</td></tr>
+<tr><td>Estimate viewing &amp; acceptance</td><td>24</td><td>16</td><td><span class="tag-ai">Codegen</span> Estimate detail UI, e-signature, approval flow</td><td>View line items, compare options, accept/decline, e-sign</td></tr>
+<tr><td>Document management</td><td>20</td><td>12</td><td><span class="tag-ai">Codegen</span> Document viewer, download, share</td><td>View invoices, warranties, inspection reports, permits</td></tr>
+<tr><td>Remediation: Code audit &amp; UI refresh</td><td>40</td><td>16</td><td><span class="tag-ai">Codegen</span> Component migration to shared lib, lint/type fixes</td><td>Shared component lib adopted, type coverage >90%, perf baseline</td></tr>
+<tr><th>M1 Subtotal</th><th>112</th><th>60</th><th></th><th></th></tr>
+</table>
+
+<h3><span class="milestone-label">M2</span> Financing &amp; Payments</h3>
+<table>
+<tr><th>Feature</th><th>Human Hrs</th><th>AI Hrs</th><th>AI Role</th><th>Acceptance</th></tr>
+<tr><td>Financing application</td><td>40</td><td>12</td><td><span class="tag-human">Human-led</span> — PCI/financial compliance; AI generates form UI</td><td>Apply for financing in-app, status tracking, terms display</td></tr>
+<tr><td>Invoice payment</td><td>36</td><td>12</td><td><span class="tag-human">Human-led</span> — payment gateway integration; AI scaffolds UI</td><td>Pay invoices, partial payments, payment history, receipts</td></tr>
+<tr><td>Form signing (e-signature)</td><td>24</td><td>12</td><td><span class="tag-ai">Codegen</span> Signature component, document workflow</td><td>Sign contracts/forms in-app, legally binding, PDF archive</td></tr>
+<tr><th>M2 Subtotal</th><th>100</th><th>36</th><th></th><th></th></tr>
+</table>
+
+<h3><span class="milestone-label">M3</span> Automation &amp; AI</h3>
+<table>
+<tr><th>Feature</th><th>Human Hrs</th><th>AI Hrs</th><th>AI Role</th><th>Acceptance</th></tr>
+<tr><td>Estimate discount decay automation</td><td>20</td><td>16</td><td><span class="tag-ai">Automation</span> Time-based discount rules, notification triggers</td><td>Declining discount shown to customer, urgency notification, configurable decay curve</td></tr>
+<tr><td>Smart notifications</td><td>16</td><td>12</td><td><span class="tag-ai">NLP</span> Context-aware notification copy, optimal send timing</td><td>AI-crafted notification text, send at optimal engagement time</td></tr>
+<tr><td>Self-service scheduling</td><td>24</td><td>12</td><td><span class="tag-ai">Codegen</span> Calendar picker, availability check</td><td>Customer books directly, availability real-time, confirmation flow</td></tr>
+<tr><th>M3 Subtotal</th><th>60</th><th>40</th><th></th><th></th></tr>
+</table>
+
+<div class="summary-grid">
+<div class="summary-card"><div class="label">Total Human Hours</div><div class="value">272</div><div class="sub">$32,640</div></div>
+<div class="summary-card"><div class="label">Without AI Estimate</div><div class="value">460</div><div class="sub">$55,200 — <span class="highlight">41% savings</span></div></div>
+</div>
+
+<div class="risk-box">
+<strong>⚠️ Risks:</strong> Financing integration requires partner (GreenSky, Wisetack, etc.) — contract and API eval needed. Payment processing = PCI compliance scope. Existing 35K LOC needs audit before extending — could find structural issues.
+</div>
+<div class="dep-box">
+<strong>→ Dependencies:</strong> Accounting (invoices, payments). Dispatch (job status). Pricebook (estimates). Call Intake (scheduling engine).
+</div>
+
+<hr class="divider">
+
+<!-- ============================================== -->
+<!-- TOTALS -->
+<!-- ============================================== -->
+<h2 id="totals">Total Program Summary</h2>
+
+<table>
+<tr><th>Module</th><th>Human Hrs (AI)</th><th>Cost @ $120</th><th>Without AI</th><th>W/O AI Cost</th><th>Savings</th></tr>
+<tr><td>1. Call Intake</td><td>476</td><td>$57,120</td><td>840</td><td>$100,800</td><td>43%</td></tr>
+<tr><td>2. Dispatch</td><td>504</td><td>$60,480</td><td>880</td><td>$105,600</td><td>43%</td></tr>
+<tr><td>3. Tech Mobile</td><td>488</td><td>$58,560</td><td>860</td><td>$103,200</td><td>43%</td></tr>
+<tr><td>4. Pricebook</td><td>368</td><td>$44,160</td><td>620</td><td>$74,400</td><td>41%</td></tr>
+<tr><td>5. Accounting</td><td>444</td><td>$53,280</td><td>760</td><td>$91,200</td><td>42%</td></tr>
+<tr><td>6. Global Features</td><td>548</td><td>$65,760</td><td>920</td><td>$110,400</td><td>40%</td></tr>
+<tr><td>7. Marketing</td><td>236</td><td>$28,320</td><td>420</td><td>$50,400</td><td>44%</td></tr>
+<tr><td>8. Customer Mobile</td><td>272</td><td>$32,640</td><td>460</td><td>$55,200</td><td>41%</td></tr>
+<tr style="background:#1e293b;font-weight:700">
+<td>PROGRAM TOTAL</td><td>3,336</td><td style="color:#facc15">$400,320</td><td>5,760</td><td>$691,200</td><td style="color:#facc15">42%</td></tr>
+</table>
+
+<p style="margin-top:.5rem;color:#94a3b8;font-size:.85rem"><strong>Note:</strong> These are <em>remaining</em> hours to complete Phase 2+. The $650K already spent is sunk cost. Total program investment including sunk: <strong>$1,050,320</strong> (with AI) vs <strong>$1,341,200</strong> (without AI). v2 adds ~200 hrs over v1 for AI event bus, sidecar infrastructure, and deeper AI integration in existing modules.</p>
+
+<h3>Where AI Saves the Most</h3>
+<table>
+<tr><th>AI Category</th><th>Est. AI Hours</th><th>Impact</th></tr>
+<tr><td><span class="tag-ai">Codegen</span> CRUD, resolvers, forms, components</td><td>2,400</td><td>Biggest single lever. 60-70% of boilerplate eliminated.</td></tr>
+<tr><td><span class="tag-ai">Testing</span> Unit, integration, property-based</td><td>800</td><td>AI generates 80% of tests; human writes edge cases + integration.</td></tr>
+<tr><td><span class="tag-ai">ML/NLP</span> Routing, pricing, coaching, search, scoring</td><td>1,400</td><td>Core product differentiators. AI IS the feature here.</td></tr>
+<tr><td><span class="tag-ai">Data</span> Dashboards, reports, pipelines</td><td>600</td><td>PowerBI templates + query generation. Human defines KPIs.</td></tr>
+<tr><td><span class="tag-ai">Automation</span> Workflows, scheduling, notifications</td><td>500</td><td>Rule engines, cron logic, template systems.</td></tr>
+</table>
+
+<h3>Where AI Does NOT Replace Humans</h3>
+<table>
+<tr><th>Area</th><th>Why Human Required</th></tr>
+<tr><td>Multi-tenant architecture</td><td>One wrong abstraction poisons every module. Senior architect must own.</td></tr>
+<tr><td>Offline-first mobile architecture</td><td>Conflict resolution and sync strategy require deep domain + platform knowledge.</td></tr>
+<tr><td>Event bus / AI sidecar architecture</td><td>Getting the event schema and service boundaries right is a design problem, not a code problem.</td></tr>
+<tr><td>Financial integrations (QB, OnPay)</td><td>Accounting accuracy is non-negotiable. API quirks require human debugging.</td></tr>
+<tr><td>Payment processing / PCI</td><td>Compliance scope — human must own security decisions.</td></tr>
+<tr><td>Pricing rules engine</td><td>Business logic varies per client, edge cases everywhere.</td></tr>
+<tr><td>Comp split rules</td><td>Payroll errors = lawsuits. Human QA mandatory.</td></tr>
+<tr><td>Domain modeling &amp; state machines</td><td>AI can generate code, but the human must define the states and transitions.</td></tr>
+</table>
+
+<hr class="divider">
+
+<!-- ============================================== -->
+<!-- STRESS TEST -->
+<!-- ============================================== -->
+<h2 id="stress">Stress Test: Challenging the Plan</h2>
+
+<p>A plan that can't survive scrutiny isn't a plan — it's a wish. Let's pressure-test the assumptions.</p>
+
+<h3>Are 42% AI Savings Realistic?</h3>
+<table>
+<tr><th>Source</th><th>Claimed Savings</th><th>Context</th></tr>
+<tr><td>GitHub (2024 study)</td><td>55% faster task completion</td><td>Isolated coding tasks, not full projects</td></tr>
+<tr><td>McKinsey (2024)</td><td>20-30% dev productivity gain</td><td>Enterprise-wide, including ramp-up and review overhead</td></tr>
+<tr><td>Google internal (2024)</td><td>30-40% for CRUD/boilerplate</td><td>Mature AI tooling, experienced developers</td></tr>
+<tr><td>Real-world projects (anecdotal)</td><td>15-25% net savings</td><td>After factoring in AI-generated bugs, review time, prompt engineering</td></tr>
+</table>
+
+<div class="warn-box">
+<strong>Honest Assessment:</strong> 42% is aggressive but defensible for a CRUD-heavy platform where AI excels (forms, resolvers, tests, components). The ML/NLP features (routing, pricing, coaching) are where AI IS the product, not a savings tool — those hours don't "save" anything, they're the build. <strong>Conservative estimate: 25-35% net savings is more realistic after accounting for AI review overhead, hallucination debugging, and context-switching.</strong>
+</div>
+
+<h3>Budget Scenarios</h3>
+<table>
+<tr><th>Scenario</th><th>AI Savings</th><th>Human Hrs</th><th>Cost</th><th>Timeline</th></tr>
+<tr><td>Optimistic (plan)</td><td>42%</td><td>3,336</td><td>$400K</td><td>11 months</td></tr>
+<tr><td><strong>Realistic</strong></td><td>30%</td><td>4,032</td><td><strong>$484K</strong></td><td><strong>13 months</strong></td></tr>
+<tr><td>Conservative</td><td>20%</td><td>4,608</td><td>$553K</td><td>15 months</td></tr>
+<tr><td>No AI</td><td>0%</td><td>5,760</td><td>$691K</td><td>18 months</td></tr>
+</table>
+
+<h3>Team Size Impact</h3>
+<table>
+<tr><th>Team</th><th>Monthly Burn</th><th>MVP Timeline</th><th>Full Build</th><th>Notes</th></tr>
+<tr><td>4 devs</td><td>~$67K</td><td>7 months</td><td>16 months</td><td>Lean but slow. Key person risk is extreme.</td></tr>
+<tr><td>6 devs</td><td>~$100K</td><td>5 months</td><td>11 months</td><td>Sweet spot. Enough parallelism, manageable coordination.</td></tr>
+<tr><td>8 devs</td><td>~$134K</td><td>4 months</td><td>9 months</td><td>Diminishing returns. Brooks's Law starts biting at this size.</td></tr>
+</table>
+
+<h3>Zack's Team vs New Team</h3>
+<table>
+<tr><th>Factor</th><th>Zack's Existing Team</th><th>New Team</th></tr>
+<tr><td>Domain knowledge</td><td style="color:#22c55e">✅ Already has context</td><td style="color:#ef4444">❌ 4-6 week ramp-up</td></tr>
+<tr><td>Codebase familiarity</td><td style="color:#22c55e">✅ Built the 88K LOC</td><td style="color:#ef4444">❌ Audit period needed</td></tr>
+<tr><td>AI-first architecture</td><td style="color:#f59e0b">⚠️ May resist paradigm shift</td><td style="color:#22c55e">✅ Can hire for this mindset</td></tr>
+<tr><td>Speed to start</td><td style="color:#22c55e">✅ Day 1 productive</td><td style="color:#ef4444">❌ Month 2 productive</td></tr>
+<tr><td>Quality of v1 code</td><td style="color:#f59e0b">⚠️ 18% complete after $650K is a yellow flag</td><td style="color:#22c55e">✅ Fresh eyes on remediation</td></tr>
+<tr><td>Cost</td><td style="color:#22c55e">✅ No ramp-up cost</td><td style="color:#ef4444">❌ $30-50K ramp overhead</td></tr>
+</table>
+
+<div class="opinion-box">
+<strong>🎯 Recommendation:</strong> Keep Zack's team for continuity but add an AI/ML engineer and a senior architect for the event-driven + sidecar architecture. The existing team built CRUD — the new architecture needs different muscles. Hybrid approach: existing team delivers modules, new hires own the AI spine.
+</div>
+
+<h3>Break-Even: When Does JFI Save More Than ServiceTitan Costs?</h3>
+<table>
+<tr><th>Metric</th><th>Value</th></tr>
+<tr><td>ServiceTitan estimated annual cost</td><td>$80K–$150K/yr (license + per-tech fees for HVAC/electrical company)</td></tr>
+<tr><td>JFI platform annual maintenance (post-build)</td><td>~$120K–$180K/yr (2-3 devs part-time, hosting, AI API costs)</td></tr>
+<tr><td>Break-even on platform cost alone</td><td style="color:#f59e0b"><strong>Never from license savings alone</strong> — ST costs less to run than a custom platform</td></tr>
+<tr><td>Break-even including AI optimization value</td><td style="color:#22c55e"><strong>Year 2-3</strong> — if AI coaching improves conversion by 5-10% and margins by 3-5%, the revenue delta covers the investment</td></tr>
+</table>
+
+<div class="warn-box">
+<strong>Hard Truth:</strong> You don't build a custom platform to save on SaaS fees. You build it because ServiceTitan can't do what the AI spine does — the continuous feedback loop from call to review to optimization. That's the value prop. If the AI coaching and optimization features don't materially improve revenue and margins, the ROI math doesn't work. The bet is on the intelligence layer, not the CRUD replacement.
+</div>
+
+<hr class="divider">
+
+<!-- ============================================== -->
+<!-- RISKS -->
+<!-- ============================================== -->
+<h2 id="risks">Top Program Risks</h2>
+
+<table>
+<tr><th>#</th><th>Risk</th><th>Impact</th><th>Mitigation</th></tr>
+<tr><td>1</td><td>Multi-tenant design failure</td><td style="color:#ef4444">Critical</td><td>Senior architect leads. Design review before any module starts. Spike in Week 1.</td></tr>
+<tr><td>2</td><td>Offline-first complexity explosion</td><td style="color:#ef4444">Critical</td><td>Choose proven pattern (WatermelonDB or PowerSync). Architecture spike Week 10. No feature work until sync strategy proven.</td></tr>
+<tr><td>3</td><td>AI spine over-engineering</td><td style="color:#ef4444">Critical</td><td>Start with event bus + simple scoring. Don't build the full ML pipeline until recording data exists. Crawl → walk → run.</td></tr>
+<tr><td>4</td><td>ServiceTitan data migration</td><td style="color:#f59e0b">High</td><td>Build adapter layer early (Dispatch M1). Run dual-write during transition. Migration scripts with rollback.</td></tr>
+<tr><td>5</td><td>Vendor API instability</td><td style="color:#f59e0b">High</td><td>Circuit breakers, retry logic, webhook fallbacks. Budget 20% buffer on integration estimates.</td></tr>
+<tr><td>6</td><td>AI model accuracy (pricing, routing)</td><td style="color:#f59e0b">High</td><td>Rule-based fallback for every ML feature. Minimum 6-month data before trusting predictions. Human approval gates.</td></tr>
+<tr><td>7</td><td>Team capacity / key person risk</td><td style="color:#f59e0b">High</td><td>Document architecture decisions. Pair programming. AI-generated docs reduce bus factor.</td></tr>
+<tr><td>8</td><td>Design-to-code gap larger than estimated</td><td style="color:#f59e0b">High</td><td>900-1,200 hr design estimate needs validation. Prioritize MVP screens first, defer polish.</td></tr>
+<tr><td>9</td><td>Scope creep from backlog items</td><td style="color:#eab308">Medium</td><td>Backlog stays backlog until M1-M3 complete. Strict milestone gates.</td></tr>
+<tr><td>10</td><td>React Native version / dependency churn</td><td style="color:#eab308">Medium</td><td>Pin versions early. Shared component lib reduces blast radius.</td></tr>
+</table>
+
+<hr class="divider">
+
+<!-- ============================================== -->
+<!-- DEPENDENCY MAP -->
+<!-- ============================================== -->
+<h2 id="deps">Dependency Map</h2>
+
+<table>
+<tr><th>Module</th><th>Depends On</th><th>Blocks</th></tr>
+<tr><td>Global Features M1 + AI Event Bus</td><td>Nothing (Week 1 start)</td><td>ALL other modules</td></tr>
+<tr><td>Call Intake</td><td>Global M1 (auth, tenant, event bus)</td><td>Dispatch, Marketing</td></tr>
+<tr><td>Dispatch</td><td>Call Intake M1, Global M1</td><td>Tech Mobile, Accounting, Marketing</td></tr>
+<tr><td>Tech Mobile</td><td>Dispatch M1, Pricebook M1</td><td>Accounting (timesheets), Customer Mobile (status)</td></tr>
+<tr><td>Pricebook</td><td>Global M1</td><td>Tech Mobile (estimation), Accounting (invoicing)</td></tr>
+<tr><td>Accounting</td><td>Pricebook, Dispatch, Tech Mobile</td><td>Customer Mobile (payments)</td></tr>
+<tr><td>AI Sidecar (full)</td><td>Event Bus, Call Intake M2 (recordings)</td><td>All M3 AI features</td></tr>
+<tr><td>Marketing</td><td>Call Intake, Global (customer journey), jfi-attribution</td><td>—</td></tr>
+<tr><td>Customer Mobile</td><td>Accounting, Dispatch, Pricebook, Call Intake</td><td>—</td></tr>
+</table>
+
+<h3>Critical Path</h3>
+<p style="font-size:.9rem">
+<strong style="color:#dc2626">Global M1 + Event Bus</strong> → <strong style="color:#2563eb">Call Intake M1</strong> → <strong style="color:#2563eb">Dispatch M1</strong> → <strong style="color:#7c3aed">Tech Mobile M1 + Pricebook M1</strong> (parallel) → <strong style="color:#059669">Accounting M1</strong> → <strong style="color:#059669">Customer Mobile M1</strong>
+</p>
+<p style="font-size:.85rem;color:#94a3b8">The AI Sidecar develops in parallel — base infra in Week 1-2, recording pipeline by Week 8, scoring/coaching as M3s come online. Marketing runs parallel to Accounting with no critical-path dependency.</p>
+
+<hr class="divider">
+
+<!-- ============================================== -->
+<!-- TEAM -->
+<!-- ============================================== -->
+<h2 id="team">Recommended Team Structure</h2>
+<table>
+<tr><th>Role</th><th>Count</th><th>Focus</th></tr>
+<tr><td>Senior Architect</td><td>1</td><td>Multi-tenant, offline-first, event bus, AI sidecar — owns all critical architecture</td></tr>
+<tr><td>Backend Lead (Laravel/GraphQL)</td><td>1</td><td>API layer, data models, business logic, event publishing</td></tr>
+<tr><td>Frontend Lead (React)</td><td>1</td><td>Web admin, dashboard framework, shared component library</td></tr>
+<tr><td>Mobile Lead (React Native)</td><td>1</td><td>Tech Mobile + Customer Mobile, offline architecture, shared lib</td></tr>
+<tr><td>Full-Stack Devs</td><td>2–3</td><td>Feature delivery across modules, AI-assisted with Cursor/Copilot</td></tr>
+<tr><td>AI/ML Engineer (Python)</td><td>1</td><td>AI Sidecar, scoring pipelines, Whisper/GPT integration, ML models</td></tr>
+<tr><td>QA / Test Engineer</td><td>1</td><td>AI-generated test review, integration testing, UAT coordination</td></tr>
+</table>
+<p style="font-size:.85rem;color:#94a3b8">Team of 8–10 people. At $120/hr blended rate. The AI/ML engineer is the key new hire vs v1 — this role owns the spine that makes the platform more than ServiceTitan-with-different-paint.</p>
+
+<hr class="divider">
+
+<div class="footer">
+JFI Platform Development Plan v2 &nbsp;·&nbsp; Prepared Feb 27, 2026 &nbsp;·&nbsp; Confidential<br>
+AI is the spine, not a feature. Every interaction captured, analyzed, optimized.<br>
+Figures are estimates. Adjust after architecture spike (Week 1–2).
+</div>
+
+</div>
+</body>
+</html>
