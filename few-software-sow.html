@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: -apple-system, Helvetica Neue, Arial, sans-serif; max-width: 940px; margin: 40px auto; padding: 0 20px; color: #1a1a1a; font-size: 14px; line-height: 1.6; }
+  h1 { font-size: 28px; margin-bottom: 4px; }
+  h2 { font-size: 20px; margin-top: 34px; border-bottom: 2px solid #2563eb; padding-bottom: 6px; color: #2563eb; }
+  h3 { font-size: 16px; margin-top: 20px; color: #1e40af; }
+  .subtitle { color: #666; font-size: 16px; margin-bottom: 26px; }
+  .meta { color: #777; font-size: 13px; margin-bottom: 18px; }
+  .confidential { color: #dc2626; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
+  .phase { background: #f0f7ff; border-left: 4px solid #2563eb; padding: 14px 16px; margin: 14px 0; border-radius: 0 8px 8px 0; }
+  .phase-title { font-weight: 700; color: #1e40af; margin-bottom: 8px; font-size: 17px; }
+  .deliverable { background: #ecfdf5; border: 1px solid #86efac; padding: 8px 12px; border-radius: 6px; margin-top: 8px; font-size: 13px; }
+  .deliverable strong { color: #166534; }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; }
+  th { background: #2563eb; color: white; text-align: left; padding: 10px 12px; font-size: 13px; }
+  td { padding: 8px 12px; border-bottom: 1px solid #e5e7eb; font-size: 13px; }
+  tr:nth-child(even) { background: #f8fafc; }
+  .total-row td { font-weight: 700; background: #1e40af; color: white; }
+  .subtotal-row td { font-weight: 600; background: #dbeafe; color: #1e40af; }
+  ul { margin: 8px 0; padding-left: 20px; }
+  li { margin: 4px 0; }
+  .dev-tag { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; margin-right: 4px; }
+  .human { background: #dbeafe; color: #1e40af; }
+  .ai-tag { background: #f3e8ff; color: #7c3aed; }
+  .both { background: #fef3c7; color: #92400e; }
+  .note { background: #fef3c7; border: 1px solid #fbbf24; padding: 12px; border-radius: 6px; margin: 16px 0; font-size: 13px; }
+  .safeguard { background: #fef2f2; border: 1px solid #fca5a5; padding: 12px; border-radius: 6px; margin: 16px 0; font-size: 13px; }
+  .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #999; font-size: 12px; }
+  .task-table th { font-size: 12px; }
+  .task-table td { font-size: 12px; padding: 6px 10px; }
+  .rate-note { font-size: 12px; color: #666; font-style: italic; margin-top: 4px; }
+  hr.section-break { border: none; border-top: 3px solid #2563eb; margin: 40px 0; }
+</style>
+</head>
+<body>
+
+<p class="confidential">Confidential — Draft for Review</p>
+<h1>FEW Software — Platform Design & Development</h1>
+<p class="subtitle">Just Fix It Platform · Scope of Work with Detailed Effort Breakdown</p>
+<p class="meta">Prepared: February 21, 2026 · Validated: Codex 5.3 + Opus 4.6 dual-pass review</p>
+
+<div class="note">
+<strong>How to read this document:</strong><br>
+Each phase shows exactly what a <span class="dev-tag human">HUMAN DEV</span> does, what <span class="dev-tag ai-tag">AI</span> handles, and what requires <span class="dev-tag both">BOTH</span>.<br>
+Hours are based on actual codebase analysis (85K+ LOC across 6 repos, 100 migrations, 13 GraphQL schemas, 1200+ route definitions).<br>
+Rate assumption: <strong>$120/hr</strong> for senior full-stack dev.
+</div>
+
+<!-- ============================================ -->
+<h2>Codebase Reality (What Already Exists)</h2>
+<table>
+  <tr><th>Repo</th><th>Language</th><th>Files</th><th>Lines of Code</th><th>Key Assets</th></tr>
+  <tr><td>jfi-backend</td><td>PHP/Laravel + GraphQL</td><td>329</td><td>20,584</td><td>100 migrations, 33 models, 13 GraphQL schemas, 1,200 schema lines</td></tr>
+  <tr><td>jfi-web</td><td>JS + PHP</td><td>228</td><td>18,553</td><td>Admin/dispatch UI, existing customer views</td></tr>
+  <tr><td>jfi-mobile</td><td>React Native (TS)</td><td>252</td><td>35,138</td><td>Customer-facing mobile app</td></tr>
+  <tr><td>jfi-tech-mobile</td><td>React Native (TS)</td><td>63</td><td>3,040</td><td>Technician field app (early stage)</td></tr>
+  <tr><td>jfi-attribution</td><td>Python/Django + Spark</td><td>143</td><td>8,181</td><td>Referral/rewards engine, Databricks pipeline, Twilio messaging</td></tr>
+  <tr><td>jfi-grafana</td><td>TypeScript</td><td>83</td><td>~2,500</td><td>Custom Grafana plugins for ops dashboards</td></tr>
+  <tr style="font-weight:700; background:#f0f7ff;"><td>TOTAL</td><td></td><td>1,098</td><td>~88,000</td><td>Existing tests: 13 files. CI pipelines: 0.</td></tr>
+</table>
+
+<!-- ============================================ -->
+<hr class="section-break">
+<h2>Phase 0 — Foundation (Weeks 1–2)</h2>
+
+<table class="task-table">
+  <tr><th>Task</th><th>Who</th><th>Hours</th><th>What Exactly</th></tr>
+  <tr><td>Full codebase audit</td><td><span class="dev-tag ai-tag">AI</span></td><td>8</td><td>AI scans all 6 repos, maps dependencies, flags dead code, identifies security issues, generates architecture doc draft</td></tr>
+  <tr><td>Audit review + corrections</td><td><span class="dev-tag human">DEV</span></td><td>12</td><td>Dev validates AI findings, corrects misunderstandings, annotates real vs. stale code, confirms what's production vs. prototype</td></tr>
+  <tr><td>API contract definition</td><td><span class="dev-tag both">BOTH</span></td><td>16</td><td>Dev defines real contracts between backend/web/mobile/tech-mobile. AI generates OpenAPI/GraphQL schema docs from existing code</td></tr>
+  <tr><td>Pricebook + parts import</td><td><span class="dev-tag both">BOTH</span></td><td>12</td><td>AI writes import scripts from Excel → MySQL. Dev validates data integrity, handles edge cases, confirms pricing logic</td></tr>
+  <tr><td>Gap analysis document</td><td><span class="dev-tag both">BOTH</span></td><td>8</td><td>AI drafts gap analysis vs. SOW requirements. Dev confirms what's real, what's missing, what needs rewrite vs. extend</td></tr>
+</table>
+
+<table>
+  <tr><th>Role</th><th>Hours</th><th>Cost @ $120/hr</th></tr>
+  <tr><td>Human Dev</td><td>36</td><td>$4,320</td></tr>
+  <tr><td>AI-Assisted (reduces dev hours ~30%)</td><td>20</td><td>—</td></tr>
+  <tr class="subtotal-row"><td>Phase 0 Total</td><td>36 billable dev hrs</td><td>$4,320</td></tr>
+</table>
+<div class="deliverable"><strong>Deliverable:</strong> Architecture doc + imported data + gap analysis + versioned API contracts</div>
+
+<!-- ============================================ -->
+<h2>Phase 1 — Book the Call (Weeks 3–6)</h2>
+
+<table class="task-table">
+  <tr><th>Task</th><th>Who</th><th>Hours</th><th>What Exactly</th></tr>
+  <tr><td>Customer intake UI (Laravel)</td><td><span class="dev-tag human">DEV</span></td><td>24</td><td>Build/extend customer intake screen, form validation, search, address lookup. Existing web codebase has partial views to extend</td></tr>
+  <tr><td>Twilio call pop integration</td><td><span class="dev-tag human">DEV</span></td><td>20</td><td>Inbound call webhook → customer lookup → screen pop. Twilio already used in attribution service, but this is new call-routing logic</td></tr>
+  <tr><td>Online booking + capacity check</td><td><span class="dev-tag human">DEV</span></td><td>32</td><td>Real-time capacity query against dispatcher availability. Backend already has capacity.graphql (100 lines) — extend, not rebuild</td></tr>
+  <tr><td>MySQL integration + data flow</td><td><span class="dev-tag human">DEV</span></td><td>12</td><td>Wire new booking flow into existing MySQL schema (100 existing migrations). Ensure backward compatibility</td></tr>
+  <tr><td>UI component scaffolding</td><td><span class="dev-tag ai-tag">AI</span></td><td>8</td><td>AI generates boilerplate React/Laravel components, form schemas, validation rules from API contracts</td></tr>
+  <tr><td>Test suite (booking flow)</td><td><span class="dev-tag both">BOTH</span></td><td>12</td><td>AI generates test scaffolds. Dev writes business-logic assertions. Minimum: 1 happy path + 3 edge cases</td></tr>
+</table>
+
+<table>
+  <tr><th>Role</th><th>Hours</th><th>Cost @ $120/hr</th></tr>
+  <tr><td>Human Dev</td><td>80</td><td>$9,600</td></tr>
+  <tr><td>AI-Assisted</td><td>28</td><td>—</td></tr>
+  <tr class="subtotal-row"><td>Phase 1 Total</td><td>80 billable dev hrs</td><td>$9,600</td></tr>
+</table>
+<div class="deliverable"><strong>Deliverable:</strong> CSR can book a call from new platform. Tested end-to-end.</div>
+
+<!-- ============================================ -->
+<h2>Phase 2 — Dispatch the Call (Weeks 5–10)</h2>
+
+<table class="task-table">
+  <tr><th>Task</th><th>Who</th><th>Hours</th><th>What Exactly</th></tr>
+  <tr><td>Real-time dispatch board UI</td><td><span class="dev-tag human">DEV</span></td><td>40</td><td>Web-based drag-drop board with live updates (WebSocket/polling). jfi-web has partial admin UI — extend with real-time layer</td></tr>
+  <tr><td>Zone/capacity assignment engine</td><td><span class="dev-tag human">DEV</span></td><td>32</td><td>Tech availability by zone, skill, capacity. Backend capacity.graphql schema exists but logic needs production hardening</td></tr>
+  <tr><td>Job status state machine</td><td><span class="dev-tag human">DEV</span></td><td>24</td><td>Dispatched → en route → on site → complete. This is THE critical piece — must be bulletproof across all apps</td></tr>
+  <tr><td>GPS feed from tech app</td><td><span class="dev-tag human">DEV</span></td><td>16</td><td>Tech mobile sends GPS coordinates → backend → dispatch board shows live locations</td></tr>
+  <tr><td>State machine spec + docs</td><td><span class="dev-tag ai-tag">AI</span></td><td>6</td><td>AI generates state diagram, transition rules, and edge case documentation from code + SOW requirements</td></tr>
+  <tr><td>Integration tests (dispatch flow)</td><td><span class="dev-tag both">BOTH</span></td><td>20</td><td>Full workflow: book → assign → dispatch → status updates → completion. Must work across backend + web + tech-mobile</td></tr>
+</table>
+
+<table>
+  <tr><th>Role</th><th>Hours</th><th>Cost @ $120/hr</th></tr>
+  <tr><td>Human Dev</td><td>112</td><td>$13,440</td></tr>
+  <tr><td>AI-Assisted</td><td>26</td><td>—</td></tr>
+  <tr class="subtotal-row"><td>Phase 2 Total</td><td>112 billable dev hrs</td><td>$13,440</td></tr>
+</table>
+<div class="deliverable"><strong>Deliverable:</strong> Dispatcher can assign and track jobs without ServiceTitan. State machine tested.</div>
+
+<!-- ============================================ -->
+<h2>Phase 3 — Run the Call (Weeks 8–16)</h2>
+
+<table class="task-table">
+  <tr><th>Task</th><th>Who</th><th>Hours</th><th>What Exactly</th></tr>
+  <tr><td>Tech app MVP (tablet/phone)</td><td><span class="dev-tag human">DEV</span></td><td>60</td><td>jfi-tech-mobile exists (3K LOC) but is early stage. Needs: customer info display, equipment history, job detail screens, offline capability</td></tr>
+  <tr><td>Pricebook presentation (good/better/best)</td><td><span class="dev-tag human">DEV</span></td><td>24</td><td>Pull imported pricebook data, present tiered options to customer, handle selection + pricing math</td></tr>
+  <tr><td>Signature capture + Stripe payment</td><td><span class="dev-tag human">DEV</span></td><td>28</td><td>On-device signature, Stripe terminal/online payment collection, receipt generation. Backend has payment_method.graphql (32 lines) to extend</td></tr>
+  <tr><td>Photo/video attachment</td><td><span class="dev-tag human">DEV</span></td><td>16</td><td>Camera capture → upload → attach to job record. Storage + retrieval</td></tr>
+  <tr><td>Office communication channel</td><td><span class="dev-tag human">DEV</span></td><td>12</td><td>In-app messaging between tech ↔ office for job-related questions/updates</td></tr>
+  <tr><td>Offline sync engine</td><td><span class="dev-tag human">DEV</span></td><td>24</td><td>Queue operations when offline, sync when connected, conflict resolution. Critical for field reliability</td></tr>
+  <tr><td>UI scaffolding + component gen</td><td><span class="dev-tag ai-tag">AI</span></td><td>12</td><td>AI generates React Native screen templates, form components, validation from API schemas</td></tr>
+  <tr><td>Test suite (field workflow)</td><td><span class="dev-tag both">BOTH</span></td><td>20</td><td>End-to-end: arrive → view job → present options → collect payment → attach photos → complete job</td></tr>
+</table>
+
+<table>
+  <tr><th>Role</th><th>Hours</th><th>Cost @ $120/hr</th></tr>
+  <tr><td>Human Dev</td><td>164</td><td>$19,680</td></tr>
+  <tr><td>AI-Assisted</td><td>32</td><td>—</td></tr>
+  <tr class="subtotal-row"><td>Phase 3 Total</td><td>164 billable dev hrs</td><td>$19,680</td></tr>
+</table>
+<div class="deliverable"><strong>Deliverable:</strong> Tech can price, sell, and collect in the field. Works offline.</div>
+
+<!-- ============================================ -->
+<h2>Phase 4 — Account for the Call (Weeks 14–20)</h2>
+
+<table class="task-table">
+  <tr><th>Task</th><th>Who</th><th>Hours</th><th>What Exactly</th></tr>
+  <tr><td>Auto-invoice generation</td><td><span class="dev-tag human">DEV</span></td><td>24</td><td>Completed job → invoice creation with line items, tax, discounts. Backend has invoice.graphql (18 lines) — needs significant extension</td></tr>
+  <tr><td>Piece-rate compensation engine</td><td><span class="dev-tag human">DEV</span></td><td>32</td><td>Task-based tech comp calculation. Rules engine for different task types, rates, bonuses. This is custom business logic — no shortcuts</td></tr>
+  <tr><td>Hours tracking integration</td><td><span class="dev-tag human">DEV</span></td><td>16</td><td>Tech app time tracking → backend → payroll-ready export. Clock in/out, drive time, job time</td></tr>
+  <tr><td>QuickBooks sync</td><td><span class="dev-tag human">DEV</span></td><td>40</td><td>Bidirectional: invoices → QB, payments → QB, POs → QB, tech comp → QB. QB API is notoriously painful — budget generously</td></tr>
+  <tr><td>Reconciliation checks</td><td><span class="dev-tag both">BOTH</span></td><td>24</td><td>Stripe collected ↔ invoices generated ↔ QB entries ↔ comp calculated. Must balance to the penny. AI helps build comparison reports, dev validates logic</td></tr>
+  <tr><td>Test suite (accounting flow)</td><td><span class="dev-tag both">BOTH</span></td><td>20</td><td>Complete job → invoice → payment → QB sync → comp calc. Reconciliation regression tests. This phase has ZERO room for error</td></tr>
+</table>
+
+<table>
+  <tr><th>Role</th><th>Hours</th><th>Cost @ $120/hr</th></tr>
+  <tr><td>Human Dev</td><td>136</td><td>$16,320</td></tr>
+  <tr><td>AI-Assisted</td><td>20</td><td>—</td></tr>
+  <tr class="subtotal-row"><td>Phase 4 Total</td><td>136 billable dev hrs</td><td>$16,320</td></tr>
+</table>
+<div class="deliverable"><strong>Deliverable:</strong> Completed job flows through books without manual entry. Reconciliation passes.</div>
+<div class="safeguard"><strong>⚠️ Highest financial risk phase.</strong> Do not accept this milestone without reconciliation proof across 50+ test transactions.</div>
+
+<!-- ============================================ -->
+<h2>Phase 5 — Cut Over (Weeks 20–24)</h2>
+
+<table class="task-table">
+  <tr><th>Task</th><th>Who</th><th>Hours</th><th>What Exactly</th></tr>
+  <tr><td>Parallel run setup</td><td><span class="dev-tag human">DEV</span></td><td>20</td><td>Run both ST and JFI simultaneously for 30 days. Dual data entry or dual-write pipeline</td></tr>
+  <tr><td>Data validation (ST vs JFI)</td><td><span class="dev-tag both">BOTH</span></td><td>24</td><td>Compare outputs: jobs booked, dispatched, invoiced, paid, comp calculated. AI runs comparison reports, dev validates discrepancies</td></tr>
+  <tr><td>Team training</td><td><span class="dev-tag human">DEV</span></td><td>16</td><td>CSRs, dispatchers, techs, office staff. Role-based training + documentation</td></tr>
+  <tr><td>ST decommission plan + execution</td><td><span class="dev-tag human">DEV</span></td><td>12</td><td>Data export, account closure, redirect phone numbers/URLs, cancel billing</td></tr>
+  <tr><td>Rollback preparation</td><td><span class="dev-tag human">DEV</span></td><td>8</td><td>Verified rollback plan tested BEFORE cutover — if JFI fails, ST is back in 2 hours</td></tr>
+  <tr><td>Parity reporting</td><td><span class="dev-tag ai-tag">AI</span></td><td>8</td><td>AI generates daily parity reports during parallel run: booking count, dispatch accuracy, revenue reconciliation, comp accuracy</td></tr>
+</table>
+
+<table>
+  <tr><th>Role</th><th>Hours</th><th>Cost @ $120/hr</th></tr>
+  <tr><td>Human Dev</td><td>72</td><td>$8,640</td></tr>
+  <tr><td>AI-Assisted</td><td>16</td><td>—</td></tr>
+  <tr class="subtotal-row"><td>Phase 5 Total</td><td>72 billable dev hrs</td><td>$8,640</td></tr>
+</table>
+<div class="deliverable"><strong>Deliverable:</strong> ServiceTitan canceled. JFI is primary. Rollback tested.</div>
+
+<!-- ============================================ -->
+<hr class="section-break">
+<h2>Phase 6 — AI Infrastructure (Weeks 25–28)</h2>
+
+<table class="task-table">
+  <tr><th>Task</th><th>Who</th><th>Hours</th><th>What Exactly</th></tr>
+  <tr><td>Mac Studio + LLM setup</td><td><span class="dev-tag both">BOTH</span></td><td>16</td><td>Install Ollama, pull Llama/DeepSeek models, configure inference endpoints. AI assists config, dev validates performance</td></tr>
+  <tr><td>OpenClaw integration</td><td><span class="dev-tag both">BOTH</span></td><td>20</td><td>Wire OpenClaw to platform APIs (booking, dispatch, customer, job history). Define agent tool schemas</td></tr>
+  <tr><td>Foundation testing</td><td><span class="dev-tag human">DEV</span></td><td>12</td><td>Latency benchmarks, accuracy tests, fallback behavior when LLM is down</td></tr>
+</table>
+
+<table>
+  <tr><th>Role</th><th>Hours</th><th>Cost @ $120/hr</th></tr>
+  <tr><td>Human Dev</td><td>36</td><td>$4,320</td></tr>
+  <tr><td>AI-Assisted</td><td>12</td><td>—</td></tr>
+  <tr class="subtotal-row"><td>Phase 6 Total</td><td>36 billable dev hrs</td><td>$4,320</td></tr>
+</table>
+
+<!-- ============================================ -->
+<h2>Phase 7 — AI Agents (Weeks 29–34)</h2>
+
+<table class="task-table">
+  <tr><th>Task</th><th>Who</th><th>Hours</th><th>What Exactly</th></tr>
+  <tr><td>AI call booking agent</td><td><span class="dev-tag both">BOTH</span></td><td>32</td><td>Voice/chat agent that books calls via Twilio + platform API. AI does heavy lifting on NLU; dev wires telephony + error handling</td></tr>
+  <tr><td>Tech assistant (field AI)</td><td><span class="dev-tag both">BOTH</span></td><td>24</td><td>"What's the common fix for Trane XR15?" — queries job history DB. AI builds retrieval; dev integrates into tech mobile app</td></tr>
+  <tr><td>Customer chatbot</td><td><span class="dev-tag both">BOTH</span></td><td>24</td><td>Scheduling, status, FAQ via web/mobile chat. AI handles conversation flow; dev integrates with booking + job status APIs</td></tr>
+  <tr><td>Agent testing + guardrails</td><td><span class="dev-tag human">DEV</span></td><td>16</td><td>Hallucination checks, escalation paths, rate limits, logging</td></tr>
+</table>
+
+<table>
+  <tr><th>Role</th><th>Hours</th><th>Cost @ $120/hr</th></tr>
+  <tr><td>Human Dev</td><td>64</td><td>$7,680</td></tr>
+  <tr><td>AI-Assisted</td><td>32</td><td>—</td></tr>
+  <tr class="subtotal-row"><td>Phase 7 Total</td><td>64 billable dev hrs</td><td>$7,680</td></tr>
+</table>
+
+<!-- ============================================ -->
+<h2>Phase 8 — AI Intelligence (Weeks 35–40)</h2>
+
+<table class="task-table">
+  <tr><th>Task</th><th>Who</th><th>Hours</th><th>What Exactly</th></tr>
+  <tr><td>AI dispatch recommendations</td><td><span class="dev-tag both">BOTH</span></td><td>28</td><td>Suggest optimal tech assignment based on skills, location, capacity, history. AI builds model; dev integrates into dispatch board</td></tr>
+  <tr><td>NL reporting</td><td><span class="dev-tag both">BOTH</span></td><td>20</td><td>"Show me revenue by tech this month" → instant dashboard. AI handles NL→SQL; dev builds rendering + access controls</td></tr>
+  <tr><td>Predictive maintenance</td><td><span class="dev-tag both">BOTH</span></td><td>24</td><td>Analyze equipment age + job history → proactive outreach. AI builds prediction; dev integrates with customer comms</td></tr>
+  <tr><td>Pricing optimization</td><td><span class="dev-tag both">BOTH</span></td><td>16</td><td>Analyze close rates by price point → recommend adjustments. AI builds analysis; dev surfaces in pricebook management</td></tr>
+</table>
+
+<table>
+  <tr><th>Role</th><th>Hours</th><th>Cost @ $120/hr</th></tr>
+  <tr><td>Human Dev</td><td>56</td><td>$6,720</td></tr>
+  <tr><td>AI-Assisted</td><td>32</td><td>—</td></tr>
+  <tr class="subtotal-row"><td>Phase 8 Total</td><td>56 billable dev hrs</td><td>$6,720</td></tr>
+</table>
+
+<!-- ============================================ -->
+<hr class="section-break">
+<h2>Master Budget Summary</h2>
+
+<table>
+  <tr><th>Phase</th><th>Weeks</th><th>Human Dev Hours</th><th>AI-Assisted Hours</th><th>Cost @ $120/hr</th></tr>
+  <tr><td>0 — Foundation</td><td>1–2</td><td>36</td><td>20</td><td>$4,320</td></tr>
+  <tr><td>1 — Book the Call</td><td>3–6</td><td>80</td><td>28</td><td>$9,600</td></tr>
+  <tr><td>2 — Dispatch the Call</td><td>5–10</td><td>112</td><td>26</td><td>$13,440</td></tr>
+  <tr><td>3 — Run the Call</td><td>8–16</td><td>164</td><td>32</td><td>$19,680</td></tr>
+  <tr><td>4 — Account for the Call</td><td>14–20</td><td>136</td><td>20</td><td>$16,320</td></tr>
+  <tr><td>5 — Cut Over</td><td>20–24</td><td>72</td><td>16</td><td>$8,640</td></tr>
+  <tr class="subtotal-row"><td><strong>Platform Total (0–5)</strong></td><td></td><td><strong>600</strong></td><td><strong>142</strong></td><td><strong>$72,000</strong></td></tr>
+  <tr><td>6 — AI Infrastructure</td><td>25–28</td><td>36</td><td>12</td><td>$4,320</td></tr>
+  <tr><td>7 — AI Agents</td><td>29–34</td><td>64</td><td>32</td><td>$7,680</td></tr>
+  <tr><td>8 — AI Intelligence</td><td>35–40</td><td>56</td><td>32</td><td>$6,720</td></tr>
+  <tr class="subtotal-row"><td><strong>AI Layer Total (6–8)</strong></td><td></td><td><strong>156</strong></td><td><strong>76</strong></td><td><strong>$18,720</strong></td></tr>
+  <tr class="total-row"><td><strong>GRAND TOTAL</strong></td><td><strong>40 weeks</strong></td><td><strong>756 hrs</strong></td><td><strong>218 hrs</strong></td><td><strong>$90,720</strong></td></tr>
+</table>
+
+<div class="note">
+<strong>Budget notes:</strong>
+<ul>
+  <li><strong>$120/hr</strong> is the agreed rate.</li>
+  <li><strong>AI hours are NOT billed</strong> — they represent work AI handles that would otherwise be dev hours. Without AI assistance, total would be ~974 human hours ($116,880 @ $120/hr).</li>
+  <li><strong>AI saves ~22% of total effort</strong> across the project.</li>
+  <li><strong>QuickBooks sync (Phase 4)</strong> is the single most underestimated task in every software project. 40 hours may grow to 60+ if QB API fights back.</li>
+  <li><strong>Phases overlap intentionally</strong> — Phase 2 starts while Phase 1 wraps. Total calendar time: ~40 weeks with one dev.</li>
+  <li><strong>With 2 devs,</strong> calendar time compresses to ~24–28 weeks.</li>
+</ul>
+</div>
+
+<!-- ============================================ -->
+<hr class="section-break">
+<h2>Working Agreements</h2>
+<ul>
+  <li>All code committed daily to company-owned GitHub repos</li>
+  <li>AI code review on every push</li>
+  <li>Weekly Friday demo (15 min, working software only)</li>
+  <li>Milestone = accepted deliverable (not percentage complete)</li>
+  <li>2-week late tolerance per milestone, then renegotiate or terminate clean</li>
+  <li><strong>Pay on accepted, tested, reversible deliverables — never on demos alone</strong></li>
+</ul>
+
+<h2>Production Safety Controls</h2>
+<div class="safeguard">
+<ol>
+  <li>Staging-first — no direct prod writes from unverified features.</li>
+  <li>Feature flags for each phase gate.</li>
+  <li>Canary rollout by team/market before broad enablement.</li>
+  <li>Dual-run period with measurable parity thresholds.</li>
+  <li>Rollback tested before each release, not just documented.</li>
+  <li>Release checklist requires objective evidence (tests pass, logs clean, reconciliation pass).</li>
+  <li>No AI layer rollout until core workflow SLOs met for a full stability window.</li>
+</ol>
+</div>
+
+<div class="footer">
+  FEW Software SOW vCurrent · February 21, 2026 · Validated: Codex 5.3 + Opus 4.6 dual-pass
+</div>
+
+</body>
+</html>
