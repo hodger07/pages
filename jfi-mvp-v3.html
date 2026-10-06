@@ -176,9 +176,9 @@
   <!-- EXECUTIVE SUMMARY -->
   <section id="exec">
     <h2>Executive Summary</h2>
-    <p class="lead">JFI replaces ServiceTitan with a platform where every call, visit, and review feeds an AI loop that scores performance and coaches the business toward higher margins. The spine is a <strong>Laravel monolith</strong> for business logic and a <strong>Python/FastAPI AI sidecar</strong> for all ML, joined by a <strong>Redis Streams event bus</strong>.</p>
-    <p>This is an MVP-only plan. Seven module areas kill ServiceTitan on Day 1. Everything that can wait has been cut. Oct 2026 AI tooling (Claude Sonnet 4.6, GPT-5.4, Cursor agentic mode) materially lowers the build cost versus the Feb 2026 v2 estimate — the MVP drops from 1,808 hrs to roughly <strong>1,235 hrs</strong>.</p>
-    <p class="muted">Timeline: <strong style="color:#fff;">5–6 months</strong> with an 8-person team at ~$100K/month burn. $650K already spent (sunk). New cash needed to reach MVP: <strong style="color:#fff;">~$400K–$675K</strong>.</p>
+    <p class="lead">JFI replaces ServiceTitan with a platform where every call, visit, and review feeds an AI loop that scores performance and coaches the business toward higher margins. The spine is a <strong>Laravel monolith</strong> for business logic and a <strong>Python/FastAPI AI sidecar</strong> for all ML, joined by an <strong>Azure Service Bus event bus</strong> — all three tiers already have infrastructure in place.</p>
+    <p>This is an MVP-only plan. Seven module areas kill ServiceTitan on Day 1. Everything that can wait has been cut. Oct 2026 AI tooling (Claude Sonnet 4.6, GPT-5.4, Cursor agentic mode) materially lowers the build cost versus the Feb 2026 v2 estimate — the MVP drops from 1,808 hrs to roughly <strong>1,235 hrs</strong>. With full agentic development, Zack's own assessment: <strong>"If it's taking more than two to three months, it's probably not working right."</strong></p>
+    <p class="muted">Timeline: <strong style="color:#fff;">2–3 months</strong> (agentic dev, FEW team) to <strong style="color:#fff;">5–6 months</strong> (traditional approach) · 8-person team at ~$100K/month burn. $650K already spent (sunk). New cash needed to reach MVP: <strong style="color:#fff;">~$400K–$675K</strong>.</p>
   </section>
 
   <!-- INVESTMENT SUMMARY -->
@@ -213,7 +213,7 @@
           <thead><tr><th>Operational Cap-Ex (Yr 1)</th><th class="num" style="text-align:right;">Range</th></tr></thead>
           <tbody>
             <tr><td>AI API (Whisper + GPT-4o Vision, 100+ calls/day)</td><td class="num" style="text-align:right;">$60K–$180K</td></tr>
-            <tr><td>Cloud infra (AWS prod + staging + S3 recordings)</td><td class="num" style="text-align:right;">$36K–$60K</td></tr>
+            <tr><td>Cloud infra — DigitalOcean (service) + Azure (AI/analytics, already live) + S3</td><td class="num" style="text-align:right;">$24K–$48K</td></tr>
             <tr><td>ServiceTitan parallel run (6–12 mo transition)</td><td class="num" style="text-align:right;">$40K–$75K</td></tr>
             <tr><td>Architecture spikes + ML setup + training data</td><td class="num" style="text-align:right;">$24K–$60K</td></tr>
           </tbody>
@@ -273,7 +273,7 @@
         <tbody>
           <tr>
             <td><span class="mod-name">1. Global Foundation + AI Event Bus</span></td>
-            <td>Multi-tenant auth, notification engine, Redis/NATS event bus, Python/FastAPI AI sidecar base.</td>
+            <td>Multi-tenant auth, notification engine, <strong>Azure Service Bus</strong> event bus, Python/FastAPI AI sidecar deploying to Azure alongside existing Django/Spark.</td>
             <td class="num">~180 <span class="muted">(was 300)</span></td>
             <td class="num">~$21.6K</td>
             <td>Everything · Week 1</td>
@@ -326,7 +326,7 @@
         </tfoot>
       </table>
     </div>
-    <p class="muted" style="margin-top:10px;font-size:0.86rem;">Already built — do not count: <strong>Customer Mobile App</strong> (jfi-mobile, 35K LOC RN — extend), <strong>Marketing/Attribution</strong> (jfi-attribution, Django/Databricks — enhance), <strong>PowerBI Reporting</strong> (connected). Blended rate ~$120/hr.</p>
+    <p class="muted" style="margin-top:10px;font-size:0.86rem;">Already built — do not count: <strong>Customer Mobile App</strong> (jfi-mobile, 35K LOC RN — extend), <strong>Attribution/Analytics</strong> (jfi-attribution, Python/Django + Spark + PostgreSQL, live on Azure — enhance not rebuild), <strong>PowerBI + Grafana Reporting</strong> (connected to Azure). Blended rate ~$120/hr. Outcome-based pricing preferred over hourly for agentic dev engagements.</p>
   </section>
 
   <!-- ARCHITECTURE -->
@@ -336,14 +336,14 @@
       <div class="arch-row">
         <div class="arch-box laravel">
           <div class="ab-title">Laravel Monolith</div>
-          <div class="ab-sub">CRUD &amp; business logic · GraphQL · multi-tenant · Dispatch, Pricebook, Accounting</div>
+          <div class="ab-sub">CRUD &amp; business logic · GraphQL · NGINX · MySQL · multi-tenant<br>Hosted: <strong>DigitalOcean</strong> · Mailgun + Twilio for comms</div>
         </div>
         <div class="arch-bus-wrap" style="display:flex;align-items:center;">
-          <div class="arch-bus">Redis Streams<div class="bus-sub">Event Bus</div></div>
+          <div class="arch-bus">Azure Service Bus<div class="bus-sub">Event Bus · already live</div></div>
         </div>
         <div class="arch-box python">
           <div class="ab-title">Python / FastAPI AI Sidecar</div>
-          <div class="ab-sub">All ML/AI · Whisper · scoring · predictive pricing · coaching</div>
+          <div class="ab-sub">Whisper · scoring · predictive pricing · coaching<br>Hosted: <strong>Azure</strong> alongside existing Django + Apache Spark + PostgreSQL + Grafana + PowerBI</div>
         </div>
       </div>
       <div class="arch-events">
@@ -354,12 +354,12 @@
       </div>
       <div style="text-align:center;margin-top:18px;">
         <div class="arch-box" style="display:inline-block;border-color:#60a5fa;">
-          <div class="ab-title">React Native Mobile</div>
-          <div class="ab-sub">Customer app extends existing 35K LOC · Tech app is a rebuild (offline-first)</div>
+          <div class="ab-title">React Native · Expo · iOS + Android</div>
+          <div class="ab-sub">Customer app extends existing 35K LOC · Tech app is a rebuild (offline-first) · Firebase push · Stripe payments · Amazon S3 storage</div>
         </div>
       </div>
       <div class="arch-note">
-        <span class="not">NOT:</span> microservices · full Kafka · Flutter rewrite. Deliberately boring where it can be, intelligent where it counts.
+        <strong style="color:var(--green);">✓ Azure already live</strong> (attribution layer). AI sidecar deploys there — no new cloud account. &nbsp;|&nbsp; <span class="not">⚠ Decision required:</span> MySQL (service) vs PostgreSQL (attribution) — align before schema work begins.
       </div>
     </div>
   </section>
@@ -441,6 +441,16 @@
         <li>Customer Mobile app enhancements</li>
         <li>Call Intake M3 — AI coaching loop (the sidecar seeds it; the UX ships later)</li>
       </ul>
+    </div>
+  </section>
+
+  <!-- IP / PATENT -->
+  <section id="ip">
+    <h2>Proprietary IP — The Moat</h2>
+    <div class="callout" style="border-color:var(--green);background:linear-gradient(160deg,#0a2a1a 0%,var(--bg-card) 75%);">
+      <p><strong style="color:var(--green);">Patent Pending — USPTO Office Action: Addressable</strong></p>
+      <p>USPTO Examiner issued an addressable action on the proprietary customer segmentation scoring engine. No prior art rejections. No blocking patents. Patent counsel (Tumey L.L.P., Houston) confirmed response path is clear. Reporting letter in progress.</p>
+      <p class="muted" style="margin-bottom:0;">This is the moat. Patent-protected scoring + your operational data = something ServiceTitan, Housecall Pro, and any new entrant structurally cannot replicate. It is not a feature — it is the defensibility story for any investor or strategic buyer.</p>
     </div>
   </section>
 
